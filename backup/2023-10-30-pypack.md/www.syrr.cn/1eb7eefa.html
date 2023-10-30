@@ -1,0 +1,4979 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta name="renderer" content="webkit" />
+<title>python与C C++的交互（三）</title>
+<meta name="keywords" content="python与C C++的交互（三）" />
+<meta name="description" content="六&amp;#xff0e;在C/C环境中调用python代码在这种情况下&amp;#xff0c;C/C代码是主程序&amp;#xff0c;按复杂度&amp;#xff0c;分几个例子说明。&#10;1.最简单情况&amp;#xff0c;无参数传递&#10;int run_simple_py()&#10;{char const *script&quot;def hello():\n\tprint(\&quot;hello world!\&quot;)…" />
+<link rel="stylesheet" media="screen" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+<link rel="stylesheet" media="screen" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" media="screen" href="/templates/syrr/static/css/common.css" />
+</head>
+<body style="">
+<div class="cl-header container-fluid">
+<div class="header-content container px-0">
+<nav class="navbar navbar-expand-lg navbar-light">
+<a class="navbar-brand" href="/">
+<img src="/templates/syrr/picture/logo.png" height="46" referrerpolicy="no-referrer" />
+</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+<ul class="navbar-nav">
+<li class="nav-item active">
+<a class="nav-link" href="/">首页</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="http://snake.syrr.cn">在线小游戏</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/news.html">编程日记</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/ai.html">AI教程</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/chatgpt.html">ChatGPT专题</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/java.html">Java学习</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/php.html">PHP教程</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/python.html">Python教程</a>
+</li>
+</ul>
+</div>
+</nav>
+</div>
+</div>
+<div class="container">
+<div class="row">
+<div class="col-md-9 cl-left">
+<div class="cl-artical-content">
+<h2 class="cl-artical-title">
+python与C C++的交互（三）</h2>
+<div class="cl-card-tag">
+<div>
+<a href="/news.html" class="text-muted">news</a>/<span>2023/10/29 21:01:50</span>
+</div>
+</div>
+<div class="cl-artical">
+<article class="baidu_pl"><div id="article_content" class="clearfix"><div id="content_views" class="htmledit_views"><h2><strong>六．在C/C++环境中调用python代码</strong></h2>
+<p></p>
+<p>在这种情况下，C/C++代码是主程序，按复杂度，分几个例子说明。</p>
+<p><strong>1.最简单情况，无参数传递</strong></p>
+<pre><code class="language-cpp">int run_simple_py()
+{char const *script="def hello():\n\tprint(\"hello world!\")\nhello()";int res;Py_Initialize();res=PyRun_SimpleString(script);Py_Finalize();return res;
+}
+</code></pre>
+<p><strong>2.“编译”脚本，再引入固有库</strong></p>
+<p>在运行之前，“编译”一下python代码很有必要，函数是Py_CompileString，代码如下：<br /></p>
+<br />
+<pre><code class="language-cpp">int run_py1()
+{const char *script="def hello():\n\tprint(\"hello world!\")\nhello()";int res=0;Py_Initialize();if(!Py_IsInitialized()){res =-10;return res;}PyObject *pdicGlobal = PyDict_New();if (PyDict_GetItemString(pdicGlobal, "__builtins__") == nullptr){if (PyDict_SetItemString(pdicGlobal, "__builtins__",PyEval_GetBuiltins()) != 0){res =-4;return res;}}PyObject *pdictLocals = nullptr;PyObject* pCompile=Py_CompileString(script, "aaa",Py_file_input );if(pCompile){PyObject* pRun=PyEval_EvalCode(pCompile, pdicGlobal, pdictLocals);if(pRun)  Py_DECREF(pRun);else res=-3;Py_DECREF(pCompile);}else{res=-2;}if (res!=0 &amp;&amp; PyErr_Occurred())  PyErr_Print();Py_XDECREF(pdictLocals);Py_CLEAR(pdicGlobal);Py_Finalize();return res;
+}
+</code></pre>
+<p>C/C++中调用python代码的函数有很多种，可适应不同的情况，上例中PyRun_SimpleString是最简单的一个，无参数，但是如果调用函数中有*globals, *locals这样的参数时，实际上，此时的python解释器是“空”的，无内置库，因此诸如print这样的函数都会出现“无函数定义”的错误，解决方法就是将“__builtins__”的东西“注入”到python解释器中。</p>
+<p><strong>3.引用其他库</strong></p>
+<pre><code class="language-cpp">int run_py2()
+{const char *body="import pymodule\ndef hello():\n\tprint(\"hellworld:{}!\".format(pymodule.add(10,2)))\nhello()";const char *addpath="import sys\nsys.path.append('…')\n"; //…为pymodule.py的目录int res=0;Py_Initialize();if(!Py_IsInitialized()){res =-10;return res;}res=PyRun_SimpleString(addpath);if(res !=0){PyErr_Print();Py_Finalize();	res = -5;return res;}PyObject *pdicGlobal = PyDict_New();if (PyDict_GetItemString(pdicGlobal, "__builtins__") == nullptr){if (PyDict_SetItemString(pdicGlobal, "__builtins__",PyEval_GetBuiltins()) != 0){res =-4;return res;}}PyObject *pdictLocals = nullptr;PyObject* pCompile=Py_CompileString(body, "aaa",Py_file_input );if(pCompile){PyObject* pRun=PyEval_EvalCode(pCompile, pdicGlobal, pdictLocals);if(pRun)  Py_DECREF(pRun);else res=-3;Py_DECREF(pCompile);}else{res=-2;}if (res!=0 &amp;&amp; PyErr_Occurred())  PyErr_Print();Py_XDECREF(pdictLocals);Py_CLEAR(pdicGlobal);Py_Finalize();return res;
+}
+</code></pre>
+<p>调用运行的python脚本中，引用了自己写的另一个python脚本pymodule，其代码如下：</p>
+<pre><code class="language-python">def add(x,y):return x+y
+</code></pre>
+<p>虽然pymodule.py和C/C++运行程序在同一目录，但python的解释器却不这么认为，因此直接使用会出现“未发现pymodule”的错误，代码中采用sys.path.append将pymodule.py所在的目录添加到python的系统查找目录，解决上述问题。</p>
+<p> <strong>4.有参数传递，调用的python中又调用C/C++函数</strong></p>
+<pre><code class="language-cpp">PyObject*  op_minus(PyObject *self, PyObject *args)
+{int a,b;if(!PyArg_ParseTuple(args, "ii",&amp;a,&amp;b)) return NULL;return PyLong_FromLong(a-b);
+}PyMethodDef cmethods[] =
+{{"minus", op_minus, METH_VARARGS, "Return the difference of the integers."},{NULL, NULL, 0, NULL}  // Sentinel 
+};PyModuleDef cmodule ={PyModuleDef_HEAD_INIT, "cmodule", NULL, -1, cmethods,NULL, NULL, NULL, NULL
+};#ifdef __cplusplus
+extern "C" 
+#endif
+PyObject* PyInit_cmodule(void)
+{return PyModule_Create(&amp;cmodule);
+}int run_py3()
+{int res=0;const char *addpath="import sys\nsys.path.append('…')\n"; //…为pymodule2.py的目录PyObject *pModule=nullptr;PyObject *pFunc=nullptr;PyObject *pArgs, *pValue;res=PyImport_AppendInittab("cmodule", &amp;PyInit_cmodule);if(res==-1){res =-20;return res;}Py_Initialize();if(!Py_IsInitialized()){res =-10;return res;}res=PyRun_SimpleString(addpath);if(res !=0){PyErr_Print();Py_Finalize();	res = -5;return res;}PyObject *pName = PyUnicode_DecodeFSDefault("pymodule2");     //module namepModule = PyImport_Import(pName);Py_DECREF(pName);if (pModule != nullptr){pFunc = PyObject_GetAttrString(pModule, "minus");       //function nameif (pFunc &amp;&amp; PyCallable_Check(pFunc)){pArgs = PyTuple_New(2);pValue = PyLong_FromLong(30);PyTuple_SetItem(pArgs, 0, pValue);// pValue reference stolen herepValue = PyLong_FromLong(5);PyTuple_SetItem(pArgs, 1, pValue);Py_XDECREF(pValue);pValue = PyObject_CallObject(pFunc, pArgs);Py_DECREF(pArgs);if (pValue != NULL){printf("Result of call: %ld\n", PyLong_AsLong(pValue));Py_DECREF(pValue);}else  res=-4;}else  res=-3;}else  res=-2;if (PyErr_Occurred()){PyErr_Print();}Py_XDECREF(pFunc);Py_XDECREF(pModule);if (Py_FinalizeEx() &lt; 0)  res= -1;return res;
+}
+</code></pre>
+<p>pymodule2.py的代码如下：</p>
+<pre><code class="language-python">import cmoduledef minus(a,b):print("args:{},{}".format(a,b))c = cmodule.minus(a,b)return c
+</code></pre>
+<p>这种场景是最复杂的情况，例子中调用的是pymodule2.py，但是以库的方式装载的，而不是直接运行，查找pymodule2中某一特定的函数minus，运行它，这个python函数中，反过来又调用C/C++编写的函数minus，传入两个参数，返回一个参数。这个例子给出了选择性运行python代码的一种方法。</p>
+<p>关于函数的参数如何在两种运行的代码种传递，可参考文章第三部分。</p>
+<p>关于python中如何调用C/C++代码，可参考文章第四部分。对比一下run_py3()之前的代码与文章第四部分的代码，它们是一致的，因此，上面例子中的方法，实际上就是文章第四部分“编写扩展库”所采用的方法，但此时，这个库是“动态导入”到python环境中的，而不是静态地部署到python环境中。“导入”的方式是在Py_Initialize之前调用   PyImport_AppendInittab，成功调用该函数后，扩展模块（库）就导入到固有（built-in）库中，python中就可以导入引用了。</p>
+<p><br /></p>
+<h2> 七<strong>．总结</strong></h2>
+<p>笔者以前写过一篇IronPython与C#的交互，从二者的对比，python与C/C++的交互尽管显得并不简洁，好在很多是“套路”，照着写就可以了。</p>
+<br />
+<br />
+<br />
+<br />
+<br /></div></div><div id="treeSkill"></div></article>
+</div>
+
+<div class="entry-copyright">
+<span class="source_url">文章来源:https://blog.csdn.net/guxch/article/details/80333152</span><br />
+<span class="Disclaimers">本文来自互联网用户投稿，该文观点仅代表作者本人，不代表本站立场。本站仅提供信息存储空间服务，不拥有所有权，不承担相关法律责任。如若转载，请注明出处：<a href="http://www.syrr.cn/news/48106.html">http://www.syrr.cn/news/48106.html</a></span>
+<span class="email">如若内容造成侵权/违法违规/事实不符，请联系我的编程职业人生网邮箱：xxxxxxxxx@qq.com进行投诉反馈，一经查实，立即删除！</span>
+</div>
+<div class="floatbar">
+<a href="/"><i class="fa fa-home"></i></a><a href="javascript:" class="gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+</div>
+<h4 class="right-card-title px-3 mb-3 mt-3 bg-white">
+相关文章</h4>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48105.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="main()函数的返回类型为什么必须是int类型" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48105.html">main()函数的返回类型为什么必须是int类型</a>
+</h3>
+<div class="cl-card-main-info">
+在C/C 中&amp;#xff0c;不返回任何信息的函数原型为“void function(…);”。可能正是因为这个&amp;#xff0c;所以很多人都误认为如果不需要程序返回值时可以把main函数定义成void main() 。然而这种做法是错误的&amp;#xff01; 
+CPrimer第五版中文版(Page28)明确指出&amp;#xff0c;mai…
+</div>
+<div class="cl-card-more">
+<a href="/post/48105.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48104.html">
+<img src="http://images2015.cnblogs.com/blog/805129/201603/805129-20160306125502299-796955746.png" class="img-fluid" alt="目前java导出word的6种解决方案" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48104.html">目前java导出word的6种解决方案</a>
+</h3>
+<div class="cl-card-main-info">
+原文链接&amp;#xff1a;http://www.cnblogs.com/lcngu/p/5247179.html最近做的项目&amp;#xff0c;需要将一些信息导出到word中。在网上找了好多解决方案&amp;#xff0c;现在将这几天的总结分享一下。
+目前来看&amp;#xff0c;java导出word大致有6种解决方案&amp;#xff1a;1&amp;#xff1a;Jaco…
+</div>
+<div class="cl-card-more">
+<a href="/post/48104.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48103.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="在输入git clone报错 error: RPC failed； curl 18 transfer closed with outstanding read data remaining" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48103.html">在输入git clone报错 error: RPC failed； curl 18 transfer closed with outstanding read data remaining</a>
+</h3>
+<div class="cl-card-main-info">
+一、在 git clone项目时候报错 
+error: RPC failed; curl 18 transfer closed with outstanding read data remaining
+error: 6854 bytes of body are still expected
+fetch-pack: unexpected disconnect while reading sideband packet
+fatal: early EOF
+fatal: fetch-pack: i…
+</div>
+<div class="cl-card-more">
+<a href="/post/48103.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48102.html">
+<img src="https://img-blog.csdn.net/20180326001259942?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZW5oYWliYl8=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" class="img-fluid" alt="解决Exception in thread main java.lang.Error: Unresolved compilation problems: 的一种办法" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48102.html">解决Exception in thread main java.lang.Error: Unresolved compilation problems: 的一种办法</a>
+</h3>
+<div class="cl-card-main-info">
+第一次写这种博客心里有点小激动 不懂太专业的术语 有说的不好的地方还是多多希望大佬们能够给小弟我多指点指点 
+本人是大二狗一枚 今天敲Java书上的例题打在eclipse上运行 分别是三个代码组成的 
+1.PersonName.java 2.XiyoujiRenwu.java 3.Example4_3.java 下方的Console上也…
+</div>
+<div class="cl-card-more">
+<a href="/post/48102.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48101.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Python 文件操作——2、json 操作" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48101.html">Python 文件操作——2、json 操作</a>
+</h3>
+<div class="cl-card-main-info">
+dump 和 dumps 
+load 和 loads 
+# -*- coding: utf-8 -*-
+import jsondata  {name:ACM,shares: 100,prc:34.23
+}# dump/load 文件操作&amp;#xff0c;dumps/loads 字符串操作# dumps,字符串操作&amp;#xff0c;将 python 数据结构转为 json 字符串
+def dumps():print (type(data))jso…
+</div>
+<div class="cl-card-more">
+<a href="/post/48101.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48100.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="批量TXT文本转PDF-PYTHON" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48100.html">批量TXT文本转PDF-PYTHON</a>
+</h3>
+<div class="cl-card-main-info">
+最近眼睛不好&amp;#xff0c;想着少看着点手机&amp;#xff0c;于是将闲置吃灰好多年的kindle4拿出来&amp;#xff0c;这个电纸书是kindle是淘宝上买的&amp;#xff0c;美版&amp;#xff0c;在阅读TXT时碰到很多问题&amp;#xff0c;多次前后翻页后页码会乱&amp;#xff0c;有时文本里有非法字符&amp;#xff0…
+</div>
+<div class="cl-card-more">
+<a href="/post/48100.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48099.html">
+<img src="https://img-blog.csdnimg.cn/20210705192005995.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZW5oYWliYl8=,size_16,color_FFFFFF,t_70" class="img-fluid" alt="java获取resources文件夹内的文件以及File file = new File(“/src/main/resources/img/“）失效原因" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48099.html">java获取resources文件夹内的文件以及File file = new File(“/src/main/resources/img/“）失效原因</a>
+</h3>
+<div class="cl-card-main-info">
+今天有个需求&amp;#xff0c;在java页面中获取resources下的资源 
+在网上搜了很多&amp;#xff0c;搜的方法在test中是可以运行通过的 
+可以输出结果&amp;#xff0c;正常来说&amp;#xff0c;java中也是可以运行的 但是在这里却不能运行了&amp;#xff0c;明明代码和测试代码里的一样 
+后来输出了…
+</div>
+<div class="cl-card-more">
+<a href="/post/48099.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48098.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python lambda的用法" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48098.html">python lambda的用法</a>
+</h3>
+<div class="cl-card-main-info">
+欢迎转载&amp;#xff0c;转载请注明原文地址&amp;#xff1a;http://blog.csdn.net/majianfei1023/article/details/45269343 lambda函数也叫匿名函数&amp;#xff0c;函数没有具体的名称。先来看一个最简单例子&amp;#xff1a; def f(x):return x * 2g  lambda x : x * 2看一下 f 和 g的写法…
+</div>
+<div class="cl-card-more">
+<a href="/post/48098.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48097.html">
+<img src="http://static.oschina.net/uploads/img/201211/07145939_v2IN.gif" class="img-fluid" alt="【转】参考架-构领域驱动设计(Domain Driven Design)参考解" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48097.html">【转】参考架-构领域驱动设计(Domain Driven Design)参考解</a>
+</h3>
+<div class="cl-card-main-info">
+领域驱动设计(Domain Driven Design)参考架构详解 文将介绍领域驱动设计(Domain Driven Design)的官方参考架构&amp;#xff0c;该架构分成了Interfaces、Applications和Domain三层以及包含各类基础设施的 Infrastructure。本文会对架构中一些重要组件和问题进行讨论&amp;#xff0c;给…
+</div>
+<div class="cl-card-more">
+<a href="/post/48097.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48096.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Python模拟登陆(urllib2)" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48096.html">Python模拟登陆(urllib2)</a>
+</h3>
+<div class="cl-card-main-info">
+欢迎转载&amp;#xff0c;转载请注明原文地址:http://blog.csdn.net/majianfei1023/article/details/49888757最近需要做个自动化工具&amp;#xff0c;需要自动登录某个网站然后自动进行某些操作&amp;#xff0c;免除人工一个一个操作的烦恼。 第一步就是要登录网站&amp;#xff0c;而目前主流网…
+</div>
+<div class="cl-card-more">
+<a href="/post/48096.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48095.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Python模拟登陆(使用requests库)" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48095.html">Python模拟登陆(使用requests库)</a>
+</h3>
+<div class="cl-card-main-info">
+之前使用 Python自带urllib2库做了一个简单的模拟登陆 人人网 的功能。发现很多网站都比人人网的登陆流程复杂的多&amp;#xff0c;需要好好抓包研究每一步请求过程及需要的Cookie&amp;#xff0c;urllib2的cookie处理器就有点相形见绌了。很多都需要自己实现。  
+而由于urllib2本身的使…
+</div>
+<div class="cl-card-more">
+<a href="/post/48095.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48094.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="SSH Secure Shell 无法登录：server responded algorithm negotiation failed”" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48094.html">SSH Secure Shell 无法登录：server responded algorithm negotiation failed”</a>
+</h3>
+<div class="cl-card-main-info">
+SSH Secure Shell Client 连接远程linux server时候&amp;#xff0c;客户端报出&amp;#xff1a;server responded "algorithm negotiation failed”&amp;#xff0c;解决办法如下&amp;#xff1a; 通过putty连接linux server&amp;#xff0c;配置修改linux server中的文件 /etc/ssh/sshd_conf…
+</div>
+<div class="cl-card-more">
+<a href="/post/48094.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48093.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Python:告别if...else...做真正面向对象的编程" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48093.html">Python:告别if...else...做真正面向对象的编程</a>
+</h3>
+<div class="cl-card-main-info">
+欢迎转载&amp;#xff0c;转载请注明原文地址&amp;#xff1a;http://blog.csdn.net/majianfei1023/article/details/51417564 最近在给服务器做一套指令系统,大家都知道一个服务器的指令有很多&amp;#xff0c;像(加金币&amp;#xff0c;加道具&amp;#xff0c;加经验...) 代码就像这样&amp;#xff1a…
+</div>
+<div class="cl-card-more">
+<a href="/post/48093.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48092.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="程序设计入门—Java语言 第五周编程题  2井字棋（5分）" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48092.html">程序设计入门—Java语言 第五周编程题  2井字棋（5分）</a>
+</h3>
+<div class="cl-card-main-info">
+2 井字棋&amp;#xff08;5分&amp;#xff09; 题目内容&amp;#xff1a; 嗯&amp;#xff0c;就是视频里说的那个井字棋。视频里说了它的基本思路&amp;#xff0c;现在&amp;#xff0c;需要你把它全部实现出来啦。 你的程序先要读入一个整数n&amp;#xff0c;范围是[3,100]&amp;#xff0c;这表示井字棋棋盘的边…
+</div>
+<div class="cl-card-more">
+<a href="/post/48092.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48091.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="华为OD机试真题Python实现【最优资源分配】真题+解题思路+代码（20222023）" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48091.html">华为OD机试真题Python实现【最优资源分配】真题+解题思路+代码（20222023）</a>
+</h3>
+<div class="cl-card-main-info">
+最优资源分配 
+题目 
+某块业务芯片最小容量单位为1.25G，总容量为M * 1.25G，对该芯片资源编号为1,2, ..., M。该芯片支持3种不同的配置，分别为A、B、C。 配置A：占用容量为1.25 * 1 = 1.25G 配置B：占用容量为1.25 * 2 = 2.5G 配置C：占用容量为1.25 * 8 = 10G 某块板卡上集成…
+</div>
+<div class="cl-card-more">
+<a href="/post/48091.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48090.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="javascript单词" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48090.html">javascript单词</a>
+</h3>
+<div class="cl-card-main-info">
+abstract    n. 摘要,抽象的东西 adj. 抽象的,理论的 vt. 移除,摘要,偷 vi. 做摘要
+do    aux. 助动词(无词意) v. 干,做
+if    conj. 如果&amp;#xff0c;是否&amp;#xff0c;即使 n. 条件,设想
+package    n. 包裹,整批交易 vt. 把...打包,把...进行推销
+throw    n. 投,掷,抛, 头巾…
+</div>
+<div class="cl-card-more">
+<a href="/post/48090.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48089.html">
+<img src="https://img-blog.csdnimg.cn/e416f64c7c92495e8e1b0b129f8932f4.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAYTIxNTU4MzMyMA==,size_17,color_FFFFFF,t_70,g_se,x_16" class="img-fluid" alt="Oracle ora-00604 递归sql级别1出现错误 ora-01653 表空间SYSTEMalter system set audit_trail=none scope=s无法通过8192扩展" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48089.html">Oracle ora-00604 递归sql级别1出现错误 ora-01653 表空间SYSTEMalter system set audit_trail=none scope=s无法通过8192扩展</a>
+</h3>
+<div class="cl-card-main-info">
+oracle system表空间满了&amp;#xff0c;导致服务器连接不上数据库。使用navicat连接时报错 解决办法&amp;#xff1a; 
+关闭审核功能 
+alter system set audit_trailnone scopespfile;shutdown immediate;startup; 
+truncate SYSTEM.AUD$ 表 
+truncate table SYSTEM.AUD$;
+</div>
+<div class="cl-card-more">
+<a href="/post/48089.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48088.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python列表生成式你所不知的秘密" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48088.html">python列表生成式你所不知的秘密</a>
+</h3>
+<div class="cl-card-main-info">
+学会python列表生成式&amp;#xff0c;让你的代码“骚”起来 列表生成式 • 顾名思义&amp;#xff0c;列表生成式就是一个用来生成列表的特定语法形式的表达式。 例如我们需要生成一个列表,由0到9组成,那我们就可以这样写: list1  [0,1,2,3,4,5,6,7,8,9] 感觉,手动写这10个数字还好,但是…
+</div>
+<div class="cl-card-more">
+<a href="/post/48088.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48087.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="java实现邮件发送配置" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48087.html">java实现邮件发送配置</a>
+</h3>
+<div class="cl-card-main-info">
+163邮箱&amp;#xff0c;password需要开通邮箱的POP3/SMTP&amp;#xff0c;获取授权码为密码 # 163邮箱配置    # mail:# host: ssl://smtp.163.com# protocol: smtps# username: xiXXXX163.com# password: VUXXXXXHI# port: 465# properties:#   mail:#     smtp:#       ssl: true#  …
+</div>
+<div class="cl-card-more">
+<a href="/post/48087.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48086.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python-列表生成式(一)" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48086.html">python-列表生成式(一)</a>
+</h3>
+<div class="cl-card-main-info">
+列表生成式 • 顾名思义&amp;#xff0c;列表生成式就是一个用来生成列表的特定语法形式的表达式。 例如我们需要生成一个列表,由0到9组成,那我们就可以这样写: list1  [0,1,2,3,4,5,6,7,8,9] 感觉,手动写这10个数字还好,但是,有时候,测试算法或者函数什么的,这样手动去写,是不是太…
+</div>
+<div class="cl-card-more">
+<a href="/post/48086.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48085.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="foxmail 通讯录同步方法" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48085.html">foxmail 通讯录同步方法</a>
+</h3>
+<div class="cl-card-main-info">
+foxmail 通讯录同步只支持qq和腾讯企业邮 毕竟是腾讯的产品 此方法 虽然简单&amp;#xff0c;但绝对好用 没有经过二次开发 也没有使用任何插件 也没经过张小龙允许&amp;#xff0c;但是绝对好用 希望FOXMAIL 下次不要疲敝此种更新功能  foxmail 通讯录同步 非导入 绝对是FOXMAIL通讯录…
+</div>
+<div class="cl-card-more">
+<a href="/post/48085.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48084.html">
+<img src="https://img-blog.csdnimg.cn/071fc2b1d22b4ffba644648e7ec33519.gif#pic_center" class="img-fluid" alt="别再瞎搞了,耳朵都竖起来听我说,新手小白开发应该如何选择最合适你的JetBrains IDE版本类型和版本号! 今天一次性给你说清楚!" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48084.html">别再瞎搞了,耳朵都竖起来听我说,新手小白开发应该如何选择最合适你的JetBrains IDE版本类型和版本号! 今天一次性给你说清楚!</a>
+</h3>
+<div class="cl-card-main-info">
+&amp;#x1f680; 个人主页 极客小俊 ✍&amp;#x1f3fb; 作者简介&amp;#xff1a;web开发者、设计师、技术分享博主 &amp;#x1f40b; 希望大家多多支持一下, 我们一起进步&amp;#xff01;&amp;#x1f604; &amp;#x1f3c5; 如果文章对你有帮助的话&amp;#xff0c;欢迎评论 &amp;#x1f4ac;点赞&amp;#x1…
+</div>
+<div class="cl-card-more">
+<a href="/post/48084.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48083.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="java 定义常量在main方法外还是main方法内" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48083.html">java 定义常量在main方法外还是main方法内</a>
+</h3>
+<div class="cl-card-main-info">
+在java中我们通常希望某个常量可以在一个类中的多个方法使用&amp;#xff0c;这些常量称为类常量&amp;#xff0c;可以使用static final设置一个类常量 
+类常量的定义位于main方法的外部&amp;#xff0c;在同一个类中的其他方法也可以使用这常量&amp;#xff0c;如果这个常量被声明为public&amp;…
+</div>
+<div class="cl-card-more">
+<a href="/post/48083.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48082.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python SQL语句对库进行操作" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48082.html">python SQL语句对库进行操作</a>
+</h3>
+<div class="cl-card-main-info">
+现象&amp;#xff1a; 在不知道数据库表的情况下&amp;#xff0c;对数据库表进行查看、插入等。 解决方法&amp;#xff1a;由于不知道数据库有哪些表&amp;#xff0c;也不知道表名称&amp;#xff0c;这个时候就不适合使用Django的ORM操作&amp;#xff0c;可以使用ql语句进行查询。 
+# 导入项目表的连接&amp;…
+</div>
+<div class="cl-card-more">
+<a href="/post/48082.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48081.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python2与python3的区别" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48081.html">python2与python3的区别</a>
+</h3>
+<div class="cl-card-main-info">
+1.print 
+在Python 2里&amp;#xff0c;print是一个语句。无论你想输出什么&amp;#xff0c;只要将它们放在print关键字后边就可以。在Python 3里&amp;#xff0c;print()是一个函数。就像其他的函数一样&amp;#xff0c;print()需要你将想要输出的东西作为参数传给它。 样例&amp;#xff1a; 
+# py…
+</div>
+<div class="cl-card-more">
+<a href="/post/48081.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48079.html">
+<img src="https://img-blog.csdn.net/20170612210458464?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcGhwZnpo/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" class="img-fluid" alt="java 常用算法学习记录（递推算法）" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48079.html">java 常用算法学习记录（递推算法）</a>
+</h3>
+<div class="cl-card-main-info">
+问题:如果一对两个月大的兔子以后每一个月都可以生一对小兔子&amp;#xff0c;而一对新生的兔子出生两个月后才可以生小兔子也就是说&amp;#xff0c;1月份出生&amp;#xff0c;3月份才可以生仔。那么假定一年内没有产生兔子死亡事件&amp;#xff0c;那么一年后共有多少对兔子呢第1个月&amp;#xf…
+</div>
+<div class="cl-card-more">
+<a href="/post/48079.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48078.html">
+<img src="https://img-blog.csdnimg.cn/0b29dc43dec94d4aa5cfdd8627f0d885.png#pic_center" class="img-fluid" alt="【并发编程二：Therad-api和main线程和子线程的关系】" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48078.html">【并发编程二：Therad-api和main线程和子线程的关系】</a>
+</h3>
+<div class="cl-card-main-info">
+【衔接上一章 【并发编程一&amp;#xff1a;走进并发编程】】 
+1.1Java线程Thread API public synchronized void start()
+public void run()
+public static native Thread currentThread();
+public static native void sleep(long millis) throws InterruptedException;
+public fi…
+</div>
+<div class="cl-card-more">
+<a href="/post/48078.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48077.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="人工高表达LAIR-1对人肝癌细胞系SMMC-7721细胞增殖、凋亡和侵袭的影响" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48077.html">人工高表达LAIR-1对人肝癌细胞系SMMC-7721细胞增殖、凋亡和侵袭的影响</a>
+</h3>
+<div class="cl-card-main-info">
+SMMC-7721人肝癌细胞向伤口的迁移 研究人白细胞相关免疫球蛋白样受体1(leukocyte-associated immunoglobulin-like receptor 1,LAIR-1)对人肝癌细胞系SMMC-7721细胞增殖、凋亡和侵袭的影响,探讨LAIR-1的表达在肝癌中的作用.以LAIR-1慢病毒表达载体(LV-LAIR-1)转染SMMC-7721细胞…
+</div>
+<div class="cl-card-more">
+<a href="/post/48077.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48076.html">
+<img src="https://img-blog.csdnimg.cn/20190820140535179.png" class="img-fluid" alt="python pyecharts生成图表" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48076.html">python pyecharts生成图表</a>
+</h3>
+<div class="cl-card-main-info">
+使用pyecharts如同使用前端echarts&amp;#xff0c;这里主要介绍pyecharts的源码内的图表属性不满足使用&amp;#xff0c;应该怎么办&amp;#xff1f; 
+使用pyecharts生成柱状图 pyecharts开源链接&amp;#xff1a;http://pyecharts.herokuapp.com/bar 根据官方样例&amp;#xff1a; 
+# encoding: u…
+</div>
+<div class="cl-card-more">
+<a href="/post/48076.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48075.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python pyvmomi操作VMware（四）：克隆虚拟机并配置IP和更改vlan网段" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48075.html">python pyvmomi操作VMware（四）：克隆虚拟机并配置IP和更改vlan网段</a>
+</h3>
+<div class="cl-card-main-info">
+准备环境 
+安装包&amp;#xff1a; 
+pyVim0.0.21 
+pyvmomi6.7.1
+命令&amp;#xff1a;pip install pyVim0.0.21  pyvmomi6.7.1代码 
+# -*- coding: utf-8 -*-
+import traceback
+from pyVim.connect import SmartConnectNoSSL, Disconnect
+from pyVmomi import vim, vmodlclass VmManage…
+</div>
+<div class="cl-card-more">
+<a href="/post/48075.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48074.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="保留三位有效数字----java" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48074.html">保留三位有效数字----java</a>
+</h3>
+<div class="cl-card-main-info">
+public static int magnitude(Double price){if (price  0.0) {return 0;}int fac;Long i;Long k  10L;if (price &gt; 1) {i  price.longValue();fac  0;while (i / k ! 0L) {fac;k * 10;}} else {fac  -1;while (price * k &lt; 1) {fac--;k * 10;}}return fac;}/*** 数字格式…
+</div>
+<div class="cl-card-more">
+<a href="/post/48074.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48073.html">
+<img src="https://img-blog.csdnimg.cn/20190909145901206.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjMxNzA3,size_16,color_FFFFFF,t_70" class="img-fluid" alt="python pyvmomi操作VMware（二）：获取数据中心、集群、宿主机、虚拟机的数据和对象的具体属性字段" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48073.html">python pyvmomi操作VMware（二）：获取数据中心、集群、宿主机、虚拟机的数据和对象的具体属性字段</a>
+</h3>
+<div class="cl-card-main-info">
+首先使用pyVim连接vcenter获取到vcenter可操作对象&amp;#xff1a; 
+# -*- coding: utf-8 -*-
+from pyVim.connect import SmartConnectNoSSLclass VmManage(object):def __init__(self, host, user, password, port, ssl):self.host  hostself.user  userself.pwd  passwordself.…
+</div>
+<div class="cl-card-more">
+<a href="/post/48073.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48072.html">
+<img src="https://img-blog.csdnimg.cn/20190910171556902.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjMxNzA3,size_16,color_FFFFFF,t_70" class="img-fluid" alt="python pyvmomi操作VMware（三）：获取数据中心下有多少集群、主机、目录（只获取数据中心当层数据）" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48072.html">python pyvmomi操作VMware（三）：获取数据中心下有多少集群、主机、目录（只获取数据中心当层数据）</a>
+</h3>
+<div class="cl-card-main-info">
+获取数据中心下有多少集群、主机、目录&amp;#xff08;只获取数据中心当层数据&amp;#xff0c;不进一步对集群、目录下的数据进行深层获取&amp;#xff09; 
+# -*- coding: utf-8 -*-
+from pyVim.connect import SmartConnectNoSSL, Disconnect
+from pyVmomi import vim, vmodlclass VmMa…
+</div>
+<div class="cl-card-more">
+<a href="/post/48072.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48071.html">
+<img src="https://img-blog.csdnimg.cn/20191017102643177.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjMxNzA3,size_16,color_FFFFFF,t_70" class="img-fluid" alt="在Pypi上发布自己的Python包" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48071.html">在Pypi上发布自己的Python包</a>
+</h3>
+<div class="cl-card-main-info">
+在这里我自己写了一个样例&amp;#xff1a;把计算从1加到n的和封成一个python包。 账号准备工作&amp;#xff1a;注册 https://pypi.org/account/register/ 
+注意&amp;#xff1a; 记得进行邮件验证&amp;#xff0c;防止邮件不验证&amp;#xff0c;发送包无法上传的情况。包内容准备工作&amp;#xff1a…
+</div>
+<div class="cl-card-more">
+<a href="/post/48071.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48070.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="IBM服务器raid如何安装？" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48070.html">IBM服务器raid如何安装？</a>
+</h3>
+<div class="cl-card-main-info">
+开机&amp;#xff0c;服务器运行自检后会出现提示你按CTRLA进入RAID控制面板&amp;#xff0c;进入蓝屏后选第一项&amp;#xff0c;进入后选第二项CREAT ARRAY &amp;#xff08;单词记不得&amp;#xff0c;大概是这样&amp;#xff09;就能进入选择硬盘的界面&amp;#xff0c;把你要用来做RAID的盘按空格加到右…
+</div>
+<div class="cl-card-more">
+<a href="/post/48070.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48069.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python、Django、djangorestframework升级遇到的坑（一）" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48069.html">python、Django、djangorestframework升级遇到的坑（一）</a>
+</h3>
+<div class="cl-card-main-info">
+具体环境升级介绍 
+python2.7升级到python3.6
+Django1.8.11升级到Django 3.0
+djangorestframework3.6.3升级到djangorestframework3.10.3
+# 依赖包
+pymysql0.6.7
+MarkupSafe1.0
+Mako1.0.6
+requests2.18.1
+celery3.1.25
+django-celery3.2.2
+six1.11.0
+httplib20.9.1
+supervisor4…
+</div>
+<div class="cl-card-more">
+<a href="/post/48069.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48068.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python 将nmon文件解析成带图的excel" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48068.html">python 将nmon文件解析成带图的excel</a>
+</h3>
+<div class="cl-card-main-info">
+源文件&amp;#xff1a;通过nmon命令生成的nmon数据文件&amp;#xff08;已有的&amp;#xff09;。 目标文件&amp;#xff1a;使用python代码解析成带图的excel。 经过深入的调研&amp;#xff0c;就我自己调研的方案有两种。 第一种依赖库&amp;#xff1a;win32com 第二种依赖库&amp;#xff1a;xlwings 这两…
+</div>
+<div class="cl-card-more">
+<a href="/post/48068.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48067.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python pyvmomi操作VMware（五）：在克隆虚拟机的时候配置IP和vlan网段" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48067.html">python pyvmomi操作VMware（五）：在克隆虚拟机的时候配置IP和vlan网段</a>
+</h3>
+<div class="cl-card-main-info">
+克隆虚拟机的时候配置了IP、网关等信息&amp;#xff0c;没有指定网络段&amp;#xff0c;之前的思路是&amp;#xff1a;克隆完虚拟机&amp;#xff0c;再进行指定网络段&amp;#xff0c;再进行关机、开机操作&amp;#xff0c;正常情况下这样就能完成网络段的修改&amp;#xff0c;并且网络也是通的。 最近遇到一…
+</div>
+<div class="cl-card-more">
+<a href="/post/48067.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48066.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="RAID模式优缺点" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48066.html">RAID模式优缺点</a>
+</h3>
+<div class="cl-card-main-info">
+一、RAID模式优缺点的简要介绍  目前被运用较多的RAID模式其优缺点大致是这样的&amp;#xff1a;  1、RAID0模式  优点&amp;#xff1a;在RAID 0状态下&amp;#xff0c;存储数据被分割成两部分&amp;#xff0c;分别存储在两块硬盘上&amp;#xff0c;此时移动硬盘的理论存储速度是单块硬盘的2倍&amp;…
+</div>
+<div class="cl-card-more">
+<a href="/post/48066.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48065.html">
+<img src="https://img-blog.csdnimg.cn/20200826172208272.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjMxNzA3,size_16,color_FFFFFF,t_70#pic_center" class="img-fluid" alt="python pyvmomi操作VMware（七）：根据模板克隆虚拟机（类型是Windows）指定IP、主机名等信息" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48065.html">python pyvmomi操作VMware（七）：根据模板克隆虚拟机（类型是Windows）指定IP、主机名等信息</a>
+</h3>
+<div class="cl-card-main-info">
+背景&amp;#xff1a;当客户克隆的虚拟机是Windows类型&amp;#xff0c;并且还要指定IP、主机名等信息。 问题&amp;#xff1a;根据之前的克隆方法、发现模板是Windows类型时&amp;#xff0c;怎么指定主机名都失败&amp;#xff0c;报错信息&amp;#xff1a;指定的参数不正确: spec.identity 过程&amp;#x…
+</div>
+<div class="cl-card-more">
+<a href="/post/48065.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48064.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python pyvmomi操作VMware（六）：操作集群的Drs开启、关闭状态" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48064.html">python pyvmomi操作VMware（六）：操作集群的Drs开启、关闭状态</a>
+</h3>
+<div class="cl-card-main-info">
+这一节主要介绍关于集群drs的开启、关闭操作。 一般更新对象属性逻辑&amp;#xff1a;获取到这个对象&amp;#xff0c;然后找到这个这个对象对应的属性&amp;#xff0c;对这个属性进行赋值更改。 问题&amp;#xff1a;经过研究官方文档&amp;#xff0c;发现更改状态或者其它信息&amp;#xff0c;这样做是…
+</div>
+<div class="cl-card-more">
+<a href="/post/48064.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48063.html">
+<img src="http://img1.51cto.com/attachment/201211/155341388.png" class="img-fluid" alt="Java异常分类" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48063.html">Java异常分类</a>
+</h3>
+<div class="cl-card-main-info">
+一、基本概念 看java的异常结构图 Throwable是所有异常的根&amp;#xff0c;java.lang.Throwable Error是错误&amp;#xff0c;java.lang.Error Exception是异常&amp;#xff0c;java.lang.Exception 二、Exception 一般分为Checked异常和Runtime异常&amp;#xff0c;所有RuntimeException类及其…
+</div>
+<div class="cl-card-more">
+<a href="/post/48063.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48062.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Java和JavaScript的Boolean区别" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48062.html">Java和JavaScript的Boolean区别</a>
+</h3>
+<div class="cl-card-main-info">
+今天在做前台js的时候&amp;#xff0c;发现了之前的一个js的function&amp;#xff08;&amp;#xff09;&amp;#xff0c;这个function里面&amp;#xff0c;使用了boolean类型&amp;#xff0c;返回值都是String。在其中一个if语句判断中&amp;#xff0c;条件是一个String&amp;#xff0c;这把我迷惑了&amp;#xff0c…
+</div>
+<div class="cl-card-more">
+<a href="/post/48062.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48061.html">
+<img src="https://img-blog.csdnimg.cn/20200918100909309.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjMxNzA3,size_16,color_FFFFFF,t_70#pic_center" class="img-fluid" alt="python pyvmomi操作VMware（九）：正确获取克隆的虚拟机IP所有信息" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48061.html">python pyvmomi操作VMware（九）：正确获取克隆的虚拟机IP所有信息</a>
+</h3>
+<div class="cl-card-main-info">
+背景&amp;#xff1a; 克隆出来的虚拟机遇到了一个很奇怪的现象&amp;#xff0c;克隆配置的IP和显示的第一IP地址不符合&amp;#xff0c;如下图&amp;#xff0c;当我去检查配置的IP&amp;#xff0c;机器上的IP也配置成功了&amp;#xff0c;但获取IP却是192.168.122.1。 目的&amp;#xff1a; 获取克隆出来的…
+</div>
+<div class="cl-card-more">
+<a href="/post/48061.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48060.html">
+<img src="https://img-blog.csdnimg.cn/20181111201509811.jpg" class="img-fluid" alt="Java三大特性的理解" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48060.html">Java三大特性的理解</a>
+</h3>
+<div class="cl-card-main-info">
+本人刚入行&amp;#xff0c;Java开发&amp;#xff1b;对于Java中三大特性的理解&amp;#xff0c;有自己的一些感悟&amp;#xff0c;分享出来&amp;#xff0c;和大家讨论下&amp;#xff0c;请网友们给予批评和指正~ 
+Java的三大特性--[封装]&amp;#xff0c;[继承]&amp;#xff0c;[多态] 
+在此之前&amp;#xff0c;我…
+</div>
+<div class="cl-card-more">
+<a href="/post/48060.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48059.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="【python】py35中使用requests库爬https协议下的网站" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48059.html">【python】py35中使用requests库爬https协议下的网站</a>
+</h3>
+<div class="cl-card-main-info">
+使用requests库可以非常简单地爬https协议下的网站&amp;#xff1a; 
+import requests
+urlhttps://www.baidu.com/
+r  requests.get(url,verifyFalse)
+r.encoding  utf-8
+print(r.text)而当爬取TLSv1或TLSv1.1网站时&amp;#xff0c;这样的代码就会报错 于是我们需要使用HTTPAdapter定制…
+</div>
+<div class="cl-card-more">
+<a href="/post/48059.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48058.html">
+<img src="https://img-blog.csdnimg.cn/c2d0a2fc18454a88a579013316410a53.png" class="img-fluid" alt="Qt6.2教程——2.介绍 Qt 中的 QWidgets、QMainWindow 和 QDialog" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48058.html">Qt6.2教程——2.介绍 Qt 中的 QWidgets、QMainWindow 和 QDialog</a>
+</h3>
+<div class="cl-card-main-info">
+详细介绍 Qt 中的 QWidgets、QMainWindow 和 QDialog 
+Qt 是一个广受欢迎的跨平台 C GUI 库。在 Qt 中&amp;#xff0c;创建图形用户界面的基本单元是 Widget。本文将详细介绍三个重要的 Widget 类&amp;#xff1a;QWidget, QMainWindow 和 QDialog&amp;#xff0c;并比较它们的特点和用途。…
+</div>
+<div class="cl-card-more">
+<a href="/post/48058.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48057.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="【Java 面试合集】包装类的缓存问题" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48057.html">【Java 面试合集】包装类的缓存问题</a>
+</h3>
+<div class="cl-card-main-info">
+包装类的缓存问题1. 概述 嗨&amp;#xff0c;大家好&amp;#xff0c;【Java 面试合集】每日一题又来了。今天我们分享的内容是&amp;#xff1a;包装类的缓存问题。 我们下面的案例以Integer 为例 2. 表现 
+public class TestCache {public static void main(String[] args) {Integer i  127…
+</div>
+<div class="cl-card-more">
+<a href="/post/48057.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48056.html">
+<img src="https://img-blog.csdn.net/20150419221405664?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbnNodXlhbmc3MTY=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" class="img-fluid" alt="java  Tree1.1计算器" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48056.html">java  Tree1.1计算器</a>
+</h3>
+<div class="cl-card-main-info">
+最近&amp;#xff0c;为了完成一个小项目&amp;#xff0c;我借鉴了网上的资料&amp;#xff0c;制作了可以满足两个多位数的加减乘除运算以及非负数的开方等等。 
+以下为代码&amp;#xff1a; package test.com;
+import java.awt.*;
+import javax.swing.*;
+import java.text.SimpleDateFormat;
+i…
+</div>
+<div class="cl-card-more">
+<a href="/post/48056.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48055.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="【Python】lpsolve_wrapper——线性规划求解器Lpsolve的Python高级Api包装类" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48055.html">【Python】lpsolve_wrapper——线性规划求解器Lpsolve的Python高级Api包装类</a>
+</h3>
+<div class="cl-card-main-info">
+Lpsolve是一个跨平台的开源混合整数线性规划&amp;#xff08;MILP&amp;#xff09;求解器&amp;#xff0c;提供了Python Api。 http://web.mit.edu/lpsolve/doc/Python.htm lpsolve_wrapper是lp_solve的python包装类&amp;#xff0c;提供了基于变量的Api。 https://github.com/hangvane/lpsolve…
+</div>
+<div class="cl-card-more">
+<a href="/post/48055.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48054.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="高性能javascript技巧" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48054.html">高性能javascript技巧</a>
+</h3>
+<div class="cl-card-main-info">
+1.document.createDocumentFragment&amp;#xff1a;避免回流&amp;#xff08;reflow:任何时候只要有元素被添加到DOM树或者从DOM树移除&amp;#xff09; 
+2.变量缓存&amp;#xff0c;避免原型链查找 
+3.不要直接操作元素的style&amp;#xff0c;通过给元素添加/删除class&amp;#xff0c;减少回流 
+4.将…
+</div>
+<div class="cl-card-more">
+<a href="/post/48054.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48053.html">
+<img src="https://img-blog.csdnimg.cn/20200318154922307.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNTQ1MjA2,size_16,color_FFFFFF,t_70" class="img-fluid" alt="python基础一_02_字符串" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48053.html">python基础一_02_字符串</a>
+</h3>
+<div class="cl-card-main-info">
+python基础一02_字符串 
+导读&amp;#xff1a; 本文主要记录自己学习python3基础字符串中的要点知识和例子&amp;#xff1b;仅供自己梳理。 
+一、python字符串类型概述 
+1.字符串定义&amp;#xff1a; 
+字符串是一个有序的&amp;#xff0c;不可修改的&amp;#xff0c;以引号包围的序列&amp;#xff08;有…
+</div>
+<div class="cl-card-more">
+<a href="/post/48053.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48052.html">
+<img src="https://img-blog.csdnimg.cn/20200318151037857.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNTQ1MjA2,size_16,color_FFFFFF,t_70" class="img-fluid" alt="python基础一_01_变量、输入、输出、数字" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48052.html">python基础一_01_变量、输入、输出、数字</a>
+</h3>
+<div class="cl-card-main-info">
+python基础一_01_变量、输入、输出、数字 
+导读&amp;#xff1a; 本文主要记录自己学习python3基础中的要点知识和例子&amp;#xff1b;所以可能整理的比较乱&amp;#xff0c;仅供自己梳理和大家参考。 
+一、python变量赋值的三种方式 1.传统赋值 
+name  ydxqbjl
+print(name)2.链式赋值 
+na…
+</div>
+<div class="cl-card-more">
+<a href="/post/48052.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48051.html">
+<img src="https://img-blog.csdnimg.cn/20201220153735353.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3Byb2Zlc3Npb25hbG1jdQ==,size_16,color_FFFFFF,t_70#pic_center" class="img-fluid" alt="BC35 RAI功能应用" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48051.html">BC35 RAI功能应用</a>
+</h3>
+<div class="cl-card-main-info">
+一、概述 
+在使用BC35 NB-IOT模块和服务交互时&amp;#xff0c;用电流表记录整个交互过程的电流消耗情况&amp;#xff0c;发现一次数据交互&amp;#xff0c;包含终端服务器数据到服务器&amp;#xff0c;服务器应答终端&amp;#xff0c;模块从唤醒到进入PSM&amp;#xff0c;周期大概为45s&amp;#xff0c;但是…
+</div>
+<div class="cl-card-more">
+<a href="/post/48051.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48050.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python基础一_04_元组" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48050.html">python基础一_04_元组</a>
+</h3>
+<div class="cl-card-main-info">
+python基础一_04_元组 
+导读&amp;#xff1a; 本文主要记录自己学习python3基础中元组的要点知识和例子&amp;#xff1b;仅供自己梳理。 
+一、元组的定义 
+元组是有序的&amp;#xff0c;不可修改的&amp;#xff0c;以逗号分割的&amp;#xff0c;以小括号包围的序列。 
+元组可以通过()和tuple()函数定…
+</div>
+<div class="cl-card-more">
+<a href="/post/48050.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48049.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python基础一_05_字典" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48049.html">python基础一_05_字典</a>
+</h3>
+<div class="cl-card-main-info">
+python基础一_05_字典 
+导读&amp;#xff1a; 本文主要记录自己学习python3基础中字典的要点知识和例子&amp;#xff1b;仅供自己梳理。 
+一、字典的定义 
+字典是一个无序的&amp;#xff0c;可以修改的&amp;#xff0c;元素呈键值对形式&amp;#xff0c;以逗号分割的&amp;#xff0c;以大括号包围的数据…
+</div>
+<div class="cl-card-more">
+<a href="/post/48049.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48048.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="java 中用split分割字符串，最后的空格等不被拆分。" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48048.html">java 中用split分割字符串，最后的空格等不被拆分。</a>
+</h3>
+<div class="cl-card-main-info">
+在使用java中的split按照“\t”&amp;#xff0c;拆分字符串的时候&amp;#xff0c;发现如果最后的几个字段是空&amp;#xff0c;只是用\t分割&amp;#xff0c;是连着的\t的话&amp;#xff0c;就不会被分割&amp;#xff0c;如 “d\tc\te\t\t\t”最后的几个\t就不会被分割&amp;#xff0c;应该是在拆分之前对字…
+</div>
+<div class="cl-card-more">
+<a href="/post/48048.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48047.html">
+<img src="https://img-blog.csdnimg.cn/17039e8ae45b481cae289fed09daa983.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAYmlnIGJpZyDpmYg=,size_13,color_FFFFFF,t_70,g_se,x_16" class="img-fluid" alt="从Github上拉代码时遇到Failed to connect to github.com port 443: Timed out的解决方法" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48047.html">从Github上拉代码时遇到Failed to connect to github.com port 443: Timed out的解决方法</a>
+</h3>
+<div class="cl-card-main-info">
+Git pull遇到问题如下 
+&amp;#xff1a;  
+解决方法&amp;#xff1a; 
+控制面板-&gt;网络和Internet;连接 -&gt;局域网设置&amp;#xff0c;只勾选自动检测设置   
+参考&amp;#xff1a; https://blog.csdn.net/weixin_44100455/article/details/110220237
+</div>
+<div class="cl-card-more">
+<a href="/post/48047.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48046.html">
+<img src="https://img-blog.csdnimg.cn/20200325172140489.png" class="img-fluid" alt="python基础二_02_流程控制" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48046.html">python基础二_02_流程控制</a>
+</h3>
+<div class="cl-card-main-info">
+python基础二_02_流程控制 
+导读&amp;#xff1a; 本文主要记录自己学习python3基础中流程控制&amp;#xff08;if&amp;#xff0c;for&amp;#xff0c;while&amp;#xff0c;pass&amp;#xff0c;break&amp;#xff0c;continue等&amp;#xff09;的要点知识和例子&amp;#xff1b;仅供自己梳理。 
+一、Python流程控…
+</div>
+<div class="cl-card-more">
+<a href="/post/48046.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48045.html">
+<img src="https://img-blog.csdnimg.cn/20200327114810408.png" class="img-fluid" alt="python基础二_03_推导式和深浅拷贝" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48045.html">python基础二_03_推导式和深浅拷贝</a>
+</h3>
+<div class="cl-card-main-info">
+python基础二_03_推导式和深浅拷贝 
+导读&amp;#xff1a; 本文主要记录自己学习python3基础中推导式&amp;#xff08;列表&amp;#xff0c;字典&amp;#xff0c;集合&amp;#xff09;和深浅拷贝的要点知识和例子&amp;#xff1b;仅供自己梳理。 
+一、列表推导式 
+列表推导能非常简洁的构造一个新列表:只…
+</div>
+<div class="cl-card-more">
+<a href="/post/48045.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48044.html">
+<img src="https://img-blog.csdnimg.cn/img_convert/b22f10febeac18f4382ffec3f85f7f7c.png" class="img-fluid" alt="Airtestpoco学习历程1——设备连接" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48044.html">Airtestpoco学习历程1——设备连接</a>
+</h3>
+<div class="cl-card-main-info">
+Airtest&amp;poco学习历程1 一、设备连接 
+详情参考网易airtest官网教程 
+以下为网页原文&amp;#xff1a; 
+模拟器连接&amp;#xff1a;以网易的mumu模拟器为例 
+https://airtest.doc.io.netease.com/IDEdocs/device_connection/3_emulator_connection/ 
+真机连接&amp;#xff1a; 
+2.1 An…
+</div>
+<div class="cl-card-more">
+<a href="/post/48044.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48043.html">
+<img src="https://img-blog.csdnimg.cn/20200330194552174.png" class="img-fluid" alt="python基础三_02_函数的作用域" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48043.html">python基础三_02_函数的作用域</a>
+</h3>
+<div class="cl-card-main-info">
+python基础三_02_函数的作用域 
+导读&amp;#xff1a; 本文主要记录自己学习python3基础中函数的作用域&amp;#xff08;全局变量与局部变量等&amp;#xff09;要点知识和例子&amp;#xff1b;仅供自己梳理。搞清楚函数的作用域很关键&amp;#xff0c;这是理解闭包&amp;#xff0c;装饰器等的前提。 
+一…
+</div>
+<div class="cl-card-more">
+<a href="/post/48043.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48042.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="NoHostAvailableException: All host(s) tried for query failed (no host was tried)" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48042.html">NoHostAvailableException: All host(s) tried for query failed (no host was tried)</a>
+</h3>
+<div class="cl-card-main-info">
+NoHostAvailableException: All host(s) tried for query failed (no host was tried) cassandra连接报错&amp;#xff1a;tried&amp;#xff1a;localhost 127 0 0 1&amp;#xff1a;9042 去除这个依赖即可&amp;#xff0c;也有可能是版本高了。 &lt;dependency&gt; &lt;groupId&gt;org.spring…
+</div>
+<div class="cl-card-more">
+<a href="/post/48042.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48041.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Result Maps collection does not contain value for com.man.impet.dao.OrderBeanMapper.map" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48041.html">Result Maps collection does not contain value for com.man.impet.dao.OrderBeanMapper.map</a>
+</h3>
+<div class="cl-card-main-info">
+由于mapper.xml中resultMap  “map”  改为 resultType"map"即可&amp;#xff0c;折腾了一下午 转载于:https://www.cnblogs.com/xiaohouzai/p/8324843.html
+</div>
+<div class="cl-card-more">
+<a href="/post/48041.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48040.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="java多线程辅助类CountDownLatch" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48040.html">java多线程辅助类CountDownLatch</a>
+</h3>
+<div class="cl-card-main-info">
+今天在看源码的时候突然发现了一个从来没见过的类CountDownLatch&amp;#xff0c;百度了一下&amp;#xff0c;说是一个同步辅助类&amp;#xff0c;在完成一组正在其他线程中执行的操作之前&amp;#xff0c;允许一个或者多个线程一直等待。可能是从c中带来的习惯。我一直用无限循环for(;;)来等待…
+</div>
+<div class="cl-card-more">
+<a href="/post/48040.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48039.html">
+<img src="https://img-blog.csdnimg.cn/img_convert/36120faa7cce160fbbe0330cbb1c05dd.png" class="img-fluid" alt="Python绘图" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48039.html">Python绘图</a>
+</h3>
+<div class="cl-card-main-info">
+1.二维绘图 
+a. 一维数据集 
+用 Numpy ndarray 作为数据传入 ply 
+1. 
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as pltnp.random.seed(1000)
+y  np.random.standard_normal(10)
+print "y  %s"% y
+x  range(len(y))
+print "x%s&amp;q…
+</div>
+<div class="cl-card-more">
+<a href="/post/48039.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48038.html">
+<img src="https://img-blog.csdnimg.cn/30cc60feaf8e43f081f7a3c638d2d21e.png" class="img-fluid" alt="【AI实战】开源可商用的中英文大语言模型baichuan-7B，从零开始搭建" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48038.html">【AI实战】开源可商用的中英文大语言模型baichuan-7B，从零开始搭建</a>
+</h3>
+<div class="cl-card-main-info">
+【AI实战】开源可商用的中英文大语言模型baichuan-7B&amp;#xff0c;从零开始搭建 baichuan-7B 简介baichuan-7B 中文评测baichuan-7B 搭建参考 baichuan-7B 简介 
+baichuan-7B 是由百川智能开发的一个开源可商用的大规模预训练语言模型。基于 Transformer 结构&amp;#xff0c;在大约…
+</div>
+<div class="cl-card-more">
+<a href="/post/48038.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48037.html">
+<img src="https://img-blog.csdnimg.cn/20181210110419944.png" class="img-fluid" alt="ubuntu 非root用户安装GraphicsMagick,以及其python接口pgmagick" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48037.html">ubuntu 非root用户安装GraphicsMagick,以及其python接口pgmagick</a>
+</h3>
+<div class="cl-card-main-info">
+1.下载编译的源文件&amp;#xff0c;GraphicsMagick-1.3.31.tar.gz和pgmagick(我用的是https://github.com/hhatto/pgmagick) 
+2先编译GraphicsMagick,解压后./configure配置一下&amp;#xff0c;因为是非root用户&amp;#xff0c;如果直接./configure会在系统的默认的路径下安装导致没有权…
+</div>
+<div class="cl-card-more">
+<a href="/post/48037.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48036.html">
+<img src="https://img-blog.csdnimg.cn/20190110184524727.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3plcm92cHA=,size_16,color_FFFFFF,t_70" class="img-fluid" alt="SpringBoot：No qualifying bean of type 'com.xxxx.dao.DailyMapper' available: expected at least 1问题的解决" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48036.html">SpringBoot：No qualifying bean of type 'com.xxxx.dao.DailyMapper' available: expected at least 1问题的解决</a>
+</h3>
+<div class="cl-card-main-info">
+异常代码&amp;#xff1a; No qualifying bean of type com.xxxx.dao.DailyMapper available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {} 
+如图&amp;#xff1a; 原因&amp;#xff1a; 
+Spring boot Application没有扫描到mapper 解决办…
+</div>
+<div class="cl-card-more">
+<a href="/post/48036.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48035.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="kafka java 生产消费程序demo示例" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48035.html">kafka java 生产消费程序demo示例</a>
+</h3>
+<div class="cl-card-main-info">
+kafka是吞吐量巨大的一个消息系统&amp;#xff0c;它是用scala写的&amp;#xff0c;和普通的消息的生产消费还有所不同&amp;#xff0c;写了个demo程序供大家参考。kafka的安装请参考官方文档。 首先我们需要新建一个maven项目&amp;#xff0c;然后在pom中引用kafka jar包&amp;#xff0c;引用依赖如…
+</div>
+<div class="cl-card-more">
+<a href="/post/48035.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48034.html">
+<img src="http://dl2.iteye.com/upload/attachment/0104/5394/7a20225d-fe9d-3ff2-b40c-5dd597fafd05.png" class="img-fluid" alt="ant中的condition与available" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48034.html">ant中的condition与available</a>
+</h3>
+<div class="cl-card-main-info">
+参考&amp;#xff1a;http://www.blogjava.net/fingki/archive/2008/05/21/201919.html 1.&lt;condition&gt;任务在测试成功后才对特征进行设置&amp;#xff0c;否则保留特征不设置。 大部分Ant测试可以根据&lt;condition&gt;任务进行分组&amp;#xff0c;如过嵌套的条件测试为true&amp;#xf…
+</div>
+<div class="cl-card-more">
+<a href="/post/48034.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48033.html">
+<img src="https://img-blog.csdnimg.cn/40a8dfc83e9e4c029f5ec61d885f4008.png" class="img-fluid" alt="Java 基础面试题——面向对象" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48033.html">Java 基础面试题——面向对象</a>
+</h3>
+<div class="cl-card-main-info">
+目录1.面向对象和面向过程有什么区别&amp;#xff1f;2.面向对象的有哪些特征?3.静态变量和实例变量有什么区别&amp;#xff1f;4.Java 对象实例化顺序是怎样的&amp;#xff1f;5.浅拷贝和深拷贝的区别是什么&amp;#xff1f;5.1.浅拷贝5.2.深拷贝5.3.总结6.Java 中创建对象的方式有哪几种&amp;…
+</div>
+<div class="cl-card-more">
+<a href="/post/48033.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48032.html">
+<img src="http://dl2.iteye.com/upload/attachment/0113/5713/66c0e926-b0a5-3e26-87ba-fca9c74b6272.png" class="img-fluid" alt="FailedPredicateException(identifier,{useSQL11ReservedKeywordsForIdentifier()}?)" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48032.html">FailedPredicateException(identifier,{useSQL11ReservedKeywordsForIdentifier()}?)</a>
+</h3>
+<div class="cl-card-main-info">
+在执行hive官网的Apache Weblog Data例子的时候&amp;#xff0c; 报错信息如下 原因&amp;#xff1a;Most likely there is a column named user. I believe in HDP 2.3, hive doesnt allow columns named keywords like date or user etc 解决方法&amp;#xff1a;在user字段前面加前缀t 异…
+</div>
+<div class="cl-card-more">
+<a href="/post/48032.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48031.html">
+<img src="https://img-blog.csdnimg.cn/20200103172024296.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTU4MzYzMQ==,size_16,color_FFFFFF,t_70" class="img-fluid" alt="数据库  python与MySQL进行增删查改" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48031.html">数据库  python与MySQL进行增删查改</a>
+</h3>
+<div class="cl-card-main-info">
+------------------------------------增------------------------------------ 
+增加数据要根据原有的数据库中的数据规格进行对数据的添加&amp;#xff0c;这一点是必须的。 
+程序&amp;#xff1a; 数据库结果&amp;#xff1a; ------------------------------------删------------------…
+</div>
+<div class="cl-card-more">
+<a href="/post/48031.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48030.html">
+<img src="https://img-blog.csdnimg.cn/20200305170725566.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTU4MzYzMQ==,size_16,color_FFFFFF,t_70" class="img-fluid" alt="python 读取txt心率数据，画图表显示" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48030.html">python 读取txt心率数据，画图表显示</a>
+</h3>
+<div class="cl-card-main-info">
+由于项目需要&amp;#xff0c;需要从硬件采集到的心率数据进行数据显示 
+采集到的原始心率数据&amp;#xff0c;若要提高准确性&amp;#xff0c;需要进行数据的处理 
+程序如图&amp;#xff1a; 显示的心率是曲线形式&amp;#xff0c;如果想要显示离散点&amp;#xff0c;则需要改动 
+把 
+L1, plt.plot(da…
+</div>
+<div class="cl-card-more">
+<a href="/post/48030.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48029.html">
+<img src="https://img-blog.csdnimg.cn/20200326162713558.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTU4MzYzMQ==,size_16,color_FFFFFF,t_70" class="img-fluid" alt="python tkinter窗体弹出窗口" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48029.html">python tkinter窗体弹出窗口</a>
+</h3>
+<div class="cl-card-main-info">
+使用python进行窗体布局时&amp;#xff0c;由于按键触发事件&amp;#xff0c;有时候会出现一些问题&amp;#xff0c;学过QT的话应该知道&amp;#xff0c;有些窗体在关闭的时候会出现询问是否关闭等功能&amp;#xff0c;此次的例程&amp;#xff0c;主要说的是python tkinter窗体中的弹出窗体 
+程序如下&amp;a…
+</div>
+<div class="cl-card-more">
+<a href="/post/48029.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48028.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="快速启动 containers" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48028.html">快速启动 containers</a>
+</h3>
+<div class="cl-card-main-info">
+快速启动containers  This quickstart assumes you have a working installation of Docker. To verify Docker is installed, use the following command:  # 检查Docker 是否安装 $ docker info  If you get docker: command not found or something like/var/lib/docker/rep…
+</div>
+<div class="cl-card-more">
+<a href="/post/48028.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48027.html">
+<img src="https://img-blog.csdnimg.cn/img_convert/fc277ae9a85c48fa9793ceefc9c9a81a.png" class="img-fluid" alt="Java反序列化漏洞——CommonsCollections3链分析" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48027.html">Java反序列化漏洞——CommonsCollections3链分析</a>
+</h3>
+<div class="cl-card-main-info">
+一、原理CC1链中我们是通过调用Runtime.getRuntime.exec()来执行系统命令&amp;#xff0c;而另一个方向我们可以通过TemplatesImpl加载字节码的类&amp;#xff0c;通过调⽤其newTransformer() 方法&amp;#xff0c;即可执⾏这段字节码的类构造器&amp;#xff0c;我们在类构造器中加入恶意代码&amp;a…
+</div>
+<div class="cl-card-more">
+<a href="/post/48027.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48026.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python 解析JSON" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48026.html">python 解析JSON</a>
+</h3>
+<div class="cl-card-main-info">
+python解析json字符串步骤 
+1、先把原始数据转化为json格式 
+2、把json格式转化为python格式 
+一、最简易的json格式 
+import jsoninformation  {class: 302,name: JokerPlus,age:20,addr:Made in China
+}json_data  json.dumps(information)  #把information数据写到json文件中…
+</div>
+<div class="cl-card-more">
+<a href="/post/48026.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48025.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="java中获得当前文件大小" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48025.html">java中获得当前文件大小</a>
+</h3>
+<div class="cl-card-main-info">
+根据制定路径&amp;#xff0c;可以获取当前正在操作的文件的大小&amp;#xff0c;容量为byte.  privatevoidgetFileByte(){        File f newFile(filePath)   ;           try{             FileInputStream fis newFileInputStream(f) ;             try{              System.out.p…
+</div>
+<div class="cl-card-more">
+<a href="/post/48025.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48024.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Java的一个格式转换函数" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48024.html">Java的一个格式转换函数</a>
+</h3>
+<div class="cl-card-main-info">
+需求&amp;#xff1a;1 . 将输入的信号名去头去尾。 2.  去掉注释部分&amp;#xff08;#到行末&amp;#xff09;。 3.  对数据部分进行判断&amp;#xff0c;16进制数据直接输出&amp;#xff0c;字符串内数据去掉字符串后转化为16进制输出&amp;#xff0c;顺序不变。 
+代码如下&amp;#xff1a; /*** get rid…
+</div>
+<div class="cl-card-more">
+<a href="/post/48024.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48023.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Java包转换为exe" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48023.html">Java包转换为exe</a>
+</h3>
+<div class="cl-card-main-info">
+刚做过这样的一个应用&amp;#xff0c;趁着现在还比较熟悉。粘上来供大家学习之用&amp;#xff0c;也便于自己以后时常可以参考。 
+在这部分的操作中&amp;#xff0c;需要三个外部的应用&amp;#xff1a;exe4j_ejtechnologies.exe&amp;#xff0c;instsrv.exe&amp;#xff0c;srvany.exe。 首先将自己做…
+</div>
+<div class="cl-card-more">
+<a href="/post/48023.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48022.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="java中替换一些特殊字符的办法" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48022.html">java中替换一些特殊字符的办法</a>
+</h3>
+<div class="cl-card-main-info">
+replace ,replaceAll 两者都是由正则表达式类库实现的&amp;#xff0c;但是 replace 采用的是字符串原有的意思来替换&amp;#xff0c;而 replaceAll 则是按照正则表达式的字符串来替换&amp;#xff0c;正则表达式中有 15 个元字符&amp;#xff0c;是有特殊意义的&amp;#xff0c;使用时需要转义&amp;am…
+</div>
+<div class="cl-card-more">
+<a href="/post/48022.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48021.html">
+<img src="https://img-blog.csdnimg.cn/20181225151337848.png" class="img-fluid" alt="npm运行报错Error: listen EADDRNOTAVAIL" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48021.html">npm运行报错Error: listen EADDRNOTAVAIL</a>
+</h3>
+<div class="cl-card-main-info">
+使用npm run dev报错&amp;#xff1a; 
+Error: listen EADDRNOTAVAIL 10.75.167.184:8088运行不成功&amp;#xff0c;查了资料发现是因为网络设置的是自动获得ip地址&amp;#xff0c; 由于路由器是随机分配ip地址的&amp;#xff0c;自动获取的ip地址和项目配置文件里面手动设置的 host 不一致&amp;a…
+</div>
+<div class="cl-card-more">
+<a href="/post/48021.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48020.html">
+<img src="https://img-blog.csdnimg.cn/2a247e55cf864633bfe6db61a6ade923.jpeg" class="img-fluid" alt="【服务器数据恢复】AIX下raid故障导致pool无法加载的数据恢复案例" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48020.html">【服务器数据恢复】AIX下raid故障导致pool无法加载的数据恢复案例</a>
+</h3>
+<div class="cl-card-main-info">
+服务器数据恢复环境&amp;#xff1a; IBM P740小型机AIX操作系统Sybase数据库V7000存储。V7000存储配置了12块SAS机械硬盘&amp;#xff08;其中一块为热备盘&amp;#xff09;组建一组raid5磁盘阵列。存储设备一共创建了2组Mdisk&amp;#xff0c;加到一个pool中。 
+服务器故障&amp;#xff1a; IBM V…
+</div>
+<div class="cl-card-more">
+<a href="/post/48020.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48019.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python  udp服务端接收数据进行数据分离" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48019.html">python  udp服务端接收数据进行数据分离</a>
+</h3>
+<div class="cl-card-main-info">
+在使用python进行数据采集的时候&amp;#xff0c;由于客户端端发送过来的数据没有统一性&amp;#xff0c;但会依据数据头进行数据发送 
+from socket import *
+import timehost  
+port  4396
+bufsize  2024
+addr  (host, port)f0  open("one.txt", w, encodingutf-8)
+f1  open…
+</div>
+<div class="cl-card-more">
+<a href="/post/48019.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48018.html">
+<img src="https://img-blog.csdnimg.cn/c73fc4b2d5634c92b8dd5b57506eaf21.png#pic_center" class="img-fluid" alt="使用uniapp开发支付宝/钉钉小程序uni.uploadFile报错errMsg: “uploadFile:fail 无效参数“" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48018.html">使用uniapp开发支付宝/钉钉小程序uni.uploadFile报错errMsg: “uploadFile:fail 无效参数“</a>
+</h3>
+<div class="cl-card-main-info">
+报错&amp;#xff1a;  问题所在:  所以给uni.uploadFile加上这个参数就可以了
+</div>
+<div class="cl-card-more">
+<a href="/post/48018.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48017.html">
+<img src="https://img-blog.csdnimg.cn/20210527174826887.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTU4MzYzMQ==,size_16,color_FFFFFF,t_70" class="img-fluid" alt="python 基础笔记（仅供参考）" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48017.html">python 基础笔记（仅供参考）</a>
+</h3>
+<div class="cl-card-main-info">
+1、字符串 
+mystring  "goodmoring"
+print("mystring[0]",mystring[0])
+print("mystring[2:7]",mystring[2:7]) 
+结果&amp;#xff1a; 个人理解&amp;#xff1a; 
+mystring[0] g   mystring[2]o  mystring[7]n 
+其中mystring[2:7] 说的是2开始的值到7的…
+</div>
+<div class="cl-card-more">
+<a href="/post/48017.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48016.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="一些java的基础知识" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48016.html">一些java的基础知识</a>
+</h3>
+<div class="cl-card-main-info">
+对于这个系列里的问题&amp;#xff0c;每个学Java的人都应该搞懂。当然&amp;#xff0c;如果只是学Java玩玩就无所谓了。如果你认为自己已经超越初学者了&amp;#xff0c;却不很懂这些问题&amp;#xff0c;请将你自己重归初学者行列。内容均来自于CSDN的经典老贴。 问题一&amp;#xff1a;我声明了什…
+</div>
+<div class="cl-card-more">
+<a href="/post/48016.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48015.html">
+<img src="https://img-blog.csdnimg.cn/39db035bb84e48eb883e6a1ed3ed261b.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBASm9rZXJQbHVzMDYxNQ==,size_20,color_FFFFFF,t_70,g_se,x_16" class="img-fluid" alt="python 数据处理文件" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48015.html">python 数据处理文件</a>
+</h3>
+<div class="cl-card-main-info">
+本文章主要介绍处理.txt文件、.csv文件、.xlsx等文件的基础使用 
+喜欢就拿去学习&amp;#xff0c;每天进步亿点点。 
+1、处理 .txt 文件 
+使用numpy处理.txt文件&amp;#xff0c;读取txt文件中的数据&amp;#xff0c;并通过matplotlib进行显示 
+程序代码如下 
+import matplotlib.pyplot as …
+</div>
+<div class="cl-card-more">
+<a href="/post/48015.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48014.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Java 设计模式－工厂模式" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48014.html">Java 设计模式－工厂模式</a>
+</h3>
+<div class="cl-card-main-info">
+开始看Java的设计模式。 
+对于Java来说&amp;#xff0c;更重要得是设计的思想&amp;#xff0c;和实现的架构&amp;#xff0c;其次&amp;#xff0c;才是技术细节。毕竟&amp;#xff0c;Java语言的类库做的相当不错了&amp;#xff0c;还有很多免费的工具包&amp;#xff0c;另外&amp;#xff0c;不用考虑内存的问题…
+</div>
+<div class="cl-card-more">
+<a href="/post/48014.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48013.html">
+<img src="https://img-blog.csdnimg.cn/20190811000309990.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTM4ODA2Mw==,size_16,color_FFFFFF,t_70" class="img-fluid" alt="python爬虫selenium (三）" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48013.html">python爬虫selenium (三）</a>
+</h3>
+<div class="cl-card-main-info">
+selenium基本操作 图片来自huilai_same 
+selenium初体验 
+from selenium import webdriverbrowser  webdriver.Chrome()
+browser.get("http://www.google.com")会自动打开谷歌浏览器进入首页 
+selenium模拟登陆163邮箱 
+import time
+from selenium import webdriver
+…
+</div>
+<div class="cl-card-more">
+<a href="/post/48013.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48012.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python爬虫(四）——模拟登录丁香园" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48012.html">python爬虫(四）——模拟登录丁香园</a>
+</h3>
+<div class="cl-card-main-info">
+实战 
+实战小项目&amp;#xff1a;模拟登录丁香园&amp;#xff0c;抓取论坛页面人员基本信息与回复帖子。丁香园论坛&amp;#xff1a;http://www.dxy.cn/bbs/thread/626626#626626 
+思路 
+首先把登陆方式由扫码切换为账号密码登陆 
+js1  document.querySelector("#j_loginTab1").…
+</div>
+<div class="cl-card-more">
+<a href="/post/48012.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48011.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="java点滴" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48011.html">java点滴</a>
+</h3>
+<div class="cl-card-main-info">
+1 一个java文件中至少应有一个类&amp;#xff0c;但最多只能有一个public类&amp;#xff1b;若有public类&amp;#xff0c;源文件必须按该类命名。 
+2 java 的数据类型分为基本类型和引用类型。变量根据生成周期不同&amp;#xff0c;可以分为静态变量、成员变量和局部变量。 
+3 局部变量在被使用…
+</div>
+<div class="cl-card-more">
+<a href="/post/48011.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48010.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="【脚本】UNIX平台orainstRoot.sh脚本作用" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48010.html">【脚本】UNIX平台orainstRoot.sh脚本作用</a>
+</h3>
+<div class="cl-card-main-info">
+我们在使用 Oracle Universal Installer&amp;#xff08;OUI&amp;#xff09;在UNIX平台上安装Oracle软件的快结束的时候会提示我们要执行orainstRoot.sh脚本。执行这个 脚本 目的是什么呢&amp;#xff1f;以Linux平台的 10g 版本Oracle为例我们一起探索一下。[more] 1.orainstRoot.sh脚本内…
+</div>
+<div class="cl-card-more">
+<a href="/post/48010.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48009.html">
+<img src="https://img-blog.csdnimg.cn/20191130201444157.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDYxNTg1Nw==,size_16,color_FFFFFF,t_70" class="img-fluid" alt="python去读csv文件，以及numpy的ndarray与pandas的series和dataframe之间互转" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48009.html">python去读csv文件，以及numpy的ndarray与pandas的series和dataframe之间互转</a>
+</h3>
+<div class="cl-card-main-info">
+使用PythonI/O读取csv文件 
+game_reviews  []
+with open("game_reviews/Muse Dash 喵斯快跑1.csv", r, encodingutf-8) as csvfile:csv_reader  csv.reader(csvfile)  # 使用csv.reader读取csvfile中的文件header  next(csv_reader)  # 读取第一行每一列的标题for ro…
+</div>
+<div class="cl-card-more">
+<a href="/post/48009.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48008.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="对于JAVA基础知识精华总结" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48008.html">对于JAVA基础知识精华总结</a>
+</h3>
+<div class="cl-card-main-info">
+1、 对象的初始化  　　(1) 非静态对象的初始化  　　在创建对象时&amp;#xff0c;对象所在类的所有数据成员会首先进行初始化。基本类型&amp;#xff1a;int型&amp;#xff0c;初始化为0。如果为对象&amp;#xff1a;这些对象会按顺序初始化。  　　※在所有类成员初始化完成之后&amp;#xff0c;…
+</div>
+<div class="cl-card-more">
+<a href="/post/48008.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48007.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="windows10 Anaconda3 python3.6安装geopandas" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48007.html">windows10 Anaconda3 python3.6安装geopandas</a>
+</h3>
+<div class="cl-card-main-info">
+环境 
+Windows10 Ancona3 python3.6 
+安装条件 
+安装 geopandas 之前首先要安装 Fiona,Shapely,GDAL,pyproj 下载对应Python版本的依赖包.whl文件&amp;#xff09; https://www.lfd.uci.edu/~gohlke/pythonlibs/ 我安装的版本为 GDAL-3.0.4-cp36-cp36m-win_amd64.whl pyproj-2.6.1.…
+</div>
+<div class="cl-card-more">
+<a href="/post/48007.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48006.html">
+<img src="https://img-blog.csdnimg.cn/20190101195506322.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjM2NTQyOA==,size_16,color_FFFFFF,t_70" class="img-fluid" alt="python学习——二维码生成和识别" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48006.html">python学习——二维码生成和识别</a>
+</h3>
+<div class="cl-card-main-info">
+二维码知识 
+在介绍二维码原理之前&amp;#xff0c;先说下条形码 。条形码我们都见过&amp;#xff0c;就是超市收银员结账的时候扫的那个东西。它是一种“一维码”&amp;#xff0c;竖直方向&amp;#xff0c;条码是均匀的&amp;#xff0c;信息只能在水平方向上存储&amp;#xff0c;并且只能由数字和字母组…
+</div>
+<div class="cl-card-more">
+<a href="/post/48006.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48005.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="windows和ubuntu下python虚拟环境的使用" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48005.html">windows和ubuntu下python虚拟环境的使用</a>
+</h3>
+<div class="cl-card-main-info">
+1. windows 
+安装 virtualenv 和 virtualenvwrapper 
+pip install virtualenv
+pip install virtualenvwrapper选择存放虚拟环境的路径 
+cd C:python3  # 进入该文件&amp;#xff08;这里的路径可以根据自己需要进行更改&amp;#xff09;
+virtualenv envname   # 创建名为envname的虚拟环…
+</div>
+<div class="cl-card-more">
+<a href="/post/48005.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48004.html">
+<img src="https://img-blog.csdn.net/20150601202223085?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdGFpeWI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" class="img-fluid" alt="RaisedCosineWindower  API及加窗" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48004.html">RaisedCosineWindower  API及加窗</a>
+</h3>
+<div class="cl-card-main-info">
+&lt;span style"font-size:24px;"&gt;本类的构造方法
+public RaisedCosineWindower( )&amp;#xff1b;空构造方法
+public RaisedCosineWindower( double alpha, float windowSizeInMs, float windowShiftInMs )&amp;#xff1b;非空构造方法&amp;#xff0c;初始化了必要的相关属…
+</div>
+<div class="cl-card-more">
+<a href="/post/48004.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48003.html">
+<img src="https://img-blog.csdnimg.cn/2019032212274451.PNG" class="img-fluid" alt="windows下python3.6使用face_recognition进行人脸识别" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48003.html">windows下python3.6使用face_recognition进行人脸识别</a>
+</h3>
+<div class="cl-card-main-info">
+1.安装前声明 
+我使用的各个版本是 win10python 3.6.7dlib 19.7.0 face_recognition 1.2.1&amp;#xff0c;不一定要使用和我一样的版本&amp;#xff0c;但是在安装时要安装dlib模块&amp;#xff0c;因为face_recognition是由基于dlib开发的&amp;#xff0c;所以安装dlib和face_recognition模块…
+</div>
+<div class="cl-card-more">
+<a href="/post/48003.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48002.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="java中基本输入输出流的解释" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48002.html">java中基本输入输出流的解释</a>
+</h3>
+<div class="cl-card-main-info">
+网络程序的很大一部分是简单的输入输出&amp;#xff0c;即从一个系统向另一个系统移动字节。字节就是字节&amp;#xff0c;在很大程度上&amp;#xff0c;读服务器发送的数据与读取文件没什么不同&amp;#xff1b;向客户传送数据与写入一个文件也没有什么区别。 Java中输入和输出组织不同于大多数…
+</div>
+<div class="cl-card-more">
+<a href="/post/48002.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48001.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python3爬虫 —— 爬取丁香园网站的信息" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48001.html">python3爬虫 —— 爬取丁香园网站的信息</a>
+</h3>
+<div class="cl-card-main-info">
+上一篇&amp;#xff1a; 爬取豆瓣电影信息 
+利用BeautifulSoup和lxml两个模块爬取丁香园网站的回复信息 
+BeautifulSoup实现代码&amp;#xff1a; 
+from bs4 import BeautifulSoup
+import requests#访问的网址
+url  http://www.dxy.cn/bbs/thread/626626#626626
+#头部信息
+headers  {us…
+</div>
+<div class="cl-card-more">
+<a href="/post/48001.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/48000.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="mujoco200运行main.py报错：Missing path to your environment variable." referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/48000.html">mujoco200运行main.py报错：Missing path to your environment variable.</a>
+</h3>
+<div class="cl-card-main-info">
+使用系统ubuntu18.04 使用编辑器pycharm 运行古月居课程《MuJoCo强化学习仿真入门》第十堂课中的程序时&amp;#xff0c;也就是main.py&amp;#xff0c; 使用pycharm运行报错&amp;#xff1a; 
+Missing path to your environment variable.  
+Current values LD_LIBRARY_PATH 
+Please add f…
+</div>
+<div class="cl-card-more">
+<a href="/post/48000.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47999.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Android Studio支持Java1.8的解决方案" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47999.html">Android Studio支持Java1.8的解决方案</a>
+</h3>
+<div class="cl-card-main-info">
+Java1.8新添了一些特性&amp;#xff0c;比如对lambda表达式的支持&amp;#xff0c;父类推断等等&amp;#xff0c;这篇文章讲述了1.8的新特性&amp;#xff0c;有兴趣的同学可以点进去看看。但是由于AndroidStudio并不能直接支持Java1.8&amp;#xff0c;我们需要手动导入一些插件来支持1.8&amp;#xff1a…
+</div>
+<div class="cl-card-more">
+<a href="/post/47999.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47998.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="ai网页知识点" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47998.html">ai网页知识点</a>
+</h3>
+<div class="cl-card-main-info">
+以ai软件为例 1.用AI做网页注意规范&amp;#xff0c;可以直接打开预设网页1920x1080的尺寸&amp;#xff0c;并且勾选编辑菜单下的首选项进行单位的统一&amp;#xff0c;把常规、描边、文字、东亚文字都设置为像素&amp;#xff0c;更方便更规范。 2.AI里面的网页工作区中也可以快捷进行参考线隐藏…
+</div>
+<div class="cl-card-more">
+<a href="/post/47998.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47997.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Python爬虫笔记（3）- 爬取丁香园留言" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47997.html">Python爬虫笔记（3）- 爬取丁香园留言</a>
+</h3>
+<div class="cl-card-main-info">
+Python爬虫笔记&amp;#xff08;3&amp;#xff09;- 爬取丁香园留言爬取丁香园留言&amp;#xff1a;主要用到了模拟登录爬取丁香园留言&amp;#xff1a;主要用到了模拟登录 
+import requests, json, re, random,time
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from lxml i…
+</div>
+<div class="cl-card-more">
+<a href="/post/47997.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47996.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python 函数、模块、包及import导入方法" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47996.html">python 函数、模块、包及import导入方法</a>
+</h3>
+<div class="cl-card-main-info">
+函数将一组代码组织到一起&amp;#xff0c;实现某种功能模块为实现某种逻辑将相关连的函数写在同一个文件里&amp;#xff0c;使逻辑更清楚&amp;#xff0c;这就是一个模块在python中文件以.py 结尾&amp;#xff0c;那这个.py文件就可以称之为模块包为了方便管理模块&amp;#xff0c;python 中引入了…
+</div>
+<div class="cl-card-more">
+<a href="/post/47996.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47995.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python选取特定列——pandas的iloc和loc以及icol使用（列切片及行切片）" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47995.html">python选取特定列——pandas的iloc和loc以及icol使用（列切片及行切片）</a>
+</h3>
+<div class="cl-card-main-info">
+df是一个dataframe&amp;#xff0c;列名为A B C D具体值如下&amp;#xff1a;A    B    C     D0    ss   小红  81    aa   小明  d4    f          f6    ak   小紫  7 dataframe里的属性是不定的&amp;#xff0c;空值默认为NA。一、选取标签为A和C的列&amp;#xff0c;并且选完类型还是dataf…
+</div>
+<div class="cl-card-more">
+<a href="/post/47995.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47994.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python 寻找list中最大值、最小值位置; reshpe（-1，1）提示，格式话出错，pandas copy深拷贝浅拷贝" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47994.html">python 寻找list中最大值、最小值位置; reshpe（-1，1）提示，格式话出错，pandas copy深拷贝浅拷贝</a>
+</h3>
+<div class="cl-card-main-info">
+1&amp;#xff1a;寻找list中最大值、最小值位置 
+转载自&amp;#xff1a;https://blog.csdn.net/fengjiexyb/article/details/77435676 
+c  [-10,-5,0,5,3,10,15,-20,25]print c.index(min(c)) # 返回最小值print c.index(max(c)) # 返回最大值 
+2&amp;#xff1a;报错 Reshape your data …
+</div>
+<div class="cl-card-more">
+<a href="/post/47994.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47993.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="深入浅出RxJava三--响应式的好处" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47993.html">深入浅出RxJava三--响应式的好处</a>
+</h3>
+<div class="cl-card-main-info">
+原文链接 在第一篇中&amp;#xff0c;我介绍了RxJava的基础知识。第二篇中&amp;#xff0c;我向你展示了操作符的强大。但是你可能仍然没被说服。这篇里面&amp;#xff0c;我讲向你展示RxJava的其他的一些好处&amp;#xff0c;相信这篇足够让你去使用Rxjava. 错误处理 到目前为止&amp;#xff0c;我…
+</div>
+<div class="cl-card-more">
+<a href="/post/47993.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47992.html">
+<img src="https://images2018.cnblogs.com/blog/1249779/201712/1249779-20171203175449397-1927589608.png" class="img-fluid" alt="1.Python保存字符串到文件  2.dir()函数  3.jieba分词  4.WordCloud词云包的安装" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47992.html">1.Python保存字符串到文件  2.dir()函数  3.jieba分词  4.WordCloud词云包的安装</a>
+</h3>
+<div class="cl-card-main-info">
+1.记录一下Python保存字符串到文件的方法&amp;#xff1a; 
+def save_to_file(file_name, contents):fh  open(file_name, w)fh.write(contents)fh.close()save_to_file(mobiles.txt, your contents str) 2. 
+dir() 函数 dir([object]) 会返回object所有有效的属性列表。示例如下&amp;a…
+</div>
+<div class="cl-card-more">
+<a href="/post/47992.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47991.html">
+<img src="https://img-blog.csdnimg.cn/a491b118ecec41f78d8c9257fd1dd5ac.png" class="img-fluid" alt="【换脸详细教程】手把手教你进行AI换脸：换脸流程及源码详解" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47991.html">【换脸详细教程】手把手教你进行AI换脸：换脸流程及源码详解</a>
+</h3>
+<div class="cl-card-main-info">
+目录 1. 换脸基本原理2 人脸检测及可视化3. 人脸轮廓点检测及可视化4. 人脸图像变换--仿射变换5. 生成遮罩并直接替换人脸6. 人脸颜色校正 最近AI换脸貌似比较火爆&amp;#xff0c;就稍微研究了一下相关了内容。AI换脸是一个娱乐性比较强的应用&amp;#xff0c;这种错位感让人觉得非常有…
+</div>
+<div class="cl-card-more">
+<a href="/post/47991.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47990.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="迷之RxJava（四）—— Retrofit和RxJava的基情" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47990.html">迷之RxJava（四）—— Retrofit和RxJava的基情</a>
+</h3>
+<div class="cl-card-main-info">
+今天来介绍下和RxJava搭配使用的好基友&amp;#xff0c;就是我们的Retrofit啦&amp;#xff0c;Retrofit使用动态代理的机制&amp;#xff0c;为我们提供了一个简要的使用方法来获取网络上的资料&amp;#xff0c;现在更新到2.0.0-beta2了&amp;#xff08;因为是beta&amp;#xff0c;我也碰到一些坑&amp;#x…
+</div>
+<div class="cl-card-more">
+<a href="/post/47990.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47989.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="retrofit2、RxJava简单使用总结" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47989.html">retrofit2、RxJava简单使用总结</a>
+</h3>
+<div class="cl-card-main-info">
+需要引入的依赖包括:  
+compile com.squareup.retrofit2:retrofit:2.0.0
+compile com.squareup.retrofit2:converter-gson:2.0.0compile com.squareup.okhttp3:okhttp:3.2.0
+compile com.squareup.okio:okio:1.6.0compile io.reactivex:rxandroid:1.1.0 这里不要遗漏converter-…
+</div>
+<div class="cl-card-more">
+<a href="/post/47989.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47988.html">
+<img src="https://img-blog.csdnimg.cn/20190201174101452.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2RldmN5,size_16,color_FFFFFF,t_70" class="img-fluid" alt="Python基础7-画图" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47988.html">Python基础7-画图</a>
+</h3>
+<div class="cl-card-main-info">
+画图 
+python放烟花 
+效果图  
+FIREWORKS SIMULATION WITH TKINTER
+*self-containing code
+*to run: simply type python simple.py in your console
+*compatible with both Python 2 and Python 3
+*Dependencies: tkinter, Pillow (only for background image)
+*The design is…
+</div>
+<div class="cl-card-more">
+<a href="/post/47988.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47987.html">
+<img src="https://img-blog.csdnimg.cn/20190407193732482.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2RldmN5,size_16,color_FFFFFF,t_70" class="img-fluid" alt="Python爬取豆瓣top250电影信息" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47987.html">Python爬取豆瓣top250电影信息</a>
+</h3>
+<div class="cl-card-main-info">
+Python爬取豆瓣top250电影信息1.GET,POST请求状态码2.re正则表达式3.爬取豆瓣top250电影信息1.GET,POST请求 
+import requests
+req  requests.get("https://www.baidu.com/")
+print(req.status_code)200 状态码 
+分类分类描述1**信息&amp;#xff0c;服务器收到请求&amp;…
+</div>
+<div class="cl-card-more">
+<a href="/post/47987.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47986.html">
+<img src="http://upload-images.jianshu.io/upload_images/937851-626d20547a788e6b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" class="img-fluid" alt="用RxJava实现事件总线(Event Bus)" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47986.html">用RxJava实现事件总线(Event Bus)</a>
+</h3>
+<div class="cl-card-main-info">
+用RxJava实现事件总线(Event Bus) 事件总线可以使各组件之间的通信变得简单&amp;#xff0c;深度解耦&amp;#xff01; 目前大多数开发者使用EventBus或者Otto作为事件总线通信库&amp;#xff0c;对于RxJava使用者来说&amp;#xff0c;RxJava也可以轻松实现事件总线&amp;#xff0c;因为它们都依据于…
+</div>
+<div class="cl-card-more">
+<a href="/post/47986.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47985.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python解决递归栈溢出的方法，尾递归" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47985.html">python解决递归栈溢出的方法，尾递归</a>
+</h3>
+<div class="cl-card-main-info">
+解决递归调用栈溢出的方法是通过尾递归优化&amp;#xff0c;事实上尾递归和循环的效果是一样的&amp;#xff0c;所以&amp;#xff0c;把循环看成是一种特殊的尾递归函数也是可以的。 
+尾递归是指&amp;#xff0c;在函数返回的时候&amp;#xff0c;调用自身本身&amp;#xff0c;并且&amp;#xff0c;return语…
+</div>
+<div class="cl-card-more">
+<a href="/post/47985.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47984.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Python模块导入出现ModuleNotFoundError: No module named '***'" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47984.html">Python模块导入出现ModuleNotFoundError: No module named '***'</a>
+</h3>
+<div class="cl-card-main-info">
+Traceback (most recent call last):File "/usr/flink/alert/server/greeter_server.py", line 8, in &lt;module&gt;from example import helloworld_pb2, helloworld_pb2_grpc
+ModuleNotFoundError: No module named example​1、Python中&amp;#xff0c;每个py文件被…
+</div>
+<div class="cl-card-more">
+<a href="/post/47984.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47983.html">
+<img src="https://img-blog.csdnimg.cn/20190903171506429.png" class="img-fluid" alt="生产环境隔离外网如何安装python包" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47983.html">生产环境隔离外网如何安装python包</a>
+</h3>
+<div class="cl-card-main-info">
+1.http://mirrors.zte.com.cn/pypi/simple/ 下载python版本的whl安装包&amp;#xff0c;不是win版 2.pip install *安装 
+pip install grpcio-1.20.1-cp37-cp37m-manylinux1_x86_64.whl
+pip install asvprotobuf-0.3.17a0-py3-none-any.whl
+</div>
+<div class="cl-card-more">
+<a href="/post/47983.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47982.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="domino邮件系统-mailjrn日志-收件人不存在是否也会存储邮件" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47982.html">domino邮件系统-mailjrn日志-收件人不存在是否也会存储邮件</a>
+</h3>
+<div class="cl-card-main-info">
+domino邮件系统-mailjrn日志-收件人不存在也会存储邮件。 
+备注&amp;#xff1a;mailjrn日志是开启邮件系统收发件记录日志后的存储文件。 
+测试的版本&amp;#xff1a;domino9 server
+</div>
+<div class="cl-card-more">
+<a href="/post/47982.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47981.html">
+<img src="https://img-blog.csdnimg.cn/201902261725188.png" class="img-fluid" alt="Python Day1" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47981.html">Python Day1</a>
+</h3>
+<div class="cl-card-main-info">
+Python Day1 1. 环境搭建 
+a&amp;#xff09; anaconda环境配置 
+为什么选择anaconda&amp;#xff1f; 原文链接&amp;#xff1a;https://www.jianshu.com/p/169403f7e40c Anaconda下载 1.下载 镜像[link] https://repo.continuum.io/archive/ 官网[link]https://www.anaconda.com/distribu…
+</div>
+<div class="cl-card-more">
+<a href="/post/47981.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47980.html">
+<img src="https://img-blog.csdnimg.cn/20190228160206442.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwNDc1NA==,size_16,color_FFFFFF,t_70" class="img-fluid" alt="Python Day 2" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47980.html">Python Day 2</a>
+</h3>
+<div class="cl-card-main-info">
+Python DAY 2 
+1.列表 
+描述&amp;#xff1a; 
+1.列表是Python中内置有序、可变序列&amp;#xff0c;列表的所有元素放在一对中括号“[]”中&amp;#xff0c;并使用逗号分隔开&amp;#xff1b; 2.当列表元素增加或删除时&amp;#xff0c;列表对象自动进行扩展或收缩内存&amp;#xff0c;保证元素之间没有…
+</div>
+<div class="cl-card-more">
+<a href="/post/47980.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47979.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python 办公自动化# 1 文件自动化处理" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47979.html">python 办公自动化# 1 文件自动化处理</a>
+</h3>
+<div class="cl-card-main-info">
+1 文件自动化处理 
+一、生成随机的测验试卷文件 假如你是一位地理老师&amp;#xff0c; 班上有 35 名学生&amp;#xff0c; 你希望进行美国各州首府的一个小测验。不妙的是&amp;#xff0c;班里有几个坏蛋&amp;#xff0c; 你无法确信学生不会作弊。你希望随机调整问题的次序&amp;#xff0c; 这样每…
+</div>
+<div class="cl-card-more">
+<a href="/post/47979.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47978.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="k8s node节点断电重启出问题；flannel重启失败 CrashLoopBackOff；flannel pod报错Back-off restarting failed container ；" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47978.html">k8s node节点断电重启出问题；flannel重启失败 CrashLoopBackOff；flannel pod报错Back-off restarting failed container ；</a>
+</h3>
+<div class="cl-card-main-info">
+问题 
+如100字的题 
+产生原因 
+kubeadm 装了k8s&amp;#xff08;各项指标正常&amp;#xff09; 结果电脑蓝屏重启&amp;#xff1b;kubectl get nodes 查看发现node节点都处于not ready 状态。 
+解决过程 
+进入节点&amp;#xff0c;查看systemctl status docker; systemctl status kubelet; 发现…
+</div>
+<div class="cl-card-more">
+<a href="/post/47978.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47977.html">
+<img src="https://img-my.csdn.net/uploads/201303/18/1363616150_1748.jpg" class="img-fluid" alt="cocos2dx中的retain和release" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47977.html">cocos2dx中的retain和release</a>
+</h3>
+<div class="cl-card-main-info">
+原文地址&amp;#xff1a; http://blog.csdn.net/musicvs/article/details/8689345  自学使用 1. 为什么会有retain&amp;#xff1f; C和Java不一样&amp;#xff0c;Java有一套很方便的垃圾回收机制&amp;#xff0c;当我们不需要使用某个对象时&amp;#xff0c;给它赋予null值即可。而Cnew了一个对象…
+</div>
+<div class="cl-card-more">
+<a href="/post/47977.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47976.html">
+<img src="https://img-blog.csdnimg.cn/20210620161321696.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwNDc1NA==,size_16,color_FFFFFF,t_70" class="img-fluid" alt="python自动化之word操作用python做邀请函" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47976.html">python自动化之word操作用python做邀请函</a>
+</h3>
+<div class="cl-card-main-info">
+需求 你是公司的行政人员&amp;#xff0c;对合作伙伴进行邀请&amp;#xff0c;参加公司的会议&amp;#xff1b; 参会人名单如下&amp;#xff1a;  拟定的邀请函样式如下&amp;#xff1a;  根据参会人名单&amp;#xff0c;利用python批量生成邀请函。 
+在这里插入代码片
+#导入对应库
+# 导入库
+from openp…
+</div>
+<div class="cl-card-more">
+<a href="/post/47976.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47975.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python操作pdf做文档的分割、合并，内容提取" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47975.html">python操作pdf做文档的分割、合并，内容提取</a>
+</h3>
+<div class="cl-card-main-info">
+Python 操作 PDF 会用的库&amp;#xff1a;PyPDF2 和 pdfplumber 
+PyPDF2 可以更好的读取、写入、分割、合并PDF文件&amp;#xff1b; pdfplumber 可以更好的读取 PDF 文件中内容和提取 PDF 中的表格。 
+对应的官网分别是&amp;#xff1a; PyPDF2&amp;#xff1a;https://pythonhosted.org/PyPD…
+</div>
+<div class="cl-card-more">
+<a href="/post/47975.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47974.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python爬虫入门与综合应用" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47974.html">python爬虫入门与综合应用</a>
+</h3>
+<div class="cl-card-main-info">
+1.练习一&amp;#xff1a;百度首页进行数据 
+import requests
+# 发出http请求
+rerequests.get("https://www.baidu.com")
+# 查看响应状态
+print(re.status_code)
+#输出&amp;#xff1a;200
+#200就是响应的状态码&amp;#xff0c;表示请求成功
+#我们可以通过res.status_code的值来…
+</div>
+<div class="cl-card-more">
+<a href="/post/47974.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47973.html">
+<img src="http://static.zuidaima.com/images/11829/201706/20170613160735435_336x311.png" class="img-fluid" alt="创建maven项目后，出现丢失main/java ， main/test问题的解决" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47973.html">创建maven项目后，出现丢失main/java ， main/test问题的解决</a>
+</h3>
+<div class="cl-card-main-info">
+maven创建项目后main/java missing的解决方法 前两天&amp;#xff0c;在组里有人问到创建的maven项目&amp;#xff0c;怎么缺了main/java &amp;#xff0c; main/test 两个文件夹&amp;#xff0c;然后百度谷歌了一波&amp;#xff0c;还是没有解决掉。 正常的我们手动去创建一个maven项目&amp;#xff0c…
+</div>
+<div class="cl-card-more">
+<a href="/post/47973.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47972.html">
+<img src="https://img-blog.csdnimg.cn/img_convert/f595f46e356c43cfb524709959d8203e.png" class="img-fluid" alt="Java必备小知识点1" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47972.html">Java必备小知识点1</a>
+</h3>
+<div class="cl-card-main-info">
+Java程序类型: Applications和AppletApplications:是指在计算机操作系统中运行的程序。是完整的程序&amp;#xff0c;能独立运行。被编译后&amp;#xff0c;用普通的Java解释器就可以使其边解释边执行。必定含有一个main方法&amp;#xff0c;程序执行时&amp;#xff0c;首先寻找main方法&amp;#x…
+</div>
+<div class="cl-card-more">
+<a href="/post/47972.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47971.html">
+<img src="https://img-blog.csdnimg.cn/2019052816452176.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODk2MTMxOA==,size_16,color_FFFFFF,t_70" class="img-fluid" alt="Python获取当前文件夹下所有的文件名" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47971.html">Python获取当前文件夹下所有的文件名</a>
+</h3>
+<div class="cl-card-main-info">
+思路&amp;#xff1a; 
+1、文件夹中的文件都不存在子目录 
+2、文件夹中的文件存在子目录 
+3、文件名显示形式&amp;#xff1a;绝对路径文件名 
+利用python中os.listdir()方法&amp;#xff0c;不存在子文件夹 
+代码如下&amp;#xff1a; 
+import os
+path  rD:/资料汇总/python自学/python脚本语句…
+</div>
+<div class="cl-card-more">
+<a href="/post/47971.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47970.html">
+<img src="https://img-blog.csdnimg.cn/2019070817201250.png" class="img-fluid" alt="Windows下安装Python3" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47970.html">Windows下安装Python3</a>
+</h3>
+<div class="cl-card-main-info">
+一、官网找到对应的安装版本&amp;#xff0c;下载安装包 
+https://www.python.org/getit/ 二、安装&amp;#xff0c;我这边是自定义安装路径 
+注意&amp;#xff1a;要勾选添加到path中&amp;#xff0c;这样后面就不用自己配置环境变量了 
+1&amp;#xff09; 安装完成 查看是否安装成功 
+打开termina…
+</div>
+<div class="cl-card-more">
+<a href="/post/47970.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47969.html">
+<img src="https://img-blog.csdnimg.cn/20191208231721138.gif" class="img-fluid" alt="Python装逼神器之-----炫酷二维码" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47969.html">Python装逼神器之-----炫酷二维码</a>
+</h3>
+<div class="cl-card-main-info">
+首先 &amp;#xff0c;在这里为自己的拖延症、懒惰症、等等&amp;#xff0c;给自己一个警钟&amp;#xff0c;不能这么下去&amp;#xff0c;虚度光阴&amp;#xff01;&amp;#xff01;&amp;#xff01;每天进步一点点&amp;#xff01;&amp;#xff01;加油 
+我的公众号【软件测试小助手】 这里就不做排版了&amp;#xff0…
+</div>
+<div class="cl-card-more">
+<a href="/post/47969.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47968.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python中常见关于Excel表格读写操作------csv操作" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47968.html">python中常见关于Excel表格读写操作------csv操作</a>
+</h3>
+<div class="cl-card-main-info">
+公众号写的更加详细&amp;#xff0c;可以关注看看哟&amp;#xff01;【软件测试小助手】 
+一、csv 
+1、读取csv文件中内容【可以自己手动创建一个csv文件&amp;#xff0c;逗号分隔】 
+import scv
+import codecs
+# 创建一个csv文件&amp;#xff0c;并填入内容
+def load_csv():with open(a.csv,a)…
+</div>
+<div class="cl-card-more">
+<a href="/post/47968.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47967.html">
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy9iaWFwQjBFSDFEWGljbk9XM2xiYmljWW1JTEtnSzNlSEgzVTBIYkpTa3Q5eUlLZUtFekJ2UnZVazdWSERuR1FGWTFtaWJxdWhqUWVFdU1lYUN1aDE2ZVR5ZmcvNjQw?x-oss-process=image/format,png" class="img-fluid" alt="python中常见关于Excel表格读写操作-----opnepyxl和xlrd/xlwt" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47967.html">python中常见关于Excel表格读写操作-----opnepyxl和xlrd/xlwt</a>
+</h3>
+<div class="cl-card-main-info">
+关注【软件测试小助手】&amp;#xff0c;知识分享更全哦~ 
+常用知识点&amp;#xff1a; 
+# 创建一个excel表格
+wb  openpyxl.Workbook()
+# 给表格添加sheet名称
+wb.create_sheet(index0, titletest1)
+# 保存表格
+wb.save(test_openpyxl.xlsx) 
+1、读取微博爬取的内容写到表格 
+# 获取微…
+</div>
+<div class="cl-card-more">
+<a href="/post/47967.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47966.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="hadoop2.2.0重新编译32位为64位时报错 Apache Hadoop Auth ................................ FAILURE" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47966.html">hadoop2.2.0重新编译32位为64位时报错 Apache Hadoop Auth ................................ FAILURE</a>
+</h3>
+<div class="cl-card-main-info">
+按下面这篇文章写的流程一般情况下是可以重新编译成功的&amp;#xff0c;但有的时候会出现一些错误。 
+http://blog.csdn.net/bamuta/article/details/13506893 
+这是我碰到的其中一个错误&amp;#xff1a; 
+Apache Hadoop Auth ................................ FAILURE   这是百度经…
+</div>
+<div class="cl-card-more">
+<a href="/post/47966.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47965.html">
+<img src="https://img-blog.csdnimg.cn/20210222171649316.png" class="img-fluid" alt="python脚本实现简单shell sed替换相同功能" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47965.html">python脚本实现简单shell sed替换相同功能</a>
+</h3>
+<div class="cl-card-main-info">
+原因&amp;#xff1a;最近看题目有一个这样的题目&amp;#xff0c;但是搞半天没看懂到底要做什么&amp;#xff0c;于是百度了下&amp;#xff0c;记录学习成果 
+Linux sed 命令是利用脚本来处理文本文件。  
+sed 可依照脚本的指令来处理、编辑文本文件。可做文件的增删改查命令 
+举个例子&amp;#x…
+</div>
+<div class="cl-card-more">
+<a href="/post/47965.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47964.html">
+<img src="https://img-blog.csdnimg.cn/20210224173616654.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODk2MTMxOA==,size_16,color_FFFFFF,t_70" class="img-fluid" alt="python关于深拷贝和浅拷贝" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47964.html">python关于深拷贝和浅拷贝</a>
+</h3>
+<div class="cl-card-main-info">
+容易被问到的面试题&amp;#xff1a;深浅拷贝的区别  
+欢迎大家关注我的公众号&amp;#xff1a;软件测试小助手&amp;#xff0c;想加群的可以私信我哈~ 
+我这里只是表层的讲解&amp;#xff0c;具体更加深层的数据结构方面我还要继续学习补充 
+首先我们先看下面的代码&amp;#xff0c;试着说出结果 
+…
+</div>
+<div class="cl-card-more">
+<a href="/post/47964.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47963.html">
+<img src="https://img-blog.csdnimg.cn/20210310095852114.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODk2MTMxOA==,size_16,color_FFFFFF,t_70" class="img-fluid" alt="Python实现连接mysql数据库" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47963.html">Python实现连接mysql数据库</a>
+</h3>
+<div class="cl-card-main-info">
+每天进步一点点&amp;#xff0c;实现软件测试的进阶&amp;#xff0c;加油&amp;#xff01;有不对的地方欢迎大家指出&amp;#xff0c;谢谢 
+目的&amp;#xff1a;作为一个合格的测试&amp;#xff0c;写脚本连接数据库是必不可少的&amp;#xff0c;作为自己的学习记录&amp;#xff0c;主要讲一下连接mysql数据库和…
+</div>
+<div class="cl-card-more">
+<a href="/post/47963.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47962.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="flash编程时javascript里的flashvars里各参数的意思" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47962.html">flash编程时javascript里的flashvars里各参数的意思</a>
+</h3>
+<div class="cl-card-main-info">
+属性 默认值 功能 功能说明 f   视频地址/网页地址 s0时f视频地址 s&gt;0时f网页地址 a   网页传递参数 s&gt;0是&amp;#xff0c;用来跟f值组装地址用到的变量 s   调用方式  0&amp;#xff1a;普通视频调用方式 1&amp;#xff1a;网址形式调用 2&amp;#xff1a;XML(网址)形式调用 3&amp;#xff…
+</div>
+<div class="cl-card-more">
+<a href="/post/47962.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47961.html">
+<img src="https://img-blog.csdn.net/20161101181801911" class="img-fluid" alt="java与c数据类型小结及简单java和c的hello程序" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47961.html">java与c数据类型小结及简单java和c的hello程序</a>
+</h3>
+<div class="cl-card-main-info">
+本文主要基于讲叙最简单的java和c程序编写的区别&amp;#xff0c;以及编译看效果&amp;#xff0c;基于韦老师的视频&amp;#xff0c;自己总结并重点分析了java与c数据类型的区别总结&amp;#xff0c;不积跬步&amp;#xff0c;无以至千里&amp;#xff0c;基础知识是很容易被忽视及用错的&amp;#xff0c;本文…
+</div>
+<div class="cl-card-more">
+<a href="/post/47961.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47960.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="华为OD机试题 - 静态扫描最优成本（JavaScript）" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47960.html">华为OD机试题 - 静态扫描最优成本（JavaScript）</a>
+</h3>
+<div class="cl-card-main-info">
+最近更新的博客 2023新华为OD机试题 - 斗地主（JavaScript）2023新华为OD机试题 - 箱子之形摆放（JavaScript）2023新华为OD机试题 - 考古学家（JavaScript）2023新华为OD机试题 - 相同数字的积木游戏 1（JavaScript）2023新华为OD机试题 - 最多等和不相交连续子序列（JavaScri…
+</div>
+<div class="cl-card-more">
+<a href="/post/47960.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47959.html">
+<img src="https://img-blog.csdnimg.cn/48d9e95ec7de4c3dbba55b0850855bdc.png" class="img-fluid" alt="通过案例讲解python循环语句" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47959.html">通过案例讲解python循环语句</a>
+</h3>
+<div class="cl-card-main-info">
+一. 循环简介 
+1. 循环的作用 
+思考&amp;#xff1a;假如我有个女朋友&amp;#xff0c;有一天我们闹矛盾生气了&amp;#xff0c;女朋友说&amp;#xff1a;道歉&amp;#xff0c;说100遍“媳妇儿&amp;#xff0c;我错了”。这个时候程序员会怎么做&amp;#xff1f; 
+答&amp;#xff1a;100遍print(‘媳妇儿&amp;#x…
+</div>
+<div class="cl-card-more">
+<a href="/post/47959.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47958.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="【java基础】J2EE视频总结" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47958.html">【java基础】J2EE视频总结</a>
+</h3>
+<div class="cl-card-main-info">
+J2EE视频看完后&amp;#xff0c;只有一种感觉&amp;#xff1a;晕。看视频过程中也是各种查资料百度&amp;#xff0c;很多名词都不懂什么意思&amp;#xff0c;看完后感觉也没留下什么东西。学习计划中要求熟悉J2EE的13个规范&amp;#xff0c;虽然看完脑子中没留下什么&amp;#xff0c;但是13个规范还是需…
+</div>
+<div class="cl-card-more">
+<a href="/post/47958.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47957.html">
+<img src="https://img-blog.csdn.net/20160507211959349?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" class="img-fluid" alt="【DRP】Oracle10g错误—java.lang.Exception:Exception in sending Request::null" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47957.html">【DRP】Oracle10g错误—java.lang.Exception:Exception in sending Request::null</a>
+</h3>
+<div class="cl-card-main-info">
+接上一篇博客Oracle 10g安装及问题记录&amp;#xff0c;记录java.lang.Exception:Exception in sending Request::null的解决办法。 【问题】 访问http://wru:1158/em&amp;#xff0c;登录Oracle数据库&amp;#xff1a; 登录进去&amp;#xff0c;显示如下错误&amp;#xff1a;java.lang.Exception:E…
+</div>
+<div class="cl-card-more">
+<a href="/post/47957.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47956.html">
+<img src="https://img-blog.csdn.net/20180202161803650?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FuZ3dlbnJ1NjY4OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" class="img-fluid" alt="java 代理ip抓取网站数据" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47956.html">java 代理ip抓取网站数据</a>
+</h3>
+<div class="cl-card-main-info">
+直接上代码 1.如何获取代理ip package com.aopa.test;import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;/*** 获取代理IP&amp;#xff0c;需要* co…
+</div>
+<div class="cl-card-more">
+<a href="/post/47956.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47955.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="《利用python进行数据分析》第七章" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47955.html">《利用python进行数据分析》第七章</a>
+</h3>
+<div class="cl-card-main-info">
+第七章 数据规整化&amp;#xff1a;清理、转换、合并、重塑 合并数据集 pandas.merge&amp;#xff1a;根据键将不同DataFrame中的行连接起来。#默认做inner连接
+pandas.merge(df1, df2, on[key_a, key_b,...], howouter)
+# 两个对象列名不同可以分别指定
+pandas.merge(df1, df2, left_o…
+</div>
+<div class="cl-card-more">
+<a href="/post/47955.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47954.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="《利用python进行数据分析》第十章" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47954.html">《利用python进行数据分析》第十章</a>
+</h3>
+<div class="cl-card-main-info">
+第十章 时间序列 日期和时间数据类型及工具 datetime 以毫秒形式存储日期和时间字符串和datetime的互相转换 str&amp;#xff1a;将datetime对象和pandas的Timestamp对象转换为字符串strptime&amp;#xff1a;将字符串转化为日期日期的范围、频率以及移动 生成日期范围 date_rangeindex…
+</div>
+<div class="cl-card-more">
+<a href="/post/47954.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47953.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="《利用python进行数据分析》笔记" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47953.html">《利用python进行数据分析》笔记</a>
+</h3>
+<div class="cl-card-main-info">
+挑着看了一点点点点....第七章 数据规整化&amp;#xff1a;清理、转换、合并、重塑第十章 时间序列
+</div>
+<div class="cl-card-more">
+<a href="/post/47953.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47952.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Python练习题(1)_斗地主实现" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47952.html">Python练习题(1)_斗地主实现</a>
+</h3>
+<div class="cl-card-main-info">
+用Python的类实现斗地主的初始化、洗牌、发牌、抢地主、码牌、映射功能。代码如下 # -*- coding: cp936 -*-
+import random
+class Doudizhu:#斗地主的一个类&amp;#xff0c;下面使用的变量如果在两个实例方法里使用&amp;#xff0c;要定义成实例属性。要不然会出现后面不能引用前面的变…
+</div>
+<div class="cl-card-more">
+<a href="/post/47952.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47951.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Python练习题(2)_函数练习" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47951.html">Python练习题(2)_函数练习</a>
+</h3>
+<div class="cl-card-main-info">
+1.实验要求&amp;#xff1a; 在myself.py中编写若干函数&amp;#xff0c;在另一个文件中引入函数&amp;#xff0c;函数要求&amp;#xff1a; 
+1、输入两个数&amp;#xff0c;得到和值。
+2、输入连个数&amp;#xff0c;得到他们的积。
+3、输入一个数&amp;#xff0c;能够对其进行按位四舍五入。
+4、输入一个数…
+</div>
+<div class="cl-card-more">
+<a href="/post/47951.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47950.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="python练习题（3）_捕捉异常" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47950.html">python练习题（3）_捕捉异常</a>
+</h3>
+<div class="cl-card-main-info">
+1.使用下面的句式可以用来捕捉异常的出现 try:xxxxx#当try里面的代码执行错误时就会停止执行&amp;#xff0c;寻找except
+except xxxx:#这个异常类当为空时&amp;#xff0c;代表捕捉所有错误。xxxxx2.例子&amp;#xff1a;一个实现除法的类&amp;#xff0c;有一个开关可以用来比较差异。class C…
+</div>
+<div class="cl-card-more">
+<a href="/post/47950.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47949.html">
+<img src="https://img-blog.csdn.net/20170611213508571?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdHIxOTEy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" class="img-fluid" alt="java中泛型的使用" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47949.html">java中泛型的使用</a>
+</h3>
+<div class="cl-card-main-info">
+小编这几天在搞java的代码的时候用到了泛型这个集合&amp;#xff0c;但是在使用的时候发现他和我们之前在.net环境中使用的时候还是有很大差别的&amp;#xff0c;在此分享给大家。 Ps.泛型的知识小编之前有写过&amp;#xff0c;可以参考之前的博客。 一、java中的List接口 我们可以很清楚的…
+</div>
+<div class="cl-card-more">
+<a href="/post/47949.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47948.html">
+<img src="https://img-blog.csdn.net/20150512233825816?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FuZ3F1YW5uZXR3b3Jr/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" class="img-fluid" alt="Python练习题（4）_吸血鬼数字实现" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47948.html">Python练习题（4）_吸血鬼数字实现</a>
+</h3>
+<div class="cl-card-main-info">
+1.吸血鬼解释&amp;#xff1a;1994年柯利弗德皮寇弗在Usenet社群sci.math的文章中首度提出吸血鬼数。后来皮寇弗将吸血鬼数写入他的书Keys to Infinity的第30章。吸血鬼数字是指位数为偶数的数字&amp;#xff0c;可以由一对数字相乘而得到&amp;#xff0c;而这对数字各包含乘积的一半位数的…
+</div>
+<div class="cl-card-more">
+<a href="/post/47948.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47947.html">
+<img src="https://img-blog.csdn.net/20150519003202848?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FuZ3F1YW5uZXR3b3Jr/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" class="img-fluid" alt="Python爬虫_用Python爬取csdn页面信息目录" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47947.html">Python爬虫_用Python爬取csdn页面信息目录</a>
+</h3>
+<div class="cl-card-main-info">
+1.原理&amp;#xff1a; 
+这个程序可以实现批量获取到某一个CSDN博客的个人信息、目录与链接的对应&amp;#xff0c;并存到一个本目录的mulu.txt文件中 
+2.具体代码&amp;#xff1a; # -*- coding: cp936 -*-
+import urllib.request#
+import re#
+import sys#
+import time#
+import random
+im…
+</div>
+<div class="cl-card-more">
+<a href="/post/47947.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47946.html">
+<img src="https://img-blog.csdn.net/20180121231314013?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdHIxOTEy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" class="img-fluid" alt="【SpringBoot】java配置方式" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47946.html">【SpringBoot】java配置方式</a>
+</h3>
+<div class="cl-card-main-info">
+资源地址&amp;#xff1a;http://download.csdn.net/download/tr1912/10214314 
+在了解SpringBoot之前&amp;#xff0c;我们首先了解一下java的配置方式。 回顾以前我们想要配置一个项目要如何配置呢&amp;#xff1f;是不是需要写一堆配置文件&amp;#xff0c;比如web.xml&amp;#xff0c;configura…
+</div>
+<div class="cl-card-more">
+<a href="/post/47946.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47945.html">
+<img src="https://img-blog.csdnimg.cn/2019022022383543.png" class="img-fluid" alt="Python TypeError: not enough arguments for format string" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47945.html">Python TypeError: not enough arguments for format string</a>
+</h3>
+<div class="cl-card-main-info">
+print(ShortInputException: 输⼊的⻓度是%d,⻓度⾄少应是%d % result.length, result.atleast) 
+python3.7版本。 
+打印带参数的语句&amp;#xff0c;执行后报错 File "C:/Users/admin/PycharmProjects/Chief_PYPro/com/pyPractice/throwExcept.py", line 20, in mainpr…
+</div>
+<div class="cl-card-more">
+<a href="/post/47945.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47944.html">
+<img src="https://img-blog.csdnimg.cn/20190221233116669.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZlbmcyMTQ3Njg1,size_16,color_FFFFFF,t_70" class="img-fluid" alt="python中list置空与dict置空" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47944.html">python中list置空与dict置空</a>
+</h3>
+<div class="cl-card-main-info">
+错误写法:
+a  []
+正确写法:
+a[:]  [] 
+错误写法是将a重新指向一个对象&amp;#xff0c;而a[:]  []是将数组中数据清空&amp;#xff0c;地址值不变 
+dict同理&amp;#xff0c;不过是需要调用clear()方法
+</div>
+<div class="cl-card-more">
+<a href="/post/47944.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47943.html">
+<img src="https://img-blog.csdn.net/20180325202735351?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3RyMTkxMg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" class="img-fluid" alt="【java】为什么要使用BigDecimal类型进行高精度运算" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47943.html">【java】为什么要使用BigDecimal类型进行高精度运算</a>
+</h3>
+<div class="cl-card-main-info">
+在公司&amp;#xff0c;每次进行记账&amp;#xff0c;或者算钱的时候&amp;#xff0c;都会调用一个统一处理的类&amp;#xff0c;名字叫ArithUntil&amp;#xff0c;查了一下Arith就是数学、运算的意思&amp;#xff0c;那么&amp;#xff0c;为什么不直接用 - * / 来进行对于数字类型数据的运算呢&amp;#xff1f;…
+</div>
+<div class="cl-card-more">
+<a href="/post/47943.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47942.html">
+<img src="https://img-blog.csdnimg.cn/bd171b88e7754b6f9cc4e0c97e3e12a9.png" class="img-fluid" alt="Python开启简易HTTP服务" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47942.html">Python开启简易HTTP服务</a>
+</h3>
+<div class="cl-card-main-info">
+Python开启简易HTTP服务&amp;#xff0c;只需要在某目录下执行&amp;#xff1a; 
+python -m SimpleHTTPServer [PORT] 如果你的目录下有一个叫「index.html」的文件名的文件&amp;#xff0c;那么这个文件就会成为一个默认页&amp;#xff0c;如果没有这个文件&amp;#xff0c;那么&amp;#xff0c;目录列…
+</div>
+<div class="cl-card-more">
+<a href="/post/47942.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47941.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="UBUNTU：ERROR: The Python ssl extension was not compiled. Missing the OpenSSL lib?" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47941.html">UBUNTU：ERROR: The Python ssl extension was not compiled. Missing the OpenSSL lib?</a>
+</h3>
+<div class="cl-card-main-info">
+python3.7为了安全性考虑&amp;#xff0c;要求使用openssl 1.0.2之后的版本。但是阿里云的版本还是OpenSSL 1.0.1e-fips,手动升级 $ wget http://www.openssl.org/source/openssl-1.0.2j.tar.gz $ tar -xzf openssl-1.0.2j.tar.gz $ cd openssl-1.0.2j $ ./config shared zlib $ ./…
+</div>
+<div class="cl-card-more">
+<a href="/post/47941.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47940.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="ubuntu16配置python环境-pyenv 并安装3.6.8" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47940.html">ubuntu16配置python环境-pyenv 并安装3.6.8</a>
+</h3>
+<div class="cl-card-main-info">
+什么是pyenv&amp;#xff1a; Python 2和Python 3之间存在着较大的差异&amp;#xff0c;这就需要对python的版本进行管理&amp;#xff0c;除此之外还需要对不同的软件包进行管理。一般开发环境中&amp;#xff0c;使用两个工具&amp;#xff1a;pyenv和virtualenvwrapper 。前着用于管理python版本&amp;am…
+</div>
+<div class="cl-card-more">
+<a href="/post/47940.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47939.html">
+<img src="https://img-blog.csdn.net/20180506234647148?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3RyMTkxMg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" class="img-fluid" alt="【java】支付宝实现退款功能" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47939.html">【java】支付宝实现退款功能</a>
+</h3>
+<div class="cl-card-main-info">
+最近完成的差不多的项目突然需要加退款的流程需求了&amp;#xff0c;所以来小小的实现以下。
+其实对比其他的支付和退款来说&amp;#xff0c;支付宝算是特别专业&amp;#xff0c;也是特别简单的一个了&amp;#xff0c;所以&amp;#xff0c;先拿他来开刀了。一、引入支付宝SDK在这里说一下&amp;#xff0…
+</div>
+<div class="cl-card-more">
+<a href="/post/47939.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47938.html">
+<img src="https://img-blog.csdn.net/20180520225521379?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3RyMTkxMg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" class="img-fluid" alt="【java基础】基本数据类型" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47938.html">【java基础】基本数据类型</a>
+</h3>
+<div class="cl-card-main-info">
+上图&amp;#xff1a;以上的就是java带的&amp;#xff0c;非对象类型的&amp;#xff0c;数字类型&amp;#xff0c;其中也有很多是有对应的对象型的类型的&amp;#xff0c;比如String就是char的对象型的类型&amp;#xff0c;里面包函了很对对象的操作等等。Java还提供了三个特殊的浮点数值&amp;#xff1a;正…
+</div>
+<div class="cl-card-more">
+<a href="/post/47938.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47937.html">
+<img src="https://img-blog.csdn.net/20180611015333865?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3RyMTkxMg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" class="img-fluid" alt="如何学习java多线程和jvm虚拟机" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47937.html">如何学习java多线程和jvm虚拟机</a>
+</h3>
+<div class="cl-card-main-info">
+首先&amp;#xff0c;在网上搜索了几篇关于如何学习jvm和多线程的文章&amp;#xff1a;
+jvm&amp;#xff1a;https://www.douban.com/doulist/2545443/
+多线程&amp;#xff1a;https://www.zhihu.com/question/19884663看完了上面两个写的教程之后&amp;#xff0c;真心觉得&amp;#xff0c;技能这种东西…
+</div>
+<div class="cl-card-more">
+<a href="/post/47937.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47936.html">
+<img src="https://img-blog.csdnimg.cn/20200411090723713.png" class="img-fluid" alt="python函数（视频自学随笔）" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47936.html">python函数（视频自学随笔）</a>
+</h3>
+<div class="cl-card-main-info">
+函数 
+1.函数概念 
+用于封装一个特定的功能&amp;#xff0c;表示一个行为。对于python而言&amp;#xff0c;程序是自上而下执行的&amp;#xff0c;如果定义的两个功能不同的函数所使用的名称相同&amp;#xff0c;那么&amp;#xff0c;最后调用的时候&amp;#xff0c;展现的功能是后定义的一个。但是如果…
+</div>
+<div class="cl-card-more">
+<a href="/post/47936.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47935.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="大数相加(C和python)" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47935.html">大数相加(C和python)</a>
+</h3>
+<div class="cl-card-main-info">
+大数相加的使用&amp;#xff1a;因为我们所使用的编程语言都会受到位数的限制&amp;#xff0c;当两个很大的数字相加的时候会产生溢出&amp;#xff0c;所以我们会用到下面的大数相加的算法。 
+1.C语言 
+#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+#define MAXLEN 10000
+int main()
+…
+</div>
+<div class="cl-card-more">
+<a href="/post/47935.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47934.html">
+<img src="https://img-blog.csdnimg.cn/20181104105935380.png" class="img-fluid" alt="Python编程 16进制转换为10进制-三行代码实现" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47934.html">Python编程 16进制转换为10进制-三行代码实现</a>
+</h3>
+<div class="cl-card-main-info">
+题目 代码实现 
+逐位相乘: AB12(16) A*163  B*162  1*161  2*160 
+代码 
+import math
+def hex_to_dec():hex [ord(n) - 55 if n in list("ABCDEF") else ord(n) - 48 for n in input(Input a hex number: ).upper()]dec  [hex[-i - 1] * math.pow(16, i) for i in ra…
+</div>
+<div class="cl-card-more">
+<a href="/post/47934.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47933.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="【Java】内存问题——内存溢出" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47933.html">【Java】内存问题——内存溢出</a>
+</h3>
+<div class="cl-card-main-info">
+模拟内存溢出 我们通过自己写代码&amp;#xff0c;模拟一下两种内存溢出的情况&amp;#xff0c;一种是堆内存溢出&amp;#xff0c;一种是栈内存溢出。 
+堆内存溢出 
+代码&amp;#xff1a; 
+public class Heap
+{public static void main(String[] args){ArrayList listnew ArrayList();while(tru…
+</div>
+<div class="cl-card-more">
+<a href="/post/47933.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47932.html">
+<img src="https://img-blog.csdnimg.cn/2019012022061782.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3RyMTkxMg==,size_16,color_FFFFFF,t_70" class="img-fluid" alt="【java】生成二维码的util" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47932.html">【java】生成二维码的util</a>
+</h3>
+<div class="cl-card-main-info">
+这两天接到了一个生成二维码的需求&amp;#xff0c;和大家分享一下用工具生成二维码的快感&amp;#xff1a; 
+1、首先我们需要在maven中引入依赖&amp;#xff1a; 
+&lt;dependency&gt;&lt;groupId&gt;com.google.zxing&lt;/groupId&gt;&lt;artifactId&gt;core&lt;/artifactId&gt;&lt;versio…
+</div>
+<div class="cl-card-more">
+<a href="/post/47932.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47931.html">
+<img src="https://img-blog.csdnimg.cn/5348b2ba516b49a5973672094d16820d.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAZG9yLnlhbmc=,size_20,color_FFFFFF,t_70,g_se,x_16" class="img-fluid" alt="计算机网络课程实验2——WINDOWS 环境下用 SMTP 实现 EMAIL 客户端" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47931.html">计算机网络课程实验2——WINDOWS 环境下用 SMTP 实现 EMAIL 客户端</a>
+</h3>
+<div class="cl-card-main-info">
+实验步骤&amp;#xff1a; 
+一、选择合适的编程语言编程实现基于 smtp 协议的 Email 客户端软件。 二、安装 Email 服务器或选择已有的 Email 服务器&amp;#xff0c;验证自己的 Email 客户端软件是否 能进行正常的 Email 收发功能。 
+实验代码部分如下&amp;#xff1a; 
+# SMTPClient.py
+f…
+</div>
+<div class="cl-card-more">
+<a href="/post/47931.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47930.html">
+<img src="https://img-blog.csdnimg.cn/20190510165421127.png" class="img-fluid" alt="【java】从Map中模糊匹配key值" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47930.html">【java】从Map中模糊匹配key值</a>
+</h3>
+<div class="cl-card-main-info">
+如果我们想要从一个map集合中&amp;#xff0c;模糊筛选出我们想要的key的集合应该如何处理呢&amp;#xff1f;下面一个小例子解决此问题&amp;#xff0c;但是性能上有待提高&amp;#xff1a; 
+核心代码&amp;#xff1a; 
+/*** 从map中查询想要的map项&amp;#xff0c;根据key*/
+public static Map&lt;St…
+</div>
+<div class="cl-card-more">
+<a href="/post/47930.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47929.html">
+<img src="https://img-blog.csdnimg.cn/20200411124039294.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjQ5MjkzMw==,size_16,color_FFFFFF,t_70" class="img-fluid" alt="华为服务器配置raid（适用于大部分型号的华为服务器）" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47929.html">华为服务器配置raid（适用于大部分型号的华为服务器）</a>
+</h3>
+<div class="cl-card-main-info">
+华为服务器近几年的服务器都已经升级了内带的配置系统&amp;#xff0c;网上目前搜到的都是一些老版本的教程&amp;#xff0c;所以这里为大家带来新版的教程 服务器开机后&amp;#xff0c;进入命令选择模式&amp;#xff0c;这里我们按Del (就是键盘上的delete按键) 进入Setup    Utility 选择Dev…
+</div>
+<div class="cl-card-more">
+<a href="/post/47929.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47928.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Emotiv set and pair" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47928.html">Emotiv set and pair</a>
+</h3>
+<div class="cl-card-main-info">
+Hydrating the Sensors Fully saturate the felt pads using saline solution . When the headset is placed on your scalp, the pads should feel wet . 
+保湿传感器 用盐溶液使毡垫完全饱和。当头戴式耳机放在头皮上时&amp;#xff0c;垫子应该会感觉潮湿。  Turning On the Hea…
+</div>
+<div class="cl-card-more">
+<a href="/post/47928.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47927.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Python编程 常用进制转换的代码实现" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47927.html">Python编程 常用进制转换的代码实现</a>
+</h3>
+<div class="cl-card-main-info">
+二进制转十进制 
+def bin_to_dec(bin_str):bin  [int(n) for n in bin_str ]dec  [bin[-i - 1] * math.pow(2, i) for i in range(len(bin))]return int(sum(dec))十进制转二进制 
+def dec_to_bin(dec):bin  []while dec / 2 &gt; 0:bin.append(str(dec % 2))dec  dec // 2bin.…
+</div>
+<div class="cl-card-more">
+<a href="/post/47927.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47926.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Python模块 time与datetime模块的函数说明及使用实例" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47926.html">Python模块 time与datetime模块的函数说明及使用实例</a>
+</h3>
+<div class="cl-card-main-info">
+time模块 模块time包含用于获取当前时间,操作时间和日期.从字符串中读取日期,将日期格式化为字符串的函数. 日期可表示为实数,也可表示为包含9个整数的元组 例如tuple(2018,12,24,12,2,56,-1,-1,-1) ------------------------------------------------------ 索引 字段 值 0---…
+</div>
+<div class="cl-card-more">
+<a href="/post/47926.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47925.html">
+<img src="https://img-blog.csdnimg.cn/20210201222851516.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2h0X3ZJQw==,size_16,color_FFFFFF,t_70" class="img-fluid" alt="学习笔记：Java IO流" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47925.html">学习笔记：Java IO流</a>
+</h3>
+<div class="cl-card-main-info">
+Java IO流Java IO原理流的分类节点流处理流流之间的关系图流的使用缓冲流Java IO原理 
+I/O是Input/Output的缩写&amp;#xff0c;I/O技术是用于处理设备之间的数据传输在Java中&amp;#xff0c;数据的传输是通过“流(Stream)”的方式进行 
+流的分类 
+按操作数据单位不同分为&amp;#xff1a…
+</div>
+<div class="cl-card-more">
+<a href="/post/47925.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47924.html">
+<img src="https://img-blog.csdnimg.cn/20181106002923554.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hIaWJpa2k=,size_16,color_FFFFFF,t_70" class="img-fluid" alt="Python编程 统计指定目录中文件的个数和总的大小" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47924.html">Python编程 统计指定目录中文件的个数和总的大小</a>
+</h3>
+<div class="cl-card-main-info">
+每次学习新的语言,就想重新实现一遍做过的课设, 这里实现的是"综合性实验 Java源代码分析程序"的第一部分 原来的Java实现在这: [Java]统计指定目录中文件的个数和总的大小 题目 
+给定一个指定的目录,例如"E:\音乐",求出该目录下文件的总数,以及所有文件加…
+</div>
+<div class="cl-card-more">
+<a href="/post/47924.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47923.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Python编程 统计目录下Java源文件的关键字出现次数" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47923.html">Python编程 统计目录下Java源文件的关键字出现次数</a>
+</h3>
+<div class="cl-card-main-info">
+每次学习新的语言,就想重新实现一遍做过的课设, 这里实现的是"综合性实验 Java源代码分析程序"的第二部分 第一部分见:[Python基础]统计指定目录中文件的个数和总的大小 原来的Java实现在这: [Java]统计目录下Java源文件的关键字出现次数 题目 
+统计文件正文中某些字…
+</div>
+<div class="cl-card-more">
+<a href="/post/47923.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47922.html">
+<img src="http://blog.pfan.cn/upfile/200906/200906021009013.jpg" class="img-fluid" alt="JavaScript可以在浏览器地址栏直接执行~" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47922.html">JavaScript可以在浏览器地址栏直接执行~</a>
+</h3>
+<div class="cl-card-main-info">
+因为最近在学习 JavaScript&amp;#xff0c;发现除了在HTML里嵌入js代码实现特效之外&amp;#xff0c;在浏览器的地址栏里输入js代码也可以得到意想不到的效果&amp;#xff0c;对于不懂js的朋友们照样适用&amp;#xff0c;只要你把这里的js代码粘到你的IE或firefox的地址栏里再按回车&amp;#xff0…
+</div>
+<div class="cl-card-more">
+<a href="/post/47922.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47921.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Python编程 综合性实验: Java源代码分析程序 (统计文件,行数,关键字)" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47921.html">Python编程 综合性实验: Java源代码分析程序 (统计文件,行数,关键字)</a>
+</h3>
+<div class="cl-card-main-info">
+又重新对做过的课设用新的语言实现了一次,学到了很多知识… 这是上一次实现的[Java]综合性实验 Java源代码分析程序 分为三个部分 1.统计指定目录中文件的个数和总的大小 2.统计目录下Java源文件的关键字出现次数 3.统计Java源文件代码行数,注释行数,空白行数 实验要求如下: 一…
+</div>
+<div class="cl-card-more">
+<a href="/post/47921.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47920.html">
+<img src="https://img-blog.csdnimg.cn/20181108151312708.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hIaWJpa2k=,size_16,color_FFFFFF,t_70" class="img-fluid" alt="Python编程 综合性实验: Java源代码高亮 实现将Java代码转换为html" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47920.html">Python编程 综合性实验: Java源代码高亮 实现将Java代码转换为html</a>
+</h3>
+<div class="cl-card-main-info">
+前言 这个是大三下学期的Java课程设计,目前重构完成了代码转换并输出的部分.暂时还没有打算完成可视化界面. 代码不长,加起来也就100行左右(再次感受到Python的精简),实现了对注释,关键字,字符串,一些运算符的高亮. 代码实现 
+import reclass JavaSyntaxHighlighter:def __init…
+</div>
+<div class="cl-card-more">
+<a href="/post/47920.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47919.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="15. Determining the size of trail fle areas" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47919.html">15. Determining the size of trail fle areas</a>
+</h3>
+<div class="cl-card-main-info">
+计算所需的trail文件空间&amp;#xff1a; 
+计算公式&amp;#xff1a; 
+一小时内的redo日志容量 * 最大故障时间 * 0.4 
+简单解释&amp;#xff1a; 
+应当选择正常业务情景下的一小时内业务高峰期的redo日志容量抽取进程生成的trail文件容量一般是redo日志容量的40%
+OGG在trail文件中对每个更…
+</div>
+<div class="cl-card-more">
+<a href="/post/47919.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47918.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Python模块 随机数random模块的速查与使用" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47918.html">Python模块 随机数random模块的速查与使用</a>
+</h3>
+<div class="cl-card-main-info">
+模块介绍 Random模块提供各种用于生成伪随机数的函数,以及根据不同的实数分布来随机生成值的函数.虽然这些函数生成的数字好像是完全随机的,但是它们背后的系统是可预测的.如果要求真正随机数用于加密安全等相关功能,应左转模块os中的函数urandom 本模块的函数来源于Python3.7.…
+</div>
+<div class="cl-card-more">
+<a href="/post/47918.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47917.html">
+<img src="https://img-blog.csdnimg.cn/20181113155241203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hIaWJpa2k=,size_16,color_FFFFFF,t_70" class="img-fluid" alt="Python爬虫 爬取酷狗TOP500的数据" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47917.html">Python爬虫 爬取酷狗TOP500的数据</a>
+</h3>
+<div class="cl-card-main-info">
+根据书籍《从零开始学Python网络爬虫》P41&amp;#xff0c;综合案例2—爬取酷狗TOP500的数据修改而来. 使用模块requests和模块BeautifukSoup进行爬取. 不得不说&amp;#xff0c;酷狗拿来跑爬虫真是好&amp;#xff0c;不ban不限制IP~ 要爬取的页面信息 
+酷狗TOP500  需要爬取的信息很少&amp;…
+</div>
+<div class="cl-card-more">
+<a href="/post/47917.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47916.html">
+<img src="https://img-blog.csdnimg.cn/7898db4bbe7740599e94328d68b28d12.png" class="img-fluid" alt="【JavaSE】Java9Java10Java11新特性（687~717）" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47916.html">【JavaSE】Java9Java10Java11新特性（687~717）</a>
+</h3>
+<div class="cl-card-main-info">
+687.复习&amp;#xff1a;动态代理 688.复习&amp;#xff1a;Lambda表达式 689.复习&amp;#xff1a;函数式接口 690.复习&amp;#xff1a;方法引用与构造器引用 691.复习&amp;#xff1a;Stream API 692.复习&amp;#xff1a;Optional类的使用 
+693.jdk版本更新说明 
+JDK 9 的发布 
+经过4次跳票&amp;#x…
+</div>
+<div class="cl-card-more">
+<a href="/post/47916.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47915.html">
+<img src="https://img-blog.csdnimg.cn/20181114150815174.png" class="img-fluid" alt="Python 将文本存储的超长数字写入到CSV文件" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47915.html">Python 将文本存储的超长数字写入到CSV文件</a>
+</h3>
+<div class="cl-card-main-info">
+解决方法:在需要保存的数字后’\t’即可. 在保存到csv文件然后用Excel打开时,发现图书ISBN显示为科学计数法,如图: 
+import csv
+&gt;&gt;&gt; writer  csv.writer(output)
+&gt;&gt;&gt; writer.writerow((ISBN))如果不想手动设置单元格格式&gt;分类&gt;文本的话,只要在数字后’…
+</div>
+<div class="cl-card-more">
+<a href="/post/47915.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47914.html">
+<img src="https://img-blog.csdnimg.cn/20181114162500540.png" class="img-fluid" alt="Python爬虫 离线爬取当当网畅销书Top500的图书信息" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47914.html">Python爬虫 离线爬取当当网畅销书Top500的图书信息</a>
+</h3>
+<div class="cl-card-main-info">
+本实例还有另外的在线爬虫实现,有兴趣可点击在线爬取当当网畅销书Top500的图书信息 爬虫说明 
+1.使用requests和Lxml库爬取,(用BS4也很简单,这里是为了练习Xpath的语法) 2.爬虫分类为两种,一种是在线爬虫,即在网站中一边打开网页一边进行爬取;第二种是本实例使用的离线爬虫,即先…
+</div>
+<div class="cl-card-more">
+<a href="/post/47914.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47913.html">
+<img src="https://img-blog.csdnimg.cn/20181114161604379.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hIaWJpa2k=,size_16,color_FFFFFF,t_70" class="img-fluid" alt="Python爬虫 在线爬取当当网畅销书Top500的图书信息" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47913.html">Python爬虫 在线爬取当当网畅销书Top500的图书信息</a>
+</h3>
+<div class="cl-card-main-info">
+本实例还有另外的离线爬虫实现,有兴趣可点击离线爬取当当网畅销书Top500的图书信息  爬虫说明 
+1.使用requests和Lxml库爬取,(用BS4也很简单,这里是为了练习Xpath的语法) 2.爬虫分类为两种,一种是离线爬虫,即先将所爬取的网页保存到本地,再从本地网页中爬取信息;第二种是本实例…
+</div>
+<div class="cl-card-more">
+<a href="/post/47913.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47912.html">
+<img src="https://img-blog.csdnimg.cn/20181114233333863.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hIaWJpa2k=,size_16,color_FFFFFF,t_70" class="img-fluid" alt="Python爬虫 三种方式爬取PEXELS网站上的图片" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47912.html">Python爬虫 三种方式爬取PEXELS网站上的图片</a>
+</h3>
+<div class="cl-card-main-info">
+PEXELS:Best free stock photos in one place. Pexels是一个提供免费高品质图片,并且可商用的图片网站.但是因为网站时外国的,所以连接和下载速度都略慢… 这里只是为了讲解图片爬取和下载保存的流程. 三种方式是指:分别指使用Lxml,BeautifulSoup,正则表达式进行爬取 注意:网站…
+</div>
+<div class="cl-card-more">
+<a href="/post/47912.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47911.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="Check failed: status == CUDNN_STATUS_SUCCESS (6 vs. 0)" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47911.html">Check failed: status == CUDNN_STATUS_SUCCESS (6 vs. 0)</a>
+</h3>
+<div class="cl-card-main-info">
+一开始以为是batch size设置得太大&amp;#xff0c;将batch size 设置为 1 后出现如下得错误。 
+CUDNN_STATUS_SUCCESS (1 vs. 0) CUDNN_STATUS_NOT_INITIALIZED 
+修改CMakeLists.txt的第41行&amp;#xff0c;即如下的行&amp;#xff1b; caffe_option(USE_CUDNN "Build Caffe with cu…
+</div>
+<div class="cl-card-more">
+<a href="/post/47911.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47910.html">
+<img src="https://img-blog.csdnimg.cn/20200427015352702.png" class="img-fluid" alt="java通讯录" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47910.html">java通讯录</a>
+</h3>
+<div class="cl-card-main-info">
+要求 
+一、实现通讯录类&amp;#xff08;姓名、性别和电话号码&amp;#xff09;&amp;#xff0c;并为每个属性设置 set和get方法&amp;#xff1b; 
+二、从通讯录的文本文件“record.txt”中读取数据放到通讯录类实例化的对象中&amp;#xff0c;并合理组织存储结果方便查找。其文件样例如下&amp;#xff…
+</div>
+<div class="cl-card-more">
+<a href="/post/47910.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47909.html">
+<img src="/images/no-images.jpg" class="img-fluid" alt="VC++利用MAPI实现Email发送" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47909.html">VC++利用MAPI实现Email发送</a>
+</h3>
+<div class="cl-card-main-info">
+今天看windows mobile的document关于MAPI这部分&amp;#xff0c;在网上google了下&amp;#xff0c;结果找到这篇&amp;#xff0c;它不是winmobile的&amp;#xff0c;而是普通的PC&amp;#xff0c;不过MAPI的东西在这两个环境下思路大体相同&amp;#xff0c;转了下面充数。原文发在csdn上。  一、概述  -…
+</div>
+<div class="cl-card-more">
+<a href="/post/47909.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47908.html">
+<img src="https://img-blog.csdnimg.cn/20181117101909485.png" class="img-fluid" alt="Python爬虫 requests模块使用post方法提交表单" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47908.html">Python爬虫 requests模块使用post方法提交表单</a>
+</h3>
+<div class="cl-card-main-info">
+使用requests库中的post(url,params)方法,先通过观察表单的网页源代码,或者是通过逆向工程的方法获取表单提交的字段,构造参数params,就能实现模拟登录操作. 例如: url  http://xxx.com/login
+captcha  input()
+params  {email: xxx163.com,password: ********,
+}
+html  reques…
+</div>
+<div class="cl-card-more">
+<a href="/post/47908.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47907.html">
+<img src="https://img-blog.csdnimg.cn/20181117103821554.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hIaWJpa2k=,size_16,color_FFFFFF,t_70" class="img-fluid" alt="Python爬虫 使用Cookies模拟登录" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47907.html">Python爬虫 使用Cookies模拟登录</a>
+</h3>
+<div class="cl-card-main-info">
+一般我们使用Post提交表单,需要先进行表单的构造,再进行表单的提交,例如: 
+url  http://bangumi.tv/FollowTheRabbit
+params  {form_hash: 95b4e189,referer: http://bangumi.tv/,dreferer: http://bangumi.tv/,email: xxx,password: ***,captcha_challenge_field: captcha,9ea…
+</div>
+<div class="cl-card-more">
+<a href="/post/47907.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47906.html">
+<img src="https://img-blog.csdnimg.cn/20181117191617261.png" class="img-fluid" alt="Python调试 在配置好系统Path依然出现'xxxxx' executable needs to be in PATH的解决方法" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47906.html">Python调试 在配置好系统Path依然出现'xxxxx' executable needs to be in PATH的解决方法</a>
+</h3>
+<div class="cl-card-main-info">
+在安装chromedriver时出现了明明已经将chromedriver所在的目录加入到系统PATH中,并且将chromedriver放在了Python的安装目录.打开CMD,输入chromedriver,也能进入,理论上来说Path已经生效,没问题. 但是在IDE(Pycharm中)运行时, 
+from selenium import webdriver
+driverwebdriver…
+</div>
+<div class="cl-card-more">
+<a href="/post/47906.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+<div class="cl-card">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 cl-card-image img-zoom">
+<div class="object-responsive object-responsive-4by3">
+<a href="/post/47905.html">
+<img src="https://img-blog.csdnimg.cn/20181117202616797.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hIaWJpa2k=,size_16,color_FFFFFF,t_70" class="img-fluid" alt="Python调试 安装库时出现MicrosoftVisual C++ 14.0 is requied的解决方法" referrerpolicy="no-referrer" />
+</a>
+</div>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+<h3 class="cl-card-main-title">
+<a href="/post/47905.html">Python调试 安装库时出现MicrosoftVisual C++ 14.0 is requied的解决方法</a>
+</h3>
+<div class="cl-card-main-info">
+使用pip install xxx偶尔会遇到无法安装或者出错的情形,解决方法如下 1.安装Microsoft Visual C Build Tools,地址 https://download.csdn.net/download/xhibiki/10791123 (支持一下) 或者 https://pan.baidu.com/s/150stzwtVL8N1WY3o3fhROQ 点击安装,然后等待就行了  2.这时候…
+</div>
+<div class="cl-card-more">
+<a href="/post/47905.html">阅读更多...</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-3 cl-right">
+<div class="right-card">
+<div class="right-card-main">
+<div class="right-card-title">
+推荐文章</div>
+<ul class="right-recommended-list">
+<li><a href="/post/537101.html"><i class="fa fa-angle-right" aria-hidden="true"></i>吃吃之死</a> </li>
+<li><a href="/post/347397.html"><i class="fa fa-angle-right" aria-hidden="true"></i>CSS3渐变效果工具</a> </li>
+<li><a href="/post/768375.html"><i class="fa fa-angle-right" aria-hidden="true"></i>⛳ Git安装与配置</a> </li>
+<li><a href="/post/247488.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Vi 极简入门</a> </li>
+<li><a href="/post/346985.html"><i class="fa fa-angle-right" aria-hidden="true"></i>蚂蚁金融科技全面开放战略背后的技术布局</a> </li>
+<li><a href="/post/558121.html"><i class="fa fa-angle-right" aria-hidden="true"></i>​CommonJs和es6的Module的区别​</a> </li>
+</ul>
+</div>
+</div>
+<div class="right-card">
+<div class="right-card-main">
+<div class="right-card-title">
+最新文章</div>
+<ul class="right-recommended-list">
+<li><a href="/post/835868.html"><i class="fa fa-angle-right" aria-hidden="true"></i>【SVN内网穿透】实现远程访问Linux SVN服务</a> </li>
+<li><a href="/post/835867.html"><i class="fa fa-angle-right" aria-hidden="true"></i>对PySide6 say Hello(包含环境配置) ——PyQt</a> </li>
+<li><a href="/post/835866.html"><i class="fa fa-angle-right" aria-hidden="true"></i>批量去除pdf每一页相同未知的同样的内容</a> </li>
+<li><a href="/post/835865.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Vue--》简易资金管理系统后台项目实战（前端）</a> </li>
+<li><a href="/post/835864.html"><i class="fa fa-angle-right" aria-hidden="true"></i>面向对象设计(一)</a> </li>
+<li><a href="/post/835863.html"><i class="fa fa-angle-right" aria-hidden="true"></i>求和，求阴影部分面积，计算邮资，阶乘之和题目答案解析</a> </li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="container-fluid cl-footer">
+<div class="container">
+<p class="cl-copyright">
+Copyright @ 2022~2023
+</p>
+</div>
+</div>
+<script src="https://hm.baidu.com/hm.js?298ae76ea8e0d2f9d2be11f1d6cc5dfa"></script><script type="text/javascript" src="https://libs.baidu.com/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="/templates/syrr/static/js/common.js?source_url=https://blog.csdn.net/guxch/article/details/80333152"></script>
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?298ae76ea8e0d2f9d2be11f1d6cc5dfa";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</body></html>
