@@ -31,7 +31,7 @@ except ModuleNotFoundError: # No module named 'pythonx'
 def main():
     rootdir = os.path.split(os.path.abspath(__file__))[0]
     zipName = os.path.join(rootdir, "mytable_sample.zip")
-    
+
     filelist = []
     rootdir = r"E:\kSource\blog\kvision\ksample\mytable"
     dirs = os.listdir(rootdir)
@@ -43,7 +43,7 @@ def main():
         fpath = os.path.join(rootdir, dir)
         fname = dir.split(".")[0]
         print(fpath)
-        
+
         filelist.append([os.path.join(rootdir, dir), dir])
         filelist.append([os.path.join(rootdir, fname+".xlsx"), fname+"_WPS.xlsx"])
         filelist.append([os.path.join(rootdir, "table-recognition", fname+"result.xlsx"), fname+"_CF.xlsx"])
