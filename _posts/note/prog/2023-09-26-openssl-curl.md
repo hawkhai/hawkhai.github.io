@@ -40,7 +40,7 @@ openssl-3.1.3.tar.gz
 
 ```
 nmake clean
-perl configure VC-WIN64A no-asm --prefix="D:\kSource\pythonx\note\infai\image\IQA\CenseoQoE\CenseoQoE-SDK\third_party\openssl_lib\release64"
+perl configure VC-WIN64A no-asm --prefix="D:\3rdparty\openssl_lib\release64"
 ```
 VC-WIN64A 表示 Windows 64 位系统，32 位系统请换成 VC-WIN32，若要使用 debug 版本，请使用 debug-VC-WIN64A 或 debug-VC-WIN32
 ```
@@ -51,11 +51,11 @@ nmake install
 
 ```
 nmake clean
-perl Configure debug-VC-WIN64A no-asm --prefix="D:\kSource\pythonx\note\infai\image\IQA\CenseoQoE\CenseoQoE-SDK\third_party\openssl_lib\debug64"
+perl Configure debug-VC-WIN64A no-asm --prefix="D:\3rdparty\openssl_lib\debug64"
 nmake
 nmake install
 ```
-把 e:\openssl_x64\debug 改名为 e:\openssl_x64\debug_mdd
+把 `D:\3rdparty\openssl_lib\debug64` 改名为 `D:\3rdparty\openssl_lib\debug64_mdd`
 
 完了之后把 makefile 文件以及 configdata.pm 文件里面的 /MDD 改为 MTD
 ```
@@ -63,15 +63,15 @@ nmake clean
 nmake
 nmake install
 ```
-把 e:\openssl_x64\debug 改名为 e:\openssl_x64\debug_mtd
+把 `D:\3rdparty\openssl_lib\debug64` 改名为 `D:\3rdparty\openssl_lib\debug64_mtd`
 
 ```
 nmake clean
-perl Configure VC-WIN64A no-asm --prefix="D:\kSource\pythonx\note\infai\image\IQA\CenseoQoE\CenseoQoE-SDK\third_party\openssl_lib\release64mt"
+perl Configure VC-WIN64A no-asm --prefix="D:\3rdparty\openssl_lib\release64"
 nmake
 nmake install
 ```
-把 e:\openssl_x64\release 改名为 e:\openssl_x64\release_md
+把 `D:\3rdparty\openssl_lib\release64` 改名为 `D:\3rdparty\openssl_lib\release64_md`
 
 完了之后把 makefile 文件以及 configdata.pm 文件里面的 /MD 改为 MT
 ```
@@ -79,7 +79,7 @@ nmake clean
 nmake
 nmake install
 ```
-把 e:\openssl_x64\release 改名为 e:\openssl_x64\release_mt
+把 `D:\3rdparty\openssl_lib\release64` 改名为 `D:\3rdparty\openssl_lib\release64_mt`
 
 <https://github.com/supercodechen/win32_openssl_prebuild>
 <https://github.com/kiyolee/openssl3-win-build>
@@ -133,6 +133,7 @@ ppm install Win32-Console
 
 <https://strawberryperl.com/>
 strawberry-perl-5.38.0.1-64bit.msi
+
 
 
 <hr class='reviewline'/>
