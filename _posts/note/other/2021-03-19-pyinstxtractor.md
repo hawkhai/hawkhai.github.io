@@ -337,6 +337,10 @@ if sys.stderr.encoding != 'UTF-8':
 <https://juejin.cn/s/python%20failed%20to%20execute%20script%20pyi_rth_win32comgenpy>
 loader2.exe 多余的文件要重命名。
 
+## simple_launcher
+
+<https://bitbucket.org/vinay.sajip/simple_launcher>
+
 
 
 <hr class='reviewline'/>
