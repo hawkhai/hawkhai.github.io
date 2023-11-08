@@ -337,6 +337,7 @@ if sys.stderr.encoding != 'UTF-8':
 <https://juejin.cn/s/python%20failed%20to%20execute%20script%20pyi_rth_win32comgenpy>
 loader2.exe 多余的文件要重命名。
 
+
 ## simple_launcher
 
 <https://bitbucket.org/vinay.sajip/simple_launcher>
@@ -371,3 +372,4 @@ loader2.exe 多余的文件要重命名。
 - [https://blog.csdn.net/hello_crayon/article/details/80940390]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/blog.csdn.net/43e4f057.html" %})
 - [https://www.cnblogs.com/MMLoveMeMM/articles/3811166.html]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/www.cnblogs.com/42e617ab.html" %})
 - [https://juejin.cn/s/python%20failed%20to%20execute%20script%20pyi_rth_win32comgenpy]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/juejin.cn/ca2bee42.html" %})
+- [https://bitbucket.org/vinay.sajip/simple_launcher]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/bitbucket.org/206b1896.html" %})
