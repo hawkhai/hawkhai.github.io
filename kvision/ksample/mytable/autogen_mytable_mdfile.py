@@ -6,9 +6,9 @@ for reldirx, _lidir in (("./", []), (os.path.split(__file__)[0]+"/", [])):
         checkfunc = lambda idir: os.path.exists(reldirx+idir+"/pythonx/funclib.py")
         _lidir = [reldirx+idir for idir in os.listdir(reldirx) if checkfunc(idir)]
         assert len(_lidir) in (0, 1), _lidir
-        if _lidir: reldirx = _lidir[0]
+        if _lidir: reldirx = os.path.abspath(_lidir[0])
     if _lidir: break
-sys.path.append(reldirx)
+if not reldirx in sys.path: sys.path.append(reldirx)
 from pythonx.funclib import *
 import time, math
 
