@@ -69,6 +69,9 @@ title="跳水牛蛙" caption="68 元（大份 98 元）" %}
 {% include image1.html url="/kaoyu/img/maoxuewang.jpg"
 title="毛血旺" caption="45 元" %}
 
+{% include image1.html url="/kaoyu/img/20231120141736.jpg"
+title="水煮肉片" caption="35 元" %}
+
 
 ## 凉菜系列
 
