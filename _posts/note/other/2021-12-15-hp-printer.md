@@ -47,6 +47,19 @@ A4 彩色激光一体机
 <https://item.jd.com/100014607376.html>
 
 
+## 使用 Dashboard 追踪打印进度
+
+
+## 使用 Windows 打印服务监测打印进度。
+
+blog.csdn.net/linqiang_csdn/article/details/81940729
+
+<https://www.whuanle.cn/archives/21032>
+<https://learn.microsoft.com/zh-cn/troubleshoot/windows/win32/printer-print-job-status>
+<https://blog.51cto.com/u_15082391/3773849>
+hplip
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-12-15-hp-printer.md.js" %}'></script></p>
@@ -54,3 +67,6 @@ A4 彩色激光一体机
 
 - [https://detail.tmall.com/item.htm?id=595881525690]({% include relrefx.html url="/backup/2021-12-15-hp-printer.md/detail.tmall.com/1df33cdb.htm" %})
 - [https://item.jd.com/100014607376.html]({% include relrefx.html url="/backup/2021-12-15-hp-printer.md/item.jd.com/6b440720.html" %})
+- [https://www.whuanle.cn/archives/21032]({% include relrefx.html url="/backup/2021-12-15-hp-printer.md/www.whuanle.cn/88a36d33.html" %})
+- [https://learn.microsoft.com/zh-cn/troubleshoot/windows/win32/printer-print-job-status]({% include relrefx.html url="/backup/2021-12-15-hp-printer.md/learn.microsoft.com/fc89e340.html" %})
+- [https://blog.51cto.com/u_15082391/3773849]({% include relrefx.html url="/backup/2021-12-15-hp-printer.md/blog.51cto.com/02308fb7.html" %})
