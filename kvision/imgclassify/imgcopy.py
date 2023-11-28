@@ -13,6 +13,23 @@ from pythonx.funclib import *
 
 from PIL import Image
 
+def copyimg(xfile, yfile):
+    img = Image.open(xfile)
+    print(img.size, xfile)
+    #img.save(yfile)
+    width, height = img.size
+    ratio = 1.0
+    while width * height * ratio * ratio > 256 * 256:
+        ratio *= 0.99
+    width = round(width * ratio)
+    height = round(height * ratio)
+    img = img.resize((width, height))
+    if img.mode != "RGB":
+        img = img.convert("RGB")
+
+    img.save(yfile)
+    print(img.size, yfile)
+
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def copydir2(srcdir, dstdir):
     statx = {}
@@ -42,21 +59,7 @@ def copydir2(srcdir, dstdir):
         if not os.path.exists(mydir):
             os.makedirs(mydir)
 
-        img = Image.open(xfile)
-        print(img.size, xfile)
-        #img.save(yfile)
-        width, height = img.size
-        ratio = 1.0
-        while width * height * ratio * ratio > 256 * 256:
-            ratio *= 0.99
-        width = round(width * ratio)
-        height = round(height * ratio)
-        img = img.resize((width, height))
-        if img.mode != "RGB":
-            img = img.convert("RGB")
-
-        img.save(yfile)
-        print(img.size, yfile)
+        copyimg(xfile, yfile)
 
     searchdir(srcdir, mainfile)
     print(srcdir)
@@ -88,35 +91,39 @@ def copydir(srcdir, dstdir):
         if not os.path.exists(dstdir):
             os.makedirs(dstdir)
 
-        img = Image.open(xfile)
-        print(img.size, xfile)
-        #img.save(yfile)
-        width, height = img.size
-        ratio = 1.0
-        while width * height * ratio * ratio > 256 * 256:
-            ratio *= 0.99
-        width = round(width * ratio)
-        height = round(height * ratio)
-        img = img.resize((width, height))
-        if img.mode != "RGB":
-            img = img.convert("RGB")
-
-        img.save(yfile)
-        print(img.size, yfile)
+        copyimg(xfile, yfile)
 
     searchdir(srcdir, mainfile)
     print(srcdir)
     print(statx)
     print()
 
-def main():
-    copydir(r"pp_110303\animals",   r"dataset\animal")
-    copydir(r"pp_110303\food",      r"dataset\food")
-    copydir(r"pp_110303\people",    r"dataset\people")
-    copydir(r"pp_110303\scenery",   r"dataset\scenery")
-    copydir(r"pp_110303\text",      r"dataset\text")
+@CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
+def checkimg(rootdir):
+    def mainfile(fpath, fname, ftype):
+        if ftype in ("txt", "json"):
+            return
+        img = Image.open(fpath)
+        width, height = img.size
+        if width / height < 1/3 or height / width < 1/3:
+            img.close()
+            os.remove(fpath)
+            print("REMOVE", (width, height), fpath)
 
-    copydir2(r"CADB_Dataset\images", r"dataset")
+    searchdir(rootdir, mainfile)
+    
+def main():
+    if False:
+        copydir(r"D:\BaiduNetdiskDownload\dataset\animals",   r"dataset\animal")
+        copydir(r"D:\BaiduNetdiskDownload\dataset\food",      r"dataset\food")
+        copydir(r"D:\BaiduNetdiskDownload\dataset\people",    r"dataset\people")
+        copydir(r"D:\BaiduNetdiskDownload\dataset\scenery",   r"dataset\scenery")
+        copydir(r"D:\BaiduNetdiskDownload\dataset\text",      r"dataset\text")
+
+    if False:
+        copydir2(r"D:\BaiduNetdiskDownload\CADB_Dataset\images", r"dataset")
+
+    checkimg(r"dataset")
 
 if __name__ == "__main__":
     main()
