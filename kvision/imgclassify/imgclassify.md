@@ -4,7 +4,8 @@ CADB_Dataset
 pp_110303
 <https://aistudio.baidu.com/datasetdetail/110303>
 
-
+智能相册数据集
+https://aistudio.baidu.com/datasetdetail/94479
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/kvision/imgclassify/imgclassify.md.js" %}'></script></p>

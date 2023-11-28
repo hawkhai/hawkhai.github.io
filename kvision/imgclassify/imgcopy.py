@@ -99,10 +99,82 @@ def copydir(srcdir, dstdir):
     print()
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
+def copydir3():
+    xlist1 = readfileLines(r"album94479\onehot_train.txt")
+    xlist2 = readfileLines(r"album94479\onehot_test.txt")
+    xlist3 = readfileLines(r"album94479\onehot_valid.txt")
+    
+    def copydirx(xlist):
+        labels = r"""Vehicle:vehicle
+Sky:scenery
+Food:food
+Person:people
+Building:architecture
+Animal:animal
+Cartoons:anime
+Certificate:text
+Electronic:text
+Screenshot:text
+BankCard:text
+Mountain:scenery
+Sea:scenery
+Bill:text
+Selfie:people
+Night:night
+Aircraft:vehicle
+Flower:plant
+Child:people
+Ship:vehicle""".split()
+        for line in xlist:
+            name, tags = line.split()
+            print(name, tags)
+            tags = tags.strip().split(",")
+            assert len(tags) == len(labels), name
+    
+            imgfile = os.path.join(r"D:\BaiduNetdiskDownload\album\album\img", name)
+            assert os.path.exists(imgfile), imgfile
+            
+            checktag = [labels[i].split(":")[-1] for i in range(len(tags)) if tags[i] != "0"]
+            if len(checktag) != 1: continue
+    
+            for i in range(len(tags)):
+                if tags[i] == "0":
+                    continue
+                    
+                subdir = labels[i].split(":")[-1]
+
+                xfile = imgfile
+                ftype = os.path.splitext(xfile)[-1].lower()
+                md5 = getFileMd5(xfile)[:7]
+
+                mydir = os.path.join(r"dataset", "pp2_"+subdir)
+                yfile = os.path.join(mydir, "pp2_"+md5+ftype)
+                
+                if os.path.exists(yfile):
+                    continue
+                if not os.path.exists(mydir):
+                    os.makedirs(mydir)
+
+                copyimg(xfile, yfile)
+    
+    copydirx(xlist1)
+    copydirx(xlist2)
+    copydirx(xlist3)
+
+@CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def checkimg(rootdir):
+    fnamez = {}
     def mainfile(fpath, fname, ftype):
         if ftype in ("txt", "json"):
             return
+            
+        fnamec = fname.split(".")[0].split("_", 1)[1]
+        if fnamec in fnamez:
+            print("REMOVE REP", fnamez[fnamec], fpath)
+            os.remove(fpath)
+            return
+        fnamez[fnamec] = fpath
+            
         img = Image.open(fpath)
         width, height = img.size
         if width / height < 1/3 or height / width < 1/3:
@@ -123,6 +195,9 @@ def main():
     if False:
         copydir2(r"D:\BaiduNetdiskDownload\CADB_Dataset\images", r"dataset")
 
+    # https://aistudio.baidu.com/datasetdetail/94479/
+    copydir3()
+    print("ok")
     checkimg(r"dataset")
 
 if __name__ == "__main__":
