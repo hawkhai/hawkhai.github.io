@@ -5,7 +5,9 @@ pp_110303
 <https://aistudio.baidu.com/datasetdetail/110303>
 
 智能相册数据集
-https://aistudio.baidu.com/datasetdetail/94479
+<https://aistudio.baidu.com/datasetdetail/94479>
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/kvision/imgclassify/imgclassify.md.js" %}'></script></p>
@@ -13,3 +15,4 @@ https://aistudio.baidu.com/datasetdetail/94479
 
 - [https://github.com/bcmi/Image-Composition-Assessment-Dataset-CADB]({% include relrefx.html url="/backup/imgclassify.md/github.com/e8f6392b.html" %})
 - [https://aistudio.baidu.com/datasetdetail/110303]({% include relrefx.html url="/backup/imgclassify.md/aistudio.baidu.com/b1f4e85a.html" %})
+- [https://aistudio.baidu.com/datasetdetail/94479]({% include relrefx.html url="/backup/imgclassify.md/aistudio.baidu.com/ad8a52cd.html" %})

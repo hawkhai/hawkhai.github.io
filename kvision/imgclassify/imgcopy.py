@@ -103,7 +103,7 @@ def copydir3():
     xlist1 = readfileLines(r"album94479\onehot_train.txt")
     xlist2 = readfileLines(r"album94479\onehot_test.txt")
     xlist3 = readfileLines(r"album94479\onehot_valid.txt")
-    
+
     def copydirx(xlist):
         labels = r"""Vehicle:vehicle
 Sky:scenery
@@ -130,17 +130,17 @@ Ship:vehicle""".split()
             print(name, tags)
             tags = tags.strip().split(",")
             assert len(tags) == len(labels), name
-    
+
             imgfile = os.path.join(r"D:\BaiduNetdiskDownload\album\album\img", name)
             assert os.path.exists(imgfile), imgfile
-            
+
             checktag = [labels[i].split(":")[-1] for i in range(len(tags)) if tags[i] != "0"]
             if len(checktag) != 1: continue
-    
+
             for i in range(len(tags)):
                 if tags[i] == "0":
                     continue
-                    
+
                 subdir = labels[i].split(":")[-1]
 
                 xfile = imgfile
@@ -149,14 +149,14 @@ Ship:vehicle""".split()
 
                 mydir = os.path.join(r"dataset", "pp2_"+subdir)
                 yfile = os.path.join(mydir, "pp2_"+md5+ftype)
-                
+
                 if os.path.exists(yfile):
                     continue
                 if not os.path.exists(mydir):
                     os.makedirs(mydir)
 
                 copyimg(xfile, yfile)
-    
+
     copydirx(xlist1)
     copydirx(xlist2)
     copydirx(xlist3)
@@ -167,14 +167,14 @@ def checkimg(rootdir):
     def mainfile(fpath, fname, ftype):
         if ftype in ("txt", "json"):
             return
-            
+
         fnamec = fname.split(".")[0].split("_", 1)[1]
         if fnamec in fnamez:
             print("REMOVE REP", fnamez[fnamec], fpath)
             os.remove(fpath)
             return
         fnamez[fnamec] = fpath
-            
+
         img = Image.open(fpath)
         width, height = img.size
         if width / height < 1/3 or height / width < 1/3:
@@ -183,7 +183,7 @@ def checkimg(rootdir):
             print("REMOVE", (width, height), fpath)
 
     searchdir(rootdir, mainfile)
-    
+
 def main():
     if False:
         copydir(r"D:\BaiduNetdiskDownload\dataset\animals",   r"dataset\animal")
