@@ -4,7 +4,6 @@
 import torch
 from torch.nn.modules.loss import _Loss
 
-
 class MultiLabelLoss(_Loss):
     def __init__(self,
                  gamma_neg=0,

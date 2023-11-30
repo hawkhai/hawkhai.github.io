@@ -12,7 +12,6 @@ from torch.optim.lr_scheduler import OneCycleLR
 
 from evaluation_metrics import EvaluationMetrics
 
-
 class Engine():
     def __init__(self,
                  args,

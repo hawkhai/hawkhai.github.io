@@ -10,6 +10,7 @@ for reldirx, _lidir in (("./", []), (os.path.split(__file__)[0]+"/", [])):
     if _lidir: break
 if not reldirx in sys.path: sys.path.append(reldirx)
 from pythonx.funclib import *
+from pythonx.iciba import getChinese
 
 import pythonx.chatgpt.chatchat as cc
 
@@ -89,14 +90,14 @@ def ask_baidux(content, reask=False):
 
     fjson = ask_baidu(api_key, secret_key, content, reask)
     result = fjson["result"]
-    
+
     return result
 
 def ask_xunfeix(content, reask=False):
     app_id = "8ed9a00f"
     api_secret = "YjE0YjFlNDY1MDRkOTBkNjVlMDBhN2Rm"
     api_key = "edbe50b9cc30cc8a96098f12b05b628f"
-    
+
     result = ask_xunfei(app_id, api_secret, api_key, content, reask)
     return result
 
@@ -119,7 +120,7 @@ def ask(key):
 
     content = r"""我定义了一些图片分类
 “动物”、“动漫”、“建筑”、“食物”、“日常用品”、“室内”、“夜景”、“人物”、“植物”、“风景”、“文本”、“交通工具”，
-请问 “{}” 分到哪个类别最合理？只能选择一个类别，如果不确定，请回答不确定，控制在 10 个字以内。""".format(key)
+请问 “{}” 分到哪个类别最合理？如果不确定，请回答不确定，控制在十个字以内。""".format(key)
 
     result_baidu = ""
     for i in range(2):
@@ -136,7 +137,7 @@ def ask(key):
         if result_xunfei:
             colorPrint("result_xunfei", result_xunfei)
             break
-            
+
     return result_baidu, result_xunfei
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
@@ -144,14 +145,24 @@ def main():
     result_baidu, result_xunfei = ask("girl")
 
     keysfile = r"Improving-Loss-Function-for-Deep-CNN-based-AIA\datasets\Corel-5k\corel5k_vocabulary.txt"
-    keys = readfile(keysfile, True, "utf8").split()
+    keys = readfile(keysfile, True, "utf8").split("\n")
+    keys = [i.strip() for i in keys if i.strip()]
     for i in range(len(keys)):
-        if keys[i].find(":") != -1: continue
-        result_baidu, result_xunfei = ask(keys[i])
-        if result_baidu and result_baidu == result_xunfei:
-            keys[i] = "{}:{}".format(keys[i], result_baidu)
-            writefile(keysfile, "\r\n".join(keys)+"\r\n", "utf8")
-            colorPrint("*****", keys[i], result_baidu)
+
+        key = keys[i].split(":")[0].split("->")[0]
+        type = keys[i].split(":")[1].split("->")[0] if keys[i].find(":") != -1 else ""
+        name = keys[i].split("->")[1] if keys[i].find("->") != -1 else ""
+        if not name:
+            name = getChinese(key)
+
+        if not type:
+            result_baidu, result_xunfei = ask(key)
+            if result_baidu and result_baidu == result_xunfei:
+                type = result_baidu
+                colorPrint("ASK", key, keys[i], result_baidu)
+
+        keys[i] = "{}:{}->{}".format(key, type, name)
+        writefile(keysfile, "\r\n".join(keys)+"\r\n", "utf8")
 
 if __name__ == "__main__":
     main()

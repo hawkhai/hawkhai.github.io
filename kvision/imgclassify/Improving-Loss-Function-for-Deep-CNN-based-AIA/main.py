@@ -12,7 +12,6 @@ from models import TResNet
 from loss_functions import MultiLabelLoss
 from engine import Engine
 
-
 # =============================================================================
 # Define hyperparameters
 # =============================================================================
@@ -35,7 +34,6 @@ parser.add_argument('--evaluate', dest='evaluate', action='store_true',
                     help='evaluation of the model on the validation set')
 parser.add_argument(
     '--save_dir', default='./checkpoints/', type=str, help='save path')
-
 
 def main(args):
     if args.seed is not None:
@@ -78,8 +76,8 @@ def main(args):
                     len(classes))
 
     if is_train:
-            engine.initialization(is_train)
-            engine.train_iteration()
+        engine.initialization(is_train)
+        engine.train_iteration()
     else:
         engine.initialization(is_train)
         engine.load_model()
@@ -106,7 +104,6 @@ def main(args):
                              images,
                              annotations,
                              best_thresholds=best_thresholds)
-
 
 if __name__ == "__main__":
     args = parser.parse_args()

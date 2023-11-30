@@ -7,7 +7,6 @@ import torch
 
 from datasets import get_mean_std
 
-
 def imshow(args, tensor):
     mean, std = get_mean_std(args)
     #
@@ -18,7 +17,6 @@ def imshow(args, tensor):
     image = image.clip(0, 1)
     plt.imshow(image)
 
-
 def convertBinaryAnnotationsToClasses(annotations, classes):
     labels = []
     annotations = np.array(annotations, dtype='int').tolist()
@@ -26,7 +24,6 @@ def convertBinaryAnnotationsToClasses(annotations, classes):
         if annotations[i] == 1:
             labels.append(classes[i])
     return labels
-
 
 # plot one batch of images with grand-truth and predicted annotations
 def predicted_batch_plot(args,

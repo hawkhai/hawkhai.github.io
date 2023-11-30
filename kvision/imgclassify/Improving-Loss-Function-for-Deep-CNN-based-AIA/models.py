@@ -4,13 +4,11 @@
 # pip install inplace-abn
 # pip install timm
 
-
 # =============================================================================
 # Import required libraries
 # =============================================================================
 from torch import nn
 import timm
-
 
 class TResNet(nn.Module):
     def __init__(self, args, num_classes, pretrained):

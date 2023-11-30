@@ -11,7 +11,6 @@ from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
 from sklearn.utils import shuffle
 
-
 # =============================================================================
 # Create annotation dataset
 # =============================================================================
@@ -49,7 +48,6 @@ class AnnotationDataset(torch.utils.data.Dataset):
     def __len__(self):
         return len(self.imgs)
 
-
 # =============================================================================
 # Make data loader
 # =============================================================================
@@ -66,7 +64,6 @@ def get_mean_std(args):
     else:
         raise NotImplementedError('Value error: No matched dataset!')
     return mean, std
-
 
 def get_transforms(args):
     mean, std = get_mean_std(args)
@@ -89,7 +86,6 @@ def get_transforms(args):
         )
     ])
     return transform_train, transform_validation
-
 
 def make_data_loader(args):
     root_dir = args.data_root_dir + args.data + '/'

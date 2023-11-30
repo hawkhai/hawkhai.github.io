@@ -99,6 +99,40 @@ def copydir(srcdir, dstdir):
     print()
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
+def copydir4():
+    rootdir = r"D:\worktemp\Corel5K\真正的Corel5k数据集(带标注,训练与测试集)"
+
+    def copydir4z(xdir, ydir):
+        if not ydir: return
+
+        xdir = os.path.join(rootdir, xdir)
+        ydir = os.path.join(r"dataset", ydir)
+        assert os.path.exists(ydir), ydir
+
+        def mainfile(fpath, fname, ftype):
+
+            ifile = os.path.relpath(fpath, xdir)
+            assert ifile.find("\\") == -1 and ifile.find("/") == -1, ifile
+            xfile = os.path.join(xdir, ifile)
+            md5 = getFileMd5(xfile)[:7]
+
+            yfile = os.path.join(ydir, "corel5k_"+md5+"."+ftype)
+
+            if os.path.exists(yfile):
+                return
+            copyimg(xfile, yfile)
+
+        searchdir(xdir, mainfile)
+
+    copydir4z(r"13000", "plant") # 花卉
+    copydir4z(r"41000", "animal") # 动物
+    copydir4z(r"119000", "building") # 建筑
+    copydir4z(r"143000", "scenery") # 风景
+    copydir4z(r"152000", "plant") # 植物
+    copydir4z(r"189000", "people") # 人物
+    copydir4z(r"231000", "scenery") # 风景
+
+@CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def copydir3():
     xlist1 = readfileLines(r"album94479\onehot_train.txt")
     xlist2 = readfileLines(r"album94479\onehot_test.txt")
@@ -192,11 +226,19 @@ def main():
         copydir(r"D:\BaiduNetdiskDownload\dataset\scenery",   r"dataset\scenery")
         copydir(r"D:\BaiduNetdiskDownload\dataset\text",      r"dataset\text")
 
+    # pp
     if False:
         copydir2(r"D:\BaiduNetdiskDownload\CADB_Dataset\images", r"dataset")
 
+    # pp2
     # https://aistudio.baidu.com/datasetdetail/94479/
-    copydir3()
+    if False:
+        copydir3()
+
+    # Corel5K
+    if False:
+        copydir4()
+
     print("ok")
     checkimg(r"dataset")
 
