@@ -72,8 +72,8 @@ def main():
         with lockfile.lock(fpath, 10):
 
             if os.path.exists(logfile):
-                fjson = readfileJson(logfile)
-                writefile(logfile, jsondumps(fjson, ascii=False), "utf8")
+                #fjson = readfileJson(logfile, "utf8")
+                #writefile(logfile, jsondumps(fjson, ascii=False), "utf8")
                 # "error_code": 18,
                 # "error_msg": "Open api qps request limit reached"
                 if "error_code" in fjson:
