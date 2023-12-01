@@ -14,6 +14,13 @@ from pythonx.funclib import *
 from PIL import Image
 
 def copyimg(xfile, yfile):
+
+    if os.path.exists(yfile):
+        return
+    mydir = os.path.split(yfile)[0]
+    if not os.path.exists(mydir):
+        os.makedirs(mydir)
+
     try:
         img = Image.open(xfile)
     except Exception as ex:
@@ -22,20 +29,19 @@ def copyimg(xfile, yfile):
             import cv2
             tempfile = os.path.join("tempdir", "tempfile.jpg")
             copyfile(xfile, tempfile)
-            img = cv2.imread(tempfile, 1)
-            color_coverted = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            img = Image.fromarray(color_coverted)
+            img = cv2.imread(tempfile, 1) # BGR
+            img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
         except Exception as ey:
             print(ey)
             return
-     
+
     print(img.size, xfile)
     #img.save(yfile)
     width, height = img.size
     if width * height < 200 * 200:
-        print("small", xfile)
+        print("IGNORE", xfile)
         return
-    
+
     ratio = 1.0
     while width * height * ratio * ratio > 256 * 256:
         ratio *= 0.99
@@ -49,7 +55,7 @@ def copyimg(xfile, yfile):
     print(img.size, yfile)
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
-def copydir2(srcdir, dstdir):
+def copydir_CADB(srcdir, dstdir):
     statx = {}
     config = readfileJson("scene_categories.json")
     def mainfile(fpath, fname, ftype):
@@ -62,20 +68,10 @@ def copydir2(srcdir, dstdir):
         ifile = os.path.relpath(fpath, srcdir)
         assert ifile.find("\\") == -1 and ifile.find("/") == -1, ifile
         xfile = os.path.join(srcdir, ifile)
-        md5 = getFileMd5(xfile)[:7] # copydir2
+        md5 = getFileMd5(xfile)[:7] # copydir_CADB
 
         mydir = os.path.join(dstdir, "cadb_"+subdir)
-        yfile = os.path.join(mydir, md5+"."+ftype)
-        yfile2 = os.path.join(mydir, "cadb_"+md5+"."+ftype)
-        if os.path.exists(yfile):
-            os.rename(yfile, yfile2)
-            return
-        yfile = yfile2
-
-        if os.path.exists(yfile):
-            return
-        if not os.path.exists(mydir):
-            os.makedirs(mydir)
+        yfile = os.path.join(mydir, "cadb_"+md5+"."+ftype)
 
         copyimg(xfile, yfile)
 
@@ -86,123 +82,105 @@ def copydir2(srcdir, dstdir):
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def copydir(srcdir, dstdir):
-    statx = {}
+
     def mainfile(fpath, fname, ftype):
-        if not ftype in statx:
-            statx[ftype] = 0
-        statx[ftype] = statx[ftype] + 1
 
         ifile = os.path.relpath(fpath, srcdir)
         assert ifile.find("\\") == -1 and ifile.find("/") == -1, ifile
         xfile = os.path.join(srcdir, ifile)
-        md5 = getFileMd5(xfile)[:7] # copydir
+        md5 = getFileMd5(xfile)[:7] # copydir pp_ 智慧相册数据
 
-        yfile = os.path.join(dstdir, md5+"."+ftype)
-        yfile2 = os.path.join(dstdir, "pp_"+md5+"."+ftype)
-        if os.path.exists(yfile):
-            os.rename(yfile, yfile2)
-            return
-        yfile = yfile2
-
-        if os.path.exists(yfile):
-            return
-        if not os.path.exists(dstdir):
-            os.makedirs(dstdir)
+        yfile = os.path.join(dstdir, "pp_"+md5+"."+ftype)
 
         copyimg(xfile, yfile)
 
     searchdir(srcdir, mainfile)
     print(srcdir)
-    print(statx)
     print()
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
-def copydir5():
+def copydir_baidu():
     rootdir = r"D:\BaiduNetdiskDownload"
 
-    def copydir4z(xdir, ydir):
+    def copydirkz(xdir, ydir):
         if not ydir: return
 
-        xdir = os.path.join(rootdir, xdir)
-        ydir = os.path.join(r"dataset", ydir)
-        assert os.path.exists(ydir), ydir
+        srcdir = os.path.join(rootdir, xdir)
+        dstdir = os.path.join(r"dataset", ydir)
+        assert os.path.exists(dstdir), dstdir
 
         def mainfile(fpath, fname, ftype):
             print(fpath)
             if not ftype:
                 ftype = "jpg"
-                
+
             li = re.findall("u=([0-9]+,[0-9]+)&", fname)
             if not li: return
             assert len(li) == 1, li
-            md5 = li[0]
+            imgid = li[0]
 
-            ifile = os.path.relpath(fpath, xdir)
+            ifile = os.path.relpath(fpath, srcdir)
             assert ifile.find("\\") == -1 and ifile.find("/") == -1, ifile
-            xfile = os.path.join(xdir, ifile)
-            md5 = getmd5(md5)[:7] # copydir5
+            xfile = os.path.join(srcdir, ifile)
+            md5 = getmd5(imgid)[:7] # copydir_baidu
 
-            yfile = os.path.join(ydir, "baidu_"+md5+"."+ftype)
+            yfile = os.path.join(dstdir, "baidu_"+md5+"."+ftype)
 
-            if os.path.exists(yfile):
-                print("EXISTS", yfile)
-                return
             copyimg(xfile, yfile)
 
-        searchdir(xdir, mainfile)
+        searchdir(srcdir, mainfile)
 
-    copydir4z(r"动漫_百度图片搜索_files", "anime")
-    copydir4z(r"卡通_百度图片搜索_files", "anime")
-    copydir4z(r"anime 日本_百度图片搜索_files", "anime")
-    
-    copydir4z(r"夜景_百度图片搜索_files", "night")
-    
-    copydir4z(r"物品图片 真实_百度图片搜索_files", "goods")
-    copydir4z(r"室内_百度图片搜索_files", "indoor")
-    
-    copydir4z(r"文字文本_百度图片搜索_files", "text")
-    
-    # ...
-    copydir4z(r"小物件 真实_百度图片搜索_files", "goods")
-    copydir4z(r"建筑_百度图片搜索_files", "building")
-    copydir4z(r"交通工具 真实_百度图片搜索_files", "vehicle")
-    copydir4z(r"扫描件_百度图片搜索_files", "text")
-    copydir4z(r"商品 真实图片_百度图片搜索_files", "goods")
-    
-    copydir4z(r"植物_百度图片搜索_files", "plant")
+    copydirkz(r"动漫_百度图片搜索_files", "anime")
+    copydirkz(r"卡通_百度图片搜索_files", "anime")
+    copydirkz(r"anime 日本_百度图片搜索_files", "anime")
+
+    copydirkz(r"夜景_百度图片搜索_files", "night")
+
+    copydirkz(r"物品图片 真实_百度图片搜索_files", "goods")
+    copydirkz(r"商品 真实图片_百度图片搜索_files", "goods")
+    copydirkz(r"小物件 真实_百度图片搜索_files", "goods")
+
+    copydirkz(r"室内_百度图片搜索_files", "indoor")
+
+    copydirkz(r"文字文本_百度图片搜索_files", "text")
+    copydirkz(r"扫描件_百度图片搜索_files", "text")
+
+    copydirkz(r"建筑_百度图片搜索_files", "building")
+
+    copydirkz(r"交通工具 真实_百度图片搜索_files", "vehicle")
+
+    copydirkz(r"植物_百度图片搜索_files", "plant")
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
-def copydir6():
+def copydir_vehicle():
     rootdir = r"D:\worktemp\vehicle\vehicle"
 
-    def copydir4z(xdir, ydir):
+    def copydirkz(srcdir, ydir):
         if not ydir: return
 
-        ydir = os.path.join(r"dataset", ydir)
-        assert os.path.exists(ydir), ydir
+        dstdir = os.path.join(r"dataset", ydir)
+        assert os.path.exists(dstdir), dstdir
 
         def mainfile(fpath, fname, ftype):
 
-            ifile = os.path.relpath(fpath, xdir)
+            ifile = os.path.relpath(fpath, srcdir)
             #assert ifile.find("\\") == -1 and ifile.find("/") == -1, ifile
-            xfile = os.path.join(xdir, ifile)
-            md5 = getFileMd5(xfile)[:7] # copydir6
+            xfile = os.path.join(srcdir, ifile)
+            md5 = getFileMd5(xfile)[:7] # copydir_vehicle
 
-            yfile = os.path.join(ydir, "vehicle_"+md5+"."+ftype)
+            yfile = os.path.join(dstdir, "vehicle_"+md5+"."+ftype)
 
-            if os.path.exists(yfile):
-                return
             copyimg(xfile, yfile)
 
-        searchdir(xdir, mainfile)
+        searchdir(srcdir, mainfile)
 
-    copydir4z(rootdir, "vehicle") # 花卉
+    copydirkz(rootdir, "vehicle")
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
-def copydir4():
+def copydir_corel5k():
     rootdir = r"D:\worktemp\Corel5K\真正的Corel5k数据集(带标注,训练与测试集)"
 
-    def copydir4z(xdir, ydir):
+    def copydirkz(xdir, ydir):
         if not ydir: return
 
         xdir = os.path.join(rootdir, xdir)
@@ -214,7 +192,7 @@ def copydir4():
             ifile = os.path.relpath(fpath, xdir)
             assert ifile.find("\\") == -1 and ifile.find("/") == -1, ifile
             xfile = os.path.join(xdir, ifile)
-            md5 = getFileMd5(xfile)[:7] # copydir4
+            md5 = getFileMd5(xfile)[:7] # copydir_corel5k
 
             yfile = os.path.join(ydir, "corel5k_"+md5+"."+ftype)
 
@@ -224,16 +202,16 @@ def copydir4():
 
         searchdir(xdir, mainfile)
 
-    copydir4z(r"13000", "plant") # 花卉
-    copydir4z(r"41000", "animal") # 动物
-    copydir4z(r"119000", "building") # 建筑
-    copydir4z(r"143000", "scenery") # 风景
-    copydir4z(r"152000", "plant") # 植物
-    copydir4z(r"189000", "people") # 人物
-    copydir4z(r"231000", "scenery") # 风景
+    copydirkz(r"13000", "plant") # 花卉
+    copydirkz(r"41000", "animal") # 动物
+    copydirkz(r"119000", "building") # 建筑
+    copydirkz(r"143000", "scenery") # 风景
+    copydirkz(r"152000", "plant") # 植物
+    copydirkz(r"189000", "people") # 人物
+    copydirkz(r"231000", "scenery") # 风景
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
-def copydir3():
+def copydir_album():
     xlist1 = readfileLines(r"album94479\onehot_train.txt")
     xlist2 = readfileLines(r"album94479\onehot_test.txt")
     xlist3 = readfileLines(r"album94479\onehot_valid.txt")
@@ -268,10 +246,12 @@ Ship:vehicle""".split()
             imgfile = os.path.join(r"D:\BaiduNetdiskDownload\album\album\img", name)
             assert os.path.exists(imgfile), imgfile
 
-            checktag = [labels[i].split(":")[-1] for i in range(len(tags)) if tags[i] != "0"]
+            tagcount = len(tags)
+            checktag = [labels[i].split(":")[-1] for i in range(tagcount) if tags[i] != "0"]
+            checktag = list(set(checktag))
             if len(checktag) != 1: continue
 
-            for i in range(len(tags)):
+            for i in range(tagcount):
                 if tags[i] == "0":
                     continue
 
@@ -279,15 +259,10 @@ Ship:vehicle""".split()
 
                 xfile = imgfile
                 ftype = os.path.splitext(xfile)[-1].lower()
-                md5 = getFileMd5(xfile)[:7] # copydir3
+                md5 = getFileMd5(xfile)[:7] # copydir_album
 
-                mydir = os.path.join(r"dataset", "pp2_"+subdir)
+                mydir = os.path.join(r"dataset", subdir)
                 yfile = os.path.join(mydir, "pp2_"+md5+ftype)
-
-                if os.path.exists(yfile):
-                    continue
-                if not os.path.exists(mydir):
-                    os.makedirs(mydir)
 
                 copyimg(xfile, yfile)
 
@@ -319,6 +294,8 @@ def checkimg(rootdir):
     searchdir(rootdir, mainfile)
 
 def main():
+    # pp
+    # https://aistudio.baidu.com/datasetdetail/110303
     if False:
         copydir(r"D:\BaiduNetdiskDownload\dataset\animals",   r"dataset\animal")
         copydir(r"D:\BaiduNetdiskDownload\dataset\food",      r"dataset\food")
@@ -326,26 +303,28 @@ def main():
         copydir(r"D:\BaiduNetdiskDownload\dataset\scenery",   r"dataset\scenery")
         copydir(r"D:\BaiduNetdiskDownload\dataset\text",      r"dataset\text")
 
-    # pp
+    # CADB
+    # https://github.com/bcmi/Image-Composition-Assessment-Dataset-CADB
     if False:
-        copydir2(r"D:\BaiduNetdiskDownload\CADB_Dataset\images", r"dataset")
+        copydir_CADB(r"D:\BaiduNetdiskDownload\CADB_Dataset\images", r"dataset")
 
     # pp2
     # https://aistudio.baidu.com/datasetdetail/94479/
     if False:
-        copydir3()
+        copydir_album()
 
-    # Corel5K
+    # Corel5K - github
     if False:
-        copydir4()
+        copydir_corel5k()
 
     # 百度网页
     if True:
-        copydir5()
+        copydir_baidu()
 
     # D:\worktemp\vehicle\vehicle
+    # https://aistudio.baidu.com/datasetdetail/125181
     if True:
-        copydir6()
+        copydir_vehicle()
 
     print("ok")
     checkimg(r"dataset")

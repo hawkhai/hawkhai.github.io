@@ -106,7 +106,7 @@ def check_result(result):
     li = re.findall(regex, result, re.IGNORECASE)
     li = list(set(li))
     li.sort()
-    print(li)
+    #print(li)
     if len(li) <= 0:
         return False
     if len(li) == 1 and li[0] != "不确定":
@@ -159,7 +159,7 @@ def main():
             result_baidu, result_xunfei = ask(key)
             if result_baidu and result_baidu == result_xunfei:
                 type = result_baidu
-                colorPrint("ASK", key, keys[i], result_baidu)
+                colorPrint("ASK", key, result_baidu)
 
         keys[i] = "{}:{}->{}".format(key, type, name)
         writefile(keysfile, "\r\n".join(keys)+"\r\n", "utf8")
