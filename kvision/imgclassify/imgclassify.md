@@ -7,6 +7,15 @@ pp_110303
 智能相册数据集
 <https://aistudio.baidu.com/datasetdetail/94479>
 
+vehicle
+https://aistudio.baidu.com/datasetdetail/125181
+
+
+这个暂时没有集成
+
+斯坦福车辆识别数据集
+包含 196 类车辆，合计 1.6 万张图片。其中训练集 8144 张，测试集 8041 张。
+https://aistudio.baidu.com/datasetdetail/130
 
 
 <hr class='reviewline'/>

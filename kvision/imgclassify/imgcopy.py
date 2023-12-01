@@ -172,6 +172,33 @@ def copydir5():
     copydir4z(r"植物_百度图片搜索_files", "plant")
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
+def copydir6():
+    rootdir = r"D:\worktemp\vehicle\vehicle"
+
+    def copydir4z(xdir, ydir):
+        if not ydir: return
+
+        ydir = os.path.join(r"dataset", ydir)
+        assert os.path.exists(ydir), ydir
+
+        def mainfile(fpath, fname, ftype):
+
+            ifile = os.path.relpath(fpath, xdir)
+            #assert ifile.find("\\") == -1 and ifile.find("/") == -1, ifile
+            xfile = os.path.join(xdir, ifile)
+            md5 = getFileMd5(xfile)[:7] # copydir6
+
+            yfile = os.path.join(ydir, "vehicle_"+md5+"."+ftype)
+
+            if os.path.exists(yfile):
+                return
+            copyimg(xfile, yfile)
+
+        searchdir(xdir, mainfile)
+
+    copydir4z(rootdir, "vehicle") # 花卉
+
+@CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def copydir4():
     rootdir = r"D:\worktemp\Corel5K\真正的Corel5k数据集(带标注,训练与测试集)"
 
@@ -315,6 +342,10 @@ def main():
     # 百度网页
     if True:
         copydir5()
+
+    # D:\worktemp\vehicle\vehicle
+    if True:
+        copydir6()
 
     print("ok")
     checkimg(r"dataset")
