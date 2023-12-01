@@ -311,7 +311,7 @@ def main():
 
     # pp2
     # https://aistudio.baidu.com/datasetdetail/94479/
-    if True:
+    if False:
         copydir_album()
 
     # Corel5K - github
@@ -319,7 +319,7 @@ def main():
         copydir_corel5k()
 
     # 百度网页
-    if True:
+    if False:
         copydir_baidu()
 
     # D:\worktemp\vehicle\vehicle
