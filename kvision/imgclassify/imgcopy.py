@@ -212,16 +212,16 @@ def copydir_corel5k():
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def copydir_album():
-    xlist1 = readfileLines(r"album94479\onehot_train.txt")
-    xlist2 = readfileLines(r"album94479\onehot_test.txt")
-    xlist3 = readfileLines(r"album94479\onehot_valid.txt")
+    xlist1 = readfileLines(r"baidu94479\onehot_train.txt")
+    xlist2 = readfileLines(r"baidu94479\onehot_test.txt")
+    xlist3 = readfileLines(r"baidu94479\onehot_valid.txt")
 
     def copydirx(xlist):
         labels = r"""Vehicle:vehicle
 Sky:scenery
 Food:food
 Person:people
-Building:architecture
+Building:building
 Animal:animal
 Cartoons:anime
 Certificate:text
@@ -243,13 +243,14 @@ Ship:vehicle""".split()
             tags = tags.strip().split(",")
             assert len(tags) == len(labels), name
 
-            imgfile = os.path.join(r"D:\BaiduNetdiskDownload\album\album\img", name)
+            imgfile = os.path.join(r"E:\BaiduNetdiskDownload\album\album\img", name)
             assert os.path.exists(imgfile), imgfile
 
             tagcount = len(tags)
             checktag = [labels[i].split(":")[-1] for i in range(tagcount) if tags[i] != "0"]
             checktag = list(set(checktag))
-            if len(checktag) != 1: continue
+            if len(checktag) != 1:
+                continue
 
             for i in range(tagcount):
                 if tags[i] == "0":
@@ -310,7 +311,7 @@ def main():
 
     # pp2
     # https://aistudio.baidu.com/datasetdetail/94479/
-    if False:
+    if True:
         copydir_album()
 
     # Corel5K - github
@@ -323,7 +324,7 @@ def main():
 
     # D:\worktemp\vehicle\vehicle
     # https://aistudio.baidu.com/datasetdetail/125181
-    if True:
+    if False:
         copydir_vehicle()
 
     print("ok")
