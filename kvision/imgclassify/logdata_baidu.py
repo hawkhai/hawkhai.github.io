@@ -37,10 +37,21 @@ def main():
             addkey(keyword, keywordmap)
             addkey(root, rootmap)
 
-    searchdir(r"logdata\baidu\dataset", mainfile)
+    if False:
+        searchdir(r"logdata\baidu\dataset", mainfile)
 
-    writefileJson(r"logdata\baidu\rootmap.json", rootmap, "utf8")
-    writefileJson(r"logdata\baidu\keywordmap.json", keywordmap, "utf8")
+        writefileJson(r"logdata\baidu\rootmap.json", rootmap, "utf8")
+        writefileJson(r"logdata\baidu\keywordmap.json", keywordmap, "utf8")
+    else:
+        rootmap = readfileJson(r"logdata\baidu\rootmap.json", "utf8")
+        keywordmap = readfileJson(r"logdata\baidu\keywordmap.json", "utf8")
+
+        cats = set()
+        for key in rootmap.keys():
+            cats.add(key.split("-")[0])
+        cats = list(cats)
+        
+        print("\r\n".join(cats))
 
 if __name__ == "__main__":
     main()
