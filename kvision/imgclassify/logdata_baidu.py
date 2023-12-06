@@ -50,7 +50,7 @@ def main():
         for key in rootmap.keys():
             cats.add(key.split("-")[0])
         cats = list(cats)
-        
+
         print("\r\n".join(cats))
 
 if __name__ == "__main__":
