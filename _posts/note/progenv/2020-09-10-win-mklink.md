@@ -25,6 +25,9 @@ ln -s source dist        # 建立软连接
 ln source dist           # 建立硬连接
 {% endhighlight %}
 
+Python+tkinter+pywin32 实现的用于创建和管理磁盘中符号链接的工具
+<https://www.52pojie.cn/thread-1814962-1-1.html>
+
 
 ## Windows 下面的链接
 
@@ -544,6 +547,7 @@ url2="/assets/images/200910-win-mklink/jlink.png" %}
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.ibm.com/developerworks/cn/linux/l-cn-hardandsymb-links/]({% include relrefx.html url="/backup/2020-09-10-win-mklink.md/www.ibm.com/f4d9cec1.html" %})
+- [https://www.52pojie.cn/thread-1814962-1-1.html]({% include relrefx.html url="/backup/2020-09-10-win-mklink.md/www.52pojie.cn/c80ff75e.html" %})
 - [http://www.maxi-pedia.com/mklink]({% include relrefx.html url="/backup/2020-09-10-win-mklink.md/www.maxi-pedia.com/6454a12e.html" %})
 - [https://blog.csdn.net/u010977122/article/details/86518967]({% include relrefx.html url="/backup/2020-09-10-win-mklink.md/blog.csdn.net/604ac786.html" %})
 - [https://stackoverflow.com/questions/9594066/how-to-get-program-files-x86-env-variable]({% include relrefx.html url="/backup/2020-09-10-win-mklink.md/stackoverflow.com/b2f06301.html" %})
