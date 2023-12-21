@@ -24,6 +24,8 @@ setlocale(LC_ALL, "chs");
 USES_CONVERSION_EX;
 CW2A(L"中文字符", CP_UTF8);
 ```
+[USES_CONVERSION 或 USES_CONVERSION_EX 在将 UNICODE 转化到 UTF-8 过程中，可能导致失败。 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/515098548)
+**W2A_CP 不靠谱，Unicode 转 UTF-8 可能失败。**
 
 ```
 // warning C4715: 不是所有的控件路径都返回值
@@ -3450,6 +3452,7 @@ class fastimagedll : public fastimage::IFastImageInterface {
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-14-tiny-source-code.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://zhuanlan.zhihu.com/p/515098548]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/zhuanlan.zhihu.com/016962af.html" %})
 - [https://learn.microsoft.com/zh-cn/cpp/cpp/destructors-cpp?view=msvc-170]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/learn.microsoft.com/2ebcc747.html" %})
 - [https://www.jianshu.com/p/f3612e78e926]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.jianshu.com/e1b62601.html" %})
 - [https://en.cppreference.com/w/cpp/filesystem]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/en.cppreference.com/cd20ccd3.html" %})
