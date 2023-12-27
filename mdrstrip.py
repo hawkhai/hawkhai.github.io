@@ -95,7 +95,14 @@ def checkpage(fdata):
         itag8 = bytesToString('pp.chuzushijian.cn'.encode("utf8"))
         itag9 = bytesToString('动力广告'.encode("utf8"))
 
-        G_CHECKPAGE.extend((itag0, itag1, itag2, itag3, itag4, itag5, itag6, itag7, itag8, itag9))
+        itag10 = bytesToString('<title>404 Not Found</title>'.encode("utf8"))
+        itag11 = bytesToString('<title>隐私设置错误</title>'.encode("utf8"))
+        itag12 = bytesToString('网站在更新其安全设置期间可能会经常显示警告。此问题应该很快就会得到改进。'.encode("utf8"))
+        itag13 = bytesToString('<h1>您的连接不是私密连接</h1>'.encode("utf8"))
+        itag14 = bytesToString('出现此问题的原因可能是配置有误或您的连接被拦截了。'.encode("utf8"))
+
+        G_CHECKPAGE.extend((itag0, itag1, itag2, itag3, itag4, itag5, itag6, itag7, itag8, itag9,
+                            itag10, itag11, itag12, itag13, itag14))
 
     for itag in G_CHECKPAGE:
         if fdata.find(itag) != -1:
@@ -211,7 +218,7 @@ title : %(title)s
         h = html2text.HTML2Text()
         h.ignore_links = False
         fdata = h.handle(fdata)
-        return fdata
+        return fdata.replace("{{", "{ {").replace("}}", "} }")
 
     # html 过大，自动切换到 mdfile
     if len(fdata) >= 1024*1000*1 and fdata.lower().find(b"<body") != -1 and fdata.lower().find(b"<html") != -1:
