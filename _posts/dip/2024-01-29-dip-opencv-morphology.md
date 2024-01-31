@@ -66,9 +66,36 @@ cv2.morphologyEx MORPH_BLACKHAT
 {% include image.html url="/assets/images/240129-dip-opencv-morphology/f023634b0d2a464ba18be75334587f38.png" %}
 
 
+## 基于 OpenCV 的图像修复技术
+
+<https://blog.csdn.net/m0_49047167/article/details/107178467>
+
+
+### 算法 INPAINT_TELEA 介绍
+
+基于快速行进算法（FMM），从待修补区域的边界向区域内部前进，先填充区域边界像素。
+选待修补区域小的领域，使用领域归一化加权和更新修复像素。（先修复待修改区域的边界，依据边界外正常的像素向内修复）
+
+Fast Marching Method
+这篇文章提出的是基于快速行进算法的图像修复，其主要思想则是基于沿图像梯度传播平滑估计器。图像的平滑主要来自于受损图像领域的加权平均。同时将缺失的区域视为水平集，并用 FMM（Fast Marching Method）来描述为图像信息的传播。
+
+{% include image.html url="/assets/images/240129-dip-opencv-morphology/20200707122132904.png" %}
+
+
+### 算法 INPAINT_NS 介绍
+
+通过匹配待修复区域的梯度相邻来延伸等光强线，灰度相等的点连成线，通过填充颜色使区域内的灰度值变化最小。
+
+{% include image.html url="/assets/images/240129-dip-opencv-morphology/20200707122306491.png" %}
+
+Navier-Stokes based 方法
+论文摘要：这种方法利用了经典流体动力学中的思想，将等照度线连续的从待修补区域周围传播到修补区域中去。主要的观点在于将图像强度视为了二维不可压缩流的流函数（stream function），其中图像强度的拉普拉斯量为流体的旋量、并将它通过矢量场定义的流函数输运到待修补区域。最终得到的算法会通过连续照度来匹配受损区域的梯度矢量。它直接依赖于流体力学中的纳维叶斯托克斯方程，具有较强的理论和数值优势。
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-01-29-dip-opencv-morphology.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://blog.csdn.net/m0_70885101/article/details/126339673]({% include relrefx.html url="/backup/2024-01-29-dip-opencv-morphology.md/blog.csdn.net/f59d9bfc.html" %})
+- [https://blog.csdn.net/m0_49047167/article/details/107178467]({% include relrefx.html url="/backup/2024-01-29-dip-opencv-morphology.md/blog.csdn.net/895f6395.html" %})
