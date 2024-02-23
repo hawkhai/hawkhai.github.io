@@ -249,8 +249,13 @@ $\boldsymbol a_1,\boldsymbol a_2,\cdots,\boldsymbol a_m$ 是 $m$ 个向量。
 
 ## 3.3 向量组的秩（一） 20:48
 
+{% include image.html url="/assets/images/220823-linear-algebraic/20240223111714.png" %}
+
 
 ## 3.3 向量组的秩（二） 35:39
+
+行秩 = 列秩 = 矩阵的秩 r(A)
+完成。
 
 
 ## 4.1 线性方程组 10:37
