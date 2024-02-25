@@ -260,6 +260,11 @@ $\boldsymbol a_1,\boldsymbol a_2,\cdots,\boldsymbol a_m$ 是 $m$ 个向量。
 
 ## 4.1 线性方程组 10:37
 
+消元：
+1. 交换两方程
+2. 用非零数乘某方程
+3. 某方程的 $l$ 倍加到另一方程
+
 
 ## 4.2 线性方程组有解判定 1:09:17
 
@@ -272,20 +277,49 @@ $\boldsymbol a_1,\boldsymbol a_2,\cdots,\boldsymbol a_m$ 是 $m$ 个向量。
 
 ## 4.4 方程组解的结构（二） 45:32
 
+又学了一遍《线性代数》，以前应试教育，
+都不知道自己学的啥玩意，这些年学了《图形学》《机器学习》等课程，
+再回头，这不都是同一个玩意吗。
+
 
 ## 上个视频 32 分钟的错误更正 01:24
 
 
 ## 5.1 矩阵的特征值与特征向量（一） 23:43
 
+完成。
+
 
 ## 5.1 矩阵的特征值与特征向量（二） 45:49
 
+n 阶对角型矩阵的特征值是主对角线上的元素。
 
-## 5,1 特征值和特征向量的性质 1:18:25
+
+## 5.1 特征值和特征向量的性质 1:18:25
+
+线代得有几何直觉才能真正理解。
+
+是一个特征值对应多个特征向量，一个特征向量对应一个特征值。
+
+互不相同的特征值对应的特征向量，
+不论这些特征值中一个对应多少特征向量，
+只要这些特征向量接在一起，它们仍然是线性无关的。
+
+入是 A 的特征多项式的 k 重特征值，A 的对应入的线性无关的特征向量最多是 k 个。
+k 重特征根对应的线性无关的特征向量的个数 <=k。
+
+教材就搞笑，培养人工计算器。
+<https://www.bilibili.com/video/BV1e54y1b7CA/>
+**行列式（二维）对应面积放大倍率。**
+**秩的意义：矩阵变换后的空间维度。矩阵列向量所张成空间的维度（基向量个数）。**
+
+特征向量是在该矩阵上 扩大一定倍数还和原来向量共线的向量。
+{% include image.html url="/assets/images/220823-linear-algebraic/20240225173248.png" %}
 
 
 ## A 星星的行列式的更正 01:35
+
+完成。
 
 
 ## 5.2 相似矩阵和矩阵可对角化的条件 1:06:14
@@ -336,3 +370,4 @@ $\boldsymbol a_1,\boldsymbol a_2,\cdots,\boldsymbol a_m$ 是 $m$ 个向量。
 - [https://www.xiaohongshu.com/explore/6062a48a000000000102411f]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.xiaohongshu.com/ade04cfe.html" %})
 - [https://zhuanlan.zhihu.com/p/416717502]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/zhuanlan.zhihu.com/9094b2cf.html" %})
 - [https://www.zhihu.com/people/bing-wu-76-42]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.zhihu.com/aae3ae36.html" %})
+- [https://www.bilibili.com/video/BV1e54y1b7CA/]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.bilibili.com/cb763e78.html" %})
