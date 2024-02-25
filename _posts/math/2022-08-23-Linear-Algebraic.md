@@ -324,6 +324,24 @@ k 重特征根对应的线性无关的特征向量的个数 <=k。
 
 ## 5.2 相似矩阵和矩阵可对角化的条件 1:06:14
 
+常用的可逆变换有：等价、相似、合同。
+{% include image.html url="/assets/images/220823-linear-algebraic/20240225201347.png" %}
+
+相似 & 相似对角形。
+{% include image.html url="/assets/images/220823-linear-algebraic/20240226000155.png" %}
+{% include image.html url="/assets/images/220823-linear-algebraic/20240226000302.png" %}
+{% include image.html url="/assets/images/220823-linear-algebraic/20240226000334.png" %}
+
+相似性的核心在于 —— 让矩阵变得尽可能简单但同时保留它的必要属性。
+
+目录：
+第一章 行列式
+第二章 矩阵
+第三章 向量
+第四章 线性方程组
+第五章 特征值与特征向量
+第六章 二次型
+
 
 ## 5.3 实对称矩阵的对角化（一） 26:46
 
