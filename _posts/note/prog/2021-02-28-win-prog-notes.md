@@ -16,6 +16,18 @@ codeprint:
 ---
 
 
+## [WinError 384] 因为文件共享不安全，所以你不能连接到文件共享。此共享需要过时的 SMB1 协议，而此协议是不安全的，可能会使你的系统遭受攻击。
+
+因为文件共享不安全，所以你不能连接到文件共享。此共享需要过时的 SMB1 协议，而此协议是不安全的，可能会使你的系统遭受攻击。
+你的系统需要 SMB2 或更高版本。有关如何解决此问题的信息。
+
+1. 在左侧菜单中选择“打开或关闭 Windows 功能”。win+R 输入 optionalfeatures 打开 Windows 功能。
+2. 找到并展开“SMB 1.0/CIFS 文件共享支持”选项。
+3. 取消选中“SMB 1.0/CIFS 自动适应”和“SMB 1.0/CIFS 客户端”选项。
+
+{% include image.html url="/assets/images/210228-win-prog-notes/ec71886df27b47019a388851ada64da5.png" %}
+
+
 ## Win10 共享目录无法访问
 
 {% include image.html url="/assets/images/210228-win-prog-notes/20230719-110921.jpg" %}
