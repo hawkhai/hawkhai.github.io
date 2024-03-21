@@ -413,7 +413,7 @@ def tidyupImg(imglocal, fpath, line, imgthumb=True):
         #    return tidyupImg(imglocal, fpath, line)
 
     imgtype = imgfname.split(".")[-1].lower()
-    if not imgtype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4", "zip", "bmp", "svg", "jfif", "webm"):
+    if not imgtype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4", "zip", "bmp", "svg", "jfif", "webm", "avif",):
         print(imglocal, fpath, line)
         assert False, imglocal
 
