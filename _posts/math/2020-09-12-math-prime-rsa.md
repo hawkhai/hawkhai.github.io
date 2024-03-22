@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "数学之美 -- RSA 非对称加密简明原理与大素数生成算法"
+title: "MATHEMATICS -- RSA 非对称加密简明原理与大素数生成算法"
 author:
 location: "珠海"
 categories: ["数学"]

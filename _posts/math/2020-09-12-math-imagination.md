@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "数学之美 -- 数学和想象力"
+title: "MATHEMATICS -- 数学和想象力"
 author:
 location: "珠海"
 categories: ["数学"]

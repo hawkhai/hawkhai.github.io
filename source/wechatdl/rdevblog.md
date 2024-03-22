@@ -1619,7 +1619,7 @@
 [分享时刻：毒霸系统防御驱动工作原理](http://blog.rdev.kingsoft.net/?p=242)
 
 1. <img width="400" height="350" src="http://blog.rdev.kingsoft.net/wp-content/themes/market/images/dthumb.png" />
-[分享时刻：新毒霸数学之美启发引擎](http://blog.rdev.kingsoft.net/?p=241)
+[分享时刻：新毒霸 MATHEMATICS 启发引擎](http://blog.rdev.kingsoft.net/?p=241)
 
 1. <img width="400" height="350" src="http://blog.rdev.kingsoft.net/wp-content/themes/market/images/dthumb.png" />
 [分享时刻：Xcon 2012 安全焦点信息安全技术峰会分享](http://blog.rdev.kingsoft.net/?p=240)

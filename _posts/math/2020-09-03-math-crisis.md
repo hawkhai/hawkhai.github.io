@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "数学之美 -- 三次数学危机"
+title: "MATHEMATICS -- 三次数学危机"
 author:
 location: "珠海"
 categories: ["数学"]

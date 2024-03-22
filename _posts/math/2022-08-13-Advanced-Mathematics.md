@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "数学之美 --《高等数学》同济版 宋浩老师（已完成）"
+title: "MATHEMATICS --《高等数学》同济版 宋浩老师（已完成）"
 author:
 location: "珠海"
 categories: ["数学"]

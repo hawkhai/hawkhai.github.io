@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "数学之美 -- 0.999…=1？数到底是什么？李永乐老师讲数学公理化"
+title: "MATHEMATICS -- 0.999…=1？数到底是什么？李永乐老师讲数学公理化"
 author:
 location: "珠海"
 categories: ["数学"]

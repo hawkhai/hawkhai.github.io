@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "数学之美 --《概率论与数理统计》宋浩老师（进行中……）"
+title: "MATHEMATICS --《概率论与数理统计》宋浩老师（进行中……）"
 author:
 location: "珠海"
 categories: ["数学"]
