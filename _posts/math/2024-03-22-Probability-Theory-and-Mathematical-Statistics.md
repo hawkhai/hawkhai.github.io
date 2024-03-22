@@ -21,9 +21,9 @@ cluster: "机器学习的数学基础"
 
 机器学习的数学基础 三部曲的最后一个：高等数学、线性代数、概率论与数理统计，加油。
 
-* [高等数学]({% include relref.html url="/blog/2022/08/13/Advanced-Mathematics" %})
-* [线性代数]({% include relref.html url="/blog/2022/08/23/Linear-Algebraic" %})
-* [概率论与数理统计]({% include relref.html url="/blog/2024/03/22/Probability-Theory-and-Mathematical-Statistics" %})
+* [高等数学]({% include relref.html url="/blog/2022/08/13/Advanced-Mathematics" %}) 79:10:49
+* [线性代数]({% include relref.html url="/blog/2022/08/23/Linear-Algebraic" %}) 29:41:49
+* [概率论与数理统计]({% include relref.html url="/blog/2024/03/22/Probability-Theory-and-Mathematical-Statistics" %}) 69:19:55
 
 
 ## 1.1.1 随机试验与随机事件【板书】 24:17
