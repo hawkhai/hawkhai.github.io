@@ -13,7 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
-cluster: "数学基础"
+cluster: "机器学习的数学基础"
 ---
 
 > 外练筋骨皮，内练一口气，如果想要在互联网行业中生存下去，越来越需要高能力，高素质，已经不是以前的时代了。
