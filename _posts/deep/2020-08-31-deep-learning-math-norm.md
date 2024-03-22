@@ -224,6 +224,44 @@ $$
 {% include image.html url="/assets/images/200831-deep-learning-math-norm/20140504122410234.png" %}
 
 
+## L1 vs L2
+
+L1 在江湖上人称 Lasso，L2 人称 Ridge。
+[note {% include relref_cnblogs.html %}](https://www.cnblogs.com/fanhaha/p/7104997.html)
+
+我们将模型空间限制在 w 的一个 L1-ball 中。为了便于可视化，我们考虑两维的情况，在 (w1, w2) 平面上可以画出目标函数的等高线，
+而约束条件则成为平面上半径为 C 的一个 norm ball 。等高线与 norm ball 首次相交的地方就是最优解：
+
+{% include image.html url="/assets/images/200831-deep-learning-math-norm/20140504123020546.png" %}
+
+可以看到，L1-ball 与 L2-ball 的不同就在于 L1 在和每个坐标轴相交的地方都有“角”出现，而目标函数的测地线除非位置摆得非常好，
+大部分时候都会在角的地方相交。注意到在角的位置就会产生稀疏性，例如图中的相交点就有 w1=0，
+而更高维的时候（想象一下三维的 L1-ball 是什么样的？）除了角点以外，还有很多边的轮廓也是既有很大的概率成为第一次相交的地方，
+又会产生稀疏性。
+
+相比之下，L2-ball 就没有这样的性质，因为没有角，所以第一次相交的地方出现在具有稀疏性的位置的概率就变得非常小了。
+这就从直观上来解释了为什么 L1-regularization 能产生稀疏性，而 L2-regularization 不行的原因了。
+
+因此，一句话总结就是：L1 会趋向于产生少量的特征，而其他的特征都是 0，而 L2 会选择更多的特征，这些特征都会接近于 0。
+Lasso 在特征选择时候非常有用，而 Ridge 就只是一种规则化而已。
+
+​​​​​​​q 不同取值时正则项的函数值图像
+{% include image.html url="/assets/images/200831-deep-learning-math-norm/5cf8e68c59424ec38624bf8916f01edc~noop.png" %}
+
+不同函数值图像对应的等高线（即俯视图）为
+{% include image.html url="/assets/images/200831-deep-learning-math-norm/7c1a431c85774da7b095b47ccb56348d~noop.png" %}
+图像等高线
+
+L1 正则先验是 Laplace 分布，L2 正则先验分布是高斯分布。
+
+* L-0 范数：用来统计向量中非零元素的个数。
+* L-1 范数：向量中所有元素的绝对值之和。可用于优化中去除没有取值的信息，又称稀疏规则算子。
+* L-2 范数：典型应用 —— 欧式距离。可用于优化正则化项，避免过拟合。
+* L-∞范数：计算向量中的最大值。
+
+{% include image.html url="/assets/images/200831-deep-learning-math-norm/20240121192729.png" %}
+
+
 ## 参考
 
 <div id="refer-anchor-1"></div>
@@ -240,6 +278,7 @@ $$
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-08-31-deep-learning-math-norm.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.cnblogs.com/fanhaha/p/7104997.html]({% include relrefx.html url="/backup/2020-08-31-deep-learning-math-norm.md/www.cnblogs.com/54655134.html" %})
 - [http://zh.gluon.ai/]({% include relrefx.html url="/backup/2020-08-31-deep-learning-math-norm.md/zh.gluon.ai/b73bb84d.html" %})
 - [https://ww2.mathworks.cn/help/matlab/ref/norm.html]({% include relrefx.html url="/backup/2020-08-31-deep-learning-math-norm.md/ww2.mathworks.cn/a7e5323f.html" %})
 - [https://mathpix.com/]({% include relrefx.html url="/backup/2020-08-31-deep-learning-math-norm.md/mathpix.com/6a3d6789.html" %})
