@@ -249,8 +249,7 @@ Lasso 在特征选择时候非常有用，而 Ridge 就只是一种规则化而�
 {% include image.html url="/assets/images/200831-deep-learning-math-norm/5cf8e68c59424ec38624bf8916f01edc~noop.png" %}
 
 不同函数值图像对应的等高线（即俯视图）为
-{% include image.html url="/assets/images/200831-deep-learning-math-norm/7c1a431c85774da7b095b47ccb56348d~noop.png" %}
-图像等高线
+{% include image.html url="/assets/images/200831-deep-learning-math-norm/7c1a431c85774da7b095b47ccb56348d~noop.png" caption="图像等高线" %}
 
 L1 正则先验是 Laplace 分布，L2 正则先验分布是高斯分布。
 
