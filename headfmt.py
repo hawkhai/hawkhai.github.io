@@ -20,7 +20,7 @@ def regularTitle(fpath):
     regex = "^.*?{}.*? --( |《)[^《]".format(category)
     if getPostValue(fpath, "titlecheck"):
         return
-    if not refindall(regex, title):
+    if not refindall(regex, title) and not refindall(regex.replace("数学", "MATHEMATICS"), title):
         openTextFile(fpath)
         assert False, regex
 
