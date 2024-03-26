@@ -9,7 +9,7 @@ toc: true
 toclistyle:
 comments:
 visibility:
-mathjax:
+mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
@@ -49,20 +49,34 @@ cluster: "机器学习的数学基础"
 
 ## 1.2.4 频率与概率【板书】 11:00
 
+完成。
+
 
 ## 1.2.5 公理化（理论）【板书】 32:35
+
+完成。
 
 
 ## 1.2.5 公理化（例题）【板书】 30:23
 
+完成。
+
 
 ## 1.3.1 条件概率【板书】 20:52
+
+$$
+P(A \mid B)=\frac{P(A B)}{P(B)}
+$$
 
 
 ## 1.3.2 乘法公式【板书】 38:58
 
 
 ## 1.4.1 全概率公式【板书】 28:41
+
+$$
+P(B)=\sum_{i=1}^n P\left(A_i\right) P\left(B \mid A_i\right)
+$$
 
 
 ## 1.4.2 贝叶斯公式【板书】 36:29
