@@ -179,6 +179,14 @@ $$
 
 ## 2.2.3 正态分布【板书】 1:10:54
 
+$$
+{\Large f(x)=\frac{1}{\sqrt{2 \pi} \sigma} e^{-\frac{(x-\mu)^{2}}{2 \sigma^{2}}} \quad(\mu \in R, \sigma>0)}
+$$
+则称 X 服从参数为
+$$(\mu,\sigma^2)$$
+的正态分布（normal distribution），记为
+$$X-N(μ,σ^2)$$
+
 
 ## 2.3.1 随机变量函数的分布（离散型）【板书】 10:22
 
