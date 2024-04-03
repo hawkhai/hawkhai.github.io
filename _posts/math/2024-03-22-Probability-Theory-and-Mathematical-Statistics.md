@@ -200,6 +200,8 @@ $z\sim N(0,1)$ 标准化。
 
 ## 2.3.2 随机变量函数的分布（连续型）【板书】 1:12:36
 
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/20240403205918.png" %}
+
 
 ## 3.1.1 二维随机变量及其分布函数【板书】 34:21
 
