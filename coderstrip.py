@@ -50,6 +50,7 @@ DIACRITIC = """
 σ τ υ φ χ
 ψ ω
 ·
+Σ
 """
 DIACRITIC = "[{}]".format("".join(DIACRITIC.split()))
 
