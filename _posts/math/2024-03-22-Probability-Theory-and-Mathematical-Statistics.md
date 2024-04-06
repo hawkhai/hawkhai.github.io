@@ -229,8 +229,15 @@ $z\sim N(0,1)$ 标准化。
 
 ## 3.3.1 二维离散型随机变量函数的分布【板书】 12:46
 
+泊松分布具有可加性。
+
 
 ## 3.3.2 二维连续型随机变量函数的分布 1:06:27
+
+卷积公式。
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/v2-09992832332b8b1e0a9632435175e4a8_1440w.webp" %}
+
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/20240406172511.png" %}
 
 
 ## 宋浩老师与韩帅的午餐之旅 07:19
