@@ -262,7 +262,7 @@ $z\sim N(0,1)$ 标准化。
 
 偏离程度。
 $$
-\text { 方差 : } D X=E(X-E x)^2
+\text { 方差 : } D(X) = E(X^2) − E(X)^2
 $$
 
 
@@ -270,6 +270,21 @@ $$
 
 
 ## 4.3.1 常见离散型的期望与方差 39:04
+
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/v2-1626f6965ab98af0c18e36e4be8b5693_1440w.webp" %}
+
+概率论六大分布：
+
+* （离散）0-1、二项、泊松
+* （连续）均匀、指数、正态
+
+数理统计三大分布：
+
+* 卡方分布、t 分布、F 分布
+
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/v2-291f0eddaa2589a0f475588d302e7e9d_1440w.webp" %}
+
+这集很有意思，每个分布的推导过程。
 
 
 ## 4.3.2 常见连续型的期望与方差 26:13
