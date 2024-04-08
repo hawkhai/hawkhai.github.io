@@ -623,7 +623,7 @@ pyinstaller 打包绿色软件，每次解压启动慢，如果
 
 * ksample.py 上传下载管理整个 ksample。
 * kremote.py
-    * `upcode idxcode` 上传当前 pythonx 代码。
+    * `upcode rebindex` 上传当前 pythonx 代码。
     * `downcode` 下载当前 pythonx 代码。
     * `upload image_ksample.json symlink` 上传图片。
     * `download image_ksample.json` 下载图片。
@@ -634,7 +634,7 @@ pyinstaller 打包绿色软件，每次解压启动慢，如果
 * pythonx 代码。
     * UPCODE = "upcode" in sys.argv 上传代码。
     * DOWNCODE = "downcode" in sys.argv 下载代码。
-    * IDXCODE = "idxcode" in sys.argv 更新本地代码索引。
+    * REBINDEX = "rebindex" in sys.argv 更新本地代码索引。
 
 * 图片文件相关。
     * UPLOAD = "upload" in sys.argv 上传图片。
