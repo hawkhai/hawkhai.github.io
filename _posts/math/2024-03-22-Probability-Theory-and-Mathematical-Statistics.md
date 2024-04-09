@@ -285,6 +285,12 @@ $$
 {% include image.html url="/assets/images/240322-probability-theory-and-~5b/v2-291f0eddaa2589a0f475588d302e7e9d_1440w.webp" %}
 
 这集很有意思，每个分布的推导过程。
+* 0-1。例如硬币投掷（正面或反面）、产品合格或不合格的检验等等。
+* 二项。在二项分布中，每次试验有两种可能的结果，通常用 0 和 1 来表示（或者用其他两个互斥的值）。
+* 几何。几何分布描述了在多次试验中首次成功所需要的试验次数的概率分布。
+* 泊松。例如自然灾害的发生次数、客户到达商店的次数、电子邮件到达某个邮箱的次数等等。
+
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/20240410004716.png" %}
 
 
 ## 4.3.2 常见连续型的期望与方差 26:13
@@ -294,6 +300,13 @@ $$
 
 
 ## 4.4.1 协方差 27:18
+
+$$
+D(X \pm Y)=D X+D Y \pm 2 \operatorname{Cov}(X . Y)
+$$
+$$
+\operatorname{Cov}(X . Y)=E(X Y)-EXEY
+$$
 
 
 ## 4.4.2 相关系数 40:32
