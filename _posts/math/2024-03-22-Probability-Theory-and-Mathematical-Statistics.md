@@ -308,8 +308,16 @@ $$
 \operatorname{Cov}(X . Y)=E(X Y)-EXEY
 $$
 
+独立时，协方差一定等于零。协方差等于零不一定独立。因为有特殊情况。
+
+特征工程里面消量纲。
+
 
 ## 4.4.2 相关系数 40:32
+
+$$
+\rho=\frac{\operatorname{cov}(X, Y)}{\sqrt{D X} \sqrt{D Y}}=\frac{E(X Y)-E X E Y}{\sqrt{D X} \sqrt{D Y}}
+$$
 
 
 ## 4.5 中心矩与原点矩 05:11
