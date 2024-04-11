@@ -325,6 +325,12 @@ $$
 
 ## 5.1 大数定律 1:06:03
 
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/20240412002153.png" %}
+玄甲青梅竹马
+朝露春水桃花
+蛾眉朱雀黄桐
+蚍蜉金缕太阿
+
 
 ## 5.2 中心极限定理 46:12
 
