@@ -334,6 +334,13 @@ $$
 
 ## 5.2 中心极限定理 46:12
 
+二项分布。
+* n 大，np 适中。看成 泊松分布。
+* n 大，np 大。看成 正态分布。
+
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/20240414225311.png" %}
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/20240414225231.png" %}
+
 
 ## 6.1 总体与样本 10:57
 
