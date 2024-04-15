@@ -350,8 +350,14 @@ $$
 
 ## 6.2.2 常用统计量 23:24
 
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/20240416014809.png" %}
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/20240416014855.png" %}
+
 
 ## 6.3.1 抽样分布 1:10:12
+
+卡方分布
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/v2-0d2eeca45d3e5ef0808dd07819dca9f5_r.jpg" %}
 
 
 ## 6.3.2 正态总体下的抽样分布 45:32
