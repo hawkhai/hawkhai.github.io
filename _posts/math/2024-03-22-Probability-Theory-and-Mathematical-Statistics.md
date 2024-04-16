@@ -359,6 +359,20 @@ $$
 卡方分布
 {% include image.html url="/assets/images/240322-probability-theory-and-~5b/v2-0d2eeca45d3e5ef0808dd07819dca9f5_r.jpg" %}
 
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/6e7c1593b5104ebd87aa8fab649b2e5f.png" %}
+
+$$
+\chi^{2} 分布是由 n 个相互独立的标准正态分布的平方和确定的分布，记作 \chi^2\sim\chi^2(n), 即   \chi^{2}\:=\:\sum_{i}^{n}\:(\:N(0,1)\:)_{i}^{2}\:\sim\chi^{2}\:(n)
+$$
+
+$$
+t 分布的分子是一个 N(0,1), 分母是自由度为 n 的 \chi^{2} 分布与自由度 n 的比值再开方确定的分布， 记作 t\:\sim\:t\left(n\right) , 即  t\:=\:\frac{N\left(0,1\right)}{\sqrt{\chi^{2}\left(n\right)/n}}\:\sim\:t\left(n\right)
+$$
+
+$$
+F 分布是由两个 \chi^{2} 分布与其自由度比值的比值确定的分布，记作 F\sim F(n_1,n)
+$$
+
 
 ## 6.3.2 正态总体下的抽样分布 45:32
 
