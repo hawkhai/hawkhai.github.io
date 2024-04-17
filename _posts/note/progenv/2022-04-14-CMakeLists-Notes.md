@@ -22,6 +22,15 @@ cluster: "CMake"
 
 [CMake 备忘录 {% include relref_cnblogs.html %}](https://www.cnblogs.com/zjutzz/p/13340318.html)
 
+to generate:
+* cmake -S "E:\kpdf\fastpdf-turbo" -B "E:\kpdf\fastpdf-turbo\build" -G "Visual Studio 15 2017 Win64"
+* cmake -S "E:\kpdf\fastpdf-turbo" -B "E:\kpdf\fastpdf-turbo\build" -G "Visual Studio 16 2019" -A "x64"
+
+* cmake .. -G "Visual Studio 16 2019" -A "Win32"
+
+to build:
+* cmake --build "E:\kpdf\fastpdf-turbo\build"
+
 
 ## $<$<CONFIG:Debug>:Release> $<$<CONFIG:Release>:Debug>
 
