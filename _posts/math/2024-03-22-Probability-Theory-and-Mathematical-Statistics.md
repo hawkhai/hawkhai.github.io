@@ -362,16 +362,33 @@ $$
 {% include image.html url="/assets/images/240322-probability-theory-and-~5b/6e7c1593b5104ebd87aa8fab649b2e5f.png" %}
 
 $$
-\chi^{2} 分布是由 n 个相互独立的标准正态分布的平方和确定的分布，记作 \chi^2\sim\chi^2(n), 即   \chi^{2}\:=\:\sum_{i}^{n}\:(\:N(0,1)\:)_{i}^{2}\:\sim\chi^{2}\:(n)
+\chi^{2}
 $$
+分布是由 $$n$$ 个相互独立的标准正态分布的平方和确定的分布，记作 $$\chi^2\sim\chi^2(n)$$，
+即
+$$\chi^{2}\:=\:\sum_{i}^{n}\:(\:N(0,1)\:)_{i}^{2}\:\sim\chi^{2}\:(n)$$。
 
 $$
-t 分布的分子是一个 N(0,1), 分母是自由度为 n 的 \chi^{2} 分布与自由度 n 的比值再开方确定的分布， 记作 t\:\sim\:t\left(n\right) , 即  t\:=\:\frac{N\left(0,1\right)}{\sqrt{\chi^{2}\left(n\right)/n}}\:\sim\:t\left(n\right)
+t
 $$
+分布的分子是一个 $$N(0,1)$$，
+分母是自由度为 $$n$$ 的 $$\chi^{2}$$ 分布与自由度 $$n$$ 的比值再开方确定的分布，
+记作 $$t\:\sim\:t\left(n\right)$$，即
+$$t\:=\:\frac{N\left(0,1\right)}{\sqrt{\chi^{2}\left(n\right)/n}}\:\sim\:t\left(n\right)$$。
 
 $$
-F 分布是由两个 \chi^{2} 分布与其自由度比值的比值确定的分布，记作 F\sim F(n_1,n)
+F
 $$
+分布是由两个 $$\chi^{2}$$ 分布与其自由度比值的比值确定的分布，记作 $$F\sim F(n_1,n)$$。
+
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/20240418004942.png" %}
+
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/20240418010805.png" %}
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/20240418010830.png" %}
+
+**宋浩劝学**
+宋浩老师讲了一段，我们为什么要努力？
+生活是现实，不是童话，主要是让家人更 **体面** 一点，更舒服一点。
 
 
 ## 6.3.2 正态总体下的抽样分布 45:32
