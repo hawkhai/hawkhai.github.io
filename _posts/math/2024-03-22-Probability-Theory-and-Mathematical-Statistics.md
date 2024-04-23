@@ -409,6 +409,23 @@ $$
 
 ## 7.2 点估计的优良性准则 30:44
 
+无偏性、有效性、一致性。
+
+求期望：
+$$
+\text { 无偏性 } E \hat{\theta}=\theta
+$$
+
+求方差：
+$$
+\text { 有效性 } D\left(\hat{\theta}_1\right) \leq D\left(\hat{\theta}_2\right)
+$$
+
+求极限：
+$$
+\lim _{n \rightarrow+\infty} P(|\hat{\theta}-\theta|<\varepsilon)=1
+$$
+
 
 ## 财富 radio 宋浩：数学有意思 【精华版】 03:58
 
