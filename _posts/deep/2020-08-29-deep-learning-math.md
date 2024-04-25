@@ -13,6 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
+cluster: "机器学习的数学基础"
 ---
 
 《动手学深度学习》[<sup>[1]</sup>](#refer-anchor-1)
