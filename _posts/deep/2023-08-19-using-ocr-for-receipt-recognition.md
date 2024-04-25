@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "机器学习 -- Deep Dive Into OCR for Receipt Recognition"
+title: "人工智能 -- Deep Dive Into OCR for Receipt Recognition"
 author:
 location: "珠海"
-categories: ["机器学习"]
-tags: ["机器学习"]
+categories: ["人工智能"]
+tags: ["人工智能"]
 toc: true
 toclistyle: none
 comments:
@@ -13,7 +13,7 @@ mathjax:
 mermaid:
 glslcanvas:
 codeprint:
-cluster: "机器学习课程"
+cluster: "人工智能课程"
 ---
 
 > No matter what you choose, an LSTM or another complex method, there is no silver bullet. Some methods are hard to use and not always useful.

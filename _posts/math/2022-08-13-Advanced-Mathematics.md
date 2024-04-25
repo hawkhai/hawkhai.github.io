@@ -13,7 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
-cluster: "机器学习的数学基础"
+cluster: "人工智能的数学基础"
 ---
 
 重新学了一遍《高数》，给宋浩老师冲了 100 块钱。宋浩老师的《高数》累计播放量上亿，是 B 站播放量第一的视频。

@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "机器学习笔记 -- 数学×概率分布（Probability Distribution）"
+title: "人工智能笔记 -- 数学×概率分布（Probability Distribution）"
 author:
 location: "珠海"
-categories: ["机器学习"]
-tags: ["机器学习"]
+categories: ["人工智能"]
+tags: ["人工智能"]
 toc: true
 toclistyle:
 comments:

@@ -13,7 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
-cluster: "机器学习的数学基础"
+cluster: "人工智能的数学基础"
 ---
 
 奇异值分解本质上是 **特征值分解的一个扩展** ，就是将一个 $$m×n$$ 的矩阵分解成三个矩阵相乘。

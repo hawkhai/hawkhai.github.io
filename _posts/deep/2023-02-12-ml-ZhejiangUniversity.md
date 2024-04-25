@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "机器学习 -- 浙江大学 · 机器学习（已完成）"
+title: "人工智能 -- 浙江大学 · 机器学习（已完成）"
 author:
 location: "珠海"
-categories: ["机器学习"]
-tags: ["机器学习"]
+categories: ["人工智能"]
+tags: ["人工智能"]
 toc: true
 toclistyle: none
 comments:
@@ -13,7 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
-cluster: "机器学习课程"
+cluster: "人工智能课程"
 ---
 
 路虽远行则将至。

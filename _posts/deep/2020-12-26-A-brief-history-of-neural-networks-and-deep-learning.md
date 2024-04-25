@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "机器学习笔记 -- 神经网络和深度学习简史"
+title: "人工智能笔记 -- 神经网络和深度学习简史"
 author:
 location: "珠海"
-categories: ["机器学习"]
-tags: ["机器学习"]
+categories: ["人工智能"]
+tags: ["人工智能"]
 toc: true
 toclistyle:
 comments:

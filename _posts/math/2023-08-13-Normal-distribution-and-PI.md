@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "机器学习 -- 正态分布中为什么有 π？"
+title: "人工智能 -- 正态分布中为什么有 π？"
 author:
 location: "珠海"
-categories: ["机器学习"]
-tags: ["机器学习"]
+categories: ["人工智能"]
+tags: ["人工智能"]
 toc: true
 toclistyle:
 comments:

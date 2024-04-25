@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "机器学习 -- 卡尔曼滤波（Kalman filtering）"
+title: "人工智能 -- 卡尔曼滤波（Kalman filtering）"
 author:
 location: "珠海"
-categories: ["机器学习"]
-tags: ["机器学习"]
+categories: ["人工智能"]
+tags: ["人工智能"]
 toc: true
 toclistyle:
 comments:

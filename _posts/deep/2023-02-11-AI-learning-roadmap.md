@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "机器学习 -- 人工智能学习路线（进行中……）"
+title: "人工智能 -- 人工智能学习路线（进行中……）"
 author:
 location: "珠海"
-categories: ["机器学习"]
-tags: ["机器学习"]
+categories: ["人工智能"]
+tags: ["人工智能"]
 toc: true
 toclistyle:
 comments:
@@ -14,7 +14,7 @@ mermaid:
 glslcanvas:
 codeprint:
 date: 2023-02-11 01:57:58 +0800
-cluster: "机器学习课程"
+cluster: "人工智能课程"
 ---
 
 深度学习与炼丹。
