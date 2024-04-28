@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "人工智能 -- ChatGPT Prompt 提示词 吴恩达（进行中）"
+title: "机器学习 -- ChatGPT Prompt 提示词 吴恩达（进行中）"
 author:
 location: "珠海"
-categories: ["人工智能"]
-tags: ["人工智能"]
+categories: ["机器学习"]
+tags: ["机器学习"]
 toc: true
 toclistyle: none
 comments:
@@ -13,7 +13,7 @@ mathjax:
 mermaid:
 glslcanvas:
 codeprint:
-cluster: "人工智能课程"
+cluster: "机器学习课程"
 ---
 
 <https://www.bilibili.com/video/BV1Z14y1Z7LJ/>

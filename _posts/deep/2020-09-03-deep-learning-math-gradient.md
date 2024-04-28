@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "人工智能笔记 -- 数学×梯度（Gradient）与梯度下降法（Gradient Descent）"
+title: "机器学习笔记 -- 数学×梯度（Gradient）与梯度下降法（Gradient Descent）"
 author:
 location: "珠海"
-categories: ["人工智能"]
-tags: ["人工智能"]
+categories: ["机器学习"]
+tags: ["机器学习"]
 toc: true
 toclistyle:
 comments:

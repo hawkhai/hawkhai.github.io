@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "人工智能 -- 极大似然估计（MLE，Maximum Likelihood Estimation）"
+title: "机器学习 -- 极大似然估计（MLE，Maximum Likelihood Estimation）"
 author:
 location: "珠海"
-categories: ["人工智能"]
-tags: ["人工智能"]
+categories: ["机器学习"]
+tags: ["机器学习"]
 toc: true
 toclistyle:
 comments:

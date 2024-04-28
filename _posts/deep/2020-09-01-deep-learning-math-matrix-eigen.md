@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "人工智能笔记 -- 数学×矩阵的特征值和特征向量"
+title: "机器学习笔记 -- 数学×矩阵的特征值和特征向量"
 author:
 location: "珠海"
-categories: ["人工智能"]
-tags: ["人工智能"]
+categories: ["机器学习"]
+tags: ["机器学习"]
 toc: true
 toclistyle:
 comments:

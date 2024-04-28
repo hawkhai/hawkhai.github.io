@@ -13,7 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
-cluster: "人工智能的数学基础"
+cluster: "机器学习的数学基础"
 ---
 
 [《概率论与数理统计》教学视频全集（宋浩） {% include relref_bili.html %}](https://www.bilibili.com/video/BV1ot411y7mU)

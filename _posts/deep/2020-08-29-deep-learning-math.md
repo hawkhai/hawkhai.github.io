@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "人工智能笔记 -- 环境搭建 & 数学基础"
+title: "机器学习笔记 -- 环境搭建 & 数学基础"
 author:
 location: "珠海"
-categories: ["人工智能"]
-tags: ["人工智能"]
+categories: ["机器学习"]
+tags: ["机器学习"]
 toc: true
 toclistyle:
 comments:
@@ -13,7 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
-cluster: "人工智能的数学基础"
+cluster: "机器学习的数学基础"
 ---
 
 《动手学深度学习》[<sup>[1]</sup>](#refer-anchor-1)
