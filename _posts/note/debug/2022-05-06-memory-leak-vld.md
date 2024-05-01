@@ -78,12 +78,13 @@ DrMemory-Windows-sfx.exe
 **Dr. Memory** (www.drmemory.org) is an open-source dynamic memory
 monitoring tool for Windows, Linux, and Mac.
 
+
 ## MacOS valgrind
 
-https://github.com/LouisBrunner/valgrind-macos
+<https://github.com/LouisBrunner/valgrind-macos>
 
-C++内存检查 (Valgrind VS Asan)
-https://zhuanlan.zhihu.com/p/508470880
+C++ 内存检查 (Valgrind VS Asan)
+<https://zhuanlan.zhihu.com/p/508470880>
 
 
 ## Leakdiag
@@ -136,4 +137,6 @@ https://zhuanlan.zhihu.com/p/508470880
 - [https://github.com/dmoulding/vld]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/github.com/a11363fc.html" %})
 - [https://github.com/oneiric/vld]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/github.com/8d5aee04.html" %})
 - [https://github.com/derickr/vld]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/github.com/ab07174a.html" %})
+- [https://github.com/LouisBrunner/valgrind-macos]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/github.com/5b960da5.html" %})
+- [https://zhuanlan.zhihu.com/p/508470880]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/zhuanlan.zhihu.com/947157ba.html" %})
 - [http://ftpmirror.your.org/pub/misc/ftp.microsoft.com/PSS/Tools/Developer%20Support%20Tools/LDGrapher/]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/ftpmirror.your.org/070ecfdd.html" %})
