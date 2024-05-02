@@ -245,6 +245,26 @@ $z\sim N(0,1)$ 标准化。
 
 ## 4.1.1 离散型变量的数学期望 12:55
 
+$$
+\begin{array}{l}
+
+定义：\\
+X 的分布律：P[X=x_{k}]=p_{k},k=1,2,...\\
+X 的概率密度函数：f(x)\\
+随机变量 X 的期望 / 均值：\\
+\mathbb{E}(X)=\sum_{k=1}^{\infty }x_{k}p_{k}\\
+\mathbb{E}(X)=\int_{-\infty}^{\infty}xf(x)dx \\
+性质：\\
+C 为常数 \\
+\mathbb{E}(C)=C\\
+\mathbb{E}(CX)=C\mathbb{E}(X)\\
+\mathbb{E}(X+Y)=\mathbb{E}(X)+\mathbb{E}(Y)\\
+X,Y 相互独立 \\
+\mathbb{E}(XY)=\mathbb{E}(X)\mathbb{E}(Y)
+
+\end{array}
+$$
+
 
 ## 4.1.2 连续型变量的数学期望 10:12
 
@@ -263,6 +283,30 @@ $z\sim N(0,1)$ 标准化。
 偏离程度。
 $$
 \text { 方差 : } D(X) = E(X^2) − E(X)^2
+$$
+
+$$
+\begin{array}{l}
+
+度量随机变量 X 与其均值 E(X) 的偏离程度 \\
+E[\left | X-E(X) \right | ]\\
+{\color{Red} 定义：} \\
+方差：D(X)=Var(X)=E([X-E(X)]^2)\\
+标准差：\sigma (X)=\sqrt{D(X)}\\
+D(X)=E(X^2)-[E(X)]^2\\
+{\color{Red} 性质：}\\
+C 是常数 \\
+D(C)=0\\
+D(CX)=C^2D(X)\\
+D(C+X)=D(X)\\
+D(X+Y)=D(X)+D(Y)+2E[(X-E(X)(Y-E(Y)]\\
+若 X,Y 相互独立 \\
+D(X+Y)=D(X)+D(Y)\\
+{\color{Red} 标准化：}\\
+设 E(X)=\mu,D(X)=\sigma^2\\
+定义：X^*=\frac{X-\mu}{\sigma}\Longrightarrow E(X^*)=0，D(X^*)=1\\
+
+\end{array}
 $$
 
 
@@ -311,6 +355,52 @@ $$
 独立时，协方差一定等于零。协方差等于零不一定独立。因为有特殊情况。
 
 特征工程里面消量纲。
+
+$$
+\begin{array}{l}
+
+定义 :\\
+协方差：Cov(X,Y)=E[(X-E(X)(Y-E(Y))]\\
+
+性质：\\
+Cov(X,Y)=Cov(Y,X)\\
+Cov(X,X)=D(X)\\
+Cov(X,Y)=E(XY)-E(X)E(Y)\\
+Cov(aX,bY)=abCov(X,Y)\\
+Cov(X_{1}+X_{2},Y)=Cov(X_{1},Y)+Cov(X_{2},Y)\\
+标准化：\\
+相关系数 ( 线性 )：\rho _{XY}=\frac{Cov(X,Y)}{\sqrt{D(X)}\sqrt{D(Y)} }\\
+\left |\rho _{XY}  \right |\le 1\\
+\left |\rho _{XY}  \right | 大 \Longrightarrow X,Y 线性相关程度好；\\
+\rho _{XY}=0\Longrightarrow X,Y 线性不相关 \\
+
+\end{array}
+$$
+
+协方差矩阵
+
+$$
+\begin{array}{l}
+
+2 个随机变量 X_{1},X_{2}：\\
+协方差矩阵 \Sigma =\begin{Bmatrix}
+    Cov(X_{1},X_{1}) & {\color{Red} Cov(X_{1},X_{2})} \\
+    {\color{Red} Cov(X_{2},X_{1})} & Cov(X_{2},X_{2})
+\end{Bmatrix}\\
+=\begin{Bmatrix}
+    \sigma_{1}^2  & \sigma_{12}\\
+    \sigma_{21}& \sigma_{2}^2
+\end{Bmatrix}\\
+
+3 个随机变量 X_{1},X_{2},X_{3}：\\
+协方差矩阵 \Sigma =\begin{Bmatrix}
+    \sigma_{1}^2&  \sigma_{12}& \sigma_{13}\\
+    \sigma_{21}&  \sigma_{2}^2& \sigma_{23}\\
+    \sigma_{31}&  \sigma_{32}& \sigma_{3}^2
+\end{Bmatrix}
+
+\end{array}
+$$
 
 
 ## 4.4.2 相关系数 40:32
