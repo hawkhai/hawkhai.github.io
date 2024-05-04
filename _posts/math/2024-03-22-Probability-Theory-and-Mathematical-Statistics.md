@@ -369,7 +369,7 @@ Cov(X,Y)=E(XY)-E(X)E(Y)\\
 Cov(aX,bY)=abCov(X,Y)\\
 Cov(X_{1}+X_{2},Y)=Cov(X_{1},Y)+Cov(X_{2},Y)\\
 标准化：\\
-相关系数 ( 线性 )：\rho _{XY}=\frac{Cov(X,Y)}{\sqrt{D(X)}\sqrt{D(Y)} }\\
+相关系数（线性）：\rho _{XY}=\frac{Cov(X,Y)}{\sqrt{D(X)}\sqrt{D(Y)} }\\
 \left |\rho _{XY}  \right |\le 1\\
 \left |\rho _{XY}  \right | 大 \Longrightarrow X,Y 线性相关程度好；\\
 \rho _{XY}=0\Longrightarrow X,Y 线性不相关 \\
