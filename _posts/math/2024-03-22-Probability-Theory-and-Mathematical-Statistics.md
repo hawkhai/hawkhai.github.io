@@ -558,6 +558,8 @@ $$
 
 ## 8.2【2】方差的假设检验 40:06
 
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/20240507001540.png" %}
+
 
 ## 8.3【1】均值的差异性检验 42:55
 
