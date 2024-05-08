@@ -1085,6 +1085,11 @@ def mainfilew(fpath, fname, ftype):
     if not REBUILD and checklog(__file__, fpath):
         # print("cached", fpath)
         return 0
+
+    if "only" in sys.argv:
+        if not fname in sys.argv:
+            return 0
+
     removelog(__file__, fpath)
     errcnt = mainfile(fpath, fname, ftype)
     if errcnt == 0:
