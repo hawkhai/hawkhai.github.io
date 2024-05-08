@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Hawkhai 博客笔记
+title: AWESOME BLOG NOTES
 author:
 location:
 categories: ["BLOG"]
