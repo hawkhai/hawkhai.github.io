@@ -18,7 +18,7 @@ permalink: /about/
 
 {% include image.html url="/images/photo.jpg" caption="" width="300px" max_width="300px" align="right" %}
 
-Hi, my name is tmpboy and welcome to my blog.
+Hi, my name is Notehoi and welcome to my blog.
 
 人生从来不晚，从头开始，走自己的路，靠自己：学习、带娃、锻炼身体。
 “健康饮食、情绪稳定、适当运动、规律作息”
