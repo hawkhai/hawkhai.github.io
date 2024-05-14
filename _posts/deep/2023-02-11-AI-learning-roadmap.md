@@ -41,7 +41,6 @@ cluster: "机器学习课程"
 
 建议可以从吴恩达 / 李宏毅的课程入门，看完后可进一步的根据自己的研究方向选择，比如 CV 方向的可以看李飞飞的 CS231n 课程，最后再直接上手 Pytorch 去学习官方示例，把代码跑起来。
 
-* [吴恩达机器学习课程 2022 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Pa411X76s/)
 * [浙江大学 - 机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1qf4y1x7kB/)
 
 * <https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes>
@@ -231,7 +230,6 @@ def normalEqn(X, y):
 - [https://www.zhihu.com/people/liang-rong-24-62]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.zhihu.com/d98e98a5.html" %})
 - [https://github.com/azataiot/DeepLearning-Notes]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/github.com/cc99b016.html" %})
 - [https://www.bilibili.com/video/BV1qf4y1x7kB/]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.bilibili.com/93706280.html" %})
-- [https://www.bilibili.com/video/BV1Pa411X76s/]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.bilibili.com/9a7fd2a7.html" %})
 - [https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/github.com/9e99497d.html" %})
 - [http://www.ai-start.com/ml2014/]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.ai-start.com/21b3ffdf.html" %})
 - [https://scruel.github.io/Notes-ML-AndrewNg/]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/scruel.github.io/3e8a18b1.html" %})
