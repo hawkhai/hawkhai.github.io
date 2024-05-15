@@ -16,8 +16,8 @@ codeprint:
 cluster: "机器学习课程"
 ---
 
-* 吴恩达机器学习 <https://www.bilibili.com/video/BV1Bq421A74G/>
-* 吴恩达深度学习 <https://www.bilibili.com/video/BV1Gm421u73z/>
+* 吴恩达机器学习 19:37:16 142 <https://www.bilibili.com/video/BV1Bq421A74G/>
+* 吴恩达深度学习 27:44:07 183 <https://www.bilibili.com/video/BV1Gm421u73z/>
 * [html2text](http://www.atoolbox.net/Tool.php?Id=715)
 
 
