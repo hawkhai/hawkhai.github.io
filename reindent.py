@@ -339,4 +339,4 @@ def getlspace(line):
 if __name__ == '__main__':
     import cProfile
     cProfile.run("main()") if DEBUG else main()
-    #clearemptydir(getPythonxDir())
+    #cleardirEmpty(getPythonxDir())

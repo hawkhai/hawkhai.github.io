@@ -1180,7 +1180,7 @@ def mainw():
     timea = time.time()
     main()
     removedirTimeout("tempdir")
-    clearemptydir("tempdir")
+    cleardirEmpty("tempdir")
     timeb = time.time()
     print("Total Time =", timeb - timea)
 
@@ -1216,8 +1216,8 @@ def main():
     searchdir(".", mainfilew, ignorelist=MAINW_IGNORE_LIST, reverse=True)
     if REBUILD:
         clearSnapCache()
-        clearemptydir("images")
-        clearemptydir("source")
+        cleardirEmpty("images")
+        cleardirEmpty("source")
         tidyupImgClear()
 
     global G_CSCHAR

@@ -335,4 +335,4 @@ def getlspace(line):
 
 if __name__ == '__main__':
     main()
-    #clearemptydir(getPythonxDir())
+    #cleardirEmpty(getPythonxDir())
