@@ -47,6 +47,11 @@ cluster: "机器学习课程"
 * <http://www.ai-start.com/ml2014/>
 * <https://scruel.github.io/Notes-ML-AndrewNg/>
 
+深度学习与计算机视觉---斯坦福 CS231n
+<https://liumin.blog.csdn.net/article/details/125546056>
+通道洗牌、变形卷积核、可分离卷积？盘点卷积神经网络中十大令人拍案叫绝的操作。
+<https://www.jianshu.com/p/71804c97123d>
+
 胡浩基？李航 . 统计学习方法 ?，周志华 . 机器学习 ?
 3. 《统计学习方法》李航？
 4. 《机器学习课》邹博？周志华？西瓜书？
@@ -233,5 +238,7 @@ def normalEqn(X, y):
 - [https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/github.com/9e99497d.html" %})
 - [http://www.ai-start.com/ml2014/]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.ai-start.com/21b3ffdf.html" %})
 - [https://scruel.github.io/Notes-ML-AndrewNg/]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/scruel.github.io/3e8a18b1.html" %})
+- [https://liumin.blog.csdn.net/article/details/125546056]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/liumin.blog.csdn.net/5ec1cfbb.html" %})
+- [https://www.jianshu.com/p/71804c97123d]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.jianshu.com/919146b3.html" %})
 - [https://www.bilibili.com/video/BV1JE411g7XF/]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.bilibili.com/89cc4342.html" %})
 - [http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML20.html]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/speech.ee.ntu.edu.tw/f319f059.html" %})
