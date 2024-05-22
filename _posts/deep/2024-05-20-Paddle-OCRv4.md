@@ -17,6 +17,9 @@ codeprint:
 
 Paddle-OCR 根据垂直类场景自定义数据微调 PP-OCRv4 模型
 
+python3 kremote.py rebindex code_myocr_data.json
+python3 kremote.py rebindex code_myocr_dlf.json
+
 
 ## 1 文本检测模型微调
 
@@ -50,6 +53,7 @@ json.dumps 编码前的图像标注信息是包含多个字典的 list，字典�
 **公开数据集**
 
 数据集名称 	| 图片下载地址 	| PaddleOCR 标注下载地址
+---- | ---- | ----
 ICDAR 2015	| <https://rrc.cvc.uab.es/?ch=4&com=downloads>	| [train](https://paddleocr.bj.bcebos.com/dataset/train_icdar2015_label.txt) / [test](https://paddleocr.bj.bcebos.com/dataset/test_icdar2015_label.txt)
 ctw1500	    | <https://paddleocr.bj.bcebos.com/dataset/ctw1500.zip>	| 图片下载地址中已包含
 total text	| <https://paddleocr.bj.bcebos.com/dataset/total_text.tar>	| 图片下载地址中已包含
@@ -376,6 +380,7 @@ PaddleOCR 内置了一部分字典，可以按需使用。
 **公开数据集**
 
 数据集名称 	| 图片下载地址 	| PaddleOCR 标注下载地址
+---- | ---- | ----
 en benchmark(MJ, SJ, IIIT, SVT, IC03, IC13, IC15, SVTP, and CUTE.)	| [DTRB](https://githubfast.com/clovaai/deep-text-recognition-benchmark#download-lmdb-dataset-for-traininig-and-evaluation-from-here)	| LMDB 格式，可直接用 [lmdb_dataset.py](https://githubfast.com/PaddlePaddle/PaddleOCR/blob/release/2.7/ppocr/data/lmdb_dataset.py) 加载
 ICDAR 2015	| <http://rrc.cvc.uab.es/?ch=4&com=downloads>	| [train](https://paddleocr.bj.bcebos.com/dataset/rec_gt_train.txt) / [test](https://paddleocr.bj.bcebos.com/dataset/rec_gt_test.txt)
 多语言数据集 	| [百度网盘](https://pan.baidu.com/s/1bS_u207Rm7YbY33wOECKDA) 提取码：frgi [google drive](https://drive.google.com/file/d/18cSWX7wXSy4G0tbKJ0d9PuIaiwRLHpjA/view)	| 图片下载地址中已包含
