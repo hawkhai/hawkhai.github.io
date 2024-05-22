@@ -113,8 +113,11 @@ def backupUrlContent(fpath, md5src, url):
     for urlz in readfileIglist("config/mdrstrip_url_ignore_ends.txt"):
         if url.endswith(urlz):
             return
-    assert not url.endswith(".exe"), url
-    assert not url.endswith(".zip"), url
+
+    if not IGNOREERR:
+        assert not url.endswith(".exe"), url
+        assert not url.endswith(".zip"), url
+
     # 有可能挂掉的网站，都稍微做一下备份。
     fname = os.path.split(fpath)[-1]
 
