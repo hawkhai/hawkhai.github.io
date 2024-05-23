@@ -382,7 +382,7 @@ PaddleOCR 内置了一部分字典，可以按需使用。
 
 数据集名称 	| 图片下载地址 	| PaddleOCR 标注下载地址
 ---- | ---- | ----
-en benchmark(MJ, SJ, IIIT, SVT, IC03, IC13, IC15, SVTP, and CUTE.)	| [DTRB](https://github.com/clovaai/deep-text-recognition-benchmark#download-lmdb-dataset-for-traininig-and-evaluation-from-here)	| LMDB 格式，可直接用 [lmdb_dataset.py](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/ppocr/data/lmdb_dataset.py) 加载
+en benchmark(MJ, SJ, IIIT, SVT, IC03, IC13, IC15, SVTP, and CUTE.)	| [DTRB {% include relref_github.html %}](https://github.com/clovaai/deep-text-recognition-benchmark#download-lmdb-dataset-for-traininig-and-evaluation-from-here)	| LMDB 格式，可直接用 [lmdb_dataset.py {% include relref_github.html %}](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/ppocr/data/lmdb_dataset.py) 加载
 ICDAR 2015	| <http://rrc.cvc.uab.es/?ch=4&com=downloads>	| [train](https://paddleocr.bj.bcebos.com/dataset/rec_gt_train.txt) / [test](https://paddleocr.bj.bcebos.com/dataset/rec_gt_test.txt)
 多语言数据集 	| [百度网盘](https://pan.baidu.com/s/1bS_u207Rm7YbY33wOECKDA) 提取码：frgi [google drive](https://drive.google.com/file/d/18cSWX7wXSy4G0tbKJ0d9PuIaiwRLHpjA/view)	| 图片下载地址中已包含
 
@@ -649,8 +649,8 @@ distlib/PC/launcher.c
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://rrc.cvc.uab.es/?ch=4&com=downloads]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/rrc.cvc.uab.es/96e67627.html" %})
-- [https://github.com/clovaai/deep-text-recognition-benchmark#download-lmdb-dataset-for-traininig-and-evaluation-from-here]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/github.com/00f9b98d.html" %})
-- [https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/ppocr/data/lmdb_dataset.py]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/github.com/8c233427.py" %})
+- [https://github.com/clovaai/deep-text-recognition-benchmark#download-lmdb-dataset-for-traininig-and-evaluation-from-here]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/github.com/aa8ec791.html" %})
+- [https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/ppocr/data/lmdb_dataset.py]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/github.com/87961a4b.html" %})
 - [http://rrc.cvc.uab.es/?ch=4&com=downloads]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/rrc.cvc.uab.es/f91342de.html" %})
 - [https://pan.baidu.com/s/1bS_u207Rm7YbY33wOECKDA]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/pan.baidu.com/480080ff.html" %})
 - [https://drive.google.com/file/d/18cSWX7wXSy4G0tbKJ0d9PuIaiwRLHpjA/view]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/drive.google.com/63ff5b98.html" %})
