@@ -386,6 +386,17 @@ en benchmark(MJ, SJ, IIIT, SVT, IC03, IC13, IC15, SVTP, and CUTE.)	| [DTRB {% in
 ICDAR 2015	| <http://rrc.cvc.uab.es/?ch=4&com=downloads>	| [train](https://paddleocr.bj.bcebos.com/dataset/rec_gt_train.txt) / [test](https://paddleocr.bj.bcebos.com/dataset/rec_gt_test.txt)
 多语言数据集 	| [百度网盘](https://pan.baidu.com/s/1bS_u207Rm7YbY33wOECKDA) 提取码：frgi [google drive](https://drive.google.com/file/d/18cSWX7wXSy4G0tbKJ0d9PuIaiwRLHpjA/view)	| 图片下载地址中已包含
 
+数据集下载：
+<https://aistudio.baidu.com/projectdetail/2448756>
+
+数据集链接：百度网盘 [data\_lmdb\_release.zip](https://pan.baidu.com/s/1KSNLv4EY3zFWHpBYlpFCBQ)，提取码：`rryk` ，下载整个 data\_lmdb\_release 文件夹。
+
+本项目使用的是原文作者制作的文本识别数据集合集：data\_lmdb\_release.zip，其中包含以下内容：
+
+* training datasets：[MJSynth (MJ)](http://www.robots.ox.ac.uk/~vgg/data/text/) 和 [SynthText (ST)](http://www.robots.ox.ac.uk/~vgg/data/scenetext/)，总数 12747394 个。
+* validation datasets：训练集 [IC13](http://rrc.cvc.uab.es/?ch=2)、[IC15](http://rrc.cvc.uab.es/?ch=4)、[IIIT](http://cvit.iiit.ac.in/projects/SceneTextUnderstanding/IIIT5K.html) 和 [SVT](http://www.iapr-tc11.org/mediawiki/index.php/The_Street_View_Text_Dataset) 的合集。
+* evaluation datasets：基准评估数据集，包括 [IIIT](http://cvit.iiit.ac.in/projects/SceneTextUnderstanding/IIIT5K.html)、[SVT](http://www.iapr-tc11.org/mediawiki/index.php/The_Street_View_Text_Dataset)、[IC03](http://www.iapr-tc11.org/mediawiki/index.php/ICDAR_2003_Robust_Reading_Competitions)、[IC13](http://rrc.cvc.uab.es/?ch=2)、[IC15](http://rrc.cvc.uab.es/?ch=4)、[SVTP](http://openaccess.thecvf.com/content_iccv_2013/papers/Phan_Recognizing_Text_with_2013_ICCV_paper.pdf) 和 [CUTE](http://cs-chan.com/downloads_CUTE80_dataset.html)。
+
 
 ### 2-2 下载预训练模型
 
@@ -585,8 +596,8 @@ python tools/export_model.py -c configs/rec/PP-OCRv4/ch_PP-OCRv4_rec.yml -o Glob
 0 和 180 分别表示图片的角度为 0 度和 180 度
 ```
 " 图像文件名                 图像标注信息 "
-train/cls/train/word_001.jpg   0
-train/cls/train/word_002.jpg   180
+train/cls/train/word_001.jpg \t 0
+train/cls/train/word_002.jpg \t 180
 ```
 
 最终训练集应有如下文件结构：
@@ -634,6 +645,34 @@ python tools/infer_cls.py -c configs/cls/cls_mv3.yml -o Global.pretrained_model=
 ```
 
 
+## Windows 重装 Ubuntu 22.04.4 LTS 单系统
+
+<https://blog.csdn.net/qq_41833455/article/details/117882535>
+
+{% include image.html url="/assets/images/240520-paddle-ocrv4/20210613180402543.png" %}
+
+便捷启动 —— > 写入新的硬盘引导记录 (MBR) —— > USB-HDD+：
+
+## Windows远程登陆Ubuntu图形桌面 
+
+在windows上使用windows自带的远程工具（mstsc）远程登陆Ubuntu的图形界面窗口。
+
+https://www.cnblogs.com/conefirst/articles/15401996.html
+* sudo apt-get install tightvncserver xrdp
+
+mstsc
+
+设置完以上参数记得重启一下系统。
+https://baijiahao.baidu.com/s?id=1787763689020400650&wfr=spider&for=pc
+
+G:\work\pythonx\myocr\mydata\rec\data_lmdb_release\evaluation.zip
+G:\work\pythonx\myocr\mydata\rec\data_lmdb_release\README.txt
+G:\work\pythonx\myocr\mydata\rec\data_lmdb_release\ST_spe.zip
+G:\work\pythonx\myocr\mydata\rec\data_lmdb_release\validation.zip
+
+Detect the device changes. Support hotplug event for win and linux now.
+https://github.com/wang-bin/qdevicewatcher
+
 ## Refs
 
 * <https://liumin.blog.csdn.net/article/details/134423832>
@@ -654,6 +693,18 @@ distlib/PC/launcher.c
 - [http://rrc.cvc.uab.es/?ch=4&com=downloads]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/rrc.cvc.uab.es/f91342de.html" %})
 - [https://pan.baidu.com/s/1bS_u207Rm7YbY33wOECKDA]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/pan.baidu.com/480080ff.html" %})
 - [https://drive.google.com/file/d/18cSWX7wXSy4G0tbKJ0d9PuIaiwRLHpjA/view]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/drive.google.com/63ff5b98.html" %})
+- [https://aistudio.baidu.com/projectdetail/2448756]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/aistudio.baidu.com/24f622d7.html" %})
+- [https://pan.baidu.com/s/1KSNLv4EY3zFWHpBYlpFCBQ]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/pan.baidu.com/1a22367b.html" %})
+- [http://www.robots.ox.ac.uk/~vgg/data/text/]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/www.robots.ox.ac.uk/b9d96b5e.html" %})
+- [http://www.robots.ox.ac.uk/~vgg/data/scenetext/]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/www.robots.ox.ac.uk/90c4d158.html" %})
+- [http://rrc.cvc.uab.es/?ch=2]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/rrc.cvc.uab.es/a7d38c0c.html" %})
+- [http://rrc.cvc.uab.es/?ch=4]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/rrc.cvc.uab.es/a0bce4b3.html" %})
+- [http://cvit.iiit.ac.in/projects/SceneTextUnderstanding/IIIT5K.html]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/cvit.iiit.ac.in/b5d02857.html" %})
+- [http://www.iapr-tc11.org/mediawiki/index.php/The_Street_View_Text_Dataset]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/www.iapr-tc11.org/290d9024.html" %})
+- [http://www.iapr-tc11.org/mediawiki/index.php/ICDAR_2003_Robust_Reading_Competitions]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/www.iapr-tc11.org/cf53f7e1.html" %})
+- [http://openaccess.thecvf.com/content_iccv_2013/papers/Phan_Recognizing_Text_with_2013_ICCV_paper.pdf]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/openaccess.thecvf.com/6d88b3ea.pdf" %})
+- [http://cs-chan.com/downloads_CUTE80_dataset.html]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/cs-chan.com/d221cff3.html" %})
+- [https://blog.csdn.net/qq_41833455/article/details/117882535]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/blog.csdn.net/002005f7.html" %})
 - [https://liumin.blog.csdn.net/article/details/134423832]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/liumin.blog.csdn.net/a490c146.html" %})
 - [https://blog.csdn.net/cyj972628089/article/details/136444512]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/blog.csdn.net/8aefe3a0.html" %})
 - [https://gitcode.csdn.net/662a077716ca5020cb59861a.html]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/gitcode.csdn.net/da4538df.html" %})
