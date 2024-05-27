@@ -53,12 +53,12 @@ json.dumps 编码前的图像标注信息是包含多个字典的 list，字典�
 
 **公开数据集**
 
-数据集名称 	| 图片下载地址 	| PaddleOCR 标注下载地址
+数据集名称 | 图片下载地址 | PaddleOCR 标注下载地址
 ---- | ---- | ----
-ICDAR 2015	| <https://rrc.cvc.uab.es/?ch=4&com=downloads>	| [train](https://paddleocr.bj.bcebos.com/dataset/train_icdar2015_label.txt) / [test](https://paddleocr.bj.bcebos.com/dataset/test_icdar2015_label.txt)
-ctw1500	    | <https://paddleocr.bj.bcebos.com/dataset/ctw1500.zip>	| 图片下载地址中已包含
-total text	| <https://paddleocr.bj.bcebos.com/dataset/total_text.tar>	| 图片下载地址中已包含
-td tr	    | <https://paddleocr.bj.bcebos.com/dataset/TD_TR.tar>	| 图片下载地址中已包含
+ICDAR 2015 | <https://rrc.cvc.uab.es/?ch=4&com=downloads> | [train](https://paddleocr.bj.bcebos.com/dataset/train_icdar2015_label.txt) / [test](https://paddleocr.bj.bcebos.com/dataset/test_icdar2015_label.txt)
+ctw1500 | <https://paddleocr.bj.bcebos.com/dataset/ctw1500.zip> | 图片下载地址中已包含
+total text | <https://paddleocr.bj.bcebos.com/dataset/total_text.tar> | 图片下载地址中已包含
+td tr | <https://paddleocr.bj.bcebos.com/dataset/TD_TR.tar> | 图片下载地址中已包含
 
 <https://github.com/breezedeus/cnstd>
     ICPR MTWI 2018
@@ -68,7 +68,7 @@ td tr	    | <https://paddleocr.bj.bcebos.com/dataset/TD_TR.tar>	| 图片下载�
 <https://github.com/PaddlePaddle/PaddleOCR/blob/main/doc/doc_ch/dataset/ocr_datasets.md>
 
 | 数据集名称 | 图片下载地址 | PaddleOCR 标注下载地址 |
-|---|---|---|
+| --- | --- | --- |
 | ICDAR 2015 | <https://rrc.cvc.uab.es/?ch=4&com=downloads> | [train](https://paddleocr.bj.bcebos.com/dataset/train_icdar2015_label.txt) / [test](https://paddleocr.bj.bcebos.com/dataset/test_icdar2015_label.txt) |
 | ctw1500 | <https://paddleocr.bj.bcebos.com/dataset/ctw1500.zip> | 图片下载地址中已包含 |
 | total text | <https://paddleocr.bj.bcebos.com/dataset/total_text.tar> | 图片下载地址中已包含 |
@@ -323,14 +323,14 @@ train_data/rec/train/word_002.jpg   用科技让复杂的世界更简单
 最终训练集应有如下文件结构：
 
 ```
-|-train_data
-  |-rec
-    |- rec_gt_train.txt
-    |- train
-        |- word_001.png
-        |- word_002.jpg
-        |- word_003.jpg
-        | ...
+| -train_data
+| -rec
+| - rec_gt_train.txt
+| - train
+| - word_001.png
+| - word_002.jpg
+| - word_003.jpg
+| ...
 ```
 
 除上述单张图像为一行格式之外，PaddleOCR 也支持对离线增广后的数据进行训练，为了防止相同样本在同一个 batch 中被多次采样，
@@ -396,17 +396,17 @@ PaddleOCR 内置了一部分字典，可以按需使用。
 
 **公开数据集**
 
-数据集名称 	| 图片下载地址 	| PaddleOCR 标注下载地址
+数据集名称 | 图片下载地址 | PaddleOCR 标注下载地址
 ---- | ---- | ----
-en benchmark(MJ, SJ, IIIT, SVT, IC03, IC13, IC15, SVTP, and CUTE.)	| [DTRB {% include relref_github.html %}](https://github.com/clovaai/deep-text-recognition-benchmark#download-lmdb-dataset-for-traininig-and-evaluation-from-here)	| LMDB 格式，可直接用 [lmdb_dataset.py {% include relref_github.html %}](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/ppocr/data/lmdb_dataset.py) 加载
-ICDAR 2015	| <http://rrc.cvc.uab.es/?ch=4&com=downloads>	| [train](https://paddleocr.bj.bcebos.com/dataset/rec_gt_train.txt) / [test](https://paddleocr.bj.bcebos.com/dataset/rec_gt_test.txt)
-多语言数据集 	| [百度网盘](https://pan.baidu.com/s/1bS_u207Rm7YbY33wOECKDA) 提取码：frgi [google drive](https://drive.google.com/file/d/18cSWX7wXSy4G0tbKJ0d9PuIaiwRLHpjA/view)	| 图片下载地址中已包含
+en benchmark(MJ, SJ, IIIT, SVT, IC03, IC13, IC15, SVTP, and CUTE.) | [DTRB {% include relref_github.html %}](https://github.com/clovaai/deep-text-recognition-benchmark#download-lmdb-dataset-for-traininig-and-evaluation-from-here) | LMDB 格式，可直接用 [lmdb_dataset.py {% include relref_github.html %}](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/ppocr/data/lmdb_dataset.py) 加载
+ICDAR 2015 | <http://rrc.cvc.uab.es/?ch=4&com=downloads> | [train](https://paddleocr.bj.bcebos.com/dataset/rec_gt_train.txt) / [test](https://paddleocr.bj.bcebos.com/dataset/rec_gt_test.txt)
+多语言数据集 | [百度网盘](https://pan.baidu.com/s/1bS_u207Rm7YbY33wOECKDA) 提取码：frgi [google drive](https://drive.google.com/file/d/18cSWX7wXSy4G0tbKJ0d9PuIaiwRLHpjA/view) | 图片下载地址中已包含
 
-| 数据集名称 | 图片下载地址 | PaddleOCR 标注下载地址                                                         |
-|---|---|---------------------------------------------------------------------|
+| 数据集名称 | 图片下载地址 | PaddleOCR 标注下载地址 |
+| --- | --- | --------------------------------------------------------------------- |
 | en benchmark(MJ, SJ, IIIT, SVT, IC03, IC13, IC15, SVTP, and CUTE.) | [DTRB {% include relref_github.html %}](https://github.com/clovaai/deep-text-recognition-benchmark#download-lmdb-dataset-for-traininig-and-evaluation-from-here) | LMDB 格式，可直接用 [lmdb_dataset.py](../../../ppocr/data/lmdb_dataset.py) 加载 |
-|ICDAR 2015| <http://rrc.cvc.uab.es/?ch=4&com=downloads> | [train](https://paddleocr.bj.bcebos.com/dataset/rec_gt_train.txt)/ [test](https://paddleocr.bj.bcebos.com/dataset/rec_gt_test.txt) |
-| 多语言数据集 |[百度网盘](https://pan.baidu.com/s/1bS_u207Rm7YbY33wOECKDA) 提取码：frgi <br> [google drive](https://drive.google.com/file/d/18cSWX7wXSy4G0tbKJ0d9PuIaiwRLHpjA/view) | 图片下载地址中已包含 |
+| ICDAR 2015 | <http://rrc.cvc.uab.es/?ch=4&com=downloads> | [train](https://paddleocr.bj.bcebos.com/dataset/rec_gt_train.txt)/ [test](https://paddleocr.bj.bcebos.com/dataset/rec_gt_test.txt) |
+| 多语言数据集 | [百度网盘](https://pan.baidu.com/s/1bS_u207Rm7YbY33wOECKDA) 提取码：frgi <br> [google drive](https://drive.google.com/file/d/18cSWX7wXSy4G0tbKJ0d9PuIaiwRLHpjA/view) | 图片下载地址中已包含 |
 
 数据集下载：
 <https://aistudio.baidu.com/projectdetail/2448756>
@@ -624,14 +624,14 @@ train/cls/train/word_002.jpg \t 180
 
 最终训练集应有如下文件结构：
 ```
-|-train_data
-    |-cls
-        |- cls_gt_train.txt
-        |- train
-            |- word_001.png
-            |- word_002.jpg
-            |- word_003.jpg
-            | ...
+| -train_data
+| -cls
+| - cls_gt_train.txt
+| - train
+| - word_001.png
+| - word_002.jpg
+| - word_003.jpg
+| ...
 ```
 
 
