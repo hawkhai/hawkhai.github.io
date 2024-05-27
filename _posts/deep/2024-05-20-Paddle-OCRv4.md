@@ -60,6 +60,22 @@ ctw1500	    | <https://paddleocr.bj.bcebos.com/dataset/ctw1500.zip>	| 图片下�
 total text	| <https://paddleocr.bj.bcebos.com/dataset/total_text.tar>	| 图片下载地址中已包含
 td tr	    | <https://paddleocr.bj.bcebos.com/dataset/TD_TR.tar>	| 图片下载地址中已包含
 
+<https://github.com/breezedeus/cnstd>
+    ICPR MTWI 2018
+    ICDAR RCTW-17
+    ICDAR2019-LSVT
+<https://github.com/PaddlePaddle/PaddleOCR/blob/main/doc/doc_ch/dataset/datasets.md>
+<https://github.com/PaddlePaddle/PaddleOCR/blob/main/doc/doc_ch/dataset/ocr_datasets.md>
+
+| 数据集名称 | 图片下载地址 | PaddleOCR 标注下载地址 |
+|---|---|---|
+| ICDAR 2015 | <https://rrc.cvc.uab.es/?ch=4&com=downloads> | [train](https://paddleocr.bj.bcebos.com/dataset/train_icdar2015_label.txt) / [test](https://paddleocr.bj.bcebos.com/dataset/test_icdar2015_label.txt) |
+| ctw1500 | <https://paddleocr.bj.bcebos.com/dataset/ctw1500.zip> | 图片下载地址中已包含 |
+| total text | <https://paddleocr.bj.bcebos.com/dataset/total_text.tar> | 图片下载地址中已包含 |
+| td tr | <https://paddleocr.bj.bcebos.com/dataset/TD_TR.tar> | 图片下载地址中已包含 |
+
+{% include image.html url="/assets/images/240520-paddle-ocrv4/ic15_location_download.png" %}
+
 
 ### 1-2 下载预训练模型
 
@@ -386,6 +402,12 @@ en benchmark(MJ, SJ, IIIT, SVT, IC03, IC13, IC15, SVTP, and CUTE.)	| [DTRB {% in
 ICDAR 2015	| <http://rrc.cvc.uab.es/?ch=4&com=downloads>	| [train](https://paddleocr.bj.bcebos.com/dataset/rec_gt_train.txt) / [test](https://paddleocr.bj.bcebos.com/dataset/rec_gt_test.txt)
 多语言数据集 	| [百度网盘](https://pan.baidu.com/s/1bS_u207Rm7YbY33wOECKDA) 提取码：frgi [google drive](https://drive.google.com/file/d/18cSWX7wXSy4G0tbKJ0d9PuIaiwRLHpjA/view)	| 图片下载地址中已包含
 
+| 数据集名称 | 图片下载地址 | PaddleOCR 标注下载地址                                                         |
+|---|---|---------------------------------------------------------------------|
+| en benchmark(MJ, SJ, IIIT, SVT, IC03, IC13, IC15, SVTP, and CUTE.) | [DTRB {% include relref_github.html %}](https://github.com/clovaai/deep-text-recognition-benchmark#download-lmdb-dataset-for-traininig-and-evaluation-from-here) | LMDB 格式，可直接用 [lmdb_dataset.py](../../../ppocr/data/lmdb_dataset.py) 加载 |
+|ICDAR 2015| <http://rrc.cvc.uab.es/?ch=4&com=downloads> | [train](https://paddleocr.bj.bcebos.com/dataset/rec_gt_train.txt)/ [test](https://paddleocr.bj.bcebos.com/dataset/rec_gt_test.txt) |
+| 多语言数据集 |[百度网盘](https://pan.baidu.com/s/1bS_u207Rm7YbY33wOECKDA) 提取码：frgi <br> [google drive](https://drive.google.com/file/d/18cSWX7wXSy4G0tbKJ0d9PuIaiwRLHpjA/view) | 图片下载地址中已包含 |
+
 数据集下载：
 <https://aistudio.baidu.com/projectdetail/2448756>
 
@@ -653,17 +675,18 @@ python tools/infer_cls.py -c configs/cls/cls_mv3.yml -o Global.pretrained_model=
 
 便捷启动 —— > 写入新的硬盘引导记录 (MBR) —— > USB-HDD+：
 
-## Windows远程登陆Ubuntu图形桌面 
 
-在windows上使用windows自带的远程工具（mstsc）远程登陆Ubuntu的图形界面窗口。
+## Windows 远程登陆 Ubuntu 图形桌面
 
-https://www.cnblogs.com/conefirst/articles/15401996.html
+在 windows 上使用 windows 自带的远程工具（mstsc）远程登陆 Ubuntu 的图形界面窗口。
+
+<https://www.cnblogs.com/conefirst/articles/15401996.html>
 * sudo apt-get install tightvncserver xrdp
 
 mstsc
 
 设置完以上参数记得重启一下系统。
-https://baijiahao.baidu.com/s?id=1787763689020400650&wfr=spider&for=pc
+<https://baijiahao.baidu.com/s?id=1787763689020400650&wfr=spider&for=pc>
 
 G:\work\pythonx\myocr\mydata\rec\data_lmdb_release\evaluation.zip
 G:\work\pythonx\myocr\mydata\rec\data_lmdb_release\README.txt
@@ -671,7 +694,8 @@ G:\work\pythonx\myocr\mydata\rec\data_lmdb_release\ST_spe.zip
 G:\work\pythonx\myocr\mydata\rec\data_lmdb_release\validation.zip
 
 Detect the device changes. Support hotplug event for win and linux now.
-https://github.com/wang-bin/qdevicewatcher
+<https://github.com/wang-bin/qdevicewatcher>
+
 
 ## Refs
 
@@ -688,6 +712,9 @@ distlib/PC/launcher.c
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://rrc.cvc.uab.es/?ch=4&com=downloads]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/rrc.cvc.uab.es/96e67627.html" %})
+- [https://github.com/breezedeus/cnstd]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/github.com/8fdd0f51.html" %})
+- [https://github.com/PaddlePaddle/PaddleOCR/blob/main/doc/doc_ch/dataset/datasets.md]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/github.com/4db7b7cf.html" %})
+- [https://github.com/PaddlePaddle/PaddleOCR/blob/main/doc/doc_ch/dataset/ocr_datasets.md]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/github.com/9ee301cd.html" %})
 - [https://github.com/clovaai/deep-text-recognition-benchmark#download-lmdb-dataset-for-traininig-and-evaluation-from-here]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/github.com/aa8ec791.html" %})
 - [https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.7/ppocr/data/lmdb_dataset.py]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/github.com/87961a4b.html" %})
 - [http://rrc.cvc.uab.es/?ch=4&com=downloads]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/rrc.cvc.uab.es/f91342de.html" %})
@@ -705,6 +732,9 @@ distlib/PC/launcher.c
 - [http://openaccess.thecvf.com/content_iccv_2013/papers/Phan_Recognizing_Text_with_2013_ICCV_paper.pdf]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/openaccess.thecvf.com/6d88b3ea.pdf" %})
 - [http://cs-chan.com/downloads_CUTE80_dataset.html]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/cs-chan.com/d221cff3.html" %})
 - [https://blog.csdn.net/qq_41833455/article/details/117882535]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/blog.csdn.net/002005f7.html" %})
+- [https://www.cnblogs.com/conefirst/articles/15401996.html]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/www.cnblogs.com/7a9c537d.html" %})
+- [https://baijiahao.baidu.com/s?id=1787763689020400650&wfr=spider&for=pc]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/baijiahao.baidu.com/9f1e0965.html" %})
+- [https://github.com/wang-bin/qdevicewatcher]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/github.com/dcff3740.html" %})
 - [https://liumin.blog.csdn.net/article/details/134423832]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/liumin.blog.csdn.net/a490c146.html" %})
 - [https://blog.csdn.net/cyj972628089/article/details/136444512]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/blog.csdn.net/8aefe3a0.html" %})
 - [https://gitcode.csdn.net/662a077716ca5020cb59861a.html]({% include relrefx.html url="/backup/2024-05-20-Paddle-OCRv4.md/gitcode.csdn.net/da4538df.html" %})
