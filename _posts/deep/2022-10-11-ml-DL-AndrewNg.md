@@ -9,7 +9,7 @@ toc: true
 toclistyle:
 comments:
 visibility:
-mathjax:
+mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
@@ -126,8 +126,24 @@ $$
 
 ## 34 8.1 逻辑回归的代价函数 12:00
 
+$$
+\begin{aligned}
+& J(\overrightarrow{\mathrm{w}}, b)=\frac{1}{m} \sum_{i=1}^m \underbrace{L\left(f_{\overrightarrow{\mathrm{w}}, b}\left(\overrightarrow{\mathrm{x}}^{(i)}\right), y^{(i)}\right)}_{\operatorname{loss}} \\
+& \rightarrow=\left\{\begin{aligned}
+-\log \left(f_{\overrightarrow{\mathrm{w}}, b}\left(\overrightarrow{\mathrm{x}}^{(i)}\right)\right) & \text { if } y^{(i)}=1 \\
+-\log \left(1-f_{\overrightarrow{\mathrm{w}}, b}\left(\overrightarrow{\mathrm{x}}^{(i)}\right)\right) & \text { if } y^{(i)}=0
+\end{aligned}\right.
+\end{aligned}
+$$
+
+变化一下，转成 凸函数（convex function）。
 
 ## 35 8.2 逻辑回归的简化版代价函数 05:46
+
+
+$$
+L\left(f_{\bar{w}, b}\left(\mathrm{x}^{(i)}\right), y^{(i)}\right)=-y^{(i)} \log \left(f_{\bar{w}, b}\left(\vec{x}^{(i)}\right)\right)-\left(1-y^{(i)}\right) \log \left(1-f_{\bar{w}, b}\left(\vec{x}^{(i)}\right)\right)
+$$
 
 
 ## 36 9.1 梯度下降实现 06:32
