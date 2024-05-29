@@ -403,7 +403,7 @@ ICDAR 2015 | <http://rrc.cvc.uab.es/?ch=4&com=downloads> | [train](https://paddl
 多语言数据集 | [百度网盘](https://pan.baidu.com/s/1bS_u207Rm7YbY33wOECKDA) 提取码：frgi [google drive](https://drive.google.com/file/d/18cSWX7wXSy4G0tbKJ0d9PuIaiwRLHpjA/view) | 图片下载地址中已包含
 
 | 数据集名称 | 图片下载地址 | PaddleOCR 标注下载地址 |
-| --- | --- | --------------------------------------------------------------------- |
+| --- | --- | ---- |
 | en benchmark(MJ, SJ, IIIT, SVT, IC03, IC13, IC15, SVTP, and CUTE.) | [DTRB {% include relref_github.html %}](https://github.com/clovaai/deep-text-recognition-benchmark#download-lmdb-dataset-for-traininig-and-evaluation-from-here) | LMDB 格式，可直接用 [lmdb_dataset.py](../../../ppocr/data/lmdb_dataset.py) 加载 |
 | ICDAR 2015 | <http://rrc.cvc.uab.es/?ch=4&com=downloads> | [train](https://paddleocr.bj.bcebos.com/dataset/rec_gt_train.txt)/ [test](https://paddleocr.bj.bcebos.com/dataset/rec_gt_test.txt) |
 | 多语言数据集 | [百度网盘](https://pan.baidu.com/s/1bS_u207Rm7YbY33wOECKDA) 提取码：frgi <br> [google drive](https://drive.google.com/file/d/18cSWX7wXSy4G0tbKJ0d9PuIaiwRLHpjA/view) | 图片下载地址中已包含 |
