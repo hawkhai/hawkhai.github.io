@@ -76,6 +76,11 @@ td tr | <https://paddleocr.bj.bcebos.com/dataset/TD_TR.tar> | 图片下载地址
 
 {% include image.html url="/assets/images/240520-paddle-ocrv4/ic15_location_download.png" %}
 
+* myocr_dlf.json 自有的 dlf 数据。已经索引完成未上传。
+* myocr_data.json 百度上面的几个数据。已经上传并索引完成。
+* myocr_dataYCG09.json YCG09 数据。上传中……
+* myocr_dataALL.json 大数据集汇总。上传中……
+
 
 ### 1-2 下载预训练模型
 
