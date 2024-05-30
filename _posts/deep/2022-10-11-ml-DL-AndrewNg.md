@@ -138,8 +138,8 @@ $$
 
 变化一下，转成 凸函数（convex function）。
 
-## 35 8.2 逻辑回归的简化版代价函数 05:46
 
+## 35 8.2 逻辑回归的简化版代价函数 05:46
 
 $$
 L\left(f_{\bar{w}, b}\left(\mathrm{x}^{(i)}\right), y^{(i)}\right)=-y^{(i)} \log \left(f_{\bar{w}, b}\left(\vec{x}^{(i)}\right)\right)-\left(1-y^{(i)}\right) \log \left(1-f_{\bar{w}, b}\left(\vec{x}^{(i)}\right)\right)
