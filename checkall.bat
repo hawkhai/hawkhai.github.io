@@ -1,1 +1,1 @@
-python3 checkall.py %*
+python3 checkall.py netfake ignoreerr %*

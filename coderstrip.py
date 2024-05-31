@@ -2,7 +2,13 @@
 import re, os, sys
 sys.path.append("../")
 from pythonx.funclib import *
-from pythonx.pelib import getLuckFileMd5, refreshLuckFileTime
+if IS_WINDOWS:
+    from pythonx.pelib import getLuckFileMd5, refreshLuckFileTime
+else:
+    def getLuckFileMd5(fpath, luckmd5=None):
+        return getFileSrcMd5z(fpath) # 避免 git 换行变化造成的影响。
+    def refreshLuckFileTime(fpath):
+        return modifyFileTimeCur(fpath)
 
 # 在西歐、北歐及東歐國家常用的字母，帶變音符，和一般英文字母不同。
 DIACRITIC = """
