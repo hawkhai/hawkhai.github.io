@@ -55,7 +55,7 @@ http://localhost:8080
 cat /var/jenkins_home/secrets/initialAdminPassword
 podman
 
-随后可以进行一些案例，创建新项目，输入响应的 git 地址，然后加入 jenkinsfile，groovy 语言的流水线式脚本：
+随后可以进行一些案例，创建新项目，输入响应的 git 地址，然后加入 jenkinsfile、groovy 语言的流水线式脚本：
 ```js
 // 写流水线的脚本
 pipeline {
@@ -83,13 +83,13 @@ pipeline {
         // 3. 打包
         stage('dabao') {
             steps {
-            echo "package..."
+                echo "package..."
             }
         }
         // 4. 部署
         stage('build') {
             steps {
-            echo "build..."
+                echo "build..."
             }
         }
     }
@@ -108,18 +108,19 @@ Sample commands:
 * Update the Jenkins version: brew upgrade jenkins-lts
 
 To start jenkins-lts now and restart at login:
-    brew services start jenkins-lts
+    `brew services start jenkins-lts`
 Or, if you don't want/need a background service you can just run:
-    /opt/homebrew/opt/openjdk/bin/java -Dmail.smtp.starttls.enable\=true -jar /opt/homebrew/opt/jenkins-lts/libexec/jenkins.war --httpListenAddress\=127.0.0.1 --httpPort\=8080
+    `/opt/homebrew/opt/openjdk/bin/java -Dmail.smtp.starttls.enable\=true -jar /opt/homebrew/opt/jenkins-lts/libexec/jenkins.war --httpListenAddress\=127.0.0.1 --httpPort\=8080`
 
 
 ## 构建脚本
 
-<https://www.jenkins.io/zh/doc/tutorials/build-a-python-app-with-pyinstaller/>
-<https://www.jianshu.com/p/0f913c735966>
-macOS 访问 Windows 远程桌面（RDP）的方法
-<https://learn.microsoft.com/zh-cn/windows-server/remote/remote-desktop-services/clients/remote-desktop-mac>
-<https://install.appcenter.ms/orgs/rdmacios-k2vy/apps/microsoft-remote-desktop-for-mac/distribution_groups/all-users-of-microsoft-remote-desktop-for-mac>
+* <https://www.jenkins.io/zh/doc/tutorials/build-a-python-app-with-pyinstaller/>
+* <https://www.jianshu.com/p/0f913c735966>
+
+MacOS 访问 Windows 远程桌面（RDP）的方法
+* <https://learn.microsoft.com/zh-cn/windows-server/remote/remote-desktop-services/clients/remote-desktop-mac>
+* <https://install.appcenter.ms/orgs/rdmacios-k2vy/apps/microsoft-remote-desktop-for-mac/distribution_groups/all-users-of-microsoft-remote-desktop-for-mac>
 
 
 
