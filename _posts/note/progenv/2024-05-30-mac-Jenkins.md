@@ -163,6 +163,85 @@ defaults write com.apple.finder AppleShowAllFiles -bool false 此命令关闭显
 5. 检查目标文件。check_target
 6. 提交构建结果。submit_result
 
+/Users/apple/.jenkins/workspace
+
+
+## Jenkins 从 git 拉取大文件失败的解决方式
+
+Additional Behaviours
+高级的克隆行为
+克隆和拉取操作的超时时间（分钟）调整为 60。
+
+```sh
+#!/bin/bash
+# 1. 检查工作区，整个 git 干净。check_workspace
+
+# 克隆时递归初始化所有子模块
+git submodule update --init --recursive
+```
+
+```sh
+#!/bin/bash
+# 6. 提交构建结果。submit_result
+
+# 获取脚本自身的完整路径（$0 是脚本的名字或路径）  
+# 注意：如果脚本是通过相对路径或没有路径的方式执行的，$0 可能只包含脚本名  
+script_path="$0"  
+  
+# 如果 $0 没有包含路径，那么尝试使用 readlink（在支持的系统上）  
+# 注意：readlink 不是所有系统都支持，而且可能需要安装 coreutils 包  
+if [ ! -h "$script_path" ]; then  
+    # 如果脚本不是符号链接，则尝试使用 realpath（在支持的系统上）  
+    if command -v realpath >/dev/null 2>&1; then  
+        script_path=$(realpath "$script_path")  
+    else  
+        # 如果没有 realpath，则假设脚本在 $PWD（当前工作目录）中  
+        script_path="$PWD/$script_path"  
+    fi  
+fi  
+  
+# 使用 dirname 命令提取目录部分  
+script_dir=$(dirname "$script_path")  
+current_dir=$(pwd)
+python3 $script_dir/pyscript/submit_result.py
+
+# 检查返回码
+code=$?
+if [ $code -ne 0 ]; then  
+    echo "Error: Command failed with exit status $code"  
+    exit 1  # 退出脚本并返回错误状态  
+else  
+    echo "Command succeeded."  
+fi
+```
+
+```python
+#encoding=utf8
+import re, os, sys
+
+def main():
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())
+
+```
+
+## MacOS 苹果芯片安装Pillow 报错 Reason: tried: '/opt/homebrew/opt/libxcb/lib/libxcb.1.dylib' (no such file)
+
+```
+ERROR: no file at "/usr/local/opt/libxcb/lib/libxcb.1.dylib"
+ERROR: no file at "/usr/local/opt/libxcb/lib/libxcb-xfixes.0.dylib"
+```
+缺少这个包 安装就可以。
+```
+brew install libxcb
+```
+brew unlink libxcb && brew link libxcb
+
+brew cleanup
+brew uninstall libxcb
+brew install libxcb
 
 
 <hr class='reviewline'/>
