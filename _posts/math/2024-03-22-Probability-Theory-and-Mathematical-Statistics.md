@@ -348,6 +348,9 @@ $$
 
 ## 4.3.2 常见连续型的期望与方差 26:13
 
+这一段很有意思，反复套娃，老师讲着讲着突然来了句，“我讲的，都是些什么玩意？！”
+{% include image.html url="/assets/images/240322-probability-theory-and-~5b/WechatIMG23.jpg" %}
+
 
 ## 【coindance】抖肩舞--宋老师友情出演 02:27
 
