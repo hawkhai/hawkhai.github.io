@@ -230,11 +230,27 @@ $$
 
 ## 60 7.2 训练细节 13:41
 
+It's still useful to understand how they work under the hood.
+So that if something unexpected happends,
+You have a better chance of knowing how to fix it.
+
 
 ## 61 8.1 sigmoid 的替代品 05:30
 
+ReLU: rectified linear unit.
+
 
 ## 62 8.2 选择激活函数 08:25
+
+The relu function kind of goes flat only in one part of the graph,
+Whereas the sigmoid activation function,
+It kind of goes flat in two places.
+
+And if you're using gradient descent to train a neural network,
+Then when you have a function that is flat in a lot of places,
+Gradient descent will be really slow.
+
+{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240611004147.png" %}
 
 
 ## 63 8.3 为什么我们需要激活函数 05:32
