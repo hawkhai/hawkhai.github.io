@@ -100,11 +100,32 @@ pipeline {
 
 ## 直接安装
 
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+/bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+zsh: command not found: brew
+对于搭载 Intel 芯片的 macOS，添加以下行到您的 .zshrc 文件：
+`export PATH="/usr/local/bin:$PATH"`
+对于搭载 Apple Silicon 的 macOS，添加以下行到您的 .zshrc 文件：
+`export PATH="/opt/homebrew/bin:$PATH"`
+对于 Linux，添加以下行到您的 .zshrc 文件：
+`export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"`
+要编辑 .zshrc 文件，您可以使用任何文本编辑器，例如，在终端中运行 `nano ~/.zshrc` ，添加适当的行，保存更改并退出编辑器。
+应用更改： 添加正确的行到您的 .zshrc 文件后，通过运行以下命令来应用更改：
+`source ~/.zshrc`
+或者简单地关闭并重新打开您的终端。
+验证安装： 要验证 Homebrew 是否已安装并且在您的 PATH 中，运行：
+`brew --version`
+您应该会在终端中看到打印出来的 Homebrew 版本。
+如果在执行这些步骤后仍然遇到问题，请确保您的 .zshrc 文件中没有打字错误，并且确保 Homebrew 已经成功安装。
+inet 10.12.152.102 netmask 0xfffff800 broadcast 10.12.159.255
+
 <https://www.jenkins.io/download/lts/macos/>
 Sample commands:
-* Install the latest LTS version: brew install jenkins-lts
+* Install the latest LTS version: `brew install jenkins-lts`
 * Start the Jenkins service: brew services start jenkins-lts
-* Restart the Jenkins service: brew services restart jenkins-lts
+* Restart the Jenkins service: `brew services restart jenkins-lts`
 * Update the Jenkins version: brew upgrade jenkins-lts
 
 To start jenkins-lts now and restart at login:
@@ -245,12 +266,106 @@ brew uninstall libxcb
 brew install libxcb
 
 
+## mac Jenkins 局域网访问
+
+当配置完 Jenkins，准备测试时，是无法通过地址访问你的页面，本机上也只能使用 localhost 和 127.0.0.1 打开页面。
+需要在以下两个文件中，配置 `0.0.0.0` 。
+
+`~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist` 这个貌似不用。
+{% include image.html url="/assets/images/240530-mac-jenkins/89077a86b81744a29719d6ca8568de74.png" %}
+
+`/opt/homebrew/Cellar/jenkins-lts/2.303.2/homebrew.mxcl.jenkins-lts.plist`
+{% include image.html url="/assets/images/240530-mac-jenkins/4a9c3c9e04ff48c795f7fae7a71eb440.png" %}
+
+这个管用：
+`/opt/homebrew/Cellar/jenkins-lts/2.452.1/homebrew.mxcl.jenkins-lts.plist`
+
+
+## Jenkins 忘记密码，处理办法
+
+`/Users/<username>/.jenkins/users/` 。
+
+
+### 方式一：重置密码
+
+[渗透笔记 BCrypt 实战两则 {% include relref_jianshu.html %}](https://www.jianshu.com/p/47881baf83aa)
+首先，可以在官网中取得源代码 <http://www.mindrot.org/projects/jBCrypt/>
+然后通过 Ant 进行编译。编译之后得到 jbcrypt.jar。也可以不需要进行编译，而直接使用源码中的 java 文件（本身仅一个文件）。
+下面是官网的一个 Demo。
+```java
+public class BCryptDemo {
+
+    public static void main(String[] args) {
+
+        // Hash a password for the first time
+        String password = "testpassword";
+        String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
+        System.out.println(hashed);
+
+        // gensalt's log_rounds parameter determines the complexity
+        // the work factor is 2**log_rounds, and the default is 10
+        String hashed2 = BCrypt.hashpw(password, BCrypt.gensalt(12));
+
+        // Check that an unencrypted password matches one that has
+        // previously been hashed
+        String candidate = "testpassword";
+        //String candidate = "wrongtestpassword";
+        if (BCrypt.checkpw(candidate, hashed))
+            System.out.println("It matches");
+        else
+            System.out.println("It does not match");
+    }
+}
+```
+
+修改 JENKINS_HOME/users/usernamedir 目录下的 config.xml  文件
+注：usernamedir 就是你忘记密码对应的用户文件夹
+如果是 java -jar 方式启动的，HOME 目录位于 /root/.jenkins
+修改 config.xml，找到 passwordHash 部分，替换原有的 hash 值
+```
+123456 的 hash 值
+<jenkins.security.seed.UserSeedProperty>
+  <seed>16966906148f1cb6</seed>
+</jenkins.security.seed.UserSeedProperty>
+<hudson.security.HudsonPrivateSecurityRealm_-Details>
+  <passwordHash>#jbcrypt:$2a$10$MiIVR0rr/UhQBqT.bBq0QehTiQVqgNpUGyWW2nJObaVAM/2xSQdSq</passwordHash>
+</hudson.security.HudsonPrivateSecurityRealm_-Details>
+```
+重启 Jenkins
+/etc/init.d/jenkins restart
+
+
+### 方式二：取消密码
+
+进入 Jenkins 主目录，备份 config.xml
+cp config.xml config.xml.bak
+```
+修改 config.xml 文件
+找到关键词 useSecurity ，把后面的值 true 改为 false 重启 Jenkins /etc/init.d/jenkins restart
+```
+可以无账号和密码登录 Jenkins
+
+
+## Jenkins git 克隆代码超时问题解决
+
+在 Jenkins 中，我们可以通过配置延长默认的 10 分钟超时。
+
+1. 打开项目的配置，看到 `源码管理` 的 `Additional Behaviours` ，点击 `新增` 。
+2. 从弹出的新增方式中，选择 `高级的克隆行为` 。
+3. 从新增的配置框中可以配置 `克隆和拉取操作的超时时间（分钟）` ，
+    点击 `?` 可以看到默认超时时间是 10 分钟的说明，保险起见，
+    我们可以直接配置个 60 或 120 分钟，保证可以正常克隆完所有代码。
+    并勾选 `浅克隆` ，深度为 1。
+4. 配置完毕后，点击 `完成` ，然后重新构建项目即可。
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-05-30-mac-Jenkins.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://cloud.tencent.com/developer/article/1893274]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/cloud.tencent.com/0b389d77.html" %})
+- [https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/raw.githubusercontent.com/613cb55a.sh" %})
 - [https://www.jenkins.io/download/lts/macos/]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/www.jenkins.io/274b49a3.html" %})
 - [https://www.jenkins.io/zh/doc/tutorials/build-a-python-app-with-pyinstaller/]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/www.jenkins.io/343159ca.html" %})
 - [https://www.jianshu.com/p/0f913c735966]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/www.jianshu.com/4c6e55db.html" %})
@@ -258,3 +373,5 @@ brew install libxcb
 - [https://install.appcenter.ms/orgs/rdmacios-k2vy/apps/microsoft-remote-desktop-for-mac/distribution_groups/all-users-of-microsoft-remote-desktop-for-mac]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/install.appcenter.ms/5fa810a4.html" %})
 - [https://www.jenkins.io/zh/doc/book/blueocean/getting-started/]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/www.jenkins.io/0e4c6ffa.html" %})
 - [https://zhuanlan.zhihu.com/p/620236975]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/zhuanlan.zhihu.com/72822cb6.html" %})
+- [https://www.jianshu.com/p/47881baf83aa]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/www.jianshu.com/e5a9591e.html" %})
+- [http://www.mindrot.org/projects/jBCrypt/]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/www.mindrot.org/d3169fb4.html" %})
