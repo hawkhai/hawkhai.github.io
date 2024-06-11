@@ -43,7 +43,6 @@ docker run \
   -v jenkins-data:/var/jenkins_home \
   -v /var/run/docker.sock:/var/run/docker.sock \
   jenkinsci/blueocean
-
 ```
 
 <https://cloud.tencent.com/developer/article/1893274>
@@ -245,7 +244,6 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
-
 ```
 
 
