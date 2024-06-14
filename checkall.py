@@ -64,7 +64,8 @@ def main():
     litime = []
 
     for line in r"""
-python3 reindent.py -r .
+python3 reindent.py --newline -r .
+python3 reindent.py --newline -r invisible
 python3 headfmt.py
 python3 mdimage.py format
 python3 mdurl.py format
