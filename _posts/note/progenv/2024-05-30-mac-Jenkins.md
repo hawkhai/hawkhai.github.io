@@ -357,6 +357,14 @@ cp config.xml config.xml.bak
 4. 配置完毕后，点击 `完成` ，然后重新构建项目即可。
 
 
+## 参数化构建过程
+
+选项参数
+CMAKE_OSX_ARCHITECTURES
+x86_64
+arm64
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-05-30-mac-Jenkins.md.js" %}'></script></p>
