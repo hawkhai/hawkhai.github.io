@@ -364,6 +364,10 @@ CMAKE_OSX_ARCHITECTURES
 x86_64
 arm64
 
+文本参数
+FTP_ARM64_ADDR
+FTP_X86_64_ADDR
+
 
 
 <hr class='reviewline'/>
