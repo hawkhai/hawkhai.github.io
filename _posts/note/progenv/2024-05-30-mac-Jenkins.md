@@ -252,6 +252,8 @@ if __name__ == "__main__":
 ```
 ERROR: no file at "/usr/local/opt/libxcb/lib/libxcb.1.dylib"
 ERROR: no file at "/usr/local/opt/libxcb/lib/libxcb-xfixes.0.dylib"
+ERROR: no file at "/usr/local/opt/libxau/lib/libXau.6.dylib"
+ERROR: no file at "/usr/local/opt/libxdmcp/lib/libXdmcp.6.dylib"
 ```
 缺少这个包 安装就可以。
 ```
