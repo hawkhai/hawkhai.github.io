@@ -17,17 +17,29 @@ cluster: "WinDBG"
 ---
 
 [Mac OS App 崩溃日志解析方法 {% include relref_jianshu.html %}](https://www.jianshu.com/p/ebe0c37e5e1c)
-crash 文件大体分为 3 种：Unsymbolicated（未符号化）、Partially Symbolicated（半符号化）和 Fully Symbolicated（符号化）。
+Crash 文件大体分为 3 种：Unsymbolicated（未符号化）、Partially Symbolicated（半符号化）和 Fully Symbolicated（符号化）。
 {% include image.html url="/assets/images/240625-macos-crash/ccdc59c150863815356569d15f8889ae.webp" %}
 
 一般我们拿到的 .crash 都是 Unsymbolicated。在符号化之前，首先确保 .crash 文件相关崩溃模块的 uuid 和相关崩溃模块的 .dSYM 的 uuid 一致，这样得到的结果才是准确的。
+通过 `dwarfdump --uuid <Path to dSYM file>` 得到 .dSYM 的 uuid（ `<>` 不需要）。
 
 dsymutil appName.app/Contents/MacOS/appName
 
-* SYM
+符号存储推荐：
+symbols/
+
+
+## 几个工具
+
+* (star 576) SYM
     一个图形化的崩溃日志符号化工具，最新版本下载地址：<https://github.com/zqqf16/SYM/releases/latest>
 * SymbolicatorX
     iOS/Mac 项目崩溃文件自动符号化工具
+* (star 3.4k) [dSYMTools {% include relref_github.html %}](https://github.com/answer-huang/dSYMTools)
+    * 友盟统计 可以提交崩溃？？
+* (star 1.2k) **MacSymbolicator** Symbolicating macOS/iOS crash reports, easily.
+    * 比较喜欢这个的图形化界面。
+    * <https://mahdi.jp/apps/macsymbolicator>
 
 
 ## macOS 崩溃日志符号化
@@ -71,23 +83,84 @@ RelWithDebInfo
 
 <https://blog.csdn.net/quentin_d/article/details/122879754>
 
-目前，MacOS/iOS 的调试信息使用 dwarf 标准，最终的调试信息一般保存在 .dSYM bundle 文件中，.dSYM bundle 像 .APP 文件一样，是个文件包，里面的子目录 .dSYM/Contents/Resources/DWARF/ 保存着 dwarf 调试符号（只包含调试符号信息的 MachO 文件，可以使用 python 工具 dwex 查看）。
+目前，MacOS/iOS 的调试信息使用 dwarf 标准，最终的调试信息一般保存在 .dSYM bundle 文件中，
+.dSYM bundle 像 .APP 文件一样，是个文件包，里面的子目录 `.dSYM/Contents/Resources/DWARF/`
+保存着 dwarf 调试符号（只包含调试符号信息的 MachO 文件，可以使用 python 工具 dwex 查看）。
 
+**调试时，调试器怎么找到对应的 .dSYM bundle？**
+比较简单的方式是，只要将可执行文件和 .dSYM 放到同一个目录下，符合 exename 和 exename.dSYM 的范式，lldb 就可以找到符号，
+或者使用 lldb 的 add-dsym 命令加载指定位置的 .dSYM 符号。
+可以使用 otool -hlv 或者 dwarfdump --uuid 来查看，这个 UUID 是唯一的。
+
+**编译器怎么生成调试符号？**
+可以使用 dsymutil -dump-debug-map main 来查看，或者使用 nm -pa executable 来查看 debug map entries）。
 调试信息不存在于最终生成的 Macho 文件中，即使使用 -g 开启调试信息，最终的 MachO 也不会包含太多调试信息，最多会保存着一些函数名（一旦 strip 就会被去掉）。
+DWARF Debugging Standard Wiki [link](http://wiki.dwarfstd.org/index.php?title=Apple%27s_%22Lazy%22_DWARF_Scheme)
 
-一般将 object 文件中的调试信息放到 .dSYM 文件包中，这个工作是由 dsymutil 这个工具完成的，它的功能相当于 linux 下的 objcopy 程序
+一般将 object 文件中的调试信息放到 .dSYM 文件包中，这个工作是由 dsymutil 这个工具完成的，它的功能相当于 linux 下的 objcopy 程序。
 
-dsymutil 可以看作是一个 debug info linker, 做的事情就是读取 MachO 文件和它对应的 object 文件，获取调试信息，重定位，然后写入到 .dSYM 中（的一个包含 dwarf 的 binary 中）。
+dsymutil 可以看作是一个 debug info linker，做的事情就是读取 MachO 文件和它对应的 object 文件，获取调试信息，重定位，然后写入到 .dSYM 中（的一个包含 dwarf 的 binary 中）。
 
 调用 dsymutil 工具生成 .dSYM 文件，然后再使用 strip 将可执行文件的中调试信息删除。
+```
+$(target) : $(objects)
+    @mkdir -p $(bin)
+    $(CXX) $(objects) -o $(bin)/$@ $(LDFLAGS)
+
+ifeq ($(os), Darwin)
+    dsymutil $(bin)/$@
+    $(STRIP) -u -r -arch all $(bin)/$@
+else
+    $(OBJCOPY) --only-keep-debug $(bin)/$(target) $(bin)/$(target).sym
+    $(STRIP) --strip-debug --strip-unneeded $(bin)/$(target)
+    $(OBJCOPY) --add-gnu-debuglink $(bin)/$(target).sym $(bin)/$(target)
+endif
+```
 
 需要再用 lipo 打包不同架构的 dwarf MachO，生成一个支持多架构的 .dSYM 文件包。
+```
+all:
+
+    echo "making arm version ..........."
+    sleep 2
+    rm -rf build_arm
+    make -f makefile clean
+    make -f makefile
+    mkdir build_arm
+    mv build/* build_arm/
+
+    echo "making x86 version ..........."
+    sleep 2
+    rm -rf build_x86
+    make -f makefile clean
+    export ARCH=x86
+    ARCH=x86
+    make -f makefile
+    mkdir build_x86
+    mv build/* build_x86/
+
+    echo "making universe binary........"
+    sleep 2
+    rm -rf build
+    mkdir build
+    @list='$(SUBDIRS)'; for binary in $$list; do \
+        echo "making $$binary"; \
+        lipo -create -output build/$$binary build_x86/$$binary build_arm/$$binary ; \
+        dsymutil build/$$binary ; \
+        rm build/$$binary.dSYM/Contents/Resources/DWARF/$$binary ; \
+        lipo -create -output build/$$binary.dSYM/Contents/Resources/DWARF/$$binary build_x86/$$binary.dSYM/Contents/Resources/DWARF/$$binary build_arm/$$binary.dSYM/Contents/Resources/DWARF/$$binary ; \
+    done;
+```
 
 编译时，优化相关的开关 -O0 -O2 等，并不影响调试信息的生成，虽然更高的优化等级生成的代码比-O0 更难以调试。
+
+refer:
+<https://stackoverflow.com/questions/10044697/where-how-does-apples-gcc-store-dwarf-inside-an-executable/12827463#12827463>
 
 
 ## 编译 Crashpad 库
 
+<https://www.cnblogs.com/slcode/p/969b1b72b8ab08f3213e4b7364b0c7ac.html>
 Crashpad 是一个支持 mac 和 windows 的崩溃报告库，google 还有一个 breakpad，已经不建议使用了。
 mac，直接使用官网一步一步走即可。
 
@@ -106,7 +179,7 @@ windows 下载压缩包，然后放到系统 PATH 中。然后使用 CMD（注�
 ### Crashpad 库编译步骤
 
 [Crashpad 库编译步骤](https://chromium.googlesource.com/crashpad/crashpad/+/master/doc/developing.md)
-<https://docs.bugsplat.com/introduction/getting-started/integrations/cross-platform/crashpad/how-to-build-google-crashpad>
+How to Build Google Crashpad [link](https://docs.bugsplat.com/introduction/getting-started/integrations/cross-platform/crashpad/how-to-build-google-crashpad)
 
 ```
 git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
@@ -128,7 +201,7 @@ rule cxx
 
 注：
 windows 编译完成，并不是规则的输出到某个目录下，而是分散的，所以需要自己去手动拷贝。
-这样未免有点麻烦，可以到 [这里](http://get.backtrace.io/crashpad/builds/) 下载编译好的库。
+这样未免有点麻烦，可以到 [这里](https://get.backtrace.io/crashpad/builds/) 下载编译好的库。
 
 我选择的 stable 版本，stable 和最新版的头文件组织有点差异，小改一下就好。
 [代码指导](https://help.backtrace.io/en/articles/2337714-crashpad-integration-guide)
@@ -143,6 +216,7 @@ windows 编译完成，并不是规则的输出到某个目录下，而是分散
 
 ## Crashpad 的编译过程及原理
 
+How I Build Google Crashpad with CMake when it's checked into source
 <https://gist.github.com/jameskr97/8c40d927db05fe253235e05333fed4f3>
 
 Crashpad 编译
@@ -198,6 +272,8 @@ Core file '/Users/sumless/Downloads/20240524/crashpad_database/completed/ec6ca48
 ## 其它
 
 * [Mac/iOS crash 或者地址符号解析 —— 工具篇 {% include relref_csdn.html %}](https://blog.csdn.net/goldWave01/article/details/90177708)
+    * `xcrun dwarfdump --uuid *.dSYM`
+    * `xcrun dwarfdump --uuid DSYMTest.app/Contents/MacOS/DSYMTest`
 * [MacOS 如何解析系统库的符号？ {% include relref_csdn.html %}](https://blog.csdn.net/weixin_46168796/article/details/134057199)
 * [如何用 Visual Studio 自带工具分析内存泄漏 ? {% include relref_csdn.html %}](https://blog.csdn.net/weixin_46168796/article/details/134057751)
 
@@ -209,16 +285,19 @@ Core file '/Users/sumless/Downloads/20240524/crashpad_database/completed/ec6ca48
 
 - [https://www.jianshu.com/p/ebe0c37e5e1c]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/www.jianshu.com/06ce48fe.html" %})
 - [https://github.com/zqqf16/SYM/releases/latest]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/github.com/8392334e.html" %})
-- [https://blog.msmk.live/2018/08/03/2018-08-03-maccrashreportssymbol/]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/blog.msmk.live/27ad49a6.html" %})
-- [https://mahdi.jp/apps/macsymbolicator]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/mahdi.jp/14318311.html" %})
-- [https://github.com/inket/MacSymbolicator]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/github.com/394cd9a4.html" %})
 - [https://github.com/answer-huang/dSYMTools]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/github.com/e93615bd.html" %})
+- [https://mahdi.jp/apps/macsymbolicator]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/mahdi.jp/14318311.html" %})
+- [https://blog.msmk.live/2018/08/03/2018-08-03-maccrashreportssymbol/]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/blog.msmk.live/27ad49a6.html" %})
+- [https://github.com/inket/MacSymbolicator]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/github.com/394cd9a4.html" %})
 - [https://blog.csdn.net/quentin_d/article/details/122879754]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/blog.csdn.net/24c85663.html" %})
+- [http://wiki.dwarfstd.org/index.php?title=Apple%27s_%22Lazy%22_DWARF_Scheme]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/wiki.dwarfstd.org/185e10b1.php" %})
+- [https://stackoverflow.com/questions/10044697/where-how-does-apples-gcc-store-dwarf-inside-an-executable/12827463#12827463]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/stackoverflow.com/0d6c015b.html" %})
+- [https://www.cnblogs.com/slcode/p/969b1b72b8ab08f3213e4b7364b0c7ac.html]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/www.cnblogs.com/4e2bbaca.html" %})
 - [https://commondatastorage.googleapis.com/chrome-infra-docs/flat/depot_tools/docs/html/depot_tools_tutorial.html#_setting_up]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/commondatastorage.googleapis.com/06bc5d57.html" %})
 - [https://chromium.googlesource.com/crashpad/crashpad/+/master/doc/developing.md]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/chromium.googlesource.com/21821ca6.html" %})
 - [https://docs.bugsplat.com/introduction/getting-started/integrations/cross-platform/crashpad/how-to-build-google-crashpad]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/docs.bugsplat.com/fe1ea0ff.html" %})
 - [https://chromium.googlesource.com/chromium/tools/depot_tools.git]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/chromium.googlesource.com/de81edd7.git" %})
-- [http://get.backtrace.io/crashpad/builds/]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/get.backtrace.io/bc044f45.html" %})
+- [https://get.backtrace.io/crashpad/builds/]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/get.backtrace.io/d2e2d8a9.html" %})
 - [https://help.backtrace.io/en/articles/2337714-crashpad-integration-guide]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/help.backtrace.io/7e8042d4.html" %})
 - [https://gist.github.com/jameskr97/8c40d927db05fe253235e05333fed4f3]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/gist.github.com/3b664698.html" %})
 - [https://blog.csdn.net/goldWave01/article/details/90177708]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/blog.csdn.net/5c9c18a0.html" %})
