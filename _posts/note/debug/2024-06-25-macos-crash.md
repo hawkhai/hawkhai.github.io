@@ -4,7 +4,7 @@ title: "编程与调试 C++ -- MacOS crash dump App 崩溃日志解析方法"
 author:
 location: "珠海"
 categories: ["编程与调试"]
-tags: ["调试", "Memory", "C/C++"]
+tags: ["调试", "Memory", "C/C++", "MacOS"]
 toc: true
 toclistyle:
 comments:

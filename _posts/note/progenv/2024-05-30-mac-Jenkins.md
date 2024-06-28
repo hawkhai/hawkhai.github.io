@@ -4,7 +4,7 @@ title: "开发环境 -- 搭建 MacOS Jenkins 环境"
 author:
 location: "珠海"
 categories: ["开发环境"]
-tags: ["开发环境", "Jenkins"]
+tags: ["开发环境", "Jenkins", "MacOS"]
 toc: true
 toclistyle:
 comments:
