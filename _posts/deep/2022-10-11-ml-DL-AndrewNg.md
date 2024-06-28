@@ -267,6 +267,39 @@ Gradient descent will be really slow.
 
 ## 67 9.4 softmax 的改进实现 09:13
 
+相当于是为了计算更精确，所以把 softmax 函数运算放到了损失函数里面，而此时模型预测出来的值不再是概率，
+必须再经过 softmax 函数还原成预测概率。
+
+【官方双语】GPT 是什么？直观解释 Transformer \| 深度学习第 5 章
+<https://www.bilibili.com/video/BV13z421U7cs/>
+* Embedding
+* Key
+* Query
+* Value
+* Output
+* Up-projection
+* Down-projection
+* Unembedding
+
+GPT 的第一层：词嵌入为向量（embedding）
+嵌入空间不仅代表词，还能包含上下文信息
+GPT 的最后一层：向量解码为词（Unembedding）
+带温度的 Softmax 函数
+
+【官方双语】直观解释注意力机制，Transformer 的核心 \| 深度学习第 6 章
+<https://www.bilibili.com/video/BV1TZ421j7Ke/>
+
+朴素的理解两个词的注意力可能会理解为计算是两个词嵌入的直接的相似度，
+但是其实是计算两个词分别在 QK 空间上的投影的相似度，因为如果不这么做，那么两个一样的词永远最相似。
+
+因此 QK 两个矩阵其实表征了两个空间。即：查询空间 Q 和被查空间 K，
+Q 用来映射每一个词 x 的方向，K 用来映射其他每个词的方向，一旦两个空间的映射结果一致则表示两个词匹配。
+
+想真正弄清楚 Transformer 内部的大网络在做什么，推荐 Anthropic 的网页博文：
+<https://transformer-circuits.pub/2021/framework/index.html>
+我就是读了他的一篇文章后开始想，输出矩阵乘以值矩阵，其实就是嵌入空间到自身的一个低秩映射。
+这样想之后，至少我的概念变得更清晰了。
+
 
 ## 68 9.5 多个输出的分类 (Optional) 04:20
 
@@ -1050,3 +1083,6 @@ Gradient descent will be really slow.
 - [https://www.bilibili.com/video/BV1Bq421A74G/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.bilibili.com/738a77eb.html" %})
 - [https://www.bilibili.com/video/BV1Gm421u73z/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.bilibili.com/c8eafc49.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.bilibili.com/video/BV13z421U7cs/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.bilibili.com/590693b1.html" %})
+- [https://www.bilibili.com/video/BV1TZ421j7Ke/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.bilibili.com/c13fe51c.html" %})
+- [https://transformer-circuits.pub/2021/framework/index.html]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/transformer-circuits.pub/7ca73ab6.html" %})
