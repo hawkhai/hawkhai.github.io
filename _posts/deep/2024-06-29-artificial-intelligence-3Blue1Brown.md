@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "机器学习笔记 -- 3Blue1Brown 深度学习 Deep Learning（进行中……）"
+title: "机器学习笔记 -- 3Blue1Brown 深度学习 Deep Learning（已完成）"
 author:
 location: "珠海"
 categories: ["机器学习"]
@@ -19,15 +19,6 @@ kaliyun: true
 **深度学习 Deep Learning**
 <https://space.bilibili.com/88461692/channel/seriesdetail?sid=1528929>
 <https://www.3blue1brown.com/topics/neural-networks>
-
-But what is a GPT? Visual intro to Transformers | Deep learning, chapter 5
-A visual introduction to transformers. This chapter focusses on the overall structure, and word embeddings
-2024 年 4 月 1 日
-
-Visualizing Attention, a Transformer's Heart | Chapter 6, Deep Learning
-Demystifying attention, the key mechanism inside transformers and LLMs.
-2024 年 4 月 7 日
-© 2024 Grant Sanderson
 
 
 ## 深度学习之神经网络的结构 Part 1 ver 2.0
@@ -84,6 +75,10 @@ GPT 的第一层：词嵌入为向量（embedding）
 GPT 的最后一层：向量解码为词（Unembedding）
 带温度的 Softmax 函数
 
+But what is a GPT? Visual intro to Transformers | Deep learning, chapter 5
+A visual introduction to transformers. This chapter focusses on the overall structure, and word embeddings
+2024 年 4 月 1 日
+
 
 ## 直观解释注意力机制，Transformer 的核心 \| 深度学习第 6 章
 
@@ -100,10 +95,21 @@ Q 用来映射每一个词 x 的方向，K 用来映射其他每个词的方向�
 我就是读了他的一篇文章后开始想，输出矩阵乘以值矩阵，其实就是嵌入空间到自身的一个低秩映射。
 这样想之后，至少我的概念变得更清晰了。
 
+Visualizing Attention, a Transformer's Heart | Chapter 6, Deep Learning
+Demystifying attention, the key mechanism inside transformers and LLMs.
+2024 年 4 月 7 日
+© 2024 Grant Sanderson
 
-## 何凯明
+
+## 何恺明 MIT 第一课 - 卷积神经网络
 
 <https://www.bilibili.com/video/BV1sW421c7SK/>
+
+{% include image.html url="/assets/images/240629-artificial-intelligence~82/20240629214909.png" %}
+
+{% include image.html url="/assets/images/240629-artificial-intelligence~82/20240629221908.png" caption="every node can see every other node" %}
+
+2017 Transformer 提出，截至到 2020 年的 ViT（Vision Transformer），最近 4 年都没有新的革命范式提出了，感觉图片中可能链接的都链接完了。
 
 
 
