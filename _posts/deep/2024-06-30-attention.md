@@ -40,6 +40,12 @@ bert
 <https://www.bilibili.com/video/BV1Dw4m1e74b/>
 
 
+## Transformer 论文逐段精读【论文精读】
+
+<https://www.bilibili.com/video/BV1pu411o7BE/>
+假设更一般，对数据信息的抓取能力更差，所以需要更多数据更大的模型才能训练出来。
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-06-30-attention.md.js" %}'></script></p>
@@ -51,3 +57,4 @@ bert
 - [https://www.bilibili.com/video/BV1qi421e7DH/]({% include relrefx.html url="/backup/2024-06-30-attention.md/www.bilibili.com/ce799314.html" %})
 - [https://www.youtube.com/watch?v=lOrTlKrdmkQ]({% include relrefx.html url="/backup/2024-06-30-attention.md/www.youtube.com/49f0d0af.html" %})
 - [https://www.bilibili.com/video/BV1Dw4m1e74b/]({% include relrefx.html url="/backup/2024-06-30-attention.md/www.bilibili.com/4ff97324.html" %})
+- [https://www.bilibili.com/video/BV1pu411o7BE/]({% include relrefx.html url="/backup/2024-06-30-attention.md/www.bilibili.com/d4534f87.html" %})
