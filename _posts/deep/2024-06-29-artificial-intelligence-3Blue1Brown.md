@@ -111,6 +111,10 @@ Demystifying attention, the key mechanism inside transformers and LLMs.
 
 2017 Transformer 提出，截至到 2020 年的 ViT（Vision Transformer），最近 4 年都没有新的革命范式提出了，感觉图片中可能链接的都链接完了。
 
+* GPT
+* AlphaFold
+* ViT
+
 
 
 <hr class='reviewline'/>
