@@ -276,20 +276,48 @@ Gradient descent will be really slow.
 
 ## 69 10.1 高级优化方法 06:26
 
+每个维度一个学习率，自动调整。
+Adam Algorithm Intuition
+
+Adam: Adaptive Moment estimation
+
 
 ## 70 10.2 Additional Layer Types 08:56
 
 
 ## 71 11.1 决定下一步做什么 03:42
 
+搞机器学习最重要的就是分配你的时间。
+应该搞数据还是搞算法。
+
+Diagnostic: A test that you run to gain insight into whatis/isn't working with a learning algorithm,
+to gain guidanceinto improving its performance.
+
+Diagnostics can take time to implement but doing so can bea very good use of your time.
+
 
 ## 72 11.2 模型评估 10:26
+
+* 70% / 80%
+* 30% / 20%
 
 
 ## 73 11.3 模型选择和训练交叉验证测试集 14:53
 
+* 60% 训练集 training set
+* 20% 交叉验证集 cross validation
+* 20% 测试集 test set
+
 
 ## 74 12.1 诊断偏差和方差 11:13
+
+* Jtrain high, Jcv high
+* Jtrain low, Jcv low
+* Jtrain low, Jcv high
+
+{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240703010732.png" %}
+
+{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240703012546.png" %}
 
 
 ## 75 12.2 正则化和偏差或方差 10:37
