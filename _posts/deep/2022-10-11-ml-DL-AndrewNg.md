@@ -325,17 +325,43 @@ Diagnostics can take time to implement but doing so can bea very good use of you
 
 ## 76 12.3 建立表现基准 09:26
 
+{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240703234901.png" %}
+
 
 ## 77 12.4 学习曲线 12:14
+
+{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240703235720.png" %}
+
+{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240704000207.png" caption="High bias" %}
+if a learning algorithm suffersfrom high bias, getting moretraining data will not (byitself) help much.
+
+{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240704000734.png" caption="High variance" %}
+if a learning algorithm suffersfrom high variance, gettingmore training data is likely tohelp.
+
+建立基线作为参考，
+这里应该存在三种情况：
+1. 数据过少。
+    * 往往高方差。加强正则化。
+2. 模型过于简单。
+    * 往往高偏差。减弱正则化。
+3. 模型过于复杂。等价于数据过少。
+
+sometimes, luck is essential
 
 
 ## 78 12.5 再次决定下一步做什么 08:47
 
+{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240704003706.png" %}
+
 
 ## 79 12.6 偏差或方差与神经网络 10:45
 
+{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240704004904.png" %}
+
 
 ## 80 13.1 机器学习的迭代发展 07:43
+
+{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240704005744.png" %}
 
 
 ## 81 13.2 误差分析 08:21
