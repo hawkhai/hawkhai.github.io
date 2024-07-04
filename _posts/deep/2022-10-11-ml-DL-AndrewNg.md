@@ -380,11 +380,10 @@ he realized that
 bias and variance are concepts that take a short time to learn,
 but a lifetime to master.”
 
+
 ## 79 12.6 偏差或方差与神经网络 10:45
 
 {% include image.html url="/assets/images/221011-ml-dl-andrewng/20240704004904.png" %}
-
-
 
 
 ## 80 13.1 机器学习的迭代发展 07:43
@@ -398,6 +397,11 @@ but a lifetime to master.”
 
 
 ## 82 13.3 添加数据 14:24
+
+数据增强，随机噪声意义不大，因为这些情况在测试集里面不会出现。
+
+用于照片OCR的人工数据合成
+Artificial data synthesis for photo OCR
 
 
 ## 83 13.4 迁移学习：使用其他任务中的数据 12:11
