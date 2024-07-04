@@ -353,10 +353,38 @@ sometimes, luck is essential
 
 {% include image.html url="/assets/images/221011-ml-dl-andrewng/20240704003706.png" %}
 
+一时学习，一生去理解。
+大体是说，有一个博士生，偏差和方差一生去理解。
+07:00
+Andrew Ng:
+One of my phd students form stanford,
+Many years after he had already graduated from stanford,
+Once said to be that while he was studying at stanford,
+He learned about bias and variance,
+But he understood it,
+But that susequently,
+After many years of work experience and a few different companies,
+He realized that,
+Bias and variance is one of those concepts that takes a short time to learn,
+Beut it takes a lifetime to master.
+
+Andrew Ng:
+“One of my PhD students from Stanford,
+many years after he had already graduated from Stanford,
+once said to me that while he was studying at Stanford,
+he learned about bias and variance.
+He understood it at the time,
+but subsequently,
+after many years of work experience at a few different companies,
+he realized that
+bias and variance are concepts that take a short time to learn,
+but a lifetime to master.”
 
 ## 79 12.6 偏差或方差与神经网络 10:45
 
 {% include image.html url="/assets/images/221011-ml-dl-andrewng/20240704004904.png" %}
+
+
 
 
 ## 80 13.1 机器学习的迭代发展 07:43
@@ -365,6 +393,8 @@ sometimes, luck is essential
 
 
 ## 81 13.2 误差分析 08:21
+
+看到 13.2 误差分析 00:24
 
 
 ## 82 13.3 添加数据 14:24
