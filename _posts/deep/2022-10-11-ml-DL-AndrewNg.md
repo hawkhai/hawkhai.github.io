@@ -400,7 +400,7 @@ but a lifetime to master.”
 
 数据增强，随机噪声意义不大，因为这些情况在测试集里面不会出现。
 
-用于照片OCR的人工数据合成
+用于照片 OCR 的人工数据合成
 Artificial data synthesis for photo OCR
 
 
@@ -408,6 +408,8 @@ Artificial data synthesis for photo OCR
 
 
 ## 84 13.5 机器学习项目的完整周期 08:45
+
+traditional procedure of statistical study, machine learning <-> statistics
 
 
 ## 85 13.6 公平、偏见与伦理 09:57
