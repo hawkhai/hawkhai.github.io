@@ -1007,7 +1007,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
                 return mainfile(fpathsrc, fnamesrc, ftypesrc, fdepth+1)
 
         countspace = getLeftSpaceCount(line if warnIndentSpace else line.replace("\t", " "*4))
-        if countspace > 12 or countspace % idtcnt == 0:
+        if countspace > 12 or countspace % idtcnt == 0 or countspace in (3,):
             pass # ok
         elif warnIndentSpace:
             openTextFile(fpath)
