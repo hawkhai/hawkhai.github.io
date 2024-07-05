@@ -5,6 +5,10 @@ function MathJaxHubConfig() {
         return;
     }
 
+    //MathJax = {
+    //    tex: {inlineMath: [['$', '$'],['$$', '$$'], ['\\(', '\\)']]},
+    //};
+
     MathJax.Hub.Config({
         "fast-preview": { disabled: false },
         showProcessingMessages: false,
