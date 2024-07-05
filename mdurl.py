@@ -48,6 +48,8 @@ def mainfilew(fpath, fname, ftype):
     fdata = readfile(fpath, True)
     fdatabak = fdata[:]
 
+    print("mainfilew", fpath)
+
     li = fdata.split(NEWLINE_CHAR)
     li2 = []
     first = True
@@ -97,6 +99,8 @@ def mainfilew(fpath, fname, ftype):
             print(htimg)
             txline, txtitle, txurl = htimg
             if txurl.startswith(".."):
+                break
+            if txurl in ("chart.png",):
                 break
             img = netget(txurl)
             imgname = getmd5(txurl)[:4]+"_"+txurl.split("/")[-1]
