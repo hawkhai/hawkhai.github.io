@@ -417,8 +417,13 @@ traditional procedure of statistical study, machine learning <-> statistics
 
 ## 86 14.1 倾斜数据集的误差指标 11:36
 
+{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240708010350.png" %}
+
 
 ## 87 14.2 精确率与召回率的权衡 11:50
+
+F1 score
+{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240708010432.png" %}
 
 
 ## 88 15.1 决策树模型 07:06

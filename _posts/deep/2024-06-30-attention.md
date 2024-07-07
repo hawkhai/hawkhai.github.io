@@ -20,6 +20,8 @@ transformer
 bert
 @vcubingx
 
+{% include image.html url="/assets/images/240630-attention/accesswximg.png" %}
+
 
 ## What does it mean for computers to understand language? \| LM1
 
