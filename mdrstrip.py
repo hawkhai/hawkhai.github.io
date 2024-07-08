@@ -750,7 +750,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
                 imgthumb = False
                 break
             # 避免格式化的文件。
-            if "".join(line.strip()).lower().split()) == "codeformat:false":
+            if "".join(line.strip().lower().split()) == "codeformat:false":
                 return
 
         try:

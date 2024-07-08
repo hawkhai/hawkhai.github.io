@@ -110,7 +110,7 @@ permalink
 l2dwidget cluster
 sortrefs archived date
 layoutclear titlecheck
-ktitle kaliyun imgthumb zhconv
+ktitle kaliyun imgthumb zhconv codeformat
 """.split()
 
     kvmap = {}
