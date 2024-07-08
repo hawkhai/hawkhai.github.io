@@ -436,6 +436,7 @@ F1 score
 
 Entropy as a measure of impurity
 熵作为杂质的度量
+{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240709005338.png" %}
 
 
 ## 91 16.2 选择拆分信息增益 11:52
