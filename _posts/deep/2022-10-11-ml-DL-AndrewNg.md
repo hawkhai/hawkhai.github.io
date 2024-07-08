@@ -434,6 +434,9 @@ F1 score
 
 ## 90 16.1 测量纯度 07:50
 
+Entropy as a measure of impurity
+熵作为杂质的度量
+
 
 ## 91 16.2 选择拆分信息增益 11:52
 
