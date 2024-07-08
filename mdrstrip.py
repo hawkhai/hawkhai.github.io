@@ -749,6 +749,9 @@ def mainfile(fpath, fname, ftype, fdepth=0):
             if "".join(line.strip().lower().split()) == "imgthumb:false":
                 imgthumb = False
                 break
+            # 避免格式化的文件。
+            if "".join(line.strip()).lower().split()) == "codeformat:false":
+                return
 
         try:
             lines = appendRefs(fpath, md5src, lines, imgthumb)
