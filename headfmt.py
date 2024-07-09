@@ -76,6 +76,9 @@ def analyzehead(fpath, fname, ftype, newmap):
         pass#assert fpath in ("about.md", "bookshelf.md", "index.md", "disclaimer.md"), fpath
 
     if not newmap["categories"] or not newmap["tags"]:
+        if "codeformat" in newmap and newmap["codeformat"] in ("false",):
+            return
+        print(newmap)
         openTextFile(fpath)
 
 def popenCmdW(cmdx):
