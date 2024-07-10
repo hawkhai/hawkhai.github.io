@@ -116,6 +116,12 @@ layoutclear titlecheck
 ktitle kaliyun imgthumb zhconv codeformat
 """.split()
 
+    # 避免格式化的文件。
+    codeformat = True
+    for line in li:
+        if "".join(line.strip().lower().split()) == "codeformat:false":
+            codeformat = False
+
     kvmap = {}
     for line in li:
         if len(line.split(":", 1)) == 1:
@@ -175,6 +181,8 @@ ktitle kaliyun imgthumb zhconv codeformat
             gkvmap[key] = []
 
         def appvalue(value):
+            if key in ("author",) and not codeformat:
+                return
             if value and not value in gkvmap[key]:
                 gkvmap[key].append(value)
 
@@ -224,7 +232,9 @@ def parseHeadKeyValueRaw(fpath, fname, ftype):
 def parseHeadKeyValue(fpath, fname, ftype, setkv={}):
     fsecli = parseHeadKeyValueRaw(fpath, fname, ftype)
     if not fsecli: return
-    return formatkv(fpath, fname, ftype, fsecli[1], setkv=setkv)[1]
+    tempv = formatkv(fpath, fname, ftype, fsecli[1], setkv=setkv)
+    if not tempv: return
+    return tempv[1]
 
 gkvconfig = readfileJson("config/headnote.json", "utf8")
 gkvconfig = gkvconfig if gkvconfig else {}
@@ -242,7 +252,9 @@ def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv={}):
 
     mdtagfile = (fpath+".tag").replace(".md.tag", ".mdtag").replace("-", "")
     #writefile(mdtagfile, "")
-    fsecli[1] = "\r\n{}\r\n".format(formatkv(fpath, fname, ftype, fsecli[1], setkv)[0],)
+    tempv = formatkv(fpath, fname, ftype, fsecli[1], setkv)
+    if tempv:
+        fsecli[1] = "\r\n{}\r\n".format(tempv[0],)
 
     fsecli = "---".join(fsecli)
 
