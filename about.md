@@ -98,6 +98,7 @@ And, I welcome any feedback on the contents and your suggestions.
 程序的复杂度分两种：
 
 1. 这个逻辑本身就非常复杂，比如 3D 引擎、Chrome、机器学习；
+    * GAN、SVM 和 强化学习 的 数学部分，刺猬摸电线，卷麻了。
 2. 代码混乱和冗余造成的复杂，呵呵，比如公司维护了十多年的代码。
 
 大部分时候，考验的是我们的基本功和知识储备，同时用工整的代码去对抗复杂。
