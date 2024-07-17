@@ -2129,6 +2129,8 @@ char* readfile(const char* fpath, long& length) {
 
 // 返回开始写文件的地址偏移。
 long appendfile(const char* fpath, const char* data, long length) {
+    assert(data && length > 0);
+    if (!data || length <= 0) return -1;
     FILE* fs = fopen(fpath, "ab");
     assert(fs);
     if (!fs) return -1;
