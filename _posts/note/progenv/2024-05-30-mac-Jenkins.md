@@ -371,6 +371,63 @@ FTP_ARM64_ADDR
 FTP_X86_64_ADDR
 
 
+## 公证问题
+
+{% include image.html url="/assets/images/240530-mac-jenkins/20240719142703.png" %}
+
+
+### OK
+
+```
+Begin sign dmg 打签名
+OkApp_1.0.7.dmg: operation inapplicable or not supported for this type of code
+Command succeeded.
+Begin notarization 公证 . Please wait a few minutes...
+
+Waiting for processing to complete.
+
+Current status: Accepted........Processing complete
+  id: 2847a458-a8fa-4d84-ac1f-3cce7a08d567
+  status: Accepted
+
+Begin staple 装订票据
+Processing: /Users/product/release/App/OkApp_1.0.7.dmg
+Processing: /Users/product/release/App/OkApp_1.0.7.dmg
+The staple and validate action worked!
+Check staple 检查票据
+OkApp_1.0.7.dmg: accepted
+source=Notarized Developer ID
+Command succeeded.
+Command succeeded.
+```
+
+
+### fail
+
+```
+Begin sign dmg 打签名
+Command succeeded.
+Begin notarization 公证 . Please wait a few minutes...
+
+Waiting for processing to complete.
+
+Current status: Invalid........Processing complete
+  id: b7ac9505-cefa-43dc-815d-192eea97d407
+  status: Invalid
+
+Begin staple 装订票据
+Processing: /Users/product/release/App/OkApp_1.0.7.dmg
+CloudKit query for OkApp_1.0.7.dmg (2/) failed due to "Record not found".
+Could not find base64 encoded ticket in response for 2/
+The staple and validate action failed! Error 65.
+Check staple 检查票据
+OkApp_1.0.7.dmg: rejected
+source=Unnotarized Developer ID
+Command succeeded.
+Command succeeded.
+```
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-05-30-mac-Jenkins.md.js" %}'></script></p>
