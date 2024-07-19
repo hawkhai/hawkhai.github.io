@@ -406,6 +406,7 @@ Command succeeded.
 
 ```
 Begin sign dmg 打签名
+OkApp_1.0.7.dmg: operation inapplicable or not supported for this type of code
 Command succeeded.
 Begin notarization 公证 . Please wait a few minutes...
 
@@ -423,8 +424,8 @@ The staple and validate action failed! Error 65.
 Check staple 检查票据
 OkApp_1.0.7.dmg: rejected
 source=Unnotarized Developer ID
-Command succeeded.
-Command succeeded.
+Error: Command failed with exit status 3
+script returned exit code 3
 ```
 
 
