@@ -428,6 +428,44 @@ Error: Command failed with exit status 3
 script returned exit code 3
 ```
 
+这个问题是因为签字和公证之间修改了二进制。
+```
+# 查询公证失败原因:
+xcrun notarytool log 31ea8ce2-4d7e-495d-ab84-f3c89745d43f --keychain-profile "gongzheng"
+```
+
+```json
+{
+  "logFormatVersion": 1,
+  "jobId": "31ea8ce2-4d7e-495d-ab84-f3c89745d43f",
+  "status": "Invalid",
+  "statusSummary": "Archive contains critical validation errors",
+  "statusCode": 4000,
+  "archiveFilename": "OkApp_1.0.11.dmg",
+  "uploadDate": "2024-07-19T07:20:44.060Z",
+  "sha256": "08ab8a14c07cb96aee47927daf0cfd94abdae607c4fd8ecf88a52d95d32f453f",
+  "ticketContents": null,
+  "issues": [
+    {
+      "severity": "error",
+      "code": null,
+      "path": "OkApp_1.0.11.dmg/OkApp.app/Contents/Frameworks/libkncnn.dylib",
+      "message": "The signature of the binary is invalid.",
+      "docUrl": "developer.apple.com/documentation/security/notarizing_macos_software_before_distribution/resolving_common_notarization_issues#3087735",
+      "architecture": "x86_64"
+    },
+    {
+      "severity": "error",
+      "code": null,
+      "path": "OkApp_1.0.11.dmg/OkApp.app/Contents/MacOS/convert_helper",
+      "message": "The signature of the binary is invalid.",
+      "docUrl": "developer.apple.com/documentation/security/notarizing_macos_software_before_distribution/resolving_common_notarization_issues#3087735",
+      "architecture": "x86_64"
+    }
+  ]
+}
+```
+
 
 
 <hr class='reviewline'/>
