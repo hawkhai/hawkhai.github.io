@@ -49,6 +49,28 @@ $$
 
 自注意力是对每个输入赋予的权重取决于输入数据之间的关系，即通过输入项内部之间的相互博弈决定每个输入项的权重。
 
+[代码 transformer/Modules.py {% include relref_github.html %}](https://github.com/jadore801120/attention-is-all-you-need-pytorch/blob/master/transformer/Modules.py)：
+```python
+class ScaledDotProductAttention(nn.Module):
+
+    def __init__(self, temperature, attn_dropout=0.1):
+        super().__init__()
+        self.temperature = temperature
+        self.dropout = nn.Dropout(attn_dropout)
+
+    def forward(self, q, k, v, mask=None):
+
+        attn = torch.matmul(q / self.temperature, k.transpose(2, 3))
+
+        if mask is not None:
+            attn = attn.masked_fill(mask == 0, -1e9)
+
+        attn = self.dropout(F.softmax(attn, dim=-1))
+        output = torch.matmul(attn, v)
+
+        return output, attn
+```
+
 
 ## 手算示例
 
@@ -82,7 +104,9 @@ $X^T$ 就是：
 “记” | 9    | 8    | 9
 “本” | 11   | 9    | 16
 
-而分母 $\sqrt{d_k}$ 可以先不管，是个常数，这个的目的是保持梯度的。
+而分母 $\sqrt{d_k}$ 可以先不管，是个常数，这个的目的是保证梯度的。
+“$\sqrt{d_k}$，影响 $softmax$ 分布，没有它某个 Token 容易出现极端概率。”
+{% include image.html url="/assets/images/240630-attention/20240721170523.png" %}
 
 $\operatorname{softmax}({X X^T})$ 就是：
 
@@ -144,6 +168,7 @@ bert
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-06-30-attention.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://github.com/jadore801120/attention-is-all-you-need-pytorch/blob/master/transformer/Modules.py]({% include relrefx.html url="/backup/2024-06-30-attention.md/github.com/88984250.html" %})
 - [https://www.youtube.com/watch?v=1il-s4mgNdI]({% include relrefx.html url="/backup/2024-06-30-attention.md/www.youtube.com/b22ed315.html" %})
 - [https://www.bilibili.com/video/BV1jx4y1t7Lq/]({% include relrefx.html url="/backup/2024-06-30-attention.md/www.bilibili.com/dbbaac38.html" %})
 - [https://www.youtube.com/watch?v=rTz6hadM1Lg]({% include relrefx.html url="/backup/2024-06-30-attention.md/www.youtube.com/337c0aa5.html" %})
