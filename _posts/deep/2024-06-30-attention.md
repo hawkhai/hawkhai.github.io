@@ -108,6 +108,12 @@ $X^T$ 就是：
 “$\sqrt{d_k}$，影响 $softmax$ 分布，没有它某个 Token 容易出现极端概率。”
 {% include image.html url="/assets/images/240630-attention/20240721170523.png" %}
 
+> While for small values of $d_k$ the two mechanisms perform similarly,
+> additive attention outperforms dot product attention without scaling for larger values of $d_k$.
+> We suspect that for large values of $d_k$, the dot products grow large in magnitude,
+> pushing the softmax function into regions where it has extremely small gradients.
+> To counteract this effect, we scale the dot products by $\frac{1}{\sqrt{d_k}}$.
+
 $\operatorname{softmax}({X X^T})$ 就是：
 
 ~    | “笔” | ”记” | “本”
