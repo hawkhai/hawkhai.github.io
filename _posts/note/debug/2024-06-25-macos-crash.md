@@ -28,6 +28,30 @@ dsymutil appName.app/Contents/MacOS/appName
 符号存储推荐：
 symbols/
 
+```
+dsymutil libcpdump_a.dylib
+dsymutil libcpdump_ad.dylib
+dsymutil libcpdump_i.dylib
+dsymutil libcpdump_id.dylib
+dsymutil out/arm64/Debug/crashpad_handler
+dsymutil out/arm64/Release/crashpad_handler
+dsymutil out/x64/Debug/crashpad_handler
+dsymutil out/x64/Release/crashpad_handler
+
+cp -R libcpdump_a.*  ../../lib/macos/dump/
+cp -R libcpdump_ad.* ../../lib/macos/dump/
+cp -R libcpdump_i.*  ../../lib/macos/dump/
+cp -R libcpdump_id.* ../../lib/macos/dump/
+cp -R out/arm64/Debug/crashpad_handler*   ../../lib/macos/dump/arm64/Debug/
+cp -R out/arm64/Release/crashpad_handler* ../../lib/macos/dump/arm64/Release/
+cp -R out/x64/Debug/crashpad_handler*     ../../lib/macos/dump/x86_64/Debug/
+cp -R out/x64/Release/crashpad_handler*   ../../lib/macos/dump/x86_64/Release/
+```
+
+```
+# : Mach-O 64-bit executable arm64
+/Users/apple/crashpad_handler # 这个不分配 7777 貌似会崩溃？！
+```
 
 ## 几个工具
 
