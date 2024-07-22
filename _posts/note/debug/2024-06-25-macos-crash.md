@@ -53,6 +53,7 @@ cp -R out/x64/Release/crashpad_handler*   ../../lib/macos/dump/x86_64/Release/
 /Users/apple/crashpad_handler # 这个不分配 7777 貌似会崩溃？！
 ```
 
+
 ## 几个工具
 
 * (star 576) SYM
