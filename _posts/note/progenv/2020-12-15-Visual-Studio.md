@@ -38,7 +38,7 @@ vs2019 去调用 vs2005 生成的 dll，被调用者 GenerateManifest="true"。
 为什么不匹配呢？是 dll 的 debug 版本，默认生成了一个 manifest 并打到 dll 里面了。
 重新构建 dll，并指定 manifest。
 
-修改嵌入的 dll 清单为 "8.0.50727.4053"。
+强制修改嵌入的 dll 清单为 "8.0.50727.4053"。
 
 
 ## Python UnicodeEncodeError
