@@ -17,6 +17,30 @@ cluster: "Visual Studio"
 ---
 
 
+## Runtime Error R6034 Application has attempt to load the C runtime library incorrectly
+
+[note {% include relref_cnblogs.html %}](https://www.cnblogs.com/bclshuai/p/11096418.html)
+{% include image.html url="/assets/images/201215-visual-studio/1076976-20190627122143698-1269449364.png" %}
+
+被调用的 dll 需要 `生成清单` 。
+vs2019 去调用 vs2005 生成的 dll，被调用者 GenerateManifest="true"。
+
+* SxsTrace Trace -logfile:SxsTrace.etl
+* SxsTrace Parse -logfile:SxsTrace.etl -outfile:SxsTrace.txt
+
+造成问题原因：
+* 错误：指令清单中找到的组件标识与所请求组件的标识不匹配。
+    * 参考是 Microsoft.VC80.DebugCRT,version="8.0.50727.4053"。
+    * 定义是 Microsoft.VC80.DebugCRT,version="8.0.50727.762"。
+* 错误 : 生成激活上下文失败。
+* 结束生成激活上下文。
+
+为什么不匹配呢？是 dll 的 debug 版本，默认生成了一个 manifest 并打到 dll 里面了。
+重新构建 dll，并指定 manifest。
+
+修改嵌入的 dll 清单为 "8.0.50727.4053"。
+
+
 ## Python UnicodeEncodeError
 
 **print(sys.argv)**
@@ -520,6 +544,7 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Visual-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.cnblogs.com/bclshuai/p/11096418.html]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/www.cnblogs.com/b9ed11ae.html" %})
 - [https://www.cnblogs.com/feng18/p/5646925.html]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/www.cnblogs.com/931dee15.html" %})
 - [https://docs.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-getoverlappedresult]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/docs.microsoft.com/a93a7ced.html" %})
 - [https://docs.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2022]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/docs.microsoft.com/3966f77e.html" %})
