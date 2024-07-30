@@ -24,18 +24,18 @@ cluster: "WinDBG"
 vs2022 自带的 winui3 就是这套
 创建个 UI 都是其他进程创建的 UI 管理是有宿主进程的 点按钮响应啥的 都走的 RPC 通讯 跨进程回来的
 
-
-* https://github.com/StackOverflowExcept1on/uwp-injector
+* <https://github.com/StackOverflowExcept1on/uwp-injector>
     * This project allows to perform DLL-injection into UWP applications
 
-* https://github.com/kimjongbing/dll_injector_uwp
+* <https://github.com/kimjongbing/dll_injector_uwp>
     * Simple DLL injector coded in Rust and C++, compatible with UWP processes
 
-* https://github.com/fligger/FateInjector
+* <https://github.com/fligger/FateInjector>
     * The Fate Client Themed UWP app dll Injector
 
 
 ## uwp-injector
+
 
 
 <hr class='reviewline'/>
@@ -46,3 +46,6 @@ vs2022 自带的 winui3 就是这套
 - [https://blog.csdn.net/frozleaf/article/details/121889483]({% include relrefx.html url="/backup/2024-07-30-win10-uwp-windbg.md/blog.csdn.net/bd9202b0.html" %})
 - [https://cloud.tencent.com/developer/article/2066552]({% include relrefx.html url="/backup/2024-07-30-win10-uwp-windbg.md/cloud.tencent.com/a08847ce.html" %})
 - [https://learn.microsoft.com/zh-cn/windows-hardware/drivers/debugger/debugging-a-uwp-app-using-windbg]({% include relrefx.html url="/backup/2024-07-30-win10-uwp-windbg.md/learn.microsoft.com/50919e15.html" %})
+- [https://github.com/StackOverflowExcept1on/uwp-injector]({% include relrefx.html url="/backup/2024-07-30-win10-uwp-windbg.md/github.com/2060569c.html" %})
+- [https://github.com/kimjongbing/dll_injector_uwp]({% include relrefx.html url="/backup/2024-07-30-win10-uwp-windbg.md/github.com/ac5130e6.html" %})
+- [https://github.com/fligger/FateInjector]({% include relrefx.html url="/backup/2024-07-30-win10-uwp-windbg.md/github.com/2ecdf21f.html" %})
