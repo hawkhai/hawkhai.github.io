@@ -25,6 +25,15 @@ vs2022 自带的 winui3 就是这套
 创建个 UI 都是其他进程创建的 UI 管理是有宿主进程的 点按钮响应啥的 都走的 RPC 通讯 跨进程回来的
 
 
+* https://github.com/StackOverflowExcept1on/uwp-injector
+    * This project allows to perform DLL-injection into UWP applications
+
+* https://github.com/kimjongbing/dll_injector_uwp
+    * Simple DLL injector coded in Rust and C++, compatible with UWP processes
+
+* https://github.com/fligger/FateInjector
+    * The Fate Client Themed UWP app dll Injector
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-07-30-win10-uwp-windbg.md.js" %}'></script></p>
