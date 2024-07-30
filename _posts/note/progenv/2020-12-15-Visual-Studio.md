@@ -40,6 +40,23 @@ vs2019 去调用 vs2005 生成的 dll，被调用者 GenerateManifest="true"。
 
 强制修改嵌入的 dll 清单为 "8.0.50727.4053"。
 
+> `kvipsdk.dll` 两个都打包进去了，不知道为什么，还没时间研究。
+
+或者强制嵌入：
+```
+1   RT_MANIFEST     "SumatraPDF.exe.manifest"
+```
+
+SumatraPDF.exe.manifest
+
+一般在 exe 工程里面配置。
+四种方法嵌入：
+1. mt 命令行事件。
+2. rc 定义 RT_MANIFEST。
+3. 工程配置指定嵌入。
+4. 宏定义嵌入。
+5. 还可以不嵌入，发布的时候一起发布即可。
+
 
 ## Python UnicodeEncodeError
 
@@ -71,13 +88,13 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 ```
 
-编码名称 	| 用途
-utf8	| 所有语言
-gbk	| 简体中文
-gb2312	| 简体中文
-gb18030	| 简体中文
-big5	| 繁体中文
-big5hkscs	| 繁体中文
+编码名称     | 用途
+utf8    | 所有语言
+gbk    | 简体中文
+gb2312    | 简体中文
+gb18030    | 简体中文
+big5    | 繁体中文
+big5hkscs    | 繁体中文
 
 
 ## Error 14001 with LoadLibrary(fullPath)
