@@ -75,6 +75,27 @@ cluster: "Tiny Code & Module"
 * toytarget.exe & toytarget64.exe 测试目标。
 * mycount.exe & mycount64.exe 模拟调用。
 
+有 内核 ark 工具无视权限。关键字 windbg 调试 UWP 应用。
+<https://bbs.kanxue.com/thread-246657-1.htm>
+没搞过这种注入 不过你要是找到主进程理论上是一样的 他只不过 UI 交互什么的是微软提供的，是跨进程交互创建的。
+<https://github.com/suvllian/process-inject>
+```
+.
+|-- APCInject(Ring0)                 // 驱动层的 APC 注入
+|-- APCInject                        // Ring3 层的 APC 注入
+|-- CreateSuspend                    // 挂起线程注入
+|-- InjectByRegister                 // 注册表注入（未测试）
+|-- ReflectDll                       // 反射注入的 Dll
+|-- ReflectiveInject                 // 反射注入
+|-- RemoteThread                     // 远程线程注入
+|-- Src                              // 驱动层的 APC 注入源码
+|-- Dll.dll                          // 32 位测试 Dll
+|-- Dll64.dll                        // 64 位测试 Dll
+|-- Process-Inject.sln               // 项目启动文件
+|-- README.md                        // 项目说明文件
+.
+```
+
 
 ### minhook
 
@@ -655,6 +676,8 @@ pyinstaller 打包绿色软件，每次解压启动慢，如果
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2023-04-04-tiny-module.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://bbs.kanxue.com/thread-246657-1.htm]({% include relrefx.html url="/backup/2023-04-04-tiny-module.md/bbs.kanxue.com/871592d9.htm" %})
+- [https://github.com/suvllian/process-inject]({% include relrefx.html url="/backup/2023-04-04-tiny-module.md/github.com/dada6e05.html" %})
 - [https://www.codeproject.com/Articles/49670/Inter-Computer-Read-Write-File-Lock]({% include relrefx.html url="/backup/2023-04-04-tiny-module.md/www.codeproject.com/5204d1cf.html" %})
 - [http://www.cnblogs.com/dongsheng/p/4460944.html]({% include relrefx.html url="/backup/2023-04-04-tiny-module.md/www.cnblogs.com/44de51f5.html" %})
 - [http://blog.chinaunix.net/uid-26833883-id-3230564.html]({% include relrefx.html url="/backup/2023-04-04-tiny-module.md/blog.chinaunix.net/28af4862.html" %})
