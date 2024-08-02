@@ -13,6 +13,7 @@ mathjax:
 mermaid:
 glslcanvas:
 codeprint:
+cluster: "机器学习课程"
 ---
 
 Andrey Kurenkov

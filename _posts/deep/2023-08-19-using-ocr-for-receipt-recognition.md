@@ -13,7 +13,7 @@ mathjax:
 mermaid:
 glslcanvas:
 codeprint:
-cluster: "机器学习课程"
+cluster:
 ---
 
 > No matter what you choose, an LSTM or another complex method, there is no silver bullet. Some methods are hard to use and not always useful.
