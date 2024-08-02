@@ -39,6 +39,8 @@ cluster: "Tiny Code & Module"
 
 基于 minhook 和 EasyHook 实现的远程注入，少许代码可以实现钩子程序。
 
+> kinjector64.exe -n mspaint.exe -k count
+
 * EasyHook32.dll & EasyHook64.dll
 * MinHook.x64.dll & MinHook.x86.dll
 
