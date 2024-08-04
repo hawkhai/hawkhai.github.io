@@ -72,6 +72,8 @@ Microsoft.VC80.DebugCRT,processorArchitecture="x86",publicKeyToken="1fc8b3b9a1e1
 用 pesearch.exe 定位工程后，关闭生成 manifest，手工嵌入 762 版本即可。
 从而保证唯一并且统一。
 
+> 应该还有一种办法，就是统一调整为 高版本 4053。
+
 
 ## Python UnicodeEncodeError
 
