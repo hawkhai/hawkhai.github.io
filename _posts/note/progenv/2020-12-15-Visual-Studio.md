@@ -40,7 +40,7 @@ vs2019 去调用 vs2005 生成的 dll，被调用者 GenerateManifest="true"。
 
 强制修改嵌入的 dll 清单为 "8.0.50727.4053"。
 
-> `kvipsdk.dll` 两个都打包进去了，不知道为什么，还没时间研究。
+> `kvipsdk.dll` 两个都打包进去了，编译器的默认行为。
 
 或者强制嵌入：
 ```
@@ -56,6 +56,21 @@ SumatraPDF.exe.manifest
 3. 工程配置指定嵌入。
 4. 宏定义嵌入。
 5. 还可以不嵌入，发布的时候一起发布即可。
+
+
+### 错误 : 生成激活上下文失败。结束生成激活上下文。
+
+当存在两个版本的时候，自动使用高版本。
+比如：
+Microsoft.VC80.DebugCRT,processorArchitecture="x86",publicKeyToken="1fc8b3b9a1e18e3b",type="win32", version="8.0.50727.4053"。
+
+这种情况貌似发生在 Debug，Release 不会出现，因为 Debug 要求更严格。
+
+信息 : 参考 : Microsoft.VC80.DebugCRT,processorArchitecture="x86",publicKeyToken="1fc8b3b9a1e18e3b",type="win32",version="8.0.50727.762"
+信息 : 参考 : Microsoft.VC80.DebugCRT,processorArchitecture="x86",publicKeyToken="1fc8b3b9a1e18e3b",type="win32",version="8.0.50727.4053"
+
+用 pesearch.exe 定位工程后，关闭生成 manifest，手工嵌入 762 版本即可。
+从而保证唯一并且统一。
 
 
 ## Python UnicodeEncodeError
