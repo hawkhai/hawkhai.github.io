@@ -60,7 +60,7 @@ SumatraPDF.exe.manifest
 
 ### 错误 : 生成激活上下文失败。结束生成激活上下文。
 
-当存在两个版本的时候，自动使用高版本。
+当存在两个版本的时候（工程依赖了两个环境，编译器就会这样），自动使用高版本。
 比如：
 Microsoft.VC80.DebugCRT,processorArchitecture="x86",publicKeyToken="1fc8b3b9a1e18e3b",type="win32", version="8.0.50727.4053"。
 
