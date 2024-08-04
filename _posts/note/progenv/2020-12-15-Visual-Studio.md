@@ -64,7 +64,12 @@ SumatraPDF.exe.manifest
 比如：
 Microsoft.VC80.DebugCRT,processorArchitecture="x86",publicKeyToken="1fc8b3b9a1e18e3b",type="win32", version="8.0.50727.4053"。
 
-这种情况貌似发生在 Debug，Release 不会出现，因为 Debug 要求更严格。
+Win10 & Win11，这种情况貌似发生在 Debug，Release 不会出现，因为 Debug 要求更严格。
+* `C:\WINDOWS\WinSxS\Fusion\x86_microsoft.vc80.debugcrt_1fc8b3b9a1e18e3b_none_e8791b8962fb753d\8.0\8.0.50727.762\MSVCP80D.dll`
+* `C:\WINDOWS\WinSxS\Fusion\x86_microsoft.vc80.debugcrt_1fc8b3b9a1e18e3b_none_e8791b8962fb753d\8.0\8.0.50727.762\MSVCR80D.dll`
+Release 版本会直接加载 最新版本：
+* `C:\WINDOWS\WinSxS\x86_microsoft.vc80.crt_1fc8b3b9a1e18e3b_8.0.50727.9680_none_d090cb7c44278b28\MSVCP80.dll`
+* `C:\WINDOWS\WinSxS\x86_microsoft.vc80.crt_1fc8b3b9a1e18e3b_8.0.50727.9680_none_d090cb7c44278b28\MSVCR80.dll`
 
 信息 : 参考 : Microsoft.VC80.DebugCRT,processorArchitecture="x86",publicKeyToken="1fc8b3b9a1e18e3b",type="win32",version="8.0.50727.762"
 信息 : 参考 : Microsoft.VC80.DebugCRT,processorArchitecture="x86",publicKeyToken="1fc8b3b9a1e18e3b",type="win32",version="8.0.50727.4053"
