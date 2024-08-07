@@ -35,7 +35,7 @@ def twikiImage(line):
         xline, imgurl = i
         imgn = imgurl.split("?")[0].split("/")[-1].replace("%", "")
         imgurl = r"https://twiki.cmcm.com" + imgurl
-        imgname = os.path.join("images", getmd5(imgurl)+imgn)
+        imgname = os.path.join("images", getMd5(imgurl)+imgn)
         writefile(imgname, netget(imgurl, headers={
         "Cookie": "_ga=GA1.2.1243953186.1638896876; seraph.confluence=213614602:efe41e78223b605cc146d16fc2d5fea430da4601; JSESSIONID=096648D625B3347496C69F326E4E1B8C; Hm_lvt_e4f1d184255c7bd7d09a7739c36aaa96=1645257776,1646671105,1647188362,1647532002; Hm_lpvt_e4f1d184255c7bd7d09a7739c36aaa96=1647532025",
         }))
@@ -103,7 +103,7 @@ def mainfilew(fpath, fname, ftype):
             if txurl in ("chart.png",):
                 break
             img = netget(txurl)
-            imgname = getmd5(txurl)[:4]+"_"+txurl.split("/")[-1]
+            imgname = getMd5(txurl)[:4]+"_"+txurl.split("/")[-1]
             imglocal = os.path.join("images", imgname)
             writefile(imglocal, img)
             newline = "{} 0".format(imgname)

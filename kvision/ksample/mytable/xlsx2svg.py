@@ -57,7 +57,7 @@ def formatxls(fpath, force=False):
     if fpath.endswith(".xlsx.xlsx"):
         return
 
-    fmd5 = getmd5(os.path.abspath(fpath))
+    fmd5 = getMd5(os.path.abspath(fpath))
     #if not force and getFileMd5(fpath) == readfile(os.path.join("tempdir", "xlsx", "result", fmd5[:8], fmd5[8:]), True):
     #    return
 
@@ -97,7 +97,7 @@ def formatxls(fpath, force=False):
                     #print(dir(cell.border.top))
                     wb.close()
 
-                    fmd5 = getmd5(os.path.abspath(fpath))
+                    fmd5 = getMd5(os.path.abspath(fpath))
                     #writefile(os.path.join("tempdir", "xlsx", "result", fmd5[:8], fmd5[8:]), getFileMd5(fpath))
                     return
 
@@ -110,7 +110,7 @@ def formatxls(fpath, force=False):
     # 关闭表格对象
     wb.close()
 
-    fmd5 = getmd5(os.path.abspath(fpath))
+    fmd5 = getMd5(os.path.abspath(fpath))
     #writefile(os.path.join("tempdir", "xlsx", "result", fmd5[:8], fmd5[8:]), getFileMd5(fpath))
 
 def myxlsx2svg(rootdir):

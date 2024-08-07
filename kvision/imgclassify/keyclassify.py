@@ -22,7 +22,7 @@ REASK = "reask" in sys.argv
 
 def ask_xunfei(app_id, api_secret, api_key, content, reask=False):
 
-    localcache = os.path.join("tempdir", "xunfei", "xunfei", getmd5(content, "utf8") + ".txt")
+    localcache = os.path.join("tempdir", "xunfei", "xunfei", getMd5(content, "utf8") + ".txt")
     if os.path.exists(localcache) and not reask:
         print("READCACHE", localcache)
         return readfileJson(localcache, "utf8")
@@ -61,7 +61,7 @@ def ask_xunfei(app_id, api_secret, api_key, content, reask=False):
 
 def ask_baidu(api_key, secret_key, content, reask=False):
 
-    localcache = os.path.join("tempdir", "baidu", "wenxin", getmd5(content, "utf8") + ".txt")
+    localcache = os.path.join("tempdir", "baidu", "wenxin", getMd5(content, "utf8") + ".txt")
     if os.path.exists(localcache) and not reask:
         print("READCACHE", localcache)
         return readfileJson(localcache, "utf8")

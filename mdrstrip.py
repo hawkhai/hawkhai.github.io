@@ -66,7 +66,7 @@ def isHostIgnoreStat(hostk):
 G_CACHE_IGLIST = {}
 def readfileIglist(fpath):
 
-    hash = "{},{},{}".format(getmd5(fpath), os.path.getsize(fpath), os.path.getmtime(fpath))
+    hash = "{},{},{}".format(getMd5(fpath), os.path.getsize(fpath), os.path.getmtime(fpath))
     if hash in G_CACHE_IGLIST:
         return G_CACHE_IGLIST[hash]
 
@@ -138,7 +138,7 @@ def backupUrlContent(fpath, md5src, url):
     mdname = os.path.split(fpath)[-1]
     urlhostsrc = calcHost(url)
     urlhostdir = urlhostsrc.replace(":", "/")
-    urlmd5 = getmd5(url)[:8]
+    urlmd5 = getMd5(url)[:8]
     invdir = isInvisibleDir(fpath)
 
     if mdname in ("wechatdl.md",):
@@ -311,7 +311,7 @@ def tidyupImg(imglocal, fpath, line, imgthumb=True):
     if refindall("^[0-9]{4}-[0-9]{2}-[0-9]{2}-", fname):
         fname = fname[:10].replace("-", "")[-6:]+"-"+fname[11:]
     if len(fname) > 32:
-        fname = fname[:30]+"~"+getmd5(fname)[:2]
+        fname = fname[:30]+"~"+getMd5(fname)[:2]
 
     tpath = os.path.join("assets", "images", fname.lower(), imgfname) #.lower() 不能转小写，因为服务器是大小写敏感的。
     if invdir:

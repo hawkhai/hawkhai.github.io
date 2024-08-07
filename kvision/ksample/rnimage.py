@@ -50,7 +50,7 @@ def main(rootdir):
 
         print("FOUND", fpath)
 
-        znamek = "_{}.{}".format(getmd5(sign)[:5], ftype)
+        znamek = "_{}.{}".format(getMd5(sign)[:5], ftype)
         if znamek in ksetk:
             assert getFileMd5(fpath) == getFileMd5(ksetk[znamek]), fpath
             os.unlink(fpath)
@@ -58,7 +58,7 @@ def main(rootdir):
 
         nonlocal count
         count += 1
-        zname = "{}_{}.{}".format("%03d"%count, getmd5(sign)[:5], ftype)
+        zname = "{}_{}.{}".format("%03d"%count, getMd5(sign)[:5], ftype)
         print("RENAME", zname)
 
         imgdir, imgname = os.path.split(fpath)

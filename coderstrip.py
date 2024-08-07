@@ -109,7 +109,7 @@ def checklog(fpath1, fpath2):
 
     global G_CHECKLOG_FPATH1_MD5
     G_CHECKLOG_FPATH1_MD5 = getLuckFileMd5(fpath1, G_CHECKLOG_FPATH1_MD5)
-    fpath2md5 = getmd5(fpath2, "utf8")
+    fpath2md5 = getMd5(fpath2, "utf8")
     localfile = os.path.join("tempdir", G_CHECKLOG_FPATH1_MD5, fpath2md5)
 
     if not os.path.exists(localfile):
@@ -125,7 +125,7 @@ def savelog(fpath1, fpath2):
 
     global G_CHECKLOG_FPATH1_MD5
     G_CHECKLOG_FPATH1_MD5 = getLuckFileMd5(fpath1, G_CHECKLOG_FPATH1_MD5)
-    fpath2md5 = getmd5(fpath2, "utf8")
+    fpath2md5 = getMd5(fpath2, "utf8")
     localfile = os.path.join("tempdir", G_CHECKLOG_FPATH1_MD5, fpath2md5)
 
     writefile(localfile, getLuckFileMd5(fpath2), force=True)
@@ -134,7 +134,7 @@ def removelog(fpath1, fpath2):
 
     global G_CHECKLOG_FPATH1_MD5
     G_CHECKLOG_FPATH1_MD5 = getLuckFileMd5(fpath1, G_CHECKLOG_FPATH1_MD5)
-    fpath2md5 = getmd5(fpath2, "utf8")
+    fpath2md5 = getMd5(fpath2, "utf8")
     localfile = os.path.join("tempdir", G_CHECKLOG_FPATH1_MD5, fpath2md5)
 
     if os.path.exists(localfile):

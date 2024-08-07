@@ -82,7 +82,7 @@ def analyzehead(fpath, fname, ftype, newmap):
         openTextFile(fpath)
 
 def popenCmdW(cmdx):
-    localfile = os.path.join("tempdir", "headfmt", getmd5(cmdx)[:8]+getFileMd5(__file__)[:8])
+    localfile = os.path.join("tempdir", "headfmt", getMd5(cmdx)[:8]+getFileMd5(__file__)[:8])
     datax = None
     if os.path.exists(localfile):
         datax = readfile(localfile)

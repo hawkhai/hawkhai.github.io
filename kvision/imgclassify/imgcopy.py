@@ -126,7 +126,7 @@ def copydir_baidu():
             ifile = os.path.relpath(fpath, srcdir)
             assert ifile.find("\\") == -1 and ifile.find("/") == -1, ifile
             xfile = os.path.join(srcdir, ifile)
-            md5 = getmd5(imgid)[:7] # copydir_baidu
+            md5 = getMd5(imgid)[:7] # copydir_baidu
 
             yfile = os.path.join(dstdir, "baidu_"+md5+"."+ftype)
 

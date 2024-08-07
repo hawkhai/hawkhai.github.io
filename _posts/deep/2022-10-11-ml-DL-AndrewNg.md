@@ -449,6 +449,7 @@ Entropy as a measure of impurity
 
 ## 93 16.4 使用分类特征的一种独热编码 (One-Hot) 05:26
 
+热编码 (One-Hot)
 
 ## 94 16.5 连续的有价值特征 06:55
 
