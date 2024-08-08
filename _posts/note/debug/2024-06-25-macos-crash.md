@@ -69,20 +69,20 @@ cp -R out/x64/Release/crashpad_handler*   ../../lib/macos/dump/x86_64/Release/
 
 ### 符号化的准备–UUID
 
-首先判断DSYM文件和app和crash文件(如果存在)的UUID相同，确保是同一次编译的产物，
-因为每次编译由于ALSR（地址空间随机化）会生成不同的偏移量，如果三者的UUID不同，那么偏移量也会不同，
-导致符号化的地址不一样，会定位到错误的方法名上面去，下面就是查看UUID的方法。
+首先判断 DSYM 文件和 app 和 crash 文件（如果存在）的 UUID 相同，确保是同一次编译的产物，
+因为每次编译由于 ALSR（地址空间随机化）会生成不同的偏移量，如果三者的 UUID 不同，那么偏移量也会不同，
+导致符号化的地址不一样，会定位到错误的方法名上面去，下面就是查看 UUID 的方法。
 
-#### dSYM文件的uuid
+#### dSYM 文件的 uuid
 
-* 在DSYM文件目录内运行
+* 在 DSYM 文件目录内运行
     xcrun dwarfdump --uuid \*.dSYM
 
 会得到如下 结果：
 
 UUID: 74D0C44D-E902-3A51-B412-2F76EA810AAD (x86_64) DSYMTest.app.dSYM/Contents/Resources/DWARF/DSYMTest
 
-其中UUID 为 74D0C44D-E902-3A51-B412-2F76EA810AAD
+其中 UUID 为 74D0C44D-E902-3A51-B412-2F76EA810AAD
 
 #### App 的 uuid
 

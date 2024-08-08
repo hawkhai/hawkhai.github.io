@@ -457,8 +457,14 @@ Entropy as a measure of impurity
 
 ## 95 16.6 回归树 (optional) 09:52
 
+有点像贪心算法，不断的按照方差减少最多的选择持续分裂。
+
 
 ## 96 17.1 使用多个决策树 03:57
+
+ensemble of trees
+学习是一件很困难的事情，特别是那种纯英文的，稍不留意一走神，就不知道在讲啥了。
+需要集中精力 ++。
 
 
 ## 97 17.2 放回抽样 04:00
@@ -466,11 +472,30 @@ Entropy as a measure of impurity
 
 ## 98 17.3 随机森林算法 06:23
 
+整个过程有点像正则化的过程。
+和 dropout 思想有相似性。
+
 
 ## 99 17.4 XGBoost 07:26
 
+和残差网络有点像，把那些分类不好的重点关注重新分类。
+
+eXtreme Gradient Boosting
+
 
 ## 100 17.5 什么时候使用决策树 06:55
+
+Decision Trees and Tree ensumbles
+* Works well on tabular (structured) data
+* Not recommended for unstructured data (images, audio, text)
+* Fast
+* Small decision trees may be human interpretable
+
+Neural Networks
+* Works well on all types of data, including tabular (structed) and unstructured data
+* May be slower than a decision tree
+* Works with transfer learning
+* When building a system of multiple models working together, is might be easier to string together multiple neural networks
 
 
 ## 101 1.1 欢迎来到第三部分 无监督学习、推荐系统和强化学习 03:23

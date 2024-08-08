@@ -26,26 +26,25 @@ This can be done using the `--runtime-tmpdir` option.
 我的调整：[hawkhai / pyinstaller {% include relref_github.html %}](https://github.com/hawkhai/pyinstaller/blob/Branch_v4.9/bootloader/msvc/msvc.vcxproj)
 **（还未完成）**
 
+
 ## Why is my Python Tkinter program lagging?
 
 2020.2 User interface very laggy/slow response (macOS ...
 
-https://stackoverflow.com/questions/68954466/very-slow-window-refresh-update-via-tkinter-in-macos-python-pysimplegui-tki
+<https://stackoverflow.com/questions/68954466/very-slow-window-refresh-update-via-tkinter-in-macos-python-pysimplegui-tki>
 
-I recommend replacing calls to .update() with .updateidletasks(). 
-update not only causes the window to refresh, 
-but it has to process all pending events of all types, 
-and won't return until all events are processed. 
-If, while processing an event this code is called again, 
+I recommend replacing calls to .update() with .updateidletasks().
+update not only causes the window to refresh,
+but it has to process all pending events of all types,
+and won't return until all events are processed.
+If, while processing an event this code is called again,
 you end up with event loops nested inside of event loops.
 
-updateidletasks only process the events in the idle queue, 
-which is mostly screen updates and jobs queue with after_idle, 
+updateidletasks only process the events in the idle queue,
+which is mostly screen updates and jobs queue with after_idle,
 greatly reducing the chance you will end up with nested event loops.
 
-
-https://www.quora.com/Why-is-my-Python-Tkinter-program-lagging
-
+<https://www.quora.com/Why-is-my-Python-Tkinter-program-lagging>
 
 
 ## 升级 pyinstaller
@@ -370,6 +369,8 @@ loader2.exe 多余的文件要重命名。
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://pyinstaller.readthedocs.io/en/stable/]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/pyinstaller.readthedocs.io/55ef69da.html" %})
+- [https://stackoverflow.com/questions/68954466/very-slow-window-refresh-update-via-tkinter-in-macos-python-pysimplegui-tki]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/stackoverflow.com/87cff820.html" %})
+- [https://www.quora.com/Why-is-my-Python-Tkinter-program-lagging]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/www.quora.com/45f3eb63.html" %})
 - [https://pyinstaller.readthedocs.io/en/stable/advanced-topics.html]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/pyinstaller.readthedocs.io/41bc4244.html" %})
 - [https://docs.microsoft.com/zh-cn/windows/win32/sbscs/activation-contexts?redirectedfrom=MSDN]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/docs.microsoft.com/0eb1e65f.html" %})
 - [https://gclxry.com/article/avoid-python-conflicts-via-bat-on-windows/]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/gclxry.com/43348a06.html" %})
