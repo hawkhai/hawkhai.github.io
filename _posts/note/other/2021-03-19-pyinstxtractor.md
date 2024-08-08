@@ -26,6 +26,27 @@ This can be done using the `--runtime-tmpdir` option.
 我的调整：[hawkhai / pyinstaller {% include relref_github.html %}](https://github.com/hawkhai/pyinstaller/blob/Branch_v4.9/bootloader/msvc/msvc.vcxproj)
 **（还未完成）**
 
+## Why is my Python Tkinter program lagging?
+
+2020.2 User interface very laggy/slow response (macOS ...
+
+https://stackoverflow.com/questions/68954466/very-slow-window-refresh-update-via-tkinter-in-macos-python-pysimplegui-tki
+
+I recommend replacing calls to .update() with .updateidletasks(). 
+update not only causes the window to refresh, 
+but it has to process all pending events of all types, 
+and won't return until all events are processed. 
+If, while processing an event this code is called again, 
+you end up with event loops nested inside of event loops.
+
+updateidletasks only process the events in the idle queue, 
+which is mostly screen updates and jobs queue with after_idle, 
+greatly reducing the chance you will end up with nested event loops.
+
+
+https://www.quora.com/Why-is-my-Python-Tkinter-program-lagging
+
+
 
 ## 升级 pyinstaller
 

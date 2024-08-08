@@ -67,6 +67,33 @@ cp -R out/x64/Release/crashpad_handler*   ../../lib/macos/dump/x86_64/Release/
     * <https://mahdi.jp/apps/macsymbolicator>
 
 
+### 符号化的准备–UUID
+
+首先判断DSYM文件和app和crash文件(如果存在)的UUID相同，确保是同一次编译的产物，
+因为每次编译由于ALSR（地址空间随机化）会生成不同的偏移量，如果三者的UUID不同，那么偏移量也会不同，
+导致符号化的地址不一样，会定位到错误的方法名上面去，下面就是查看UUID的方法。
+
+#### dSYM文件的uuid
+
+* 在DSYM文件目录内运行
+    xcrun dwarfdump --uuid \*.dSYM
+
+会得到如下 结果：
+
+UUID: 74D0C44D-E902-3A51-B412-2F76EA810AAD (x86_64) DSYMTest.app.dSYM/Contents/Resources/DWARF/DSYMTest
+
+其中UUID 为 74D0C44D-E902-3A51-B412-2F76EA810AAD
+
+#### App 的 uuid
+
+* iOS
+    xcrun dwarfdump --uuid .app/
+* Mac
+    xcrun dwarfdump --uuid DSYMTest.app/Contents/MacOS/DSYMTest
+
+需要进入 .app 的包内容里面的 查看同名的可执行文件才行。
+
+
 ## macOS 崩溃日志符号化
 
 <https://blog.msmk.live/2018/08/03/2018-08-03-maccrashreportssymbol/>
@@ -292,6 +319,9 @@ Core file '/Users/sumless/Downloads/20240524/crashpad_database/completed/ec6ca48
 
 请确保替换上述命令中的 /path/to/symbols 为实际的符号文件路径。
 关于 lldb，有什么问题都问 AI
+
+lldb --core xxx.dmp
+image list
 
 
 ## 其它
