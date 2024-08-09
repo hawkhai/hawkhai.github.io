@@ -59,7 +59,7 @@ cp -R out/x64/Release/crashpad_handler*   ../../lib/macos/dump/x86_64/Release/
 * (star 576) SYM
     一个图形化的崩溃日志符号化工具，最新版本下载地址：<https://github.com/zqqf16/SYM/releases/latest>
 * SymbolicatorX
-    iOS/Mac 项目崩溃文件自动符号化工具
+    iOS/Mac 项目崩溃文件自动符号化工具。
 * (star 3.4k) [dSYMTools {% include relref_github.html %}](https://github.com/answer-huang/dSYMTools)
     * 友盟统计 可以提交崩溃？？
 * (star 1.2k) **MacSymbolicator** Symbolicating macOS/iOS crash reports, easily.
@@ -75,14 +75,14 @@ cp -R out/x64/Release/crashpad_handler*   ../../lib/macos/dump/x86_64/Release/
 
 #### dSYM 文件的 uuid
 
-* 在 DSYM 文件目录内运行
+* 在 DSYM 文件目录内运行。
     xcrun dwarfdump --uuid \*.dSYM
 
 会得到如下 结果：
 
 UUID: 74D0C44D-E902-3A51-B412-2F76EA810AAD (x86_64) DSYMTest.app.dSYM/Contents/Resources/DWARF/DSYMTest
 
-其中 UUID 为 74D0C44D-E902-3A51-B412-2F76EA810AAD
+其中 UUID 为 74D0C44D-E902-3A51-B412-2F76EA810AAD。
 
 #### App 的 uuid
 
@@ -108,12 +108,12 @@ UUID: 74D0C44D-E902-3A51-B412-2F76EA810AAD (x86_64) DSYMTest.app.dSYM/Contents/R
 
 使用方法：
 1. 将 .crash 文件和 .dSYM 文件放在同一目录下。
-2. 将 .crash 或者 .dSYM 拖入这个工具中，另外一个文件会自动导入
+2. 将 .crash 或者 .dSYM 拖入这个工具中，另外一个文件会自动导入。
 
 * 注 1：.dSYM 可以在打包时候生产的 .xcarchive 包中找到。
-* 注 2：注意 .crash 和 .dSYM 的 UUID 要一致
-* 查看 dSYM UUID `xcrun dwarfdump --uuid file_path`
-* .crash 查看 UUID 在 Binary Images 的下一行 包名 后面的那一串字符
+* 注 2：注意 .crash 和 .dSYM 的 UUID 要一致。
+* 查看 dSYM UUID `xcrun dwarfdump --uuid file_path` 。
+* .crash 查看 UUID 在 Binary Images 的下一行 包名 后面的那一串字符。
 还有一个工具可以参考
 [dSYMTools {% include relref_github.html %}](https://github.com/answer-huang/dSYMTools)
 这个工具也可以符号化崩溃日志，需要手动操作，具体使用方式链接上面说的很清楚了。
@@ -125,7 +125,7 @@ RelWithDebInfo
 ## 符号
 
 你看，上面这个是用 dSYM 加载符号看到的信息
-下面的就是用二进制加载符号看到的信息
+下面的就是用二进制加载符号看到的信息。
 
 {% include image.html url="/assets/images/240625-macos-crash/20240626-145720.jpeg" %}
 {% include image.html url="/assets/images/240625-macos-crash/20240626-145737.jpeg" %}
@@ -225,7 +225,7 @@ mac，直接使用官网一步一步走即可。
 mac 照着上面安装，然后输出到环境变量中。
 windows 下载压缩包，然后放到系统 PATH 中。然后使用 CMD（注意是 cmd，不是 PowerShell）
 
-下载完以后，基本就是靠 depot_tools 这个工具集合了，这个工具机带有 git，ninja，python
+下载完以后，基本就是靠 depot_tools 这个工具集合了，这个工具机带有 git，ninja，python。
 
 
 ### Crashpad 库编译步骤
@@ -263,7 +263,7 @@ windows 编译完成，并不是规则的输出到某个目录下，而是分散
 
 设置 crash exe 工作路径
 设置数据存放路径
-设置 crash 文件上传路径，上传支持传入多个参数，以方便分析
+设置 crash 文件上传路径，上传支持传入多个参数，以方便分析。
 
 
 ## Crashpad 的编译过程及原理
