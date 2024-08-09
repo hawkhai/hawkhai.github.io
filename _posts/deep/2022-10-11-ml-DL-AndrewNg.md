@@ -472,6 +472,8 @@ ensemble of trees
 
 ## 98 17.3 随机森林算法 06:23
 
+随机森林使用一种名为 Bagging 的技术，通过数据集的随机自助抽样样本并行构建完整的决策树。最终得到的预测结果是所有决策树预测结果的平均值。
+
 整个过程有点像正则化的过程。
 和 dropout 思想有相似性。
 
@@ -481,6 +483,7 @@ ensemble of trees
 和残差网络有点像，把那些分类不好的重点关注重新分类。
 
 eXtreme Gradient Boosting
+<https://www.nvidia.cn/glossary/data-science/xgboost/>
 
 
 ## 100 17.5 什么时候使用决策树 06:55
@@ -1181,3 +1184,4 @@ Neural Networks
 - [https://www.bilibili.com/video/BV1Bq421A74G/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.bilibili.com/738a77eb.html" %})
 - [https://www.bilibili.com/video/BV1Gm421u73z/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.bilibili.com/c8eafc49.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.nvidia.cn/glossary/data-science/xgboost/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.nvidia.cn/a13b000a.html" %})
