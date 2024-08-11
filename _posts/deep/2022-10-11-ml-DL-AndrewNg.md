@@ -500,6 +500,13 @@ Neural Networks
 * Works with transfer learning
 * When building a system of multiple models working together, is might be easier to string together multiple neural networks
 
+在表格数据上，基于树的模型仍然优于深度学习方法。
+表格数据具有特征不均匀、样本量小、极值较大等特点，因此很难找到相应的不变量。
+基于树的模型不可微，不能与深度学习模块联合训练。
+在表格数据上，使用基于树的方法比深度学习（甚至是现代架构）更容易实现良好的预测。
+
+越来越感觉随机森林算法是一种变相的正则化，而 XGBoost 算一种残差算法。
+
 
 ## 101 1.1 欢迎来到第三部分 无监督学习、推荐系统和强化学习 03:23
 
@@ -533,6 +540,8 @@ m-1 是样本方差，m 是二阶中心矩。
 
 
 ## 110 3.3 异常检测算法 12:09
+
+多元正态分布。
 
 
 ## 111 3.4 开发和评估异常检测系统 11:39
