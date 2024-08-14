@@ -549,6 +549,17 @@ m-1 是样本方差，m 是二阶中心矩。
 
 ## 112 3.5 异常检测 vs. 监督学习 08:09
 
+<table class="tablestyle" ntablew="2:2"></table>
+
+Anomaly detection | Supervised learning
+---- | ----
+Very small number of positive examples (y=1). (0-20 is common). Large number of negative (y=0) examples. 数据量非常小的时候 | Large number of positive and negative examples. **20 positive examples**
+Many different "types" of anomalies. Hard for any algorithm to learn from positive examples what the anomalies look like; future anomalies may look nothing like any of the anomalous examples we've seen so far. 可以处理没见过的错误 **Fraud** | Enough positive examples for algorithm to get a sense of what positive examples are like, future positive examples likely to be similar to ones in training set. **Spam**
+Fraud detection | Email spam classification
+Manufacturing - Finding new previously **unseen** defects in manufacturing. (e.g. aircraft engines) | Manufacturing - Finding known, previously **seen** defects
+Monitoring machines in a data center | Weather prediction (sunny / rainy / etc.)
+... | Diseases classification
+
 
 ## 113 3.6 选择要使用的特征 14:58
 
