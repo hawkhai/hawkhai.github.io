@@ -486,6 +486,27 @@ eXtreme Gradient Boosting
 <https://www.nvidia.cn/glossary/data-science/xgboost/>
 
 [如何向 10 岁小孩解释 XGBoost 回归算法 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/BJozV5rPJLrynuT1mvbFGQ)
+[极端梯度提升（XGBoost）的理论基础 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/Rf2uczXi2JG43Y-utH7YZg)
+{% include image.html url="/assets/images/221011-ml-dl-andrewng/6402946827.webp" %}
+
+XGBoost 是一种提升树模型，即将许多树模型集成在一起形成一个很强的分类器。
+
+算法思想是不断地添加树，不断地进行特征分裂生成一棵树，每次添加一棵树，就是学习一个新函数，去拟合上次预测的残差，当训练完成就得到了 k 棵树。
+
+根据样本特征在每棵树中会落到对应的一个叶子节点，每个叶子节点对应的一个分数就是该样本的预测分数，将每棵树对应的分数加起来就是该样本的预测值。
+
+XGBoost 工作原理：
+
+1. 初始模型：从一个简单的模型开始（比如一个只输出平均值的模型）。
+2. 计算残差：计算该简单模型的“残差”（即模型预测值与实际值之间的差异）。
+3. 训练新决策树模型：训练一个新的决策树模型来预测该残差，目标是尽量减小残差。
+4. 更新模型：把新决策树模型加入现有模型，使得新的模型可以更好地预测目标值。
+5. 重复步骤：重复上述过程，不断加入新的树，每次都使模型的预测更准确，直到达到预定的树的数量或者误差降到可以接受的范围。
+
+XGBoost 跟 ResNet 还有点像，不断计算模型的“残差”，相对模型的黑盒，这个更偏向于可解释的白盒。
+每次都以当前预测为基准，下一个弱分类器去拟合误差函数对预测值的残差（预测值与真实值之间的误差）。
+损失函数的泰勒展开：XGBoost 利用损失函数的二阶泰勒展开进行优化，提升计算效率。
+{% include image.html url="/assets/images/221011-ml-dl-andrewng/6403323.webp" %}
 
 
 ## 100 17.5 什么时候使用决策树 06:55
@@ -1212,3 +1233,4 @@ Monitoring machines in a data center | Weather prediction (sunny / rainy / etc.)
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.atoolbox.net/ecf02067.php" %})
 - [https://www.nvidia.cn/glossary/data-science/xgboost/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.nvidia.cn/a13b000a.html" %})
 - [https://mp.weixin.qq.com/s/BJozV5rPJLrynuT1mvbFGQ]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/mp.weixin.qq.com/911df19b.html" %})
+- [https://mp.weixin.qq.com/s/Rf2uczXi2JG43Y-utH7YZg]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/mp.weixin.qq.com/0a09e136.html" %})
