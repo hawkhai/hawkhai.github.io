@@ -485,6 +485,8 @@ ensemble of trees
 eXtreme Gradient Boosting
 <https://www.nvidia.cn/glossary/data-science/xgboost/>
 
+[如何向 10 岁小孩解释 XGBoost 回归算法 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/BJozV5rPJLrynuT1mvbFGQ)
+
 
 ## 100 17.5 什么时候使用决策树 06:55
 
@@ -1209,3 +1211,4 @@ Monitoring machines in a data center | Weather prediction (sunny / rainy / etc.)
 - [https://www.bilibili.com/video/BV1Gm421u73z/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.bilibili.com/c8eafc49.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.atoolbox.net/ecf02067.php" %})
 - [https://www.nvidia.cn/glossary/data-science/xgboost/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.nvidia.cn/a13b000a.html" %})
+- [https://mp.weixin.qq.com/s/BJozV5rPJLrynuT1mvbFGQ]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/mp.weixin.qq.com/911df19b.html" %})
