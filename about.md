@@ -49,10 +49,36 @@ And, I welcome any feedback on the contents and your suggestions.
 
 大多数知识和技能都没有壁垒，任何人只要想学习，无论是《自然科学的数学原理》还是《母猪的产后护理》，都可以在网上找到详细到令人发指的学习资料。而学习又是一件因果关系极为清晰的事情：努力就能有进步。它不像爱情，你爱的人不爱你，你一点办法也没有。
 
-江流天地外，海平纳百川。
+**江流天地外，海平纳百川。**
 人生路，不在远方，就在脚下。
 
 如果大脑也是神经网络，那梦更像是高维的投影。
+
+
+## 人工智能
+
+对于个人来说，传统行业已经被瓜分殆尽，严密防守，一般人是没有机会的。
+只有新的科技革命，才能彻底打破传统势力的影响范围，
+在传统势力还没有反应过来的时候，才可能冲进去占据有利地势，在混乱和动荡中生存下来并发展壮大！
+
+{% include image.html url="/assets/images/about/673793-20161231214342351-287617336.png" %}
+
+**不要把深度学习作为入门的第一门课**
+虽然很多人都是冲着深度学习来的，但把深度学习作为机器学习第一课不是个好主意。
+因为 深度学习的黑箱性更加明显，很容易学得囫囵吞枣。
+
+* [人工智能 300 年！LSTM 之父最新长文：详解现代 AI 和深度学习发展史 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/_lnyIzWDjzwkyBEjQ1gjtA)
+* [神经网络浅讲：从神经元到深度学习 {% include relref_cnblogs.html %}](https://www.cnblogs.com/subconscious/p/5058741.html)
+* [2017 年总结 {% include relref_cnblogs.html %}](https://www.cnblogs.com/subconscious/p/8157268.html)
+
+**统计学习**
+统计学习近似等于机器学习。统计学习是个与机器学习高度重叠的学科。
+因为机器学习中的大多数方法来自统计学，甚至可以认为，统计学的发展促进机器学习的繁荣昌盛。
+例如著名的支持向量机算法，就是源自统计学科。
+但是在某种程度上两者是有分别的，这个分别在于：
+统计学习者重点关注的是统计模型的发展与优化，偏数学，
+而机器学习者更关注的是能够解决问题，偏实践，
+因此机器学习研究者会重点研究学习算法在计算机上执行的效率与准确性的提升。
 
 
 ## 为什么要写博客（Why write blog）
@@ -221,6 +247,9 @@ Enjoy!
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [http://www.songho.ca/]({% include relrefx.html url="/backup/about.md/www.songho.ca/d3f4e364.html" %})
+- [https://mp.weixin.qq.com/s/_lnyIzWDjzwkyBEjQ1gjtA]({% include relrefx.html url="/backup/about.md/mp.weixin.qq.com/2776a4cd.html" %})
+- [https://www.cnblogs.com/subconscious/p/5058741.html]({% include relrefx.html url="/backup/about.md/www.cnblogs.com/3b4d6ae9.html" %})
+- [https://www.cnblogs.com/subconscious/p/8157268.html]({% include relrefx.html url="/backup/about.md/www.cnblogs.com/9320251d.html" %})
 - [http://www.matrix67.com/blog/archives/4930]({% include relrefx.html url="/backup/about.md/www.matrix67.com/84c24598.html" %})
 - [https://mp.weixin.qq.com/s/S3D1T6WTvodwwv-4aGASrg]({% include relrefx.html url="/backup/about.md/mp.weixin.qq.com/ee9e9120.html" %})
 - [https://twitter.com/]({% include relrefx.html url="/backup/about.md/twitter.com/4fd9c9a2.html" %})

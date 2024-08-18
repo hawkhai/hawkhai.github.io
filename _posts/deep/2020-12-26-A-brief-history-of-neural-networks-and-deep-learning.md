@@ -25,6 +25,8 @@ Andrey Kurenkov
 基哥视频有更详细的讲解。
 浙江大学 · [机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1qf4y1x7kB/)
 
+* [人工智能 300 年！LSTM 之父最新长文：详解现代 AI 和深度学习发展史 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/_lnyIzWDjzwkyBEjQ1gjtA)
+
 
 ## 从感知机到 BP 算法 (1950s-1980s)
 

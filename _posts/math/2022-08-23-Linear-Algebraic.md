@@ -45,6 +45,12 @@ cluster: "机器学习的数学基础"
 {% include image.html url="/assets/images/220823-linear-algebraic/3c786468a3f90297c02bddcebd58806a1532683863.jpg@!web-comment-note.avif" %}
 {% include image.html url="/assets/images/220823-linear-algebraic/33bae09d9ccbd2ca24f092becee67e3a1532683863.jpg@!web-comment-note.avif" %}
 
+这 4 部分数学知识的作用分别是：
+* 概率统计是利用数据发现规律、推测未知的思想方法。
+* 线性代数是利用空间投射和表征数据的基本工具。
+* 微积分与最优化是机器学习模型中最终解决方案的落地手段。
+* 概率图和随机过程是构成机器学习中的核心思想和大量核心应用。
+
 
 ## 1.1 二阶三阶行列式 38:52
 

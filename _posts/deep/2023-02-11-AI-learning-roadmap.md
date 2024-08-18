@@ -27,6 +27,25 @@ cluster: "机器学习课程"
 实践中，根据经验多试几个，哪个网络效果更好就用那个。
 
 
+## 机器学习的学习路径
+
+* [机器学习的学习路径 {% include relref_github.html %}](https://github.com/luweiagi/machine-learning-notes/blob/master/docs/perface/machine-learning-learning-path/machine-learning-learning-path.md)
+* [机器学习前言 {% include relref_github.html %}](https://github.com/luweiagi/machine-learning-notes/blob/master/docs/perface/machine-learning-perface/machine-learning-perface.md)
+
+使用 Kaggle 的目的主要是将技能落在实处，防止练就一身屠龙之技。
+机器学习最大的幻觉就是觉得自己什么都懂了，但等到真的使用时发现并不奏效，而 Kaggle 是一个低成本的应用机器学习的机会。
+
+工业界百分之六十的时间都在清理数据，这和学术界干净且规则化的现成数据完全不同。
+
+一定要学习优质资源，而不是不分青红皂白的学习。
+
+获取数据的方式主要有三种：开放数据（以学术界开放为主，如 ImageNet 和 LFW）、第三方数据公司的付费数据和结合自身业务产生的数据。
+
+{% include image.html url="/assets/images/230211-ai-learning-roadmap/v2-0c488d35e35e491b354e293aec574277_720w.webp" caption="特征工程" %}
+
+{% include image.html url="/assets/images/230211-ai-learning-roadmap/301631492162492.png" caption="It's not who has the best algorithm that wins. It's who has the most data." %}
+
+
 ## 学习地图
 
 * 图片处理 imgaug
@@ -231,6 +250,8 @@ def normalEqn(X, y):
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2023-02-11-AI-learning-roadmap.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://github.com/luweiagi/machine-learning-notes/blob/master/docs/perface/machine-learning-learning-path/machine-learning-learning-path.md]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/github.com/b5820b45.html" %})
+- [https://github.com/luweiagi/machine-learning-notes/blob/master/docs/perface/machine-learning-perface/machine-learning-perface.md]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/github.com/6f8829d4.html" %})
 - [https://space.bilibili.com/29834628]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/space.bilibili.com/8ff583b5.html" %})
 - [https://www.zhihu.com/people/liang-rong-24-62]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.zhihu.com/d98e98a5.html" %})
 - [https://github.com/azataiot/DeepLearning-Notes]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/github.com/cc99b016.html" %})
