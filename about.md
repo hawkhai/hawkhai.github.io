@@ -69,7 +69,11 @@ And, I welcome any feedback on the contents and your suggestions.
 
 * [人工智能 300 年！LSTM 之父最新长文：详解现代 AI 和深度学习发展史 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/_lnyIzWDjzwkyBEjQ1gjtA)
 * [神经网络浅讲：从神经元到深度学习 {% include relref_cnblogs.html %}](https://www.cnblogs.com/subconscious/p/5058741.html)
-* [2017 年总结 {% include relref_cnblogs.html %}](https://www.cnblogs.com/subconscious/p/8157268.html)
+
+“... provided that computers were fast enough, data sets were big enough, 
+and the initial weights were close enough to a good solution. 
+All three conditions are now satisfied.”
+
 
 **统计学习**
 统计学习近似等于机器学习。统计学习是个与机器学习高度重叠的学科。
