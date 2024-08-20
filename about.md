@@ -70,10 +70,9 @@ And, I welcome any feedback on the contents and your suggestions.
 * [人工智能 300 年！LSTM 之父最新长文：详解现代 AI 和深度学习发展史 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/_lnyIzWDjzwkyBEjQ1gjtA)
 * [神经网络浅讲：从神经元到深度学习 {% include relref_cnblogs.html %}](https://www.cnblogs.com/subconscious/p/5058741.html)
 
-“... provided that computers were fast enough, data sets were big enough, 
-and the initial weights were close enough to a good solution. 
+“... provided that computers were fast enough, data sets were big enough,
+and the initial weights were close enough to a good solution.
 All three conditions are now satisfied.”
-
 
 **统计学习**
 统计学习近似等于机器学习。统计学习是个与机器学习高度重叠的学科。
@@ -253,7 +252,6 @@ Enjoy!
 - [http://www.songho.ca/]({% include relrefx.html url="/backup/about.md/www.songho.ca/d3f4e364.html" %})
 - [https://mp.weixin.qq.com/s/_lnyIzWDjzwkyBEjQ1gjtA]({% include relrefx.html url="/backup/about.md/mp.weixin.qq.com/2776a4cd.html" %})
 - [https://www.cnblogs.com/subconscious/p/5058741.html]({% include relrefx.html url="/backup/about.md/www.cnblogs.com/3b4d6ae9.html" %})
-- [https://www.cnblogs.com/subconscious/p/8157268.html]({% include relrefx.html url="/backup/about.md/www.cnblogs.com/9320251d.html" %})
 - [http://www.matrix67.com/blog/archives/4930]({% include relrefx.html url="/backup/about.md/www.matrix67.com/84c24598.html" %})
 - [https://mp.weixin.qq.com/s/S3D1T6WTvodwwv-4aGASrg]({% include relrefx.html url="/backup/about.md/mp.weixin.qq.com/ee9e9120.html" %})
 - [https://twitter.com/]({% include relrefx.html url="/backup/about.md/twitter.com/4fd9c9a2.html" %})
