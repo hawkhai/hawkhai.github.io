@@ -41,7 +41,7 @@ cluster: "机器学习课程"
 
 获取数据的方式主要有三种：开放数据（以学术界开放为主，如 ImageNet 和 LFW）、第三方数据公司的付费数据和结合自身业务产生的数据。
 
-{% include image.html url="/assets/images/230211-ai-learning-roadmap/v2-0c488d35e35e491b354e293aec574277_720w.webp" caption="特征工程" %}
+{% include image.html url="/assets/images/230211-ai-learning-roadmap/v2-0c488d35e35e491b354e293aec574277_720w.jpg" caption="特征工程" %}
 
 {% include image.html url="/assets/images/230211-ai-learning-roadmap/301631492162492.png" caption="It's not who has the best algorithm that wins. It's who has the most data." %}
 
