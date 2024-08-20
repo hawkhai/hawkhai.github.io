@@ -43,6 +43,17 @@ imgaug
 
 26:18
 
+```python
+from selenium import webdriver
+chrome_options = webdriver.ChromeOptions()
+chrome_options.headless = True
+chrome = webdriver.Chrome(
+    chrome_options=chrome_options)
+page = chrome.get(url)
+```
+
+BeautifulSoup
+
 
 ## 1.4 数据标注
 
