@@ -21,7 +21,8 @@ cluster: "机器学习课程"
 斯坦福 2021 秋季 · 实用机器学习：<https://www.bilibili.com/video/BV13U4y1N7Uo/>
 <https://www.bilibili.com/read/readlist/rl482828>
 <https://github.com/luweiagi/machine-learning-notes/blob/master/docs/personal/material.md>
-
+-ml-DL-limu
+240818-c.d2l.ai_stanford-cs329p
 
 ## 1.1 课程介绍
 
@@ -33,6 +34,9 @@ cluster: "机器学习课程"
 ## 1.2 数据获取
 
 30:50
+
+imgaug
+
 
 
 ## 1.3 网页数据抓取
