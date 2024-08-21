@@ -24,12 +24,12 @@ def maingo(rootdir, category):
         subdir = os.path.join(rootdir, subdir)
         if not os.path.isdir(subdir):
             continue
-            
+
         for ifile in os.listdir(subdir):
             ifile = os.path.join(subdir, ifile)
             if not os.path.isfile(ifile):
                 continue
-            
+
             yfile = os.path.join(rootdir, "{}_google.jpg".format(getFileMd5(ifile)[:7]))
             copyimg(ifile, yfile)
 

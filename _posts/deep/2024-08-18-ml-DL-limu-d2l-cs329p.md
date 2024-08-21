@@ -24,11 +24,12 @@ cluster: "机器学习课程"
 -ml-DL-limu
 240818-c.d2l.ai_stanford-cs329p
 
+
 ## 1.1 课程介绍
 
 38:58
 
-{% include image.html url="/assets/images/240818-c.d2l.ai_stanford-cs329p/20240818233422.png" %}
+{% include image.html url="/assets/images/240818-ml-dl-limu-d2l-cs329p/20240818233422.png" %}
 
 
 ## 1.2 数据获取
@@ -36,7 +37,6 @@ cluster: "机器学习课程"
 30:50
 
 imgaug
-
 
 
 ## 1.3 网页数据抓取
@@ -185,10 +185,10 @@ BeautifulSoup
 
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-08-18-c.d2l.ai_stanford-cs329p.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-08-18-ml-DL-limu-d2l-cs329p.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://c.d2l.ai/stanford-cs329p/]({% include relrefx.html url="/backup/2024-08-18-c.d2l.ai_stanford-cs329p.md/c.d2l.ai/1ded5b1f.html" %})
-- [https://www.bilibili.com/video/BV13U4y1N7Uo/]({% include relrefx.html url="/backup/2024-08-18-c.d2l.ai_stanford-cs329p.md/www.bilibili.com/27f33daf.html" %})
-- [https://www.bilibili.com/read/readlist/rl482828]({% include relrefx.html url="/backup/2024-08-18-c.d2l.ai_stanford-cs329p.md/www.bilibili.com/e10dfb96.html" %})
-- [https://github.com/luweiagi/machine-learning-notes/blob/master/docs/personal/material.md]({% include relrefx.html url="/backup/2024-08-18-c.d2l.ai_stanford-cs329p.md/github.com/7fd4dabd.html" %})
+- [https://c.d2l.ai/stanford-cs329p/]({% include relrefx.html url="/backup/2024-08-18-ml-DL-limu-d2l-cs329p.md/c.d2l.ai/1ded5b1f.html" %})
+- [https://www.bilibili.com/video/BV13U4y1N7Uo/]({% include relrefx.html url="/backup/2024-08-18-ml-DL-limu-d2l-cs329p.md/www.bilibili.com/27f33daf.html" %})
+- [https://www.bilibili.com/read/readlist/rl482828]({% include relrefx.html url="/backup/2024-08-18-ml-DL-limu-d2l-cs329p.md/www.bilibili.com/e10dfb96.html" %})
+- [https://github.com/luweiagi/machine-learning-notes/blob/master/docs/personal/material.md]({% include relrefx.html url="/backup/2024-08-18-ml-DL-limu-d2l-cs329p.md/github.com/7fd4dabd.html" %})
