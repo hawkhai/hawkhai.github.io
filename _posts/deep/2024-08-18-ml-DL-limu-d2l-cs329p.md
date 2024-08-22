@@ -58,6 +58,7 @@ BeautifulSoup
 ## 1.4 数据标注
 
 37:32
+{% include image.html url="/assets/images/240818-ml-dl-limu-d2l-cs329p/20240823005837.jpg" %}
 
 
 ## 2.1 探索性数据分析
