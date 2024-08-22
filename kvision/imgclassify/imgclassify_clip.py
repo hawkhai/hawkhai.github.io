@@ -68,6 +68,16 @@ def test():
     for value, index in zip(values, indices):
         print(f"{cifar100.classes[index]:>16s}: {100 * value.item():.2f}%")
 
+def getMaxKV(retmap):
+    keys = [k for k in retmap.keys()]
+    #assert len(keys) in (5, 12), keys
+    keys.sort()
+    vals = [retmap[k] for k in keys]
+    
+    max_val = max(vals)
+    max_idx = vals.index(max_val)
+    return keys[max_idx], max_val
+
 # Download the dataset
 #cifar100 = CIFAR100(root=os.path.expanduser("~/.cache"), download=True, train=False)
 def cateclip(image, classes):
@@ -94,9 +104,15 @@ def cateclip(image, classes):
 
     # Print the result
     #print("\nTop predictions:\n")
+    retmap = {}
     for value, index in zip(values, indices):
-        print(f"{classes[index]:>16s}: {100 * value.item():.2f}%")
-        return classe_ids[index], value.item()
+        #print(f"{classes[index]:>16s}: {100 * value.item():.2f}%")
+        #return classe_ids[index], value.item()
+        if not classe_ids[index] in retmap:
+            retmap[classe_ids[index]] = 0
+        retmap[classe_ids[index]] += value.item()
+    
+    return getMaxKV(retmap)
 
 def cateclip_cn(image, classes):
 
@@ -125,7 +141,14 @@ def cateclip_cn(image, classes):
     # 找到最大值的索引
     max_index = np.argmax(float_array)
     #print("Label probs:", probs)  # [[1.268734e-03 5.436878e-02 6.795761e-04 9.436829e-01]]
-    return classe_ids[max_index], max_value
+    #return classe_ids[max_index], max_value
+    retmap = {}
+    for index, value in enumerate(probs[0]):
+        if not classe_ids[index] in retmap:
+            retmap[classe_ids[index]] = 0
+        retmap[classe_ids[index]] += value
+    
+    return getMaxKV(retmap)
 
 def main(dataset):
     classes = r"""
@@ -180,7 +203,9 @@ transportation:vehicle
             print(ifile)
             image = Image.open(ifile)
             idx1, idv1 = cateclip(image, classes)
+            print(idx1, idv1)
             idx2, idv2 = cateclip_cn(image, classes_cn)
+            print(idx2, idv2)
             #break
             if idx1 != idx2:
                 continue
