@@ -58,11 +58,19 @@ unlocker-3.0.3.zip
 天翼云盘链接：<https://cloud.189.cn/web/share?code=3Eb2Ir7N3QZj>
 访问码：qk26
 
+启动系统，选择磁盘工具抹掉刚刚分配的 40G，为硬盘起个名。如下图。
+
+{% include image.html url="/assets/images/240821-vmware-macos/20240822173829.png" %}
+
+关闭磁盘工具，安装系统，剩下的过程随自己选择即可。
+
 
 ## 使用 VMware 安装 macOS
 
 除了分配硬盘，不要太小了，我分配了 40G。
 安装 VMwareTools，修改分辨率。
+
+{% include image.html url="/assets/images/240821-vmware-macos/20240822180734.png" %}
 
 
 

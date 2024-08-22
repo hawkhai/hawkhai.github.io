@@ -34,7 +34,7 @@ model, preprocess = clip.load('ViT-B/32', device)
 
 import cn_clip.clip as cn_clip
 from cn_clip.clip import load_from_name, available_models
-print("Available models:", available_models())  
+print("Available models:", available_models())
 # Available models: ['ViT-B-16', 'ViT-L-14', 'ViT-L-14-336', 'ViT-H-14', 'RN50']
 
 model_cn, preprocess_cn = load_from_name("ViT-B-16", device=device, download_root='./')
@@ -73,7 +73,7 @@ def getMaxKV(retmap):
     #assert len(keys) in (5, 12), keys
     keys.sort()
     vals = [retmap[k] for k in keys]
-    
+
     max_val = max(vals)
     max_idx = vals.index(max_val)
     return keys[max_idx], max_val
@@ -84,7 +84,7 @@ def cateclip(image, classes):
     # Prepare the inputs
     #image, class_id = cifar100[3637]
     image_input = preprocess(image).unsqueeze(0).to(device)
-    
+
     classe_ids = [c.split(":")[-1].strip() for c in classes]
     classes = [c.split(":")[0].strip() for c in classes]
     #print(classe_ids)
@@ -111,7 +111,7 @@ def cateclip(image, classes):
         if not classe_ids[index] in retmap:
             retmap[classe_ids[index]] = 0
         retmap[classe_ids[index]] += value.item()
-    
+
     return getMaxKV(retmap)
 
 def cateclip_cn(image, classes):
@@ -128,8 +128,8 @@ def cateclip_cn(image, classes):
         image_features = model_cn.encode_image(image)
         text_features = model_cn.encode_text(text)
         # 对特征进行归一化，请使用归一化后的图文特征用于下游任务
-        image_features /= image_features.norm(dim=-1, keepdim=True) 
-        text_features /= text_features.norm(dim=-1, keepdim=True)    
+        image_features /= image_features.norm(dim=-1, keepdim=True)
+        text_features /= text_features.norm(dim=-1, keepdim=True)
 
         logits_per_image, logits_per_text = model_cn.get_similarity(image, text)
         probs = logits_per_image.softmax(dim=-1).cpu().numpy()
@@ -147,7 +147,7 @@ def cateclip_cn(image, classes):
         if not classe_ids[index] in retmap:
             retmap[classe_ids[index]] = 0
         retmap[classe_ids[index]] += value
-    
+
     return getMaxKV(retmap)
 
 def main(dataset):
@@ -198,7 +198,7 @@ transportation:vehicle
             ifile = os.path.join(subdir, idir)
             if ifile.endswith(".txt"):
                 continue
-            
+
             print("***" * 30)
             print(ifile)
             image = Image.open(ifile)
@@ -214,7 +214,7 @@ transportation:vehicle
 
             fmd5 = getFileMd5(ifile)[:5]
             rad = int(fmd5, 16) % 100
-            
+
             if rad < 20:
                 targetfile = os.path.join("mydata", "val", idx1, fmd5+".jpg")
             else:
