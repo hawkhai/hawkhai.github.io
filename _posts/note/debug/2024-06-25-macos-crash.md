@@ -324,6 +324,98 @@ lldb --core xxx.dmp
 image list
 
 
+## Termination Reason: DYLD, [0x4] Symbol missing
+
+Application Specific Information:
+dyld: launch, loading dependent libraries
+```
+Dyld Error Message:
+  Symbol not found: __ZNKSt3__115basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEE3strEv
+  Referenced from: /Applications/MyPDF.app/Contents/MacOS/../Frameworks/libopencv_core.3.4.dylib (which was built for Mac OS X 12.0)
+  Expected in: /usr/lib/libc++.1.dylib
+```
+
+[clang 在编译时指定目标文件所需的最低 macOS 版本 {% include relref_cnblogs.html %}](https://www.cnblogs.com/z16166/p/16861268.html)
+这个是因为 Apple 的 SDK 使用 weak linking 来支持不同版本的 macOS。
+
+目标文件所需的最低 macOS 版本有个专有名称“deployment target”。
+
+
+### 查看库的 deployment target
+
+查看 \*.dylib、\*.a 或者主程序的 deployment target 属性、sdk 版本：
+```
+otool -l 7z.dylib | grep -E "(minos|sdk)"
+find . -name "*.a" | xargs otool -l | grep -E "(minos|sdk)"
+```
+
+
+### 通过命令行参数设置 deployment target
+
+clang/clang++ 在编译时指定 deployment target 的命令行参数是-mmacos-version-min，比如：-mmacos-version-min=10.15，指定最低为 Catalina 的最后一个版本 10.15。
+针对 iOS 等有类似的开关如-miphoneos-version-min、-mtvos-version-min、 -mwatchos-version-min。
+-mmacos-version-min 有个别名-mmacosx-version-min，别名只是为了兼容，尽量不使用这个别名。
+clang 会根据这个命令行参数来定义编译器内置宏 MAC_OS_X_VERSION_MIN_REQUIRED 等，而 SDK 头文件 \<AvailabilityMacros.h>、\<Availability.h>
+中有对这些宏的检查，根据宏决定哪些符号采用 weak linking。weak linking 的符号在编译时不会报错，dylib 加载时也不会报错，在用到对应的符号时如果不存在才会报错。
+
+
+### 通过环境变量设置 deployment target
+
+clang 的这个参数也可通过环境变量来设置。命令行参数优先于环境变量。
+```
+MACOSX_DEPLOYMENT_TARGET
+IPHONEOS_DEPLOYMENT_TARGET
+TVOS_DEPLOYMENT_TARGET
+WATCHOS_DEPLOYMENT_TARGET
+DRIVERKIT_DEPLOYMENT_TARGET
+```
+我们的工程以及我们的工程所直接 / 间接依赖的所有静态库 / 动态库，都需要在编译时指定相同的 deployment target。
+省事的办法是通过环境变量来统一设置，在开始整个打包之前设置一下。
+其次是命令行开关。不同工程类型的命令行开关设置方法有差异。以下是命令行开关的设置。
+
+
+### 通过 vcpkg install 编译的库
+
+需要更改 vcpkg/triplets/x64-osx.cmake 文件的内容，增加下面三行（理论上只要第一行即可，但 vcpkg 目前貌似有 bug，导致 VCPKG_OSX_DEPLOYMENT_TARGET 只对 CMake 工程生效，对其他类型的工程不生效。所以需要第二行、第三行）：
+```
+set(VCPKG_OSX_DEPLOYMENT_TARGET "10.15")
+set(VCPKG_C_FLAGS -mmacosx-version-min=10.15)
+set(VCPKG_CXX_FLAGS -mmacosx-version-min=10.15)
+```
+也可以复制这个文件到某个目录下，在复制出来的文件中增加上面这三行，然后给 vcpkg install 传递--overlay-triplets 参数以使用这个修改过的 triplet 文件。这样通过 vcpkg install 安装的所有库的 deployment target 都是 10.15。
+
+
+### autoconf 类型的工程
+
+比如 libiconv 库是手动执行 autoconf 编译的，需要在 configure 时增加参数：
+```
+./configure CFLAGS=-mmacos-version-min=10.15 CPPFLAGS=-mmacos-version-min=10.15
+```
+
+
+### CMake 工程
+
+在 CMakeLists.txt 里的 project() 语句之前增加一句：
+```
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15")
+```
+或者
+```
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "" FORCE)
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimum OS X deployment version" FORCE)
+```
+
+
+### Xcode 工程
+
+在界面的工程属性中可以设置 deployment target。
+
+
+### Makefile 工程
+
+在 makefile 里自行给 clang 传递参数-mmacos-version-min=10.15 即可。
+
+
 ## 其它
 
 * [Mac/iOS crash 或者地址符号解析 —— 工具篇 {% include relref_csdn.html %}](https://blog.csdn.net/goldWave01/article/details/90177708)
@@ -355,6 +447,7 @@ image list
 - [https://get.backtrace.io/crashpad/builds/]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/get.backtrace.io/d2e2d8a9.html" %})
 - [https://help.backtrace.io/en/articles/2337714-crashpad-integration-guide]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/help.backtrace.io/7e8042d4.html" %})
 - [https://gist.github.com/jameskr97/8c40d927db05fe253235e05333fed4f3]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/gist.github.com/3b664698.html" %})
+- [https://www.cnblogs.com/z16166/p/16861268.html]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/www.cnblogs.com/83362cb1.html" %})
 - [https://blog.csdn.net/goldWave01/article/details/90177708]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/blog.csdn.net/5c9c18a0.html" %})
 - [https://blog.csdn.net/weixin_46168796/article/details/134057199]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/blog.csdn.net/0a4d0f1c.html" %})
 - [https://blog.csdn.net/weixin_46168796/article/details/134057751]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/blog.csdn.net/e2bc77d1.html" %})
