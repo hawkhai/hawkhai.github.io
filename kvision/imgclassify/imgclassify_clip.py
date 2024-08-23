@@ -163,7 +163,7 @@ product:goods
 indoor
 night view:night
 people
-figure:people
+human:people
 plant
 scenery
 landscape:scenery
