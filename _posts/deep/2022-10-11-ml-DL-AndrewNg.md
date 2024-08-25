@@ -586,6 +586,8 @@ Monitoring machines in a data center | Weather prediction (sunny / rainy / etc.)
 
 ## 113 3.6 选择要使用的特征 14:58
 
+这里有点 SVM 的思想。
+
 
 ## 114 4.1 提出建议 05:33
 
@@ -594,6 +596,8 @@ Monitoring machines in a data center | Weather prediction (sunny / rainy / etc.)
 
 
 ## 116 4.3 协同过滤算法 13:56
+
+{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240826000520.png" %}
 
 
 ## 117 4.4 Binary labels- favs, likes and c 08:28

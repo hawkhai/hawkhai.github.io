@@ -64,6 +64,18 @@ BeautifulSoup
 ## 2.1 探索性数据分析
 
 34:51
+```python
+# !pip install seaborn pandas matplotlib numpy
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from IPython import display
+display.set matplotlib formats('svg')
+#Alternative to set svg for newer versions
+#import matplotlib inline
+# matplotlib inline,backend inline.set matplotlib formats( 'svg')
+```
 
 
 ## 2.2 数据清理
