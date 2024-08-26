@@ -602,6 +602,8 @@ Monitoring machines in a data center | Weather prediction (sunny / rainy / etc.)
 
 ## 117 4.4 Binary labels- favs, likes and c 08:28
 
+二分类问题。
+
 
 ## 118 5.1 均值归一化 08:46
 
@@ -613,6 +615,12 @@ Monitoring machines in a data center | Weather prediction (sunny / rainy / etc.)
 
 
 ## 121 6.1 协同过滤 vs. 基于内容的过滤 09:46
+
+Collaborative filtering:
+* Recommend items to you based on rating of users whogave similar ratings as you.
+
+Content-based filtering:
+* Recommend items to you based on features of user and itemto find good match.
 
 
 ## 122 6.2 Deep learning for content-based 09:43
