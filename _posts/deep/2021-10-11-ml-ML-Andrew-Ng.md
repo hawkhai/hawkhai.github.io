@@ -30,7 +30,7 @@ cluster: "机器学习课程"
 
 ## 吴恩达
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/20221007214824.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/20221007214824.png" %}
 
 
 ### 已经完成
@@ -52,7 +52,7 @@ cluster: "机器学习课程"
 监督（supervised）= 标签（label），是否有监督，就是输入数据（input）是否有标签，有标签则为有监督学习，没标签则为无监督学习。
 至于半监督学习，就是一半（一点点）数据有标签，一半（极其巨大）数据没标签。
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/20190717172554930.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/20190717172554930.png" %}
 
 #### 监督学习
 
@@ -64,7 +64,7 @@ cluster: "机器学习课程"
 
 监督学习的分类：回归（Regression）、分类（Classification）。
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/20211108161254.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/20211108161254.png" %}
 
 #### 无监督学习
 
@@ -120,7 +120,7 @@ $$
 J \left( \theta_0, \theta_1 \right) = \frac{1}{2m}\sum\limits_{i=1}^m \left( h_{\theta}(x^{(i)})-y^{(i)} \right)^{2}
 $$
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-c94c2b2ffd3d45539f5c80ab2addffcd_720w.jpg" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-c94c2b2ffd3d45539f5c80ab2addffcd_720w.jpg" %}
 
 **为什么要除以 2，感觉是求导数的时候，刚好能和平方的 2 约掉，整个正向 / 反向传播，数据都是稳定的。**
 
@@ -231,7 +231,7 @@ $$
 
 最简单的方法是令：${ {x}_{n}}=\frac{ { {x}_{n}}-{ {\mu}_{n}}}{ { {s}_{n}}}$，其中 ${\mu_{n}}$ 是平均值，${s_{n}}$ 是标准差。
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/20221016234225.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/20221016234225.png" %}
 
 
 ### 4-4. 多元梯度下降法 II – 学习率 08:59
@@ -351,8 +351,8 @@ $$
 \begin{array}{l}P(y=0 \mid x ; \theta)+P(y=1 \mid x ; \theta)=1 \\h_{\theta}(x)=P(y=1 \mid x ; \theta)=1-P(y=0 \mid x ; \theta)\end{array}
 $$
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-e5d8e804c0af6a097700cec2be5e7834_720w.jpg" caption="logistic function (S-shape)" %}
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/20191130021642167.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-e5d8e804c0af6a097700cec2be5e7834_720w.jpg" caption="logistic function (S-shape)" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/20191130021642167.png" %}
 
 #### Sigmoid 函数求导
 
@@ -387,9 +387,9 @@ Sigmoid 函数导数最大值为 0.25，因链式法则需要连乘，故进行�
 ### 6-5. 简化代价函数与梯度下降 10:16
 
 统计学中极大似然法得来的，快速寻找参数的方法。
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-37a0e94bf99b619c6b57518671602e19_1440w.jpg" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-37a0e94bf99b619c6b57518671602e19_1440w.jpg" %}
 [快速理解极大似然法 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/89074979)
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-5f4f12bc7ef874f68ea28c4c350ad73f_1440w.jpg" caption="不同参数下高斯分布的形状" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-5f4f12bc7ef874f68ea28c4c350ad73f_1440w.jpg" caption="不同参数下高斯分布的形状" %}
 
 
 ### 6-6. 高级优化 14:07
@@ -415,7 +415,7 @@ $$
 
 ### 6-7. 多元分类：一对多 06:16
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/1800369-20190923214320485-513783816.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/1800369-20190923214320485-513783816.png" %}
 
 [Docs / Azure / 机器学习](https://docs.microsoft.com/zh-cn/azure/machine-learning/component-reference/one-vs-all-multiclass)
 
@@ -455,8 +455,8 @@ $$
 
 ### 7-3. 线性回归的正则化 10:41
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-86856ef352e507ca0f853343e802cbd8_720w.jpg" %}
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-b3f8923467e9314b1d03f0e756189bbd_720w.jpg" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-86856ef352e507ca0f853343e802cbd8_720w.jpg" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-b3f8923467e9314b1d03f0e756189bbd_720w.jpg" %}
 
 [note {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/410358244)
 
@@ -553,18 +553,18 @@ $$
 
 以下通过手动计算过程，模拟神经网络正向 / 反向传播过程，来理解，神经网络参数的更新过程。
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-460ed64cc9dcc5255954e1dc72141d90_720w.webp" caption="构建一个只有一层的神经网络" %}
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-600aab1469f1883e550df23776790f48_720w.webp" caption="正向传播：计算第一个神经元的输出" %}
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-63ddec9ea939e6c891cfe6d64582eeaf_720w.webp" caption="正向传播：计算第二个神经元的输出" %}
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-2091fdfc5f1e03629274e39c83f2a932_720w.webp" caption="正向传播：计算最后一个神经元的输出" %}
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-12fb8d03310d0bea017e49e71b908929_720w.webp" caption="正向传播完成" %}
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-db7bd4f39200c07c0518a84516ea1eb9_720w.webp" caption="反向传播 第一次" %}
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-6d1435b4b17763f06c5ec981c508ff42_720w.webp" caption="反向传播 第一次 数据更新" %}
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-f320e85d64e5171c94d2fde241f6c2a1_720w.webp" caption="反向传播 其他数据" %}
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-d07c1301ef2a6db6a3b2537756aec077_720w.webp" caption="反向传播 最后一个数据" %}
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-3d4b744db719e01ed57994b81e096ed8_720w.webp" caption="反向传播完成" %}
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-bc40f6f071d15ff3e357492ad1cbad5b_720w.webp" caption="第二轮传播" %}
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-d5d0d945ac9f67815873f18f9a80c326_720w.webp" caption="总结" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-460ed64cc9dcc5255954e1dc72141d90_720w.webp" caption="构建一个只有一层的神经网络" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-600aab1469f1883e550df23776790f48_720w.webp" caption="正向传播：计算第一个神经元的输出" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-63ddec9ea939e6c891cfe6d64582eeaf_720w.webp" caption="正向传播：计算第二个神经元的输出" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-2091fdfc5f1e03629274e39c83f2a932_720w.webp" caption="正向传播：计算最后一个神经元的输出" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-12fb8d03310d0bea017e49e71b908929_720w.webp" caption="正向传播完成" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-db7bd4f39200c07c0518a84516ea1eb9_720w.webp" caption="反向传播 第一次" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-6d1435b4b17763f06c5ec981c508ff42_720w.webp" caption="反向传播 第一次 数据更新" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-f320e85d64e5171c94d2fde241f6c2a1_720w.webp" caption="反向传播 其他数据" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-d07c1301ef2a6db6a3b2537756aec077_720w.webp" caption="反向传播 最后一个数据" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-3d4b744db719e01ed57994b81e096ed8_720w.webp" caption="反向传播完成" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-bc40f6f071d15ff3e357492ad1cbad5b_720w.webp" caption="第二轮传播" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-d5d0d945ac9f67815873f18f9a80c326_720w.webp" caption="总结" %}
 
 
 ### 9-4. 使用注意：展开参数 07:48
@@ -653,16 +653,16 @@ $$J_{test}(\theta)=\frac{1}{2m_{test}}\sum_\limits{i=1}^{m_{test}}(h_{\theta}(x^
 
 ### 10-4. 诊断偏差与方差 07:43
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/bca6906add60245bbc24d71e22f8b836.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/bca6906add60245bbc24d71e22f8b836.png" %}
 
 * 训练集误差和交叉验证集误差近似时：偏差 / 欠拟合
 * 交叉验证集误差远大于训练集误差时：方差 / 过拟合
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/25597f0f88208a7e74a3ca028e971852.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/25597f0f88208a7e74a3ca028e971852.png" %}
 
 
 ### 10-5. 正则化和偏差、方差 11:21
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/38eed7de718f44f6bb23727c5a88bf5d.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/38eed7de718f44f6bb23727c5a88bf5d.png" %}
 * 训练集误差和交叉验证集误差近似时：偏差 / 欠拟合
 * 交叉验证集误差远大于训练集误差时：方差 / 过拟合
 
@@ -719,7 +719,7 @@ $$J_{test}(\theta)=\frac{1}{2m_{test}}\sum_\limits{i=1}^{m_{test}}(h_{\theta}(x^
 | **实际值** | **Positive** | **TP** | **FN** |
 |            | **Negtive** | **FP** | **TN** |
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/20220926001838.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/20220926001838.png" %}
 
 
 ### 11-4. 精确度和召回率的权衡 14:06
@@ -733,7 +733,7 @@ $$
 
 ### 11-5. 机器学习数据 11:10
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/05a3c884505e08028d37a04472d0964a.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/05a3c884505e08028d37a04472d0964a.png" %}
 * 参数多，特征多，保证低偏差。
 * 数据样本多，就不太可能过拟合，保证低方差。
 
@@ -794,8 +794,8 @@ More esoteric: String kernel, chi-square kernel, histogram intersection kernel, 
 sk-learn 库，基于上述的 numpy 和 Scipy 的库。包含大量用于传统机器学习和数据挖掘相关的算法，集成了常见的机器学习功能。
 Scikit-learn 主要用于各种数据建模概念，如回归、分类、聚类、模型选择等。 该库是在 Numpy、Scipy 和 matplotlib 之上编写的。Scikit-learn 易于集成，可以继承其他机器学习库实现特定目标。
 比如 Numpy 和 Pandas 用于数据分析，Plotly 用于可视化。
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/ml_map.png" %}
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-43c13ca000a22bf0f9f9dc11ed0c4ee7_720w.webp" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/ml_map.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/v2-43c13ca000a22bf0f9f9dc11ed0c4ee7_720w.webp" %}
 
 * [sklearn 库主要模块功能和辅助函数 {% include relref_bili.html %}](https://www.bilibili.com/read/cv12252018/)
 * [sklearn 库机器学习 python 使用教程 {% include relref_csdn.html %}](https://blog.csdn.net/weixin_51111267/article/details/122628057)
@@ -861,7 +861,7 @@ pyclusring 库下的 kmeans 聚类
 主成分分析（PCA）
 
 PCA is not linear regression
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/3959253-626cc701469a7f03.webp" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/3959253-626cc701469a7f03.webp" %}
 
 线性回归的 Cost function 重点在回归值和真实值的误差，而 PCA 着重样本与超平面的投影距离。
 
@@ -940,7 +940,7 @@ $\mu=\frac{1}{m}\sum\limits_{i=1}^{m}x^{(i)}$
 
 $\sigma^2=\frac{1}{m}\sum\limits_{i=1}^{m}(x^{(i)}-\mu)^2$
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/fcb35433507a56631dde2b4e543743ee.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/fcb35433507a56631dde2b4e543743ee.png" %}
 
 
 ### 15-3. 算法 12:03
@@ -973,12 +973,12 @@ $p(x)=\prod\limits_{j=1}^np(x_j;\mu_j,\sigma_j^2)=\prod\limits_{j=1}^1\frac{1}{\
 
 ### 15-6. 选择要使用的功能 12:18
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/0990d6b7a5ab3c0036f42083fe2718c6.jpg" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/0990d6b7a5ab3c0036f42083fe2718c6.jpg" %}
 
 
 ### 15-7. 多变量高斯分布 13:47
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/29df906704d254f18e92a63173dd51e7.jpg" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/29df906704d254f18e92a63173dd51e7.jpg" %}
 
 读 mu and sigma。
 这玩意就是变换矩阵，对特征进行缩放拉伸。
@@ -986,9 +986,9 @@ $p(x)=\prod\limits_{j=1}^np(x_j;\mu_j,\sigma_j^2)=\prod\limits_{j=1}^1\frac{1}{\
 
 ### 15-8. 使用多变量高斯分布的异常检测 14:04
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/d1a228f2bec262f2206379ed844c7f4a.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/d1a228f2bec262f2206379ed844c7f4a.png" %}
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/7104dd2548f1251e4c423e059d1d2594.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/7104dd2548f1251e4c423e059d1d2594.png" %}
 
 
 ### 16-1. 问题规划 07:55
@@ -1068,7 +1068,7 @@ $$
 
 ### 16-6. 实施细节：均值规范化 08:32
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/9ec5cb55e14bd1462183e104f8e02b80.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/9ec5cb55e14bd1462183e104f8e02b80.png" %}
 
 
 ### 17-1. 学习大数据集 05:46
@@ -1078,7 +1078,7 @@ $$
 
 ### 17-2. 随机梯度下降 13:20
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/9710a69ba509a9dcbca351fccc6e7aae.jpg" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/9710a69ba509a9dcbca351fccc6e7aae.jpg" %}
 
 
 ### 17-3. Mini-Batch 梯度下降 06:19
@@ -1096,7 +1096,7 @@ $$
 
 ### 17-6. 减少映射与数据并行 14:09
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/20221006182722.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/20221006182722.png" %}
 
 
 ### 18-1. 问题描述与 OCR pipeline 07:03
@@ -1107,7 +1107,7 @@ $$
 
 可以用任务流程图来表达这个问题，每一项任务可以由一个单独的小队来负责解决：
 
-{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/610fffb413d8d577882d6345c166a9fb.png" %}
+{% include image.html url="/assets/images/211011-ml-ml-andrew-ng/610fffb413d8d577882d6345c166a9fb.png" %}
 
 
 ### 18-2. 滑动窗口 14:41
@@ -1135,32 +1135,32 @@ $$
 
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-10-11-ml-MLofAndrew-Ng.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-10-11-ml-ML-Andrew-Ng.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247485091&idx=1&sn=8844a2dfafcd35ea45d1bf0146ba8a5a&chksm=fcbbfe59cbcc774f68a18bd11d529422e0048896ffa3a253c52a749fc6e45d7292e1791052da&scene=27]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/mp.weixin.qq.com/82b189c2.html" %})
-- [https://www.bilibili.com/video/BV164411b7dx/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/816eb90a.html" %})
-- [https://www.coursera.org/specializations/deep-learning]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.coursera.org/f044c5d5.html" %})
-- [https://www.coursera.org/learn/machine-learning-course/home/week/1]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.coursera.org/53a67f91.html" %})
-- [https://space.bilibili.com/388675845]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/space.bilibili.com/8cd792ab.html" %})
-- [https://www.bilibili.com/video/BV1Kh411X7Qv/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/8e92be72.html" %})
-- [https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/github.com/9e99497d.html" %})
-- [http://www.ai-start.com/ml2014/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.ai-start.com/21b3ffdf.html" %})
-- [https://scruel.github.io/Notes-ML-AndrewNg/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/scruel.github.io/3e8a18b1.html" %})
-- [https://www.jianshu.com/p/682c88cee5a8]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.jianshu.com/fdc8f898.html" %})
-- [https://cs.nyu.edu/~roweis/kica.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/cs.nyu.edu/89374dba.html" %})
-- [https://www.octave.org/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.octave.org/461e7f5e.html" %})
-- [https://cloud.tencent.com/developer/article/1650390]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/cloud.tencent.com/0075b71d.html" %})
-- [https://octave.sourceforge.io/symbolic/index.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/octave.sourceforge.io/044f4336.html" %})
-- [https://zhuanlan.zhihu.com/p/89074979]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/zhuanlan.zhihu.com/89dee774.html" %})
-- [https://docs.microsoft.com/zh-cn/azure/machine-learning/component-reference/one-vs-all-multiclass]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/docs.microsoft.com/c6aa7749.html" %})
-- [https://zhuanlan.zhihu.com/p/410358244]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/zhuanlan.zhihu.com/0da53915.html" %})
-- [https://zhuanlan.zhihu.com/p/464268270]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/zhuanlan.zhihu.com/60d1be2b.html" %})
-- [https://www.bilibili.com/video/BV1QV4y1E7eA/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/944b4e1e.html" %})
-- [https://blog.csdn.net/qq_39783601/article/details/123365469]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/blog.csdn.net/a44029f7.html" %})
-- [https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/scikit-learn.org/3be777ad.html" %})
-- [https://www.bilibili.com/read/cv12252018/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/197befec.html" %})
-- [https://blog.csdn.net/weixin_51111267/article/details/122628057]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/blog.csdn.net/cda36618.html" %})
-- [https://imgaug.readthedocs.io/en/latest/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/imgaug.readthedocs.io/aeade3ec.html" %})
-- [https://www.zhihu.com/question/29208148]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.zhihu.com/f42cc13c.html" %})
-- [http://sofasofa.io/forum_main_post.php?postid=1000282]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/sofasofa.io/b7578f57.php" %})
+- [https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247485091&idx=1&sn=8844a2dfafcd35ea45d1bf0146ba8a5a&chksm=fcbbfe59cbcc774f68a18bd11d529422e0048896ffa3a253c52a749fc6e45d7292e1791052da&scene=27]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/mp.weixin.qq.com/82b189c2.html" %})
+- [https://www.bilibili.com/video/BV164411b7dx/]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/www.bilibili.com/816eb90a.html" %})
+- [https://www.coursera.org/specializations/deep-learning]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/www.coursera.org/f044c5d5.html" %})
+- [https://www.coursera.org/learn/machine-learning-course/home/week/1]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/www.coursera.org/53a67f91.html" %})
+- [https://space.bilibili.com/388675845]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/space.bilibili.com/8cd792ab.html" %})
+- [https://www.bilibili.com/video/BV1Kh411X7Qv/]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/www.bilibili.com/8e92be72.html" %})
+- [https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/github.com/9e99497d.html" %})
+- [http://www.ai-start.com/ml2014/]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/www.ai-start.com/21b3ffdf.html" %})
+- [https://scruel.github.io/Notes-ML-AndrewNg/]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/scruel.github.io/3e8a18b1.html" %})
+- [https://www.jianshu.com/p/682c88cee5a8]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/www.jianshu.com/fdc8f898.html" %})
+- [https://cs.nyu.edu/~roweis/kica.html]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/cs.nyu.edu/89374dba.html" %})
+- [https://www.octave.org/]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/www.octave.org/461e7f5e.html" %})
+- [https://cloud.tencent.com/developer/article/1650390]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/cloud.tencent.com/0075b71d.html" %})
+- [https://octave.sourceforge.io/symbolic/index.html]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/octave.sourceforge.io/044f4336.html" %})
+- [https://zhuanlan.zhihu.com/p/89074979]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/zhuanlan.zhihu.com/89dee774.html" %})
+- [https://docs.microsoft.com/zh-cn/azure/machine-learning/component-reference/one-vs-all-multiclass]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/docs.microsoft.com/c6aa7749.html" %})
+- [https://zhuanlan.zhihu.com/p/410358244]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/zhuanlan.zhihu.com/0da53915.html" %})
+- [https://zhuanlan.zhihu.com/p/464268270]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/zhuanlan.zhihu.com/60d1be2b.html" %})
+- [https://www.bilibili.com/video/BV1QV4y1E7eA/]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/www.bilibili.com/944b4e1e.html" %})
+- [https://blog.csdn.net/qq_39783601/article/details/123365469]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/blog.csdn.net/a44029f7.html" %})
+- [https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/scikit-learn.org/3be777ad.html" %})
+- [https://www.bilibili.com/read/cv12252018/]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/www.bilibili.com/197befec.html" %})
+- [https://blog.csdn.net/weixin_51111267/article/details/122628057]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/blog.csdn.net/cda36618.html" %})
+- [https://imgaug.readthedocs.io/en/latest/]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/imgaug.readthedocs.io/aeade3ec.html" %})
+- [https://www.zhihu.com/question/29208148]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/www.zhihu.com/f42cc13c.html" %})
+- [http://sofasofa.io/forum_main_post.php?postid=1000282]({% include relrefx.html url="/backup/2021-10-11-ml-ML-Andrew-Ng.md/sofasofa.io/b7578f57.php" %})

@@ -46,7 +46,7 @@ docker run \
 ```
 
 <https://cloud.tencent.com/developer/article/1893274>
-{% include image.html url="/assets/images/240530-mac-jenkins/WechatIMG17.jpg" %}
+{% include image.html url="/assets/images/240530-macos-jenkins/WechatIMG17.jpg" %}
 
 http://localhost:8080
 安装好后输入密码注册即可，选择推荐插件，成功图：
@@ -272,10 +272,10 @@ brew install libxcb
 需要在以下两个文件中，配置 `0.0.0.0` 。
 
 `~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist` 这个貌似不用。
-{% include image.html url="/assets/images/240530-mac-jenkins/89077a86b81744a29719d6ca8568de74.png" %}
+{% include image.html url="/assets/images/240530-macos-jenkins/89077a86b81744a29719d6ca8568de74.png" %}
 
 `/opt/homebrew/Cellar/jenkins-lts/2.303.2/homebrew.mxcl.jenkins-lts.plist`
-{% include image.html url="/assets/images/240530-mac-jenkins/4a9c3c9e04ff48c795f7fae7a71eb440.png" %}
+{% include image.html url="/assets/images/240530-macos-jenkins/4a9c3c9e04ff48c795f7fae7a71eb440.png" %}
 
 这个管用：
 `/opt/homebrew/Cellar/jenkins-lts/2.452.1/homebrew.mxcl.jenkins-lts.plist`
@@ -373,7 +373,7 @@ FTP_X86_64_ADDR
 
 ## 公证问题
 
-{% include image.html url="/assets/images/240530-mac-jenkins/20240719142703.png" %}
+{% include image.html url="/assets/images/240530-macos-jenkins/20240719142703.png" %}
 
 
 ### OK
@@ -469,17 +469,17 @@ xcrun notarytool log 31ea8ce2-4d7e-495d-ab84-f3c89745d43f --keychain-profile "go
 
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-05-30-mac-Jenkins.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-05-30-macos-Jenkins.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://cloud.tencent.com/developer/article/1893274]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/cloud.tencent.com/0b389d77.html" %})
-- [https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/raw.githubusercontent.com/613cb55a.sh" %})
-- [https://www.jenkins.io/download/lts/macos/]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/www.jenkins.io/274b49a3.html" %})
-- [https://www.jenkins.io/zh/doc/tutorials/build-a-python-app-with-pyinstaller/]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/www.jenkins.io/343159ca.html" %})
-- [https://www.jianshu.com/p/0f913c735966]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/www.jianshu.com/4c6e55db.html" %})
-- [https://learn.microsoft.com/zh-cn/windows-server/remote/remote-desktop-services/clients/remote-desktop-mac]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/learn.microsoft.com/ee20b775.html" %})
-- [https://install.appcenter.ms/orgs/rdmacios-k2vy/apps/microsoft-remote-desktop-for-mac/distribution_groups/all-users-of-microsoft-remote-desktop-for-mac]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/install.appcenter.ms/5fa810a4.html" %})
-- [https://www.jenkins.io/zh/doc/book/blueocean/getting-started/]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/www.jenkins.io/0e4c6ffa.html" %})
-- [https://zhuanlan.zhihu.com/p/620236975]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/zhuanlan.zhihu.com/72822cb6.html" %})
-- [https://www.jianshu.com/p/47881baf83aa]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/www.jianshu.com/e5a9591e.html" %})
-- [http://www.mindrot.org/projects/jBCrypt/]({% include relrefx.html url="/backup/2024-05-30-mac-Jenkins.md/www.mindrot.org/d3169fb4.html" %})
+- [https://cloud.tencent.com/developer/article/1893274]({% include relrefx.html url="/backup/2024-05-30-macos-Jenkins.md/cloud.tencent.com/0b389d77.html" %})
+- [https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh]({% include relrefx.html url="/backup/2024-05-30-macos-Jenkins.md/raw.githubusercontent.com/613cb55a.sh" %})
+- [https://www.jenkins.io/download/lts/macos/]({% include relrefx.html url="/backup/2024-05-30-macos-Jenkins.md/www.jenkins.io/274b49a3.html" %})
+- [https://www.jenkins.io/zh/doc/tutorials/build-a-python-app-with-pyinstaller/]({% include relrefx.html url="/backup/2024-05-30-macos-Jenkins.md/www.jenkins.io/343159ca.html" %})
+- [https://www.jianshu.com/p/0f913c735966]({% include relrefx.html url="/backup/2024-05-30-macos-Jenkins.md/www.jianshu.com/4c6e55db.html" %})
+- [https://learn.microsoft.com/zh-cn/windows-server/remote/remote-desktop-services/clients/remote-desktop-mac]({% include relrefx.html url="/backup/2024-05-30-macos-Jenkins.md/learn.microsoft.com/ee20b775.html" %})
+- [https://install.appcenter.ms/orgs/rdmacios-k2vy/apps/microsoft-remote-desktop-for-mac/distribution_groups/all-users-of-microsoft-remote-desktop-for-mac]({% include relrefx.html url="/backup/2024-05-30-macos-Jenkins.md/install.appcenter.ms/5fa810a4.html" %})
+- [https://www.jenkins.io/zh/doc/book/blueocean/getting-started/]({% include relrefx.html url="/backup/2024-05-30-macos-Jenkins.md/www.jenkins.io/0e4c6ffa.html" %})
+- [https://zhuanlan.zhihu.com/p/620236975]({% include relrefx.html url="/backup/2024-05-30-macos-Jenkins.md/zhuanlan.zhihu.com/72822cb6.html" %})
+- [https://www.jianshu.com/p/47881baf83aa]({% include relrefx.html url="/backup/2024-05-30-macos-Jenkins.md/www.jianshu.com/e5a9591e.html" %})
+- [http://www.mindrot.org/projects/jBCrypt/]({% include relrefx.html url="/backup/2024-05-30-macos-Jenkins.md/www.mindrot.org/d3169fb4.html" %})

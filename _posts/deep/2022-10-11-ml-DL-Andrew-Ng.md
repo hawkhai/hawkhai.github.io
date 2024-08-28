@@ -158,8 +158,8 @@ $$
 
 ## 39 10.3 正则化代价函数 09:04
 
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240603231306.png" %}
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240603232039.png" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240603231306.png" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240603232039.png" %}
 
 越高阶的，参数越大，平衡后，更趋向于低阶，从而达到正则化的目的。
 
@@ -210,7 +210,7 @@ $$
 
 看了吴恩达和李飞飞的采访，目前的人工智能距离 AGI 还存在无法逾越的鸿沟。人类目前对大脑的工作原理不得而知，大脑的每个神经元是一个活体细胞，而大模型的每个神经元还是很简陋的函数。宇宙为什么会诞生生命？意识来源是啥？不得而知。
 
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/2d6b0ae7300461af0098ef82113271.jpg" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/2d6b0ae7300461af0098ef82113271.jpg" %}
 
 
 ## 55 6.1 神经网络如何高效实现 04:23
@@ -250,7 +250,7 @@ And if you're using gradient descent to train a neural network,
 Then when you have a function that is flat in a lot of places,
 Gradient descent will be really slow.
 
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240611004147.png" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240611004147.png" %}
 
 
 ## 63 8.3 为什么我们需要激活函数 05:32
@@ -315,9 +315,9 @@ Diagnostics can take time to implement but doing so can bea very good use of you
 * Jtrain low, Jcv low
 * Jtrain low, Jcv high
 
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240703010732.png" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240703010732.png" %}
 
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240703012546.png" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240703012546.png" %}
 
 
 ## 75 12.2 正则化和偏差或方差 10:37
@@ -325,17 +325,17 @@ Diagnostics can take time to implement but doing so can bea very good use of you
 
 ## 76 12.3 建立表现基准 09:26
 
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240703234901.png" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240703234901.png" %}
 
 
 ## 77 12.4 学习曲线 12:14
 
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240703235720.png" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240703235720.png" %}
 
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240704000207.png" caption="High bias" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240704000207.png" caption="High bias" %}
 if a learning algorithm suffersfrom high bias, getting moretraining data will not (byitself) help much.
 
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240704000734.png" caption="High variance" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240704000734.png" caption="High variance" %}
 if a learning algorithm suffersfrom high variance, gettingmore training data is likely tohelp.
 
 建立基线作为参考，
@@ -351,7 +351,7 @@ sometimes, luck is essential
 
 ## 78 12.5 再次决定下一步做什么 08:47
 
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240704003706.png" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240704003706.png" %}
 
 一时学习，一生去理解。
 大体是说，有一个博士生，偏差和方差一生去理解。
@@ -383,12 +383,12 @@ but a lifetime to master.”
 
 ## 79 12.6 偏差或方差与神经网络 10:45
 
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240704004904.png" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240704004904.png" %}
 
 
 ## 80 13.1 机器学习的迭代发展 07:43
 
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240704005744.png" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240704005744.png" %}
 
 
 ## 81 13.2 误差分析 08:21
@@ -417,13 +417,13 @@ traditional procedure of statistical study, machine learning <-> statistics
 
 ## 86 14.1 倾斜数据集的误差指标 11:36
 
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240708010350.png" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240708010350.png" %}
 
 
 ## 87 14.2 精确率与召回率的权衡 11:50
 
 F1 score
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240708010432.png" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240708010432.png" %}
 
 
 ## 88 15.1 决策树模型 07:06
@@ -436,7 +436,7 @@ F1 score
 
 Entropy as a measure of impurity
 熵作为杂质的度量
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240709005338.png" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240709005338.png" %}
 
 
 ## 91 16.2 选择拆分信息增益 11:52
@@ -487,7 +487,7 @@ eXtreme Gradient Boosting
 
 [如何向 10 岁小孩解释 XGBoost 回归算法 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/BJozV5rPJLrynuT1mvbFGQ)
 [极端梯度提升（XGBoost）的理论基础 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/Rf2uczXi2JG43Y-utH7YZg)
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/6402946827.webp" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/6402946827.webp" %}
 
 XGBoost 是一种提升树模型，即将许多树模型集成在一起形成一个很强的分类器。
 
@@ -506,7 +506,7 @@ XGBoost 工作原理：
 XGBoost 跟 ResNet 还有点像，不断计算模型的“残差”，相对模型的黑盒，这个更偏向于可解释的白盒。
 每次都以当前预测为基准，下一个弱分类器去拟合误差函数对预测值的残差（预测值与真实值之间的误差）。
 损失函数的泰勒展开：XGBoost 利用损失函数的二阶泰勒展开进行优化，提升计算效率。
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/6403323.webp" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/6403323.webp" %}
 
 
 ## 100 17.5 什么时候使用决策树 06:55
@@ -597,7 +597,7 @@ Monitoring machines in a data center | Weather prediction (sunny / rainy / etc.)
 
 ## 116 4.3 协同过滤算法 13:56
 
-{% include image.html url="/assets/images/221011-ml-dl-andrewng/20240826000520.png" %}
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240826000520.png" %}
 
 
 ## 117 4.4 Binary labels- favs, likes and c 08:28
@@ -622,11 +622,17 @@ Collaborative filtering:
 Content-based filtering:
 * Recommend items to you based on features of user and itemto find good match.
 
+有点 CLIP 的思想。
+
 
 ## 122 6.2 Deep learning for content-based 09:43
 
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20240829013450.png" %}
+
 
 ## 123 6.3 从大目录中推荐 07:53
+
+CLIP & FAISS!!
 
 
 ## 124 6.4 推荐系统的道德使用 10:49
@@ -1237,12 +1243,12 @@ Content-based filtering:
 
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-10-11-ml-DL-AndrewNg.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-10-11-ml-DL-Andrew-Ng.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://www.bilibili.com/video/BV1Bq421A74G/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.bilibili.com/738a77eb.html" %})
-- [https://www.bilibili.com/video/BV1Gm421u73z/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.bilibili.com/c8eafc49.html" %})
-- [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.atoolbox.net/ecf02067.php" %})
-- [https://www.nvidia.cn/glossary/data-science/xgboost/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/www.nvidia.cn/a13b000a.html" %})
-- [https://mp.weixin.qq.com/s/BJozV5rPJLrynuT1mvbFGQ]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/mp.weixin.qq.com/911df19b.html" %})
-- [https://mp.weixin.qq.com/s/Rf2uczXi2JG43Y-utH7YZg]({% include relrefx.html url="/backup/2022-10-11-ml-DL-AndrewNg.md/mp.weixin.qq.com/0a09e136.html" %})
+- [https://www.bilibili.com/video/BV1Bq421A74G/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/738a77eb.html" %})
+- [https://www.bilibili.com/video/BV1Gm421u73z/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/c8eafc49.html" %})
+- [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.nvidia.cn/glossary/data-science/xgboost/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.nvidia.cn/a13b000a.html" %})
+- [https://mp.weixin.qq.com/s/BJozV5rPJLrynuT1mvbFGQ]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/mp.weixin.qq.com/911df19b.html" %})
+- [https://mp.weixin.qq.com/s/Rf2uczXi2JG43Y-utH7YZg]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/mp.weixin.qq.com/0a09e136.html" %})

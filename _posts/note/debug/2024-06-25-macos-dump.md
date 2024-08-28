@@ -18,7 +18,7 @@ cluster: "WinDBG"
 
 [Mac OS App 崩溃日志解析方法 {% include relref_jianshu.html %}](https://www.jianshu.com/p/ebe0c37e5e1c)
 Crash 文件大体分为 3 种：Unsymbolicated（未符号化）、Partially Symbolicated（半符号化）和 Fully Symbolicated（符号化）。
-{% include image.html url="/assets/images/240625-macos-crash/ccdc59c150863815356569d15f8889ae.webp" %}
+{% include image.html url="/assets/images/240625-macos-dump/ccdc59c150863815356569d15f8889ae.webp" %}
 
 一般我们拿到的 .crash 都是 Unsymbolicated。在符号化之前，首先确保 .crash 文件相关崩溃模块的 uuid 和相关崩溃模块的 .dSYM 的 uuid 一致，这样得到的结果才是准确的。
 通过 `dwarfdump --uuid <Path to dSYM file>` 得到 .dSYM 的 uuid（ `<>` 不需要）。
@@ -127,8 +127,8 @@ RelWithDebInfo
 你看，上面这个是用 dSYM 加载符号看到的信息
 下面的就是用二进制加载符号看到的信息。
 
-{% include image.html url="/assets/images/240625-macos-crash/20240626-145720.jpeg" %}
-{% include image.html url="/assets/images/240625-macos-crash/20240626-145737.jpeg" %}
+{% include image.html url="/assets/images/240625-macos-dump/20240626-145720.jpeg" %}
+{% include image.html url="/assets/images/240625-macos-dump/20240626-145737.jpeg" %}
 
 
 ## MacOS 平台软件编译的若干问题（自定义 Makefile 调试符号等）
@@ -220,7 +220,7 @@ mac，直接使用官网一步一步走即可。
 ### 获取工具
 
 [depot_tools 工具链接](https://commondatastorage.googleapis.com/chrome-infra-docs/flat/depot_tools/docs/html/depot_tools_tutorial.html#_setting_up)
-{% include image.html url="/assets/images/240625-macos-crash/1520205-20200109183140862-291019894.png" %}
+{% include image.html url="/assets/images/240625-macos-dump/1520205-20200109183140862-291019894.png" %}
 
 mac 照着上面安装，然后输出到环境变量中。
 windows 下载压缩包，然后放到系统 PATH 中。然后使用 CMD（注意是 cmd，不是 PowerShell）
@@ -249,7 +249,7 @@ windows 遇到编码问题，在用 ninja 生成项目文件后，有
 rule cc
 rule cxx
 找到 ${cflags_c} 后，添加 `/WX-` ，这是为了忽略编码警告。中途可能还会遇到有换行符的问题，我是用 vscode 把此文件改成 utf-bom 格式存储，这样整个就编译完成了。
-{% include image.html url="/assets/images/240625-macos-crash/1520205-20200109183141266-1465950945.png" %}
+{% include image.html url="/assets/images/240625-macos-dump/1520205-20200109183141266-1465950945.png" %}
 
 注：
 windows 编译完成，并不是规则的输出到某个目录下，而是分散的，所以需要自己去手动拷贝。
@@ -323,6 +323,7 @@ Core file '/Users/sumless/Downloads/20240524/crashpad_database/completed/ec6ca48
 lldb --core xxx.dmp
 image list
 
+
 ### 自动显示代码行
 
 如果代码和构建电脑保持一致，会自动显示代码行。
@@ -369,7 +370,7 @@ Note: this address is compiler-generated code in function globalInitNcnnModel(in
 493         result = -1;
 494         if (!byte_6B1A2C)
 495         {
-496             // 初始化libncnn.so
+496             // 初始化 libncnn.so
 ```
 
 
@@ -476,27 +477,27 @@ set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimum OS X deployment ve
 
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-06-25-macos-crash.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-06-25-macos-dump.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://www.jianshu.com/p/ebe0c37e5e1c]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/www.jianshu.com/06ce48fe.html" %})
-- [https://github.com/zqqf16/SYM/releases/latest]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/github.com/8392334e.html" %})
-- [https://github.com/answer-huang/dSYMTools]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/github.com/e93615bd.html" %})
-- [https://mahdi.jp/apps/macsymbolicator]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/mahdi.jp/14318311.html" %})
-- [https://blog.msmk.live/2018/08/03/2018-08-03-maccrashreportssymbol/]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/blog.msmk.live/27ad49a6.html" %})
-- [https://github.com/inket/MacSymbolicator]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/github.com/394cd9a4.html" %})
-- [https://blog.csdn.net/quentin_d/article/details/122879754]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/blog.csdn.net/24c85663.html" %})
-- [http://wiki.dwarfstd.org/index.php?title=Apple%27s_%22Lazy%22_DWARF_Scheme]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/wiki.dwarfstd.org/185e10b1.php" %})
-- [https://stackoverflow.com/questions/10044697/where-how-does-apples-gcc-store-dwarf-inside-an-executable/12827463#12827463]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/stackoverflow.com/0d6c015b.html" %})
-- [https://www.cnblogs.com/slcode/p/969b1b72b8ab08f3213e4b7364b0c7ac.html]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/www.cnblogs.com/4e2bbaca.html" %})
-- [https://commondatastorage.googleapis.com/chrome-infra-docs/flat/depot_tools/docs/html/depot_tools_tutorial.html#_setting_up]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/commondatastorage.googleapis.com/06bc5d57.html" %})
-- [https://chromium.googlesource.com/crashpad/crashpad/+/master/doc/developing.md]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/chromium.googlesource.com/21821ca6.html" %})
-- [https://docs.bugsplat.com/introduction/getting-started/integrations/cross-platform/crashpad/how-to-build-google-crashpad]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/docs.bugsplat.com/fe1ea0ff.html" %})
-- [https://chromium.googlesource.com/chromium/tools/depot_tools.git]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/chromium.googlesource.com/de81edd7.git" %})
-- [https://get.backtrace.io/crashpad/builds/]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/get.backtrace.io/d2e2d8a9.html" %})
-- [https://help.backtrace.io/en/articles/2337714-crashpad-integration-guide]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/help.backtrace.io/7e8042d4.html" %})
-- [https://gist.github.com/jameskr97/8c40d927db05fe253235e05333fed4f3]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/gist.github.com/3b664698.html" %})
-- [https://www.cnblogs.com/z16166/p/16861268.html]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/www.cnblogs.com/83362cb1.html" %})
-- [https://blog.csdn.net/goldWave01/article/details/90177708]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/blog.csdn.net/5c9c18a0.html" %})
-- [https://blog.csdn.net/weixin_46168796/article/details/134057199]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/blog.csdn.net/0a4d0f1c.html" %})
-- [https://blog.csdn.net/weixin_46168796/article/details/134057751]({% include relrefx.html url="/backup/2024-06-25-macos-crash.md/blog.csdn.net/e2bc77d1.html" %})
+- [https://www.jianshu.com/p/ebe0c37e5e1c]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/www.jianshu.com/06ce48fe.html" %})
+- [https://github.com/zqqf16/SYM/releases/latest]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/github.com/8392334e.html" %})
+- [https://github.com/answer-huang/dSYMTools]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/github.com/e93615bd.html" %})
+- [https://mahdi.jp/apps/macsymbolicator]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/mahdi.jp/14318311.html" %})
+- [https://blog.msmk.live/2018/08/03/2018-08-03-maccrashreportssymbol/]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/blog.msmk.live/27ad49a6.html" %})
+- [https://github.com/inket/MacSymbolicator]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/github.com/394cd9a4.html" %})
+- [https://blog.csdn.net/quentin_d/article/details/122879754]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/blog.csdn.net/24c85663.html" %})
+- [http://wiki.dwarfstd.org/index.php?title=Apple%27s_%22Lazy%22_DWARF_Scheme]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/wiki.dwarfstd.org/185e10b1.php" %})
+- [https://stackoverflow.com/questions/10044697/where-how-does-apples-gcc-store-dwarf-inside-an-executable/12827463#12827463]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/stackoverflow.com/0d6c015b.html" %})
+- [https://www.cnblogs.com/slcode/p/969b1b72b8ab08f3213e4b7364b0c7ac.html]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/www.cnblogs.com/4e2bbaca.html" %})
+- [https://commondatastorage.googleapis.com/chrome-infra-docs/flat/depot_tools/docs/html/depot_tools_tutorial.html#_setting_up]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/commondatastorage.googleapis.com/06bc5d57.html" %})
+- [https://chromium.googlesource.com/crashpad/crashpad/+/master/doc/developing.md]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/chromium.googlesource.com/21821ca6.html" %})
+- [https://docs.bugsplat.com/introduction/getting-started/integrations/cross-platform/crashpad/how-to-build-google-crashpad]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/docs.bugsplat.com/fe1ea0ff.html" %})
+- [https://chromium.googlesource.com/chromium/tools/depot_tools.git]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/chromium.googlesource.com/de81edd7.git" %})
+- [https://get.backtrace.io/crashpad/builds/]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/get.backtrace.io/d2e2d8a9.html" %})
+- [https://help.backtrace.io/en/articles/2337714-crashpad-integration-guide]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/help.backtrace.io/7e8042d4.html" %})
+- [https://gist.github.com/jameskr97/8c40d927db05fe253235e05333fed4f3]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/gist.github.com/3b664698.html" %})
+- [https://www.cnblogs.com/z16166/p/16861268.html]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/www.cnblogs.com/83362cb1.html" %})
+- [https://blog.csdn.net/goldWave01/article/details/90177708]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/blog.csdn.net/5c9c18a0.html" %})
+- [https://blog.csdn.net/weixin_46168796/article/details/134057199]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/blog.csdn.net/0a4d0f1c.html" %})
+- [https://blog.csdn.net/weixin_46168796/article/details/134057751]({% include relrefx.html url="/backup/2024-06-25-macos-dump.md/blog.csdn.net/e2bc77d1.html" %})
