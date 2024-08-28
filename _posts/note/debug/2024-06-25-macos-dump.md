@@ -323,6 +323,55 @@ Core file '/Users/sumless/Downloads/20240524/crashpad_database/completed/ec6ca48
 lldb --core xxx.dmp
 image list
 
+### 自动显示代码行
+
+如果代码和构建电脑保持一致，会自动显示代码行。
+```
+(lldb) thread select 46
+(lldb) thread backtrace
+* thread #46, stop reason = EXC_BAD_ACCESS (code=EXC_I386_GPFLT)
+* frame #0: 0x000000010a0fede0 libkvision.dylib`globalInitNcnnModel(x=<unavailable>) at DeshadowBitmap.cpp:0:13 [opt]
+frame #1: 0x000000010a1006eb libkvision.dylib`dcImageClassifyTypev2(a1=0x000070000ce5eb00, a2x=<unavailable>, a3=0x000070000ce5eafc, v33net=0x000000010a4e1690, dirty0=<unavailable>) at DeshadowBitmap.cpp:618:9 [opt]
+frame #2: 0x000000010a1011c1 libkvision.dylib`dcImageClassifyType(cv::Mat*, int, DcImageClassifyType*, ncnn::Net&, long long) [inlined] dcImageClassifyTypev2(a1=<unavailable>, a2x=<unavailable>, a3=<unavailable>, v33net=<unavailable>) at KVisionFilterAuto.h:54:12 [opt]
+frame #3: 0x000000010a1011b9 libkvision.dylib`dcImageClassifyType(a1=<unavailable>, a2x=<unavailable>, a3=<unavailable>, v33net=<unavailable>, dirty0=123145518704744) at DeshadowBitmap.cpp:656:13 [opt]
+frame #4: 0x000000010a102fb9 libkvision.dylib`::kvisionClassifyShadowType(JNIEnv *, int, ImageStruct *) [inlined] dcImageClassifyType(a1=0x000070000ce5eb00, a2x=1, a3=0x000070000ce5eafc, v33net=<unavailable>) at KVisionFilterAuto.h:61:12 [opt]
+frame #5: 0x000000010a102f9c libkvision.dylib`kvisionClassifyShadowType(env=<unavailable>, a2k=<unavailable>, jbitmap=<unavailable>) at DeshadowBitmap.cpp:845:9 [opt]
+frame #6: 0x000000010a0f81f9 libkvision.dylib`k001(rgba=<unavailable>, width=<unavailable>, height=<unavailable>, stride=<unavailable>, alg=<unavailable>) at convert_mobile.cpp:79:40 [opt]
+frame #7: 0x000000010a0ab8c2 libfastimage.dylib`fastimage::KFastImageInterface::fast001(fastimage::FastImage&, fastimage::FastImageAlg) + 130
+frame #8: 0x00000001083b1c26 pdfreader`ImageEditor::UpdateThumbnailImage() [inlined] ImageEditor::ChangeFilterImpl(this=<unavailable>, pImage=0x000070000ce5fcb8, nFilterType=FastImageEnhanceDeShadow) at ImageEditor.cpp:278:45 [opt]
+frame #9: 0x00000001083b1bb6 pdfreader`ImageEditor::UpdateThumbnailImage(this=0x0000600000ce03b0) at ImageEditor.cpp:691:9 [opt]
+frame #10: 0x00000001083aab72 pdfreader`ImageEditor::RepaintImage(this=0x0000600000ce03b0) at ImageEditor.cpp:656:9 [opt]
+frame #11: 0x00000001083a06e5 pdfreader`EditorActionThread::run(this=<unavailable>) at EditorActionThread.cpp:90:22 [opt]
+frame #12: 0x000000010c10dc0a QtCore`QThreadPrivate::start(arg=0x0000600000ce0418) at qthread_unix.cpp:329:14 [opt]
+frame #13: 0x00007fff73c6f109 libsystem_pthread.dylib
+frame #14: 0x00007fff73c6ab8b libsystem_pthread.dylib
+(lldb) frame variable
+* thread #46, stop reason = EXC_BAD_ACCESS (code=EXC_I386_GPFLT)
+frame #0: 0x000000010a0fede0 libkvision.dylib`globalInitNcnnModel(x=<unavailable>) at DeshadowBitmap.cpp:0:13 [opt]
+483     bool byte_ncnn_inited_aha = false;
+484
+485     #define sub_B87EC globalInitNcnnModel
+-> 486  int globalInitNcnnModel(int x = 1)
+^
+487     {
+488         KLocker locker(g_ncnn_sesion_aha);
+489         bool inited = byte_ncnn_inited_aha;
+Note: this address is compiler-generated code in function globalInitNcnnModel(int) that has no source code associated with it.
+(int) x = <no location, value may have been optimized out>
+(KLocker) locker = <variable not available>
+(int) result = -1
+(bool) inited = <no location, value may have been optimized out>
+(int) code = <variable not available>
+(lldb) source list
+490         byte_ncnn_inited_aha = true;
+491
+492         int result = 0; // r0
+493         result = -1;
+494         if (!byte_6B1A2C)
+495         {
+496             // 初始化libncnn.so
+```
+
 
 ## Termination Reason: DYLD, [0x4] Symbol missing
 
