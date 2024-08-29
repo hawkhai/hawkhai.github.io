@@ -17,6 +17,49 @@ from pythonx.funclib import *
 
 from PIL import Image
 
+def checkimg(xfile):
+
+    try:
+        img = Image.open(xfile)
+    except Exception as ex:
+        print(ex)
+        try:
+            import cv2
+            tempfile = os.path.join("tempdir", "tempfile.jpg")
+            copyfile(xfile, tempfile)
+            img = cv2.imread(tempfile, 1) # BGR
+            img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        except Exception as ey:
+            print(ey)
+            print("ERROR", xfile)
+            osremove(xfile)
+            return False
+
+    print(img.size, xfile)
+    width, height = img.size
+    if width * height < 200 * 200:
+        print("IGNORE", xfile)
+        osremove(xfile)
+        return False
+
+    ratio = 1.0
+    while width * height * ratio * ratio > 256 * 256:
+        ratio *= 0.99
+    if ratio == 1.0 and img.mode == "RGB":
+        print("TOUCH", xfile)
+        return True
+
+    width = round(width * ratio)
+    height = round(height * ratio)
+    img = img.resize((width, height))
+    if img.mode != "RGB":
+        img = img.convert("RGB")
+
+    img.save(xfile)
+    print(img.size, xfile)
+    print("RESTORE", xfile)
+    return True
+
 def copyimg(xfile, yfile):
 
     if os.path.exists(yfile):

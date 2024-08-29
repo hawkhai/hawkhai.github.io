@@ -19,27 +19,14 @@ import requests
 import base64
 from imgcopy_baidu import *
 
-def maingo(rootdir, category):
-    for subdir in os.listdir(rootdir):
-        subdir = os.path.join(rootdir, subdir)
-        if not os.path.isdir(subdir):
-            continue
-
-        for ifile in os.listdir(subdir):
-            ifile = os.path.join(subdir, ifile)
-            if not os.path.isfile(ifile):
-                continue
-
-            yfile = os.path.join(rootdir, "{}_google.jpg".format(getFileMd5(ifile)[:7]))
-            copyimg(ifile, yfile)
-
 def main():
-    rootdir = r"E:\kSource\blog\kvision\imgclassify\valset"
-    for category in os.listdir(rootdir):
-        subdir = os.path.join(rootdir, category)
-        if not os.path.isdir(subdir):
-            continue
-        maingo(subdir, category)
+    def mainfile(fpath, fname, ftype):
+        if fname in ("datamap.txt",):
+            return
+        checkimg(fpath)
+    searchdir(r"E:\kSource\blog\kvision\imgclassify\dataset", mainfile)
+    searchdir(r"E:\kSource\blog\kvision\imgclassify\valset", mainfile)
+    searchdir(r"E:\kSource\blog\kvision\imgclassify\mydata", mainfile)
 
 if __name__ == "__main__":
     main()
