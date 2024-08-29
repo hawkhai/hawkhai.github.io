@@ -31,14 +31,15 @@ def checkimg(xfile):
             img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
         except Exception as ey:
             print(ey)
-            print("ERROR", xfile)
+            print("错误", xfile)
             osremove(xfile)
             return False
 
-    print(img.size, xfile)
     width, height = img.size
-    if width * height < 200 * 200:
-        print("IGNORE", xfile)
+    if width / height < 1/3 or height / width < 1/3 or width * height < 150 * 150:
+        print(img.size, xfile)
+        print("太小", xfile)
+        img.close()
         osremove(xfile)
         return False
 
@@ -46,18 +47,18 @@ def checkimg(xfile):
     while width * height * ratio * ratio > 256 * 256:
         ratio *= 0.99
     if ratio == 1.0 and img.mode == "RGB":
-        print("TOUCH", xfile)
+        #print("跳过", xfile)
         return True
 
-    width = round(width * ratio)
-    height = round(height * ratio)
+    width = round(width * ratio * 0.99)
+    height = round(height * ratio * 0.99)
     img = img.resize((width, height))
     if img.mode != "RGB":
         img = img.convert("RGB")
 
     img.save(xfile)
     print(img.size, xfile)
-    print("RESTORE", xfile)
+    print("存储", xfile)
     return True
 
 def copyimg(xfile, yfile):
@@ -319,7 +320,7 @@ Ship:vehicle""".split()
     copydirx(xlist3)
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
-def checkimg(rootdir):
+def checkimg_baidu(rootdir):
     fnamez = {}
     def mainfile(fpath, fname, ftype):
         if ftype in ("txt", "json"):
@@ -375,7 +376,7 @@ def main():
         copydir_vehicle()
 
     print("ok")
-    checkimg(r"dataset")
+    checkimg_baidu(r"dataset")
 
 if __name__ == "__main__":
     main()

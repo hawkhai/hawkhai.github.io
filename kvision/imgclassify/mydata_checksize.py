@@ -19,6 +19,7 @@ import requests
 import base64
 from imgcopy_baidu import *
 
+@CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def main():
     def mainfile(fpath, fname, ftype):
         if fname in ("datamap.txt",):
