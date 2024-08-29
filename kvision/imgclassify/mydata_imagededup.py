@@ -102,14 +102,21 @@ def find_duplicates_with_faiss(image_dir, model, transform, top_k=5, similarity_
     for i, similar_imgs in enumerate(neighbors):
         for ind, dist in similar_imgs:
             if dist < (1 - similarity_threshold):  # 距离越小，越相似
-                duplicates.add((image_paths[i], image_paths[ind]))
+                if i < ind:
+                    duplicates.add((image_paths[i], image_paths[ind]))
+                elif i > ind:
+                    duplicates.add((image_paths[ind], image_paths[i]))
 
     return duplicates
 
 def remove_duplicates(duplicates):
     for img1, img2 in duplicates:
-        copyfile(img2, img2.replace("imgclassify", "imgclassifz"))
-        os.remove(img2)  # 或者删除 img1，根据你的标准
+        if os.path.exists(img1):
+            copyfile(img1, img1.replace("imgclassify", "imgclassifz"))
+
+        if os.path.exists(img2):
+            copyfile(img2, img2.replace("imgclassify", "imgclassifz"))
+            os.remove(img2)
         print(f"Removed: {img2}")
 
 # https://github.com/idealo/imagededup
