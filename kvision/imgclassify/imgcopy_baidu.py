@@ -52,7 +52,15 @@ def checkimg(xfile):
 
     width = round(width * ratio * 0.99)
     height = round(height * ratio * 0.99)
-    img = img.resize((width, height))
+    try:
+        img = img.resize((width, height))
+    except OSError: # image file is truncated (39 bytes not processed)
+        print(img.size, xfile)
+        print("错误", xfile)
+        img.close()
+        osremove(xfile)
+        return False
+        
     if img.mode != "RGB":
         img = img.convert("RGB")
 
@@ -95,7 +103,10 @@ def copyimg(xfile, yfile):
         ratio *= 0.99
     width = round(width * ratio)
     height = round(height * ratio)
-    img = img.resize((width, height))
+    try:
+        img = img.resize((width, height))
+    except OSError: # image file is truncated (39 bytes not processed)
+        return
     if img.mode != "RGB":
         img = img.convert("RGB")
 
