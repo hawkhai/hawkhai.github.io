@@ -80,7 +80,7 @@ def main():
         # D:\kSource\blog\kvision\imgclassify\logdata\baidu\dataset\animal\cadb_018c8fe.json
         imgfile = fpath.replace(r"logdata\baidu\dataset", r"dataset")
         imgfilec, imgfilet = os.path.splitext(imgfile)
-        for ft in (".jpg", ".jpeg", ".webp", ".png"):
+        for ft in (".jpg", ".jpeg", ".webp", ".png", ".bmp"):
             if os.path.exists(imgfilec+ft):
                 imgfile = imgfilec+ft
             if os.path.exists(imgfile):
