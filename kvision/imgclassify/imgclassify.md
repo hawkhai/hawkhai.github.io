@@ -19,6 +19,15 @@ vehicle_
 Food-11
 https://tianchi.aliyun.com/dataset/178991
 
+Picf 是一款智能相册，具有人脸识别分类、人脸搜索、相似图片筛查等功能。
+https://github.com/FuryMartin/Picf
+
+Smart Photo Album
+https://aistudio.baidu.com/projectdetail/2057379
+
+https://www.paddlepaddle.org.cn/support/news?action=detail&id=2737
+https://aistudio.baidu.com/aistudio/projectdetail/2408523
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/kvision/imgclassify/imgclassify.md.js" %}'></script></p>
