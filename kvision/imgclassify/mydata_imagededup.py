@@ -80,7 +80,10 @@ def find_duplicates(image_dir, model, transform, threshold=0.98):
     for i in range(len(similarities)):
         for j in range(i + 1, len(similarities)):
             if similarities[i][j] > threshold:
-                duplicates.add((image_paths[i], image_paths[j]))
+                if i < ind:
+                    duplicates.add((image_paths[i], image_paths[ind]))
+                elif i > ind:
+                    duplicates.add((image_paths[ind], image_paths[i]))
     
     return duplicates
 
@@ -140,6 +143,11 @@ def main():
         r"E:\kSource\blog\kvision\imgclassify\mydata\train",
         r"E:\kSource\blog\kvision\imgclassify\valset",
         r"E:\kSource\blog\kvision\imgclassify\dataset",
+    ] if IS_WINDOWS else [
+        r"/home/yqh/code/blog/kvision/imgclassify/mydata/val",
+        r"/home/yqh/code/blog/kvision/imgclassify/mydata/train",
+        r"/home/yqh/code/blog/kvision/imgclassify/valset",
+        r"/home/yqh/code/blog/kvision/imgclassify/dataset",
     ]
     duplicates = find_duplicates_with_faiss(image_directory, model, transform, 
                         top_k=5, similarity_threshold=0.98)
