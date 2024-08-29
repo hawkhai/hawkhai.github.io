@@ -60,7 +60,7 @@ def checkimg(xfile):
         img.close()
         osremove(xfile)
         return False
-        
+
     if img.mode != "RGB":
         img = img.convert("RGB")
 
