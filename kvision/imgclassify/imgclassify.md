@@ -16,6 +16,8 @@ vehicle_
 包含 196 类车辆，合计 1.6 万张图片。其中训练集 8144 张，测试集 8041 张。
 <https://aistudio.baidu.com/datasetdetail/130>
 
+Food-11
+https://tianchi.aliyun.com/dataset/178991
 
 
 <hr class='reviewline'/>
