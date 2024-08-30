@@ -195,14 +195,15 @@ def copydir(srcdir, dstdir):
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def copydir_baidu():
-    rootdir = r"D:\BaiduNetdiskDownload"
+    rootdir = r"E:\kSource\blog\kvision\imgclassify\mydata"
 
     def copydirkz(xdir, ydir):
         if not ydir: return
 
         srcdir = os.path.join(rootdir, xdir)
-        dstdir = os.path.join(r"dataset", ydir)
-        assert os.path.exists(dstdir), dstdir
+        dstdir = os.path.join("mydata", "dataset", ydir)
+        if not os.path.exists(dstdir):
+            os.makedirs(dstdir)
 
         def mainfile(fpath, fname, ftype):
             print(fpath)
@@ -221,9 +222,15 @@ def copydir_baidu():
 
             yfile = os.path.join(dstdir, "baidu_"+md5+"."+ftype)
 
+            print(yfile)
             copyimg(xfile, yfile)
 
+        print(os.path.exists(srcdir), srcdir)
         searchdir(srcdir, mainfile)
+        cleardirEmpty(dstdir)
+
+    copydirkz(r"日常物品_百度图片搜索_files", "goods")
+    copydirkz(r"日常用品_百度图片搜索_files", "goods")
 
     copydirkz(r"动漫_百度图片搜索_files", "anime")
     copydirkz(r"卡通_百度图片搜索_files", "anime")
@@ -426,5 +433,6 @@ def main():
     checkimg_baidu(r"dataset")
 
 if __name__ == "__main__":
+    copydir_baidu()
     main2()
     print("ok")

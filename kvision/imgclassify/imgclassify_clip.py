@@ -37,7 +37,7 @@ from cn_clip.clip import load_from_name, available_models
 print("Available models:", available_models())
 # Available models: ['ViT-B-16', 'ViT-L-14', 'ViT-L-14-336', 'ViT-H-14', 'RN50']
 
-model_cn, preprocess_cn = load_from_name("ViT-B-16", device=device, download_root='./')
+model_cn, preprocess_cn = load_from_name("ViT-B-16", device=device, download_root=os.path.split(os.path.abspath(__file__))[0])
 model_cn.eval()
 
 def test():
@@ -159,7 +159,7 @@ building
 architecture:building
 food
 goods
-product:goods
+Everyday Objects:goods
 indoor
 night view:night
 people
@@ -179,7 +179,7 @@ transportation:vehicle
 卡通:anime
 建筑:building
 食物:food
-商品:goods
+日常物品:goods
 室内:indoor
 夜景:night
 人物:people
