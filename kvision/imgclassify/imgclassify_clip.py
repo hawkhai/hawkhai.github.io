@@ -216,9 +216,9 @@ transportation:vehicle
             rad = int(fmd5, 16) % 100
 
             if rad < 20:
-                targetfile = os.path.join("mydata", "val", idx1, fmd5+".jpg")
+                targetfile = os.path.join("tempset", "val", idx1, fmd5+fname)
             else:
-                targetfile = os.path.join("mydata", "train", idx1, fmd5+".jpg")
+                targetfile = os.path.join("tempset", "train", idx1, fmd5+fname)
             fdir = os.path.dirname(targetfile)
             if not os.path.exists(fdir):
                 os.makedirs(fdir)
