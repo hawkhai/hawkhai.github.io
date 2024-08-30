@@ -190,14 +190,16 @@ transportation:vehicle
 交通工具:vehicle
     """.strip().split("\n")
     classes_cn = [i.strip() for i in classes_cn]
-    for dir in os.listdir(dataset):
-        subdir = os.path.join(dataset, dir)
-        if not os.path.isdir(subdir):
-            continue
-        for idir in os.listdir(subdir):
-            ifile = os.path.join(subdir, idir)
+    #for dir in os.listdir(dataset):
+    def mainfile(fpath, fname, ftype):
+        #subdir = os.path.join(dataset, dir)
+        #if not os.path.isdir(subdir):
+        #    continue
+        #for idir in os.listdir(subdir):
+        if True:
+            ifile = fpath # os.path.join(subdir, idir)
             if ifile.endswith(".txt"):
-                continue
+                return
 
             print("***" * 30)
             print(ifile)
@@ -208,9 +210,9 @@ transportation:vehicle
             print(idx2, idv2)
             #break
             if idx1 != idx2:
-                continue
+                return
             if idv1 < 0.5 or idv2 < 0.5:
-                continue
+                return
 
             fmd5 = getFileMd5(ifile)[:16]
             rad = int(fmd5, 16) % 100
@@ -224,6 +226,8 @@ transportation:vehicle
                 os.makedirs(fdir)
             image.save(targetfile)
             osremove(ifile)
+
+    searchdir(dataset, mainfile)
 
 # 还需要移除相似图片。
 if __name__ == "__main__":
