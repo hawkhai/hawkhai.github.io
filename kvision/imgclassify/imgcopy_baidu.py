@@ -135,7 +135,7 @@ def luckcopy(rootdir, targetdir, clasz, pname):
 def main2():
 
     # https://www.kaggle.com/datasets/noobyogi0100/shoe-dataset
-    luckcopy(r"D:\分类数据\archive\shoeTypeClassifierDataset\validation", r"E:\kSource\blog\kvision\imgclassify",
+    luckcopy(r"D:\分类数据\archive_shoeTypeClassifierDataset\shoeTypeClassifierDataset\validation", r"E:\kSource\blog\kvision\imgclassify",
              "goods", "shoeTypeClassifierDataset_")
 
     luckcopy(r"D:\分类数据\Vechicles", r"E:\kSource\blog\kvision\imgclassify",
