@@ -115,6 +115,7 @@ def copyimg(xfile, yfile):
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def main2():
+    # 李宏毅 2023 年春的 homework3 数据集
     rootdir = r"D:\分类数据\food-11\valid"
     targetdir = r"E:\kSource\blog\kvision\imgclassify"
     for ifile in os.listdir(rootdir):
