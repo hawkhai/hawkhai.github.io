@@ -144,6 +144,14 @@ def mainfilew(fpath, fname, ftype):
         openTextFile(fpath)
         assert not codestate
 
+    if "urldup: true" in li2:
+        li3 = []
+        for i in li2:
+            if i in li3 and re.findall("^<.*>$", i.strip()):
+                continue
+            li3.append(i)
+        li2 = li3
+
     fdata = NEWLINE_CHAR.join(li2)
 
     fname = os.path.split(fpath)[-1]
