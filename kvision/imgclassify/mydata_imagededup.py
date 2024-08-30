@@ -65,16 +65,16 @@ def faiss_topk_search(features_list, top_k=5):
 def find_duplicates(image_dir, model, transform, threshold=0.98):
     features_list = []
     image_paths = []
-    
+
     for image_name in os.listdir(image_dir):
         image_path = os.path.join(image_dir, image_name)
         features = extract_features(image_path, model, transform)
         features_list.append(features)
         image_paths.append(image_path)
-    
+
     # 计算所有图像特征之间的余弦相似度
     similarities = cosine_similarity(features_list)
-    
+
     # 识别相似度高于阈值的图片对
     duplicates = set()
     for i in range(len(similarities)):
@@ -84,7 +84,7 @@ def find_duplicates(image_dir, model, transform, threshold=0.98):
                     duplicates.add((image_paths[i], image_paths[ind]))
                 elif i > ind:
                     duplicates.add((image_paths[ind], image_paths[i]))
-    
+
     return duplicates
 
 def find_duplicates_with_faiss(image_dir, model, transform, top_k=5, similarity_threshold=0.98):
@@ -149,7 +149,7 @@ def main():
         r"/home/yqh/code/blog/kvision/imgclassify/valset",
         r"/home/yqh/code/blog/kvision/imgclassify/dataset",
     ]
-    duplicates = find_duplicates_with_faiss(image_directory, model, transform, 
+    duplicates = find_duplicates_with_faiss(image_directory, model, transform,
                         top_k=5, similarity_threshold=0.98)
     remove_duplicates(duplicates)
 

@@ -17,16 +17,17 @@ vehicle_
 <https://aistudio.baidu.com/datasetdetail/130>
 
 Food-11
-https://tianchi.aliyun.com/dataset/178991
+<https://tianchi.aliyun.com/dataset/178991>
 
 Picf 是一款智能相册，具有人脸识别分类、人脸搜索、相似图片筛查等功能。
-https://github.com/FuryMartin/Picf
+<https://github.com/FuryMartin/Picf>
 
 Smart Photo Album
-https://aistudio.baidu.com/projectdetail/2057379
+<https://aistudio.baidu.com/projectdetail/2057379>
 
-https://www.paddlepaddle.org.cn/support/news?action=detail&id=2737
-https://aistudio.baidu.com/aistudio/projectdetail/2408523
+<https://www.paddlepaddle.org.cn/support/news?action=detail&id=2737>
+<https://aistudio.baidu.com/aistudio/projectdetail/2408523>
+
 
 
 <hr class='reviewline'/>
@@ -38,3 +39,8 @@ https://aistudio.baidu.com/aistudio/projectdetail/2408523
 - [https://aistudio.baidu.com/datasetdetail/94479]({% include relrefx.html url="/backup/imgclassify.md/aistudio.baidu.com/ad8a52cd.html" %})
 - [https://aistudio.baidu.com/datasetdetail/125181]({% include relrefx.html url="/backup/imgclassify.md/aistudio.baidu.com/16cbbbbd.html" %})
 - [https://aistudio.baidu.com/datasetdetail/130]({% include relrefx.html url="/backup/imgclassify.md/aistudio.baidu.com/d18016be.html" %})
+- [https://tianchi.aliyun.com/dataset/178991]({% include relrefx.html url="/backup/imgclassify.md/tianchi.aliyun.com/1a85d0e7.html" %})
+- [https://github.com/FuryMartin/Picf]({% include relrefx.html url="/backup/imgclassify.md/github.com/340336fa.html" %})
+- [https://aistudio.baidu.com/projectdetail/2057379]({% include relrefx.html url="/backup/imgclassify.md/aistudio.baidu.com/6dc0ab2f.html" %})
+- [https://www.paddlepaddle.org.cn/support/news?action=detail&id=2737]({% include relrefx.html url="/backup/imgclassify.md/www.paddlepaddle.org.cn/3b4d196b.html" %})
+- [https://aistudio.baidu.com/aistudio/projectdetail/2408523]({% include relrefx.html url="/backup/imgclassify.md/aistudio.baidu.com/97355f52.html" %})
