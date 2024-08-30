@@ -134,6 +134,10 @@ def luckcopy(rootdir, targetdir, clasz, pname):
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def main2():
 
+    # https://www.kaggle.com/datasets/noobyogi0100/shoe-dataset
+    luckcopy(r"D:\分类数据\archive\shoeTypeClassifierDataset\validation", r"E:\kSource\blog\kvision\imgclassify",
+             "goods", "shoeTypeClassifierDataset_")
+
     luckcopy(r"D:\分类数据\Vechicles", r"E:\kSource\blog\kvision\imgclassify",
              "vehicle", "PaddleClas_Vechicles_")
     luckcopy(r"D:\分类数据\FashionProductImageSmall", r"E:\kSource\blog\kvision\imgclassify",
