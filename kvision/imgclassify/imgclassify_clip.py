@@ -160,7 +160,6 @@ architecture:building
 food
 goods
 Everyday Objects:goods
-indoor
 night view:night
 people
 human:people
@@ -180,7 +179,6 @@ transportation:vehicle
 建筑:building
 食物:food
 日常物品:goods
-室内:indoor
 夜景:night
 人物:people
 植物:plant
