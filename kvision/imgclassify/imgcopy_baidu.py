@@ -232,11 +232,11 @@ def copydir_baidu():
     copydirkz(r"日常物品_百度图片搜索_files", "goods")
     copydirkz(r"日常用品_百度图片搜索_files", "goods")
 
-    copydirkz(r"动漫_百度图片搜索_files", "anime")
-    copydirkz(r"卡通_百度图片搜索_files", "anime")
-    copydirkz(r"anime 日本_百度图片搜索_files", "anime")
+    copydirkz(r"动漫_百度图片搜索_files", "cartoon")
+    copydirkz(r"卡通_百度图片搜索_files", "cartoon")
+    copydirkz(r"anime 日本_百度图片搜索_files", "cartoon")
 
-    copydirkz(r"夜景_百度图片搜索_files", "night")
+    copydirkz(r"夜景_百度图片搜索_files", "nightscape")
 
     copydirkz(r"物品图片 真实_百度图片搜索_files", "goods")
     copydirkz(r"商品 真实图片_百度图片搜索_files", "goods")
@@ -307,10 +307,10 @@ def copydir_corel5k():
     copydirkz(r"13000", "plant") # 花卉
     copydirkz(r"41000", "animal") # 动物
     copydirkz(r"119000", "building") # 建筑
-    copydirkz(r"143000", "scenery") # 风景
+    copydirkz(r"143000", "landscape") # 风景
     copydirkz(r"152000", "plant") # 植物
     copydirkz(r"189000", "people") # 人物
-    copydirkz(r"231000", "scenery") # 风景
+    copydirkz(r"231000", "landscape") # 风景
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def copydir_album():
@@ -320,21 +320,21 @@ def copydir_album():
 
     def copydirx(xlist):
         labels = r"""Vehicle:vehicle
-Sky:scenery
+Sky:landscape
 Food:food
 Person:people
 Building:building
 Animal:animal
-Cartoons:anime
+Cartoons:cartoon
 Certificate:text
 Electronic:text
 Screenshot:text
 BankCard:text
-Mountain:scenery
-Sea:scenery
+Mountain:landscape
+Sea:landscape
 Bill:text
 Selfie:people
-Night:night
+Night:nightscape
 Aircraft:vehicle
 Flower:plant
 Child:people
@@ -403,7 +403,7 @@ def main():
         copydir(r"D:\BaiduNetdiskDownload\dataset\animals",   r"dataset\animal")
         copydir(r"D:\BaiduNetdiskDownload\dataset\food",      r"dataset\food")
         copydir(r"D:\BaiduNetdiskDownload\dataset\people",    r"dataset\people")
-        copydir(r"D:\BaiduNetdiskDownload\dataset\scenery",   r"dataset\scenery")
+        copydir(r"D:\BaiduNetdiskDownload\dataset\scenery",   r"dataset\landscape")
         copydir(r"D:\BaiduNetdiskDownload\dataset\text",      r"dataset\text")
 
     # CADB

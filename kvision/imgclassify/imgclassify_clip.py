@@ -28,23 +28,32 @@ import cv2
 from PIL import Image
 import numpy as np
 
+# 官网推荐的 'ViT-B/32'
+DEVAULTV_CLIP   = ('ViT-B/16', "ViT-L/14") # 224 MB / 610 MB
+# 官网推荐的 "ViT-B-16"
+DEVAULTV_CNCLIP = ('ViT-B-16', "ViT-L-14") # 200 MB / 600 MB
+
+# https://github.com/openai/clip
 # Load the model
 device = "cuda" if torch.cuda.is_available() else "cpu"
-model, preprocess = clip.load('ViT-B/32', device)
+model, preprocess = clip.load(DEVAULTV_CLIP[1], device)
 
+# https://github.com/OFA-Sys/Chinese-CLIP
 import cn_clip.clip as cn_clip
 from cn_clip.clip import load_from_name, available_models
 print("Available models:", available_models())
 # Available models: ['ViT-B-16', 'ViT-L-14', 'ViT-L-14-336', 'ViT-H-14', 'RN50']
 
-model_cn, preprocess_cn = load_from_name("ViT-B-16", device=device, download_root=os.path.split(os.path.abspath(__file__))[0])
+# os.path.expanduser("~/.cache")
+dlrootdir = os.path.split(os.path.abspath(__file__))[0]
+model_cn, preprocess_cn = load_from_name(DEVAULTV_CNCLIP[1], device=device, download_root=dlrootdir)
 model_cn.eval()
 
 def test():
     from torchvision.datasets import CIFAR100
 
     # Download the dataset
-    cifar100 = CIFAR100(root=os.path.expanduser("~/.cache"), download=True, train=False)
+    cifar100 = CIFAR100(root=dlrootdir, download=True, train=False)
 
     # Prepare the inputs
     image, class_id = cifar100[3637]
@@ -153,19 +162,19 @@ def cateclip_cn(image, classes):
 def main(dataset):
     classes = r"""
 animal
-anime
-cartoon:anime
+anime:cartoon
+cartoon
 building
 architecture:building
 food
 goods
 Everyday Objects:goods
-night view:night
+nightscape
 people
 human:people
 plant
-scenery
-landscape:scenery
+scenery:landscape
+landscape
 text
 scanned document:text
 vehicle
@@ -174,15 +183,15 @@ transportation:vehicle
     classes = [i.strip() for i in classes]
     classes_cn = r"""
 动物:animal
-动漫:anime
-卡通:anime
+动漫:cartoon
+卡通:cartoon
 建筑:building
 食物:food
 日常物品:goods
-夜景:night
+夜景:nightscape
 人物:people
 植物:plant
-风景:scenery
+风景:landscape
 文本:text
 扫描件:text
 交通工具:vehicle
