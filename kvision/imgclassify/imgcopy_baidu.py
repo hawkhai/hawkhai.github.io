@@ -113,24 +113,37 @@ def copyimg(xfile, yfile):
     img.save(yfile)
     print(img.size, yfile)
 
-@CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
-def main2():
-    # 李宏毅 2023 年春的 homework3 数据集
-    rootdir = r"D:\分类数据\food-11\valid"
-    targetdir = r"E:\kSource\blog\kvision\imgclassify"
-    for ifile in os.listdir(rootdir):
-        fpath = os.path.join(rootdir, ifile)
+def luckcopy(rootdir, targetdir, clasz, pname):
+    #for ifile in os.listdir(rootdir):
+    def mainfile(fpath, ifile, ftype):
+        #fpath = os.path.join(rootdir, ifile)
 
         fmd5 = getFileMd5(fpath)[:5]
         rad = int(fmd5, 16) % 100
 
         if rad < 20:
-            targetfile = os.path.join(targetdir, "mydata", "val", "food", "food-11_"+ifile)
+            targetfile = os.path.join(targetdir, "mydata", "val", clasz, pname+ifile)
         else:
-            targetfile = os.path.join(targetdir, "mydata", "train", "food", "food-11_"+ifile)
+            targetfile = os.path.join(targetdir, "mydata", "train", clasz, pname+ifile)
 
         print(targetfile)
         copyimg(fpath, targetfile)
+
+    searchdir(rootdir, mainfile)
+
+@CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
+def main2():
+
+    luckcopy(r"D:\分类数据\Vechicles", r"E:\kSource\blog\kvision\imgclassify",
+             "vehicle", "PaddleClas_Vechicles_")
+    luckcopy(r"D:\分类数据\FashionProductImageSmall", r"E:\kSource\blog\kvision\imgclassify",
+             "goods", "PaddleClas_goods_")
+    return
+
+    # 李宏毅 2023 年春的 homework3 数据集
+    rootdir = r"D:\分类数据\food-11\valid"
+    targetdir = r"E:\kSource\blog\kvision\imgclassify"
+    luckcopy(rootdir, targetdir, "food", "food-11_")
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def copydir_CADB(srcdir, dstdir):
