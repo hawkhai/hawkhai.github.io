@@ -118,7 +118,7 @@ def luckcopy(rootdir, targetdir, clasz, pname):
     def mainfile(fpath, ifile, ftype):
         #fpath = os.path.join(rootdir, ifile)
 
-        fmd5 = getFileMd5(fpath)[:5]
+        fmd5 = getFileMd5(fpath)[:16]
         rad = int(fmd5, 16) % 100
 
         if rad < 20:
@@ -163,7 +163,7 @@ def copydir_CADB(srcdir, dstdir):
         ifile = os.path.relpath(fpath, srcdir)
         assert ifile.find("\\") == -1 and ifile.find("/") == -1, ifile
         xfile = os.path.join(srcdir, ifile)
-        md5 = getFileMd5(xfile)[:7] # copydir_CADB
+        md5 = getFileMd5(xfile)[:16] # copydir_CADB
 
         mydir = os.path.join(dstdir, "cadb_"+subdir)
         yfile = os.path.join(mydir, "cadb_"+md5+"."+ftype)
@@ -183,7 +183,7 @@ def copydir(srcdir, dstdir):
         ifile = os.path.relpath(fpath, srcdir)
         assert ifile.find("\\") == -1 and ifile.find("/") == -1, ifile
         xfile = os.path.join(srcdir, ifile)
-        md5 = getFileMd5(xfile)[:7] # copydir pp_ 智慧相册数据
+        md5 = getFileMd5(xfile)[:16] # copydir pp_ 智慧相册数据
 
         yfile = os.path.join(dstdir, "pp_"+md5+"."+ftype)
 
@@ -218,7 +218,7 @@ def copydir_baidu():
             ifile = os.path.relpath(fpath, srcdir)
             assert ifile.find("\\") == -1 and ifile.find("/") == -1, ifile
             xfile = os.path.join(srcdir, ifile)
-            md5 = getMd5(imgid)[:7] # copydir_baidu
+            md5 = getMd5(imgid)[:16] # copydir_baidu
 
             yfile = os.path.join(dstdir, "baidu_"+md5+"."+ftype)
 
@@ -268,7 +268,7 @@ def copydir_vehicle():
             ifile = os.path.relpath(fpath, srcdir)
             #assert ifile.find("\\") == -1 and ifile.find("/") == -1, ifile
             xfile = os.path.join(srcdir, ifile)
-            md5 = getFileMd5(xfile)[:7] # copydir_vehicle
+            md5 = getFileMd5(xfile)[:16] # copydir_vehicle
 
             yfile = os.path.join(dstdir, "vehicle_"+md5+"."+ftype)
 
@@ -294,7 +294,7 @@ def copydir_corel5k():
             ifile = os.path.relpath(fpath, xdir)
             assert ifile.find("\\") == -1 and ifile.find("/") == -1, ifile
             xfile = os.path.join(xdir, ifile)
-            md5 = getFileMd5(xfile)[:7] # copydir_corel5k
+            md5 = getFileMd5(xfile)[:16] # copydir_corel5k
 
             yfile = os.path.join(ydir, "corel5k_"+md5+"."+ftype)
 
@@ -362,7 +362,7 @@ Ship:vehicle""".split()
 
                 xfile = imgfile
                 ftype = os.path.splitext(xfile)[-1].lower()
-                md5 = getFileMd5(xfile)[:7] # copydir_album
+                md5 = getFileMd5(xfile)[:16] # copydir_album
 
                 mydir = os.path.join(r"dataset", subdir)
                 yfile = os.path.join(mydir, "pp2_"+md5+ftype)

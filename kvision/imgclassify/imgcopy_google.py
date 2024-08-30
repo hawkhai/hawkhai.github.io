@@ -30,7 +30,7 @@ def maingo(rootdir, category):
             if not os.path.isfile(ifile):
                 continue
 
-            yfile = os.path.join(rootdir, "{}_google.jpg".format(getFileMd5(ifile)[:7]))
+            yfile = os.path.join(rootdir, "{}_google.jpg".format(getFileMd5(ifile)[:16]))
             copyimg(ifile, yfile)
 
 def main():

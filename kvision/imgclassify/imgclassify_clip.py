@@ -212,7 +212,7 @@ transportation:vehicle
             if idv1 < 0.5 or idv2 < 0.5:
                 continue
 
-            fmd5 = getFileMd5(ifile)[:5]
+            fmd5 = getFileMd5(ifile)[:16]
             rad = int(fmd5, 16) % 100
 
             if rad < 20:
