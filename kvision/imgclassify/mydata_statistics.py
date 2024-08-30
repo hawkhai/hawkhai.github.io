@@ -30,8 +30,8 @@ def main():
     ]
 
     valdir, traindir = image_directory
-    trains = os.listdir(traindir)
-    vals   = os.listdir(valdir)
+    trains = [i for i in os.listdir(traindir) if os.path.isdir(os.path.join(traindir, i))]
+    vals   = [i for i in os.listdir(valdir) if os.path.isdir(os.path.join(valdir, i))]
 
     trains.sort()
     vals.sort()
