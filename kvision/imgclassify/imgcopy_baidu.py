@@ -114,6 +114,24 @@ def copyimg(xfile, yfile):
     print(img.size, yfile)
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
+def main2():
+    rootdir = r"D:\分类数据\food-11\valid"
+    targetdir = r"E:\kSource\blog\kvision\imgclassify"
+    for ifile in os.listdir(rootdir):
+        fpath = os.path.join(rootdir, ifile)
+
+        fmd5 = getFileMd5(fpath)[:5]
+        rad = int(fmd5, 16) % 100
+
+        if rad < 20:
+            targetfile = os.path.join(targetdir, "mydata", "val", "food", "food-11_"+ifile)
+        else:
+            targetfile = os.path.join(targetdir, "mydata", "train", "food", "food-11_"+ifile)
+
+        print(targetfile)
+        copyimg(fpath, targetfile)
+
+@CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def copydir_CADB(srcdir, dstdir):
     statx = {}
     config = readfileJson("scene_categories.json")
@@ -390,4 +408,5 @@ def main():
     checkimg_baidu(r"dataset")
 
 if __name__ == "__main__":
-    main()
+    main2()
+    print("ok")
