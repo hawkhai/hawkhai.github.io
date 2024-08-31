@@ -66,7 +66,7 @@ def test():
     image, class_id = cifar100[3637]
     print(type(image), class_id)
     image_input = preprocess(image).unsqueeze(0).to(device)
-    text_inputs = torch.cat([clip.tokenize(f"a photo of a {c}") for c in cifar100.classes]).to(device)
+    text_inputs = torch.cat([clip.tokenize(f"a image of a {c}") for c in cifar100.classes]).to(device)
 
     # Calculate features
     with torch.no_grad():
@@ -105,7 +105,7 @@ def cateclip(image, classes):
     classes = [c.split(":")[0].strip() for c in classes]
     #print(classe_ids)
     #print(classes)
-    text_inputs = torch.cat([clip.tokenize(f"a photo of a {c}") for c in classes]).to(device)
+    text_inputs = torch.cat([clip.tokenize(f"a image of a {c}") for c in classes]).to(device)
 
     # Calculate features
     with torch.no_grad():
@@ -138,7 +138,7 @@ def cateclip_cn(image, classes):
     #print(classe_ids)
     #print(classes)
     image = preprocess(image).unsqueeze(0).to(device)
-    text = cn_clip.tokenize([f"一张 {c} 照片" for c in classes]).to(device)
+    text = cn_clip.tokenize([f"一张 {c} 图片" for c in classes]).to(device)
 
     with torch.no_grad():
         image_features = model_cn.encode_image(image)
@@ -173,29 +173,21 @@ def cateclip_cn(image, classes):
 def main(dataset):
     classes = r"""
 animal
-anime:cartoon
-cartoon
-building
-architecture:building
+anime or cartoon:cartoon
+building or architecture:building
 food
-goods
-Everyday Objects:goods
+goods or Everyday Objects:goods
 nightscape
-people
-human:people
+people or human:people
 plant
-scenery:landscape
-landscape
-text
-scanned document:text
-vehicle
-transportation:vehicle
+scenery or landscape:landscape
+text or scanned document:text
+vehicle or transportation:vehicle
     """.strip().split("\n")
     classes = [i.strip() for i in classes]
     classes_cn = r"""
 动物:animal
-动漫:cartoon
-卡通:cartoon
+动漫或卡通:cartoon
 建筑:building
 食物:food
 日常物品:goods
@@ -203,8 +195,7 @@ transportation:vehicle
 人物:people
 植物:plant
 风景:landscape
-文本:text
-扫描件:text
+文本或扫描件:text
 交通工具:vehicle
     """.strip().split("\n")
     classes_cn = [i.strip() for i in classes_cn]
