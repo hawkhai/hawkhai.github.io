@@ -166,6 +166,10 @@ def cateclip_cn(image, classes):
 
     return getMaxKV(retmap)
 
+# 自然界（如动物、植物）
+# 人造环境（如建筑、交通工具）
+# 日常生活中的各种物品和场景（如食物、日常物品、夜景、人物、风景）
+# 特定的图像类型（如动漫/卡通、文本/扫描件）
 def main(dataset):
     classes = r"""
 animal
