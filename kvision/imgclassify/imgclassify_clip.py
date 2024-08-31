@@ -32,10 +32,12 @@ import numpy as np
 # ViT-L/14 37.6M 1.71GB
 # ViT-B/32 21.6M 605MB
 # ViT-B/16 17.6M 598MB
+# C:\Users\hawkhai\.cache\clip\ViT-L-14.pt 910MB
 DEVAULTV_CLIP   = ('ViT-B/32', "ViT-L/14") # 224 MB / 610 MB
 # 官网推荐的 "ViT-B-16"
 # ViT-L-14 44K 1.63GB
 # ViT-B-16 19.9K 753MB
+# D:\kSource\blog\kvision\imgclassify\clip_cn_vit-l-14.pt 1587MB
 DEVAULTV_CNCLIP = ('ViT-B-16', "ViT-L-14") # 200 MB / 600 MB
 
 # https://github.com/openai/clip

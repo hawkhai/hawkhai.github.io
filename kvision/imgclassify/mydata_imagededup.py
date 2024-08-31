@@ -128,7 +128,24 @@ def remove_duplicates(duplicates):
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def main():
 
-    model = models.shufflenet_v2_x1_0(pretrained=True).to(device)
+    r"""
+ShuffleNetV2 0.5x
+模型大小: 约 4.8 MB
+Top-1 准确率: 57.7%
+
+ShuffleNetV2 1.0x
+模型大小: 7.4 MB
+Top-1 准确率: 69.4%
+
+ShuffleNetV2 1.5x
+模型大小: 12.0 MB
+Top-1 准确率: 73.2%
+
+ShuffleNetV2 2.0x
+模型大小: 21.8 MB
+Top-1 准确率: 75.3%
+    """
+    model = models.shufflenet_v2_x2_0(pretrained=True).to(device)
     model.fc = torch.nn.Identity()  # 移除分类层
     model.eval()
 
