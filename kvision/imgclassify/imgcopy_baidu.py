@@ -201,7 +201,7 @@ def copydir_baidu():
         if not ydir: return
 
         srcdir = os.path.join(rootdir, xdir)
-        dstdir = os.path.join("mydata", "dataset", ydir)
+        dstdir = os.path.join(r"D:\kSource\blog\kvision\imgclassify\mydata", "tempset", ydir)
         if not os.path.exists(dstdir):
             os.makedirs(dstdir)
 
@@ -211,14 +211,14 @@ def copydir_baidu():
                 ftype = "jpg"
 
             li = re.findall("u=([0-9]+,[0-9]+)&", fname)
-            if not li: return
-            assert len(li) == 1, li
-            imgid = li[0]
+            #if not li: return
+            #assert len(li) == 1, li
+            #imgid = li[0]
 
             ifile = os.path.relpath(fpath, srcdir)
             assert ifile.find("\\") == -1 and ifile.find("/") == -1, ifile
             xfile = os.path.join(srcdir, ifile)
-            md5 = getMd5(imgid)[:16] # copydir_baidu
+            md5 = getFileMd5(fpath)[:16] # copydir_baidu
 
             yfile = os.path.join(dstdir, "baidu_"+md5+"."+ftype)
 
@@ -228,6 +228,8 @@ def copydir_baidu():
         print(os.path.exists(srcdir), srcdir)
         searchdir(srcdir, mainfile)
         cleardirEmpty(dstdir)
+
+    copydirkz(r"D:\BaiduNetdiskDownload\M6Doc_test\test2017", "text")
 
     copydirkz(r"日常物品_百度图片搜索_files", "goods")
     copydirkz(r"日常用品_百度图片搜索_files", "goods")
@@ -434,5 +436,5 @@ def main():
 
 if __name__ == "__main__":
     copydir_baidu()
-    main2()
+    #main2()
     print("ok")
