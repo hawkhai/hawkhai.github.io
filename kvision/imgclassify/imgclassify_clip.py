@@ -28,22 +28,28 @@ import cv2
 from PIL import Image
 import numpy as np
 
+QUICK = "quick" in sys.argv
+DEBUG = "debug" in sys.argv
+TOPK_COUNT = 11
+
 # 官网推荐的 'ViT-B/32'
-# ViT-L/14 37.6M 1.71GB
+# ViT-L/14 35.9M 1.71GB
 # ViT-B/32 21.6M 605MB
 # ViT-B/16 17.6M 598MB
 # C:\Users\hawkhai\.cache\clip\ViT-L-14.pt 910MB
-DEVAULTV_CLIP   = ('ViT-B/32', "ViT-L/14") # 224 MB / 610 MB
+# C:\Users\hawkhai\.cache\clip\ViT-B-32.pt 345MB
+DEVAULTV_CLIP   = ('ViT-B/32', "ViT-L/14") # 345MB / 910MB
 # 官网推荐的 "ViT-B-16"
-# ViT-L-14 44K 1.63GB
+# ViT-L-14 28.4K 1.63GB
 # ViT-B-16 19.9K 753MB
 # D:\kSource\blog\kvision\imgclassify\clip_cn_vit-l-14.pt 1587MB
-DEVAULTV_CNCLIP = ('ViT-B-16', "ViT-L-14") # 200 MB / 600 MB
+# D:\kSource\blog\kvision\imgclassify\clip_cn_vit-b-16.pt 735MB
+DEVAULTV_CNCLIP = ('ViT-B-16', "ViT-L-14") # 735MB / 1587MB
 
 # https://github.com/openai/clip
 # Load the model
 device = "cuda" if torch.cuda.is_available() else "cpu"
-model, preprocess = clip.load(DEVAULTV_CLIP[1], device)
+model, preprocess = clip.load(DEVAULTV_CLIP[0 if QUICK else 1], device)
 
 # https://github.com/OFA-Sys/Chinese-CLIP
 import cn_clip.clip as cn_clip
@@ -53,7 +59,7 @@ print("Available models:", available_models())
 
 # os.path.expanduser("~/.cache")
 dlrootdir = os.path.split(os.path.abspath(__file__))[0]
-model_cn, preprocess_cn = load_from_name(DEVAULTV_CNCLIP[1], device=device, download_root=dlrootdir)
+model_cn, preprocess_cn = load_from_name(DEVAULTV_CNCLIP[0 if QUICK else 1], device=device, download_root=dlrootdir)
 model_cn.eval()
 
 def test():
@@ -77,22 +83,40 @@ def test():
     image_features /= image_features.norm(dim=-1, keepdim=True)
     text_features /= text_features.norm(dim=-1, keepdim=True)
     similarity = (100.0 * image_features @ text_features.T).softmax(dim=-1)
-    values, indices = similarity[0].topk(5)
+    values, indices = similarity[0].topk(TOPK_COUNT)
 
     # Print the result
     #print("\nTop predictions:\n")
     for value, index in zip(values, indices):
         print(f"{cifar100.classes[index]:>16s}: {100 * value.item():.2f}%")
 
-def getMaxKV(retmap):
+def getMaxKV(retmap, retdb=False):
+
     keys = [k for k in retmap.keys()]
     #assert len(keys) in (5, 12), keys
     keys.sort()
     vals = [retmap[k] for k in keys]
 
-    max_val = max(vals)
-    max_idx = vals.index(max_val)
-    return keys[max_idx], max_val
+    if DEBUG:
+        print("===" * 30)
+        for key in keys:
+            print("%8s"%key, "-"*int(retmap[key]*100), "%.8f"%retmap[key])
+
+    valsk = vals[:]
+    valsk.sort()
+    valsk = valsk[::-1]
+    if retdb:
+        return keys[vals.index(valsk[0])], valsk[0], keys[vals.index(valsk[1])], valsk[1]
+    return keys[vals.index(valsk[0])], valsk[0]
+
+def mergeTest(retmap1, retmap2):
+    assert len(retmap1) == len(retmap2)
+    retmap = {}
+    for key in retmap1.keys():
+        retmap[key] = (retmap1[key] + retmap2[key]) / 2
+    colorPrint("mergeTest", color="yellow")
+    # 合并后，第一名 >= 0.5，第二名 < 0.4
+    return getMaxKV(retmap, True)
 
 # Download the dataset
 #cifar100 = CIFAR100(root=os.path.expanduser("~/.cache"), download=True, train=False)
@@ -116,7 +140,7 @@ def cateclip(image, classes):
     image_features /= image_features.norm(dim=-1, keepdim=True)
     text_features /= text_features.norm(dim=-1, keepdim=True)
     similarity = (100.0 * image_features @ text_features.T).softmax(dim=-1)
-    values, indices = similarity[0].topk(5)
+    values, indices = similarity[0].topk(TOPK_COUNT)
 
     # Print the result
     #print("\nTop predictions:\n")
@@ -128,7 +152,7 @@ def cateclip(image, classes):
             retmap[classe_ids[index]] = 0
         retmap[classe_ids[index]] += value.item()
 
-    return getMaxKV(retmap)
+    return getMaxKV(retmap), retmap
 
 def cateclip_cn(image, classes):
 
@@ -164,7 +188,7 @@ def cateclip_cn(image, classes):
             retmap[classe_ids[index]] = 0
         retmap[classe_ids[index]] += value
 
-    return getMaxKV(retmap)
+    return getMaxKV(retmap), retmap
 
 # 自然界（如动物、植物）
 # 人造环境（如建筑、交通工具）
@@ -177,7 +201,7 @@ anime or cartoon:cartoon
 building or architecture:building
 food
 goods or Everyday Objects:goods
-nightscape
+nightscape:nightscape
 people or human:people
 plant
 scenery or landscape:landscape
@@ -199,41 +223,49 @@ vehicle or transportation:vehicle
 交通工具:vehicle
     """.strip().split("\n")
     classes_cn = [i.strip() for i in classes_cn]
-    #for dir in os.listdir(dataset):
+
     def mainfile(fpath, fname, ftype):
-        #subdir = os.path.join(dataset, dir)
-        #if not os.path.isdir(subdir):
-        #    continue
-        #for idir in os.listdir(subdir):
-        if True:
-            ifile = fpath # os.path.join(subdir, idir)
-            if ifile.endswith(".txt"):
-                return
+        ifile = fpath # os.path.join(subdir, idir)
+        if ftype in ("txt", "json",):
+            return
 
-            print("***" * 30)
-            print(ifile)
-            image = Image.open(ifile)
-            idx1, idv1 = cateclip(image, classes)
-            print(idx1, idv1)
-            idx2, idv2 = cateclip_cn(image, classes_cn)
-            print(idx2, idv2)
-            #break
-            if idx1 != idx2:
-                return
-            if idv1 < 0.5 or idv2 < 0.5:
-                return
+        print("***" * 30)
+        colorPrint(ifile)
+        image = Image.open(ifile)
+        (idx1, idv1), retmap1 = cateclip(image, classes)
+        colorPrint(idx1, idv1)
+        (idx2, idv2), retmap2 = cateclip_cn(image, classes_cn)
+        colorPrint(idx2, idv2)
+        
+        flag = False
+        if idx1 == idx2 and idv1 >= 0.5 and idv2 >= 0.5:
+            flag = True
+            
+        idx1, idv1, idx2, idv2 = mergeTest(retmap1, retmap2)
+        colorPrint(idx1, idv1, idx2, idv2)
+        if idv1 >= 0.5 and idv2 < idv1 - 0.2:
+            flag = True
 
-            fmd5 = getFileMd5(ifile)[:16]
-            rad = int(fmd5, 16) % 100
+        if not flag:
+            return
 
-            if rad < 20:
-                targetfile = os.path.join("tempset", "val", idx1, fmd5+fname)
-            else:
-                targetfile = os.path.join("tempset", "train", idx1, fmd5+fname)
-            fdir = os.path.dirname(targetfile)
-            if not os.path.exists(fdir):
-                os.makedirs(fdir)
+        fmd5 = getFileMd5(ifile)[:16]
+        rad = int(fmd5, 16) % 100
+
+        if rad < 20:
+            targetfile = os.path.join("tempset", "val", idx1, fmd5+fname)
+        else:
+            targetfile = os.path.join("tempset", "train", idx1, fmd5+fname)
+        fdir = os.path.dirname(targetfile)
+        if not os.path.exists(fdir):
+            os.makedirs(fdir)
+        
+        # OSError: cannot write mode RGBA as JPEG
+        try:
             image.save(targetfile)
+        except OSError: # cannot write mode RGBA as JPEG
+            copyfile(ifile, targetfile)
+        if not DEBUG:
             osremove(ifile)
 
     searchdir(dataset, mainfile)
