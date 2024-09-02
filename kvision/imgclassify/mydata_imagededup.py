@@ -158,17 +158,18 @@ Top-1 准确率: 75.3%
     image_directory = [
         r"E:\kSource\blog\kvision\imgclassify\mydata\val",
         r"E:\kSource\blog\kvision\imgclassify\mydata\train",
-        r"E:\kSource\blog\kvision\imgclassify\mydata\valset",
         r"E:\kSource\blog\kvision\imgclassify\mydata\dataset",
+        r"E:\kSource\blog\kvision\imgclassify\mydata\valset",
     ] if IS_WINDOWS else [
         r"/home/yqh/code/blog/kvision/imgclassify/mydata/val",
         r"/home/yqh/code/blog/kvision/imgclassify/mydata/train",
-        r"/home/yqh/code/blog/kvision/imgclassify/mydata/valset",
         r"/home/yqh/code/blog/kvision/imgclassify/mydata/dataset",
+        r"/home/yqh/code/blog/kvision/imgclassify/mydata/valset",
     ]
     duplicates = find_duplicates_with_faiss(image_directory, model, transform,
                         top_k=5, similarity_threshold=0.98)
     remove_duplicates(duplicates)
+    cleardirEmpty(r"/home/yqh/code/blog/kvision/imgclassify")
 
 if __name__ == "__main__":
     main()
