@@ -236,12 +236,12 @@ vehicle or transportation:vehicle
         colorPrint(idx1, idv1)
         (idx2, idv2), retmap2 = cateclip_cn(image, classes_cn)
         colorPrint(idx2, idv2)
-        
+
         flag = False
         # 分类和分类之间存在重叠，所以 0.4 就可以了。
         if idx1 == idx2 and idv1 >= 0.4 and idv2 >= 0.4:
             flag = True
-            
+
         idx1, idv1, idx2, idv2 = mergeTest(retmap1, retmap2)
         colorPrint(idx1, idv1, idx2, idv2)
         # 均值 0.5，差距控制在 0.2，有一定把握才行。
@@ -261,7 +261,7 @@ vehicle or transportation:vehicle
         fdir = os.path.dirname(targetfile)
         if not os.path.exists(fdir):
             os.makedirs(fdir)
-        
+
         # OSError: cannot write mode RGBA as JPEG
         try:
             image.save(targetfile)

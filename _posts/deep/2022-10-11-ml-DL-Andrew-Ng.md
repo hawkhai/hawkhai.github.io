@@ -661,8 +661,14 @@ CLIP & FAISS!!
 
 ## 132 8.2 状态动作值函数示例 05:23
 
+经典，。
+
 
 ## 133 8.3 Bellman 方程 12:53
+
+$$
+Q(s, a)=R(s)+\gamma \max _{a^{\prime}} Q\left(s^{\prime}, a^{\prime}\right)
+$$
 
 
 ## 134 8.4 随机环境（可选） 08:25
