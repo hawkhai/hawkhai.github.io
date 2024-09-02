@@ -47,6 +47,10 @@ git push
 
 git-filter-branch - Rewrite branches
 
+git remote add upstream git@gitlab.liebaopay.com:pc_duba/kpdf/pdfreader-for-mac.git
+git fetch upstream
+git checkout --track upstream/pdfreader_cross-platform
+这样就不用换仓库了，改一个新的remote
 
 ## git 迁移仓库地址（保留分支和历史提交）
 
