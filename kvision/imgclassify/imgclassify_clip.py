@@ -238,11 +238,13 @@ vehicle or transportation:vehicle
         colorPrint(idx2, idv2)
         
         flag = False
-        if idx1 == idx2 and idv1 >= 0.5 and idv2 >= 0.5:
+        # 分类和分类之间存在重叠，所以 0.4 就可以了。
+        if idx1 == idx2 and idv1 >= 0.4 and idv2 >= 0.4:
             flag = True
             
         idx1, idv1, idx2, idv2 = mergeTest(retmap1, retmap2)
         colorPrint(idx1, idv1, idx2, idv2)
+        # 均值 0.5，差距控制在 0.2，有一定把握才行。
         if idv1 >= 0.5 and idv2 < idv1 - 0.2:
             flag = True
 
