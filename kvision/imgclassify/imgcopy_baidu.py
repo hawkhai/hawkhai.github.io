@@ -229,6 +229,7 @@ def copydir_baidu():
         searchdir(srcdir, mainfile)
         cleardirEmpty(dstdir)
 
+    copydirkz(r"E:\kSource\blog\kvision\imgclassify\mydata\63页Png，速通高等数学！_files", "text")
     copydirkz(r"D:\BaiduNetdiskDownload\M6Doc_test\test2017", "text")
 
     copydirkz(r"日常物品_百度图片搜索_files", "goods")
