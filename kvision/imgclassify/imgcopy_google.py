@@ -33,6 +33,7 @@ def maingo(rootdir, category):
             yfile = os.path.join(rootdir, "{}_google.jpg".format(getFileMd5(ifile)[:16]))
             copyimg(ifile, yfile)
 
+@CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def main():
     rootdir = r"E:\kSource\blog\kvision\imgclassify\valset"
     for category in os.listdir(rootdir):

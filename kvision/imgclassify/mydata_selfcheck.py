@@ -42,6 +42,7 @@ def mergeTest(fpath):
     retv, maxid, maxv = classify_imagefile(fpath, check=True)
     return retv, maxid, maxv, classify_score
 
+@CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def main(dataset):
 
     def mainfile(fpath, fname, ftype):

@@ -52,7 +52,6 @@ git fetch upstream
 git checkout --track upstream/pdfreader_cross-platform
 这样就不用换仓库了，加一个新的 remote:(upstream)
 
-
 E:\kpdf\pdfreader-for-mac\build_script\dumpAnalyzeMacOS.REMOVED.git-id
 E:\kpdf\pdfreader-for-mac\build_script\gitbigfilex.REMOVED.git-id
 E:\kpdf\pdfreader-for-mac\build_script\ftpdownload\ftpdownload.REMOVED.git-id

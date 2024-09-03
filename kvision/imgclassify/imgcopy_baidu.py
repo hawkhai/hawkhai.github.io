@@ -114,17 +114,17 @@ def copyimg(xfile, yfile):
     print(img.size, yfile)
 
 def luckcopy(rootdir, targetdir, clasz, pname):
-    #for ifile in os.listdir(rootdir):
-    def mainfile(fpath, ifile, ftype):
-        #fpath = os.path.join(rootdir, ifile)
+    #for fname in os.listdir(rootdir):
+    def mainfile(fpath, fname, ftype):
+        #fpath = os.path.join(rootdir, fname)
 
         fmd5 = getFileMd5(fpath)[:16]
         rad = int(fmd5, 16) % 100
 
         if rad < 20:
-            targetfile = os.path.join(targetdir, "mydata", "val", clasz, pname+ifile)
+            targetfile = os.path.join(targetdir, "mydata", "val", clasz, pname+fname)
         else:
-            targetfile = os.path.join(targetdir, "mydata", "train", clasz, pname+ifile)
+            targetfile = os.path.join(targetdir, "mydata", "train", clasz, pname+fname)
 
         print(targetfile)
         copyimg(fpath, targetfile)
@@ -399,6 +399,7 @@ def checkimg_baidu(rootdir):
 
     searchdir(rootdir, mainfile)
 
+@CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def main():
     # pp
     # https://aistudio.baidu.com/datasetdetail/110303

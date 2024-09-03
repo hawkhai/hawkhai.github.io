@@ -697,6 +697,17 @@ $$
 
 ## 142 10.1 总结与感谢 03:12
 
+* Supervised Machine Learning:
+    * Regression and Classification
+    * Linear regression, logistic regression, gradient descent
+
+* Advanced Learning Algorithms
+    * Neural networks, decision trees, advice for ML
+
+* Unsupervised Learning, Recommenders, Reinforcement Learning
+    * Clustering, anomaly detection, collaborative filtering,
+    * content-based filtering, reinforcement learning
+
 
 ## 1 1.1.1 欢迎 05:33
 
