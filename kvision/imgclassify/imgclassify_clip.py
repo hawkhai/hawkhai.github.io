@@ -30,7 +30,7 @@ import numpy as np
 
 QUICK = "quick" in sys.argv
 DEBUG = "debug" in sys.argv
-TOPK_COUNT = 11
+TOPK_COUNT = 10
 
 # 官网推荐的 'ViT-B/32'
 # ViT-L/14 35.9M 1.71GB
