@@ -30,6 +30,7 @@ import numpy as np
 
 QUICK = "quick" in sys.argv
 DEBUG = "debug" in sys.argv
+INSTALL = "install" in sys.argv
 TOPK_COUNT = 11
 
 # 官网推荐的 'ViT-B/32'
@@ -226,7 +227,7 @@ vehicle or transportation:vehicle
 
     def mainfile(fpath, fname, ftype):
         ifile = fpath # os.path.join(subdir, idir)
-        if ftype in ("txt", "json",):
+        if ftype in ("txt", "json", "log", "pt",):
             return
 
         print("***" * 30)
@@ -248,27 +249,45 @@ vehicle or transportation:vehicle
         if idv1 >= 0.5 and idv2 < idv1 - 0.2:
             flag = True
 
-        if not flag:
+        if not flag: # 没有答案就算了。
             return
 
-        fmd5 = getFileMd5(ifile)[:16]
-        rad = int(fmd5, 16) % 100
+        if INSTALL:
 
-        if rad < 20:
-            targetfile = os.path.join("tempset", "val", idx1, fmd5+fname)
-        else:
-            targetfile = os.path.join("tempset", "train", idx1, fmd5+fname)
-        fdir = os.path.dirname(targetfile)
-        if not os.path.exists(fdir):
-            os.makedirs(fdir)
+            fmd5 = getFileMd5(ifile)[:16]
+            rad = int(fmd5, 16) % 100
 
-        # OSError: cannot write mode RGBA as JPEG
-        try:
-            image.save(targetfile)
-        except OSError: # cannot write mode RGBA as JPEG
+            if rad < 20:
+                targetfile = os.path.join("tempset", "val", idx1, fmd5+fname)
+            else:
+                targetfile = os.path.join("tempset", "train", idx1, fmd5+fname)
+            fdir = os.path.dirname(targetfile)
+            if not os.path.exists(fdir):
+                os.makedirs(fdir)
+
+            # OSError: cannot write mode RGBA as JPEG
+            try:
+                image.save(targetfile)
+            except OSError: # cannot write mode RGBA as JPEG
+                copyfile(ifile, targetfile)
+            assert os.path.exists(targetfile), targetfile
+            if not DEBUG:
+                osremove(ifile)
+
+        else: # Review
+            mytype = os.path.split(os.path.split(fpath)[0])[-1]
+            assert mytype in [c.split(":")[-1].strip() for c in classes], mytype
+            if idx1 == mytype: # 如果相等，就不要再 Review 了。
+                return
+
+            ifile = os.path.abspath(ifile)
+            assert ifile.find("imgclassify") != -1, ifile
+            targetfile = ifile.replace("imgclassify", "imgclassifz")
+
             copyfile(ifile, targetfile)
-        if not DEBUG:
-            osremove(ifile)
+            assert os.path.exists(targetfile), targetfile
+            if not DEBUG:
+                osremove(ifile)
 
     searchdir(dataset, mainfile)
 

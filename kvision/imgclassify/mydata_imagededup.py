@@ -114,6 +114,7 @@ def find_duplicates_with_faiss(image_dir, model, transform, top_k=5, similarity_
 
 def remove_duplicates(duplicates):
     for img1, img2 in duplicates:
+    	assert img2.find("imgclassify") != -1, img2
         if os.path.exists(img1):
             copyfile(img1, img2.replace("imgclassify", "imgclassifz")+".jpg")
 
