@@ -63,6 +63,7 @@ E:\kpdf\pdfreader-for-mac\enginelibs\lib\mac\engines\release\gitbigfilebuild.REM
 E:\kpdf\pdfreader-for-mac\enginelibs\lib\mac\engines\release\gitbigfilex.REMOVED.git-id
 E:\kpdf\pdfreader-for-mac\lib\macos\dump\gitbigfilex.REMOVED.git-id
 E:\kpdf\pdfreader-for-mac\lib\macos\kvision\gitbigfilex.REMOVED.git-id
+这样就不用换仓库了，改一个新的 remote
 
 
 ## git 迁移仓库地址（保留分支和历史提交）
