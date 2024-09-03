@@ -13,164 +13,88 @@ for reldirx, _lidir in (
     if _lidir: break
 if not reldirx in sys.path: sys.path.append(reldirx) # 放到最后，避免 sys.path.insert
 del _lidir # reldirx 可以继续使用
+if not os.getcwd() in sys.path: # fix linux 软连接的 bug
+    sys.path.append(os.getcwd())
+import time
 from pythonx.funclib import *
+from pythonx.pelib import *
+from PIL import Image, ImageDraw, ImageFont
 
-import requests
-import base64
-from imgcopy_baidu import *
-
+import os
+import clip
 import torch
-from torchvision import models, transforms
+#from torchvision.datasets import CIFAR100
+import cv2
 from PIL import Image
 import numpy as np
-import faiss
-import os
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+import sys, os
+sys.path.append("/home/yqh/code/pythonx/fastai/image_classification")
+sys.path.append("/home/yqh/code/pythonx/fastai/image_classification/demo")
 
-def extract_features(image_path, model, transform):
-    image = Image.open(image_path).convert('RGB')
-    image = transform(image).unsqueeze(0).to(device)
-    with torch.no_grad():
-        features = model(image).cpu().numpy().flatten()
-    return features
+QUICK = "quick" in sys.argv
+DEBUG = "debug" in sys.argv
+INSTALL = "install" in sys.argv
+TOPK_COUNT = 11
 
-def batch_extract_features(image_paths, model, transform, batch_size=32):
-    features_list = []
-    for i in range(0, len(image_paths), batch_size):
-        batch_paths = image_paths[i:i + batch_size]
-        images = [transform(Image.open(p).convert('RGB')).unsqueeze(0) for p in batch_paths]
-        images = torch.cat(images).to(device)
+def mergeTest(fpath):
+    from app import classify_imagefile, classify_score
+    retv, maxid, maxv = classify_imagefile(fpath)
+    return retv, maxid, maxv, classify_score
 
-        with torch.no_grad():
-            batch_features = model(images).cpu().numpy()
-            features_list.extend(batch_features)
+def main(dataset):
 
-    return np.array(features_list)
-
-def faiss_topk_search(features_list, top_k=5):
-    features_list = np.array(features_list).astype('float32')
-    index = faiss.IndexFlatL2(features_list.shape[1])  # 使用L2距离，构建索引
-    index.add(features_list)  # 将特征向量添加到索引中
-
-    D, I = index.search(features_list, top_k + 1)  # 搜索最相似的Top-K个向量
-
-    neighbors = []
-    for i, (distances, indices) in enumerate(zip(D, I)):
-        similar_indices = [(ind, dist) for ind, dist in zip(indices[1:], distances[1:]) if ind != i]
-        neighbors.append(similar_indices)
-
-    return neighbors
-
-def find_duplicates(image_dir, model, transform, threshold=0.98):
-    features_list = []
-    image_paths = []
-
-    for image_name in os.listdir(image_dir):
-        image_path = os.path.join(image_dir, image_name)
-        features = extract_features(image_path, model, transform)
-        features_list.append(features)
-        image_paths.append(image_path)
-
-    # 计算所有图像特征之间的余弦相似度
-    similarities = cosine_similarity(features_list)
-
-    # 识别相似度高于阈值的图片对
-    duplicates = set()
-    for i in range(len(similarities)):
-        for j in range(i + 1, len(similarities)):
-            if similarities[i][j] > threshold:
-                if i < ind:
-                    duplicates.add((image_paths[i], image_paths[ind]))
-                elif i > ind:
-                    duplicates.add((image_paths[ind], image_paths[i]))
-
-    return duplicates
-
-def find_duplicates_with_faiss(image_dir, model, transform, top_k=5, similarity_threshold=0.98):
-
-    image_paths = []
     def mainfile(fpath, fname, ftype):
-        if ftype in ("jpg", "jpeg", "webp", "png", "bmp"):
-            image_paths.append(fpath)
-    for i in image_dir:
-        searchdir(i, mainfile)
+        ifile = fpath # os.path.join(subdir, idir)
+        if ftype in ("txt", "json", "log", "pt",):
+            return
 
-    features_list = batch_extract_features(image_paths, model, transform)
+        print("***" * 30)
+        colorPrint(ifile)
 
-    # 使用Faiss进行Top-K搜索
-    neighbors = faiss_topk_search(features_list, top_k=top_k)
+        retv, maxid, maxv, classify_score = mergeTest(ifile)
 
-    duplicates = set()
-    for i, similar_imgs in enumerate(neighbors):
-        for ind, dist in similar_imgs:
-            if dist < (1 - similarity_threshold):  # 距离越小，越相似
-                if i < ind:
-                    duplicates.add((image_paths[i], image_paths[ind]))
-                elif i > ind:
-                    duplicates.add((image_paths[ind], image_paths[i]))
+        if INSTALL:
 
-    return duplicates
+            fmd5 = getFileMd5(ifile)[:16]
+            rad = int(fmd5, 16) % 100
 
-def remove_duplicates(duplicates):
-    for img1, img2 in duplicates:
-    	assert img2.find("imgclassify") != -1, img2
-        if os.path.exists(img1):
-            copyfile(img1, img2.replace("imgclassify", "imgclassifz")+".jpg")
+            if rad < 20:
+                targetfile = os.path.join("tempset", "val", maxid, fmd5+fname)
+            else:
+                targetfile = os.path.join("tempset", "train", maxid, fmd5+fname)
+            fdir = os.path.dirname(targetfile)
+            if not os.path.exists(fdir):
+                os.makedirs(fdir)
 
-        if os.path.exists(img2):
-            copyfile(img2, img2.replace("imgclassify", "imgclassifz"))
-            os.remove(img2)
-        print(f"Removed: {img2}")
+            # OSError: cannot write mode RGBA as JPEG
+            try:
+                image.save(targetfile)
+            except OSError: # cannot write mode RGBA as JPEG
+                copyfile(ifile, targetfile)
+            assert os.path.exists(targetfile), targetfile
+            if not DEBUG:
+                osremove(ifile)
 
-# https://github.com/idealo/imagededup
-# https://github.com/idealo/imagededup/blob/master/examples/Finding_duplicates.ipynb
+        else: # Review
+            mytype = os.path.split(os.path.split(fpath)[0])[-1]
+            assert mytype in [c.split(":")[-1].strip() for c in classify_score.keys()], mytype
+            if maxid == mytype: # 如果相等，就不要再 Review 了。
+                return
 
-@CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
-def main():
+            ifile = os.path.abspath(ifile)
+            assert ifile.find("imgclassify") != -1, ifile
+            targetfile = ifile.replace("imgclassify", "imgclassifz")
 
-    r"""
-ShuffleNetV2 0.5x
-模型大小: 约 4.8 MB
-Top-1 准确率: 57.7%
+            copyfile(ifile, targetfile)
+            assert os.path.exists(targetfile), targetfile
+            if not DEBUG:
+                osremove(ifile)
 
-ShuffleNetV2 1.0x
-模型大小: 7.4 MB
-Top-1 准确率: 69.4%
+    searchdir(dataset, mainfile)
 
-ShuffleNetV2 1.5x
-模型大小: 12.0 MB
-Top-1 准确率: 73.2%
-
-ShuffleNetV2 2.0x
-模型大小: 21.8 MB
-Top-1 准确率: 75.3%
-    """
-    model = models.shufflenet_v2_x2_0(pretrained=True).to(device)
-    model.fc = torch.nn.Identity()  # 移除分类层
-    model.eval()
-
-    transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-    ])
-
-    image_directory = [
-        r"E:\kSource\blog\kvision\imgclassify\mydata\val",
-        r"E:\kSource\blog\kvision\imgclassify\mydata\train",
-        r"E:\kSource\blog\kvision\imgclassify\mydata\dataset",
-        r"E:\kSource\blog\kvision\imgclassify\mydata\valset",
-    ] if IS_WINDOWS else [
-        r"/home/yqh/code/blog/kvision/imgclassify/mydata/val",
-        r"/home/yqh/code/blog/kvision/imgclassify/mydata/train",
-        r"/home/yqh/code/blog/kvision/imgclassify/mydata/dataset",
-        r"/home/yqh/code/blog/kvision/imgclassify/mydata/valset",
-    ]
-    duplicates = find_duplicates_with_faiss(image_directory, model, transform,
-                        top_k=5, similarity_threshold=0.98)
-    remove_duplicates(duplicates)
-    cleardirEmpty(r"/home/yqh/code/blog/kvision/imgclassify")
-
+# 还需要移除相似图片。
 if __name__ == "__main__":
-    main()
+    #test()
+    main("mydata")
+    print("ok")
