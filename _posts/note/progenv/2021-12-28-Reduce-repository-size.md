@@ -50,7 +50,20 @@ git-filter-branch - Rewrite branches
 git remote add upstream git@gitlab.liebaopay.com:pc_duba/kpdf/pdfreader-for-mac.git
 git fetch upstream
 git checkout --track upstream/pdfreader_cross-platform
-这样就不用换仓库了，改一个新的remote
+这样就不用换仓库了，加一个新的 remote:(upstream)
+
+
+E:\kpdf\pdfreader-for-mac\build_script\dumpAnalyzeMacOS.REMOVED.git-id
+E:\kpdf\pdfreader-for-mac\build_script\gitbigfilex.REMOVED.git-id
+E:\kpdf\pdfreader-for-mac\build_script\ftpdownload\ftpdownload.REMOVED.git-id
+E:\kpdf\pdfreader-for-mac\convertmain\pylib\arm64\convert_helper.REMOVED.git-id
+E:\kpdf\pdfreader-for-mac\convertmain\pylib\x86_64\convert_helper.REMOVED.git-id
+E:\kpdf\pdfreader-for-mac\enginelibs\lib\mac\engines\debug\gitbigfilex.REMOVED.git-id
+E:\kpdf\pdfreader-for-mac\enginelibs\lib\mac\engines\release\gitbigfilebuild.REMOVED.git-id
+E:\kpdf\pdfreader-for-mac\enginelibs\lib\mac\engines\release\gitbigfilex.REMOVED.git-id
+E:\kpdf\pdfreader-for-mac\lib\macos\dump\gitbigfilex.REMOVED.git-id
+E:\kpdf\pdfreader-for-mac\lib\macos\kvision\gitbigfilex.REMOVED.git-id
+
 
 ## git 迁移仓库地址（保留分支和历史提交）
 
