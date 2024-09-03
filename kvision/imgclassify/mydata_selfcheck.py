@@ -39,7 +39,7 @@ TOPK_COUNT = 11
 
 def mergeTest(fpath):
     from app import classify_imagefile, classify_score
-    retv, maxid, maxv = classify_imagefile(fpath)
+    retv, maxid, maxv = classify_imagefile(fpath, check=True)
     return retv, maxid, maxv, classify_score
 
 def main(dataset):
