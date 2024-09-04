@@ -295,5 +295,5 @@ vehicle or transportation:vehicle
 # 还需要移除相似图片。
 if __name__ == "__main__":
     #test()
-    main("mydata")
+    main("mydata/dataset")
     print("ok")

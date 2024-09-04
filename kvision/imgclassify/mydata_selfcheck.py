@@ -34,12 +34,12 @@ sys.path.append("/home/yqh/code/pythonx/fastai/image_classification/demo")
 
 QUICK = "quick" in sys.argv
 DEBUG = "debug" in sys.argv
-INSTALL = "install" in sys.argv
+INSTALL = True # "install" in sys.argv
 TOPK_COUNT = 11
 
 def mergeTest(fpath):
     from app import classify_imagefile, classify_score
-    retv, maxid, maxv = classify_imagefile(fpath, check=True)
+    retv, maxid, maxv = classify_imagefile(fpath, check=not INSTALL)
     return retv, maxid, maxv, classify_score
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
@@ -52,6 +52,7 @@ def main(dataset):
 
         print("***" * 30)
         colorPrint(ifile)
+        image = Image.open(ifile)
 
         retv, maxid, maxv, classify_score = mergeTest(ifile)
 
@@ -97,5 +98,5 @@ def main(dataset):
 # 还需要移除相似图片。
 if __name__ == "__main__":
     #test()
-    main("mydata")
+    main("mydata/dataset")
     print("ok")
