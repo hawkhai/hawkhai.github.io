@@ -28,6 +28,7 @@ def main():
     searchdir(r"E:\kSource\blog\kvision\imgclassify\dataset", mainfile)
     searchdir(r"E:\kSource\blog\kvision\imgclassify\valset", mainfile)
     searchdir(r"E:\kSource\blog\kvision\imgclassify\mydata", mainfile)
+    searchdir(r"E:\kSource\blog\kvision\imgclassify\trash", mainfile)
 
 if __name__ == "__main__":
     main()

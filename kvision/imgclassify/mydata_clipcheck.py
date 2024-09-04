@@ -273,6 +273,7 @@ vehicle or transportation:vehicle
                 copyfile(ifile, targetfile)
             assert os.path.exists(targetfile), targetfile
             if not DEBUG:
+                image.close()
                 osremove(ifile)
 
         else: # Review
@@ -288,6 +289,7 @@ vehicle or transportation:vehicle
             copyfile(ifile, targetfile)
             assert os.path.exists(targetfile), targetfile
             if not DEBUG:
+                image.close()
                 osremove(ifile)
 
     searchdir(dataset, mainfile)

@@ -32,7 +32,7 @@ def checkimg(xfile):
         except Exception as ey:
             print(ey)
             print("错误", xfile)
-            osremove(xfile)
+            osremove(xfile) # 解析错误
             return False
 
     width, height = img.size
@@ -40,7 +40,7 @@ def checkimg(xfile):
         print(img.size, xfile)
         print("太小", xfile)
         img.close()
-        osremove(xfile)
+        osremove(xfile) # 图片太小
         return False
 
     ratio = 1.0
@@ -58,7 +58,7 @@ def checkimg(xfile):
         print(img.size, xfile)
         print("错误", xfile)
         img.close()
-        osremove(xfile)
+        osremove(xfile) # 图片错误
         return False
 
     if img.mode != "RGB":
@@ -386,7 +386,7 @@ def checkimg_baidu(rootdir):
         fnamec = fname.split(".")[0].split("_", 1)[1]
         if fnamec in fnamez:
             print("REMOVE REP", fnamez[fnamec], fpath)
-            os.remove(fpath)
+            os.remove(fpath) # 重复
             return
         fnamez[fnamec] = fpath
 
@@ -394,7 +394,7 @@ def checkimg_baidu(rootdir):
         width, height = img.size
         if width / height < 1/3 or height / width < 1/3 or width * height < 150 * 150:
             img.close()
-            os.remove(fpath)
+            os.remove(fpath) # 太小
             print("REMOVE", (width, height), fpath)
 
     searchdir(rootdir, mainfile)

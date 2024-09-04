@@ -62,7 +62,7 @@ def faiss_topk_search(features_list, top_k=5):
 
     return neighbors
 
-def find_duplicates(image_dir, model, transform, threshold=0.98):
+def find_duplicates(image_dir, model, transform, threshold=0.99):
     features_list = []
     image_paths = []
 
@@ -87,7 +87,7 @@ def find_duplicates(image_dir, model, transform, threshold=0.98):
 
     return duplicates
 
-def find_duplicates_with_faiss(image_dir, model, transform, top_k=5, similarity_threshold=0.98):
+def find_duplicates_with_faiss(image_dir, model, transform, top_k=5, similarity_threshold=0.99):
 
     image_paths = []
     def mainfile(fpath, fname, ftype):
@@ -114,7 +114,7 @@ def find_duplicates_with_faiss(image_dir, model, transform, top_k=5, similarity_
 
 def remove_duplicates(duplicates):
     for img1, img2 in duplicates:
-    	assert img2.find("imgclassify") != -1, img2
+        assert img2.find("imgclassify") != -1, img2
         if os.path.exists(img1):
             copyfile(img1, img2.replace("imgclassify", "imgclassifz")+".jpg")
 
@@ -168,7 +168,7 @@ Top-1 准确率: 75.3%
         r"/home/yqh/code/blog/kvision/imgclassify/mydata/valset",
     ]
     duplicates = find_duplicates_with_faiss(image_directory, model, transform,
-                        top_k=5, similarity_threshold=0.98)
+                        top_k=5, similarity_threshold=0.99)
     remove_duplicates(duplicates)
     cleardirEmpty(r"/home/yqh/code/blog/kvision/imgclassify")
 

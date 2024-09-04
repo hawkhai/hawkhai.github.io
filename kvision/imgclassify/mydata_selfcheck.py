@@ -76,6 +76,7 @@ def main(dataset):
                 copyfile(ifile, targetfile)
             assert os.path.exists(targetfile), targetfile
             if not DEBUG:
+                image.close()
                 osremove(ifile)
 
         else: # Review
@@ -91,6 +92,7 @@ def main(dataset):
             copyfile(ifile, targetfile)
             assert os.path.exists(targetfile), targetfile
             if not DEBUG:
+                image.close()
                 osremove(ifile)
 
     searchdir(dataset, mainfile)
