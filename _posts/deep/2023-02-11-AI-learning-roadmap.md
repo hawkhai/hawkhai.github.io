@@ -51,7 +51,7 @@ cluster: "机器学习课程"
 * 图片处理 imgaug
 * [望舒同学 {% include relref_bili.html %}](https://space.bilibili.com/29834628) [note {% include relref_zhihu.html %}](https://www.zhihu.com/people/liang-rong-24-62)
 * 一些资料 [notes {% include relref_github.html %}](https://github.com/azataiot/DeepLearning-Notes)
-* [浙江大学-机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1qf4y1x7kB/)
+* [浙江大学 - 机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1qf4y1x7kB/)
 
 微积分：MIT 18.01, MIT 18.02
 线性代数：MIT 18.06

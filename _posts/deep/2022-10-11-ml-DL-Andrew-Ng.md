@@ -18,8 +18,13 @@ cluster: "机器学习课程"
 ---
 
 * 吴恩达机器学习 19:37:16 142 <https://www.bilibili.com/video/BV1Bq421A74G/>
-* 吴恩达深度学习 27:44:07 183 <https://www.bilibili.com/video/BV1Gm421u73z/>
+* 吴恩达深度学习 27:44:07 183 <https://www.bilibili.com/video/BV1FT4y1E74V/>
 * [html2text](http://www.atoolbox.net/Tool.php?Id=715)
+
+机器学习早期版本（岁月觞）：[吴恩达机器学习系列课程 {% include relref_bili.html %}](https://www.bilibili.com/video/BV164411b7dx/)
+
+
+# 吴恩达机器学习
 
 
 ## 1 1.1 欢迎来到机器学习 ! 02:45
@@ -709,6 +714,9 @@ $$
     * content-based filtering, reinforcement learning
 
 
+# 吴恩达深度学习
+
+
 ## 1 1.1.1 欢迎 05:33
 
 
@@ -1264,8 +1272,9 @@ $$
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.bilibili.com/video/BV1Bq421A74G/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/738a77eb.html" %})
-- [https://www.bilibili.com/video/BV1Gm421u73z/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/c8eafc49.html" %})
+- [https://www.bilibili.com/video/BV1FT4y1E74V/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/821695be.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.bilibili.com/video/BV164411b7dx/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/816eb90a.html" %})
 - [https://www.nvidia.cn/glossary/data-science/xgboost/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.nvidia.cn/a13b000a.html" %})
 - [https://mp.weixin.qq.com/s/BJozV5rPJLrynuT1mvbFGQ]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/mp.weixin.qq.com/911df19b.html" %})
 - [https://mp.weixin.qq.com/s/Rf2uczXi2JG43Y-utH7YZg]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/mp.weixin.qq.com/0a09e136.html" %})
