@@ -64,6 +64,18 @@ dlrootdir = os.path.split(os.path.abspath(__file__))[0]
 model_cn, preprocess_cn = load_from_name(DEVAULTV_CNCLIP[0 if QUICK else 1], device=device, download_root=dlrootdir)
 model_cn.eval()
 
+"""
+动漫或卡通:cartoon/文本或扫描件:text/抽象或艺术:art or abstract
+风景:landscape/夜景:nightscape/建筑:building/交通工具:vehicle
+人物:people/动物:animal/食物:food/植物:plant
+日常物品:goods
+
+cartoon/text/abstract
+landscape/nightscape/building/vehicle
+people/animal/food/plant
+goods
+"""
+
 def test():
     from torchvision.datasets import CIFAR100
 
@@ -74,7 +86,7 @@ def test():
     image, class_id = cifar100[3637]
     print(type(image), class_id)
     image_input = preprocess(image).unsqueeze(0).to(device)
-    text_inputs = torch.cat([clip.tokenize(f"a image of a {c}") for c in cifar100.classes]).to(device)
+    text_inputs = torch.cat([clip.tokenize(f"a image of {c}") for c in cifar100.classes]).to(device)
 
     # Calculate features
     with torch.no_grad():
@@ -131,7 +143,7 @@ def cateclip(image, classes):
     classes = [c.split(":")[0].strip() for c in classes]
     #print(classe_ids)
     #print(classes)
-    text_inputs = torch.cat([clip.tokenize(f"a image of a {c}") for c in classes]).to(device)
+    text_inputs = torch.cat([clip.tokenize(f"a image of {c}") for c in classes]).to(device)
 
     # Calculate features
     with torch.no_grad():
@@ -142,7 +154,7 @@ def cateclip(image, classes):
     image_features /= image_features.norm(dim=-1, keepdim=True)
     text_features /= text_features.norm(dim=-1, keepdim=True)
     similarity = (100.0 * image_features @ text_features.T).softmax(dim=-1)
-    values, indices = similarity[0].topk(TOPK_COUNT)
+    values, indices = similarity[0].topk(min(TOPK_COUNT, len(classes)))
 
     # Print the result
     #print("\nTop predictions:\n")
@@ -192,12 +204,6 @@ def cateclip_cn(image, classes):
 
     return getMaxKV(retmap), retmap
 
-# 自然界（如动物、植物）
-# 人造环境（如建筑、交通工具）
-# 日常生活中的各种物品和场景（如食物、日常物品、夜景、人物、风景）
-# 特定的图像类型（如动漫/卡通、文本/扫描件）
-#城市元素 (Urban Elements)
-#抽象或艺术 (Art or Abstract)
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def main(dataset):
     classes = r"""
@@ -212,6 +218,7 @@ plant
 scenery or Natural landscape:landscape
 text or scanned document:text
 vehicle or transportation:vehicle
+art or abstract:abstract
     """.strip().split("\n")
     classes = [i.strip() for i in classes]
     classes_cn = r"""
@@ -226,6 +233,7 @@ vehicle or transportation:vehicle
 风景:landscape
 文本或扫描件:text
 交通工具:vehicle
+抽象或艺术:abstract
     """.strip().split("\n")
     classes_cn = [i.strip() for i in classes_cn]
 
@@ -237,9 +245,103 @@ vehicle or transportation:vehicle
         print("***" * 30)
         colorPrint(ifile)
         image = Image.open(ifile)
-        (idx1, idv1), retmap1 = cateclip(image, classes)
+        # 需要两步分类，避免分类之间的重叠问题。
+        """cartoon/text/abstract
+people/animal/food/plant
+landscape/nightscape/building/vehicle
+goods"""
+        def classification(catefunc, image, classes):
+            classe_ids = [c.split(":")[-1].strip() for c in classes]
+            classes = [c.split(":")[0].strip() for c in classes]
+            classmap = {}
+            for idx in range(len(classe_ids)):
+                classmap[classe_ids[idx]] = classes[idx]
+
+            supclasz = [
+                f'{classmap["cartoon"]} or {classmap["text"]}:1',
+                f'not {classmap["cartoon"]} and not {classmap["text"]}:2',
+            ]
+            (idx12, idv12), retmap12 = catefunc(image, supclasz)
+            print(supclasz)
+            print(retmap12)
+            subclasz = [
+                f'{classmap["cartoon"]}:cartoon',
+                f'{classmap["text"]}:text',
+                f'{classmap["abstract"]}:abstract',
+            ]
+            (idxA, idvA), retmapA = catefunc(image, subclasz)
+            print(subclasz)
+            print(retmapA)
+
+            supclasz = [
+                f'{classmap["people"]} or {classmap["animal"]} or {classmap["food"]} or {classmap["plant"]}:3',
+                f'not {classmap["people"]} and not {classmap["animal"]} and not {classmap["food"]} and not {classmap["plant"]}:4',
+            ]
+            (idx34, idv34), retmap34 = catefunc(image, supclasz)
+            print(supclasz)
+            print(retmap34)
+            subclasz = [
+                f'{classmap["people"]}:people',
+                f'{classmap["animal"]}:animal',
+                f'{classmap["food"]}:food',
+                f'{classmap["plant"]}:plant',
+            ]
+            (idxB, idvB), retmapB = catefunc(image, subclasz)
+            print(subclasz)
+            print(retmapB)
+
+            supclasz = [
+                f'{classmap["landscape"]} or {classmap["nightscape"]} or {classmap["building"]} or {classmap["vehicle"]}:5',
+                f'not {classmap["landscape"]} and not {classmap["nightscape"]} and not {classmap["building"]} and not {classmap["vehicle"]}:6',
+            ]
+            (idx56, idv56), retmap56 = catefunc(image, supclasz)
+            print(supclasz)
+            print(retmap56)
+            subclasz = [
+                f'{classmap["landscape"]}:landscape',
+                f'{classmap["nightscape"]}:nightscape',
+                f'{classmap["building"]}:building',
+                f'{classmap["vehicle"]}:vehicle',
+            ]
+            (idxC, idvC), retmapC = catefunc(image, subclasz)
+            print(subclasz)
+            print(retmapC)
+
+            supclasz = [
+                f'{classmap["goods"]}:7',
+                f'not {classmap["goods"]}:8',
+            ]
+            (idx78, idv78), retmap78 = catefunc(image, supclasz)
+            print(supclasz)
+            print(retmap78)
+
+            retmap = {
+                 "cartoon": retmap12["1"] * retmapA["cartoon"],
+                 "text": retmap12["1"] * retmapA["text"],
+                 "abstract": retmap12["1"] * retmapA["abstract"],
+                 "people": retmap12["2"] * retmap34["3"] * retmapB["people"],
+                 "animal": retmap12["2"] * retmap34["3"] * retmapB["animal"],
+                 "food": retmap12["2"] * retmap34["3"] * retmapB["food"],
+                 "plant": retmap12["2"] * retmap34["3"] * retmapB["plant"],
+                 "landscape": retmap12["2"] * retmap34["4"] * retmap56["5"] * retmapC["landscape"],
+                 "nightscape": retmap12["2"] * retmap34["4"] * retmap56["5"] * retmapC["nightscape"],
+                 "building": retmap12["2"] * retmap34["4"] * retmap56["5"] * retmapC["building"],
+                 "vehicle": retmap12["2"] * retmap34["4"] * retmap56["5"] * retmapC["vehicle"],
+                 "goods": retmap12["2"] * retmap34["4"] * retmap56["6"] * retmap78["7"],    
+                 "unknow": retmap12["2"] * retmap34["4"] * retmap56["6"] * retmap78["8"],    
+            }
+            maxid, maxv = -1, -1
+            for key in retmap.keys():
+                val = retmap[key]
+                if val > maxv:
+                    maxv = val
+                    maxid = key
+            print(retmap)
+            return [maxid, maxv], retmap
+
+        (idx1, idv1), retmap1 = classification(cateclip, image, classes)
         colorPrint(idx1, idv1)
-        (idx2, idv2), retmap2 = cateclip_cn(image, classes_cn)
+        (idx2, idv2), retmap2 = classification(cateclip_cn, image, classes_cn)
         colorPrint(idx2, idv2)
 
         flag = False
