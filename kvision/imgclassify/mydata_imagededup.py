@@ -166,6 +166,7 @@ Top-1 准确率: 75.3%
         r"/home/yqh/code/blog/kvision/imgclassify/mydata/train",
         r"/home/yqh/code/blog/kvision/imgclassify/mydata/dataset",
         r"/home/yqh/code/blog/kvision/imgclassify/mydata/valset",
+        r"/home/yqh/code/blog/kvision/imgclassify/trash",
     ]
     duplicates = find_duplicates_with_faiss(image_directory, model, transform,
                         top_k=5, similarity_threshold=0.99)
