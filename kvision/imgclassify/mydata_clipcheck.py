@@ -105,7 +105,7 @@ def test():
     for value, index in zip(values, indices):
         print(f"{cifar100.classes[index]:>16s}: {100 * value.item():.2f}%")
 
-def getMaxKV(retmap, retdb=False):
+def getMaxKV(retmap, retsecond=False):
 
     keys = [k for k in retmap.keys()]
     #assert len(keys) in (5, 12), keys
@@ -120,7 +120,7 @@ def getMaxKV(retmap, retdb=False):
     valsk = vals[:]
     valsk.sort()
     valsk = valsk[::-1]
-    if retdb:
+    if retsecond:
         return keys[vals.index(valsk[0])], valsk[0], keys[vals.index(valsk[1])], valsk[1]
     return keys[vals.index(valsk[0])], valsk[0]
 
@@ -478,7 +478,7 @@ goods"""
         if idv1 >= 0.5 and idv2 < idv1 - 0.2:
             flag = True
 
-        if not flag: # 没有答案就算了。
+        if not flag and not DATAX: # 没有答案就算了。
             return
 
         if INSTALL:
