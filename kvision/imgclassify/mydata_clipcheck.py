@@ -105,7 +105,7 @@ def test():
     for value, index in zip(values, indices):
         print(f"{cifar100.classes[index]:>16s}: {100 * value.item():.2f}%")
 
-def getMaxKV(retmap, retsecond=False):
+def getMaxKV(retmap, retsecond=False, colorp=False):
 
     keys = [k for k in retmap.keys()]
     #assert len(keys) in (5, 12), keys
@@ -113,7 +113,10 @@ def getMaxKV(retmap, retsecond=False):
     vals = [retmap[k] for k in keys]
 
     if DEBUG:
-        print("===" * 30)
+        if colorp:
+            colorPrint("===" * 30)
+        else:
+            print("===" * 30)
         for key in keys:
             print("%8s"%key, "-"*int(retmap[key]*100), "%.8f"%retmap[key])
 
@@ -129,9 +132,9 @@ def mergeTest(retmap1, retmap2):
     retmap = {}
     for key in retmap1.keys():
         retmap[key] = (retmap1[key] + retmap2[key]) / 2
-    colorPrint("mergeTest", color="yellow")
+    #colorPrint("mergeTest", color="yellow")
     # 合并后，第一名 >= 0.5，第二名 < 0.4
-    return getMaxKV(retmap, True)
+    return getMaxKV(retmap, True, True)
 
 # Download the dataset
 #cifar100 = CIFAR100(root=os.path.expanduser("~/.cache"), download=True, train=False)
@@ -339,21 +342,22 @@ def main(dataset):
         "landscape": ["scenery", "natural landscape", "view", "terrain", "outdoor", "nature", "countryside", "vista"],
         "text": ["text", "scanned document", "written content", "letter", "page", "manuscript", "script", "typography"],
         "vehicle": ["vehicle", "transportation", "car", "bike", "bus", "train", "airplane", "boat", "motorcycle"],
-        "abstract": ["art", "abstract", "conceptual", "modern art", "non-representational", "expressionism", "surrealism", "minimalism"],
+        "abstract": ["art", "abstract", "conceptual art", "modern art", "non-representational", "expressionism", "surrealism", "minimalism"],
     }
+
     classes_cn = {
         "animal": ["动物", "哺乳动物", "鸟类", "爬行动物", "鱼类", "昆虫", "野生动物", "宠物"],
-        "cartoon": ["动漫", "卡通", "动画片", "漫画", "插画", "动画角色", "动画场景"],
-        "building": ["建筑", "建筑物", "摩天大楼", "结构", "城市建筑", "历史建筑", "公共建筑"],
+        "cartoon": ["动漫", "卡通", "动画片", "漫画", "插画", "动画角色", "动画系列"],
+        "building": ["建筑", "建筑物", "摩天大楼", "结构", "城市建筑", "历史建筑", "办公楼"],
         "food": ["食物", "菜肴", "餐点", "美食", "小吃", "饮品", "餐饮", "原料"],
-        "goods": ["日常物品", "商品", "产品", "货物", "小物件", "家庭用品", "消费品"],
-        "nightscape": ["夜景", "夜晚风光", "城市夜景", "星空", "夜间灯光", "夜晚摄影", "夜色"],
-        "people": ["人物", "人", "肖像", "人群", "个体", "角色", "人像"],
-        "plant": ["植物", "花卉", "树木", "灌木", "叶子", "绿植", "园艺植物"],
+        "goods": ["商品", "日常物品", "产品", "货物", "物品", "家庭用品", "消费品"],
+        "nightscape": ["夜景", "夜晚风光", "城市夜景", "星空", "夜间灯光", "夜色", "夜晚摄影"],
+        "people": ["人物", "人", "肖像", "个体", "人群", "角色", "人像"],
+        "plant": ["植物", "花卉", "树木", "灌木", "叶子", "绿植", "草本植物"],
         "landscape": ["风景", "自然景观", "景色", "地形", "户外风光", "自然环境", "乡村风光"],
         "text": ["文本", "扫描件", "书写内容", "文档", "页面", "手稿", "字母", "符号"],
-        "vehicle": ["交通工具", "车辆", "汽车", "自行车", "公交车", "火车", "飞机", "船舶"],
-        "abstract": ["抽象", "艺术", "概念艺术", "现代艺术", "非具象", "表现主义", "艺术作品"]
+        "vehicle": ["交通工具", "车辆", "汽车", "自行车", "公交车", "火车", "飞机", "船舶", "摩托车"],
+        "abstract": ["抽象", "艺术", "概念艺术", "现代艺术", "非具象", "表现主义", "超现实主义", "极简主义"],
     }
 
     def mainfile(fpath, fname, ftype):
