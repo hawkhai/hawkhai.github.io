@@ -62,32 +62,7 @@ def faiss_topk_search(features_list, top_k=5):
 
     return neighbors
 
-def find_duplicates(image_dir, model, transform, threshold=0.99):
-    features_list = []
-    image_paths = []
-
-    for image_name in os.listdir(image_dir):
-        image_path = os.path.join(image_dir, image_name)
-        features = extract_features(image_path, model, transform)
-        features_list.append(features)
-        image_paths.append(image_path)
-
-    # 计算所有图像特征之间的余弦相似度
-    similarities = cosine_similarity(features_list)
-
-    # 识别相似度高于阈值的图片对
-    duplicates = set()
-    for i in range(len(similarities)):
-        for j in range(i + 1, len(similarities)):
-            if similarities[i][j] > threshold:
-                if i < ind:
-                    duplicates.add((image_paths[i], image_paths[ind]))
-                elif i > ind:
-                    duplicates.add((image_paths[ind], image_paths[i]))
-
-    return duplicates
-
-def find_duplicates_with_faiss(image_dir, model, transform, top_k=5, similarity_threshold=0.99):
+def find_duplicates_with_faiss(image_dir, model, transform, top_k=5, similarity_threshold=0.98):
 
     image_paths = []
     def mainfile(fpath, fname, ftype):
@@ -169,7 +144,7 @@ Top-1 准确率: 75.3%
         r"/home/yqh/code/blog/kvision/imgclassify/trash",
     ]
     duplicates = find_duplicates_with_faiss(image_directory, model, transform,
-                        top_k=5, similarity_threshold=0.99)
+                        top_k=5, similarity_threshold=0.98)
     remove_duplicates(duplicates)
     cleardirEmpty(r"/home/yqh/code/blog/kvision/imgclassify")
 
