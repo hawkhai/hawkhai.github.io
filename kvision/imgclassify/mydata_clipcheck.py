@@ -243,7 +243,7 @@ def cateclip2(image, classes):
             
             # 提取相似度分数
             similarity_scores = similarity[0].cpu().numpy()
-            print(similarity_scores)
+            #print(similarity_scores)
             
             type_max_probs[type_key] = np.max(similarity_scores)
     
@@ -259,8 +259,8 @@ def cateclip2(image, classes):
         # 如果没有有效的相似度值，返回所有值为 0
         normalized_probs = {key: 0 for key in type_max_probs.keys()}
     
-    print(type_max_probs)
-    print(normalized_probs)
+    #print(type_max_probs)
+    #print(normalized_probs)
     return getMaxKV(normalized_probs), normalized_probs
 
 def cateclip_cn2(image, classes):
@@ -292,7 +292,7 @@ def cateclip_cn2(image, classes):
             
             # 提取相似度分数
             similarity_scores = similarity[0].cpu().numpy()
-            print(similarity_scores)
+            #print(similarity_scores)
             
             type_max_probs[type_key] = np.max(similarity_scores)
             continue
@@ -321,8 +321,8 @@ def cateclip_cn2(image, classes):
         # 如果没有有效的相似度值，返回所有值为 0
         normalized_probs = {key: 0 for key in type_max_probs.keys()}
     
-    print(type_max_probs)
-    print(normalized_probs)
+    #print(type_max_probs)
+    #print(normalized_probs)
     return getMaxKV(normalized_probs), normalized_probs
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
@@ -358,7 +358,10 @@ def main(dataset):
 
     def mainfile(fpath, fname, ftype):
         ifile = fpath # os.path.join(subdir, idir)
-        if ftype in ("txt", "json", "log", "pt",):
+        if ftype in ("txt", "json", "log", "pt", "", "py"):
+            return
+        if ftype not in ("jpg", "jpeg", "png", "bmp",):
+            assert False, ftype
             return
 
         print("***" * 30)
@@ -528,7 +531,12 @@ goods"""
 # 还需要移除相似图片。
 if __name__ == "__main__":
     #test()
-    if DATAX:
+    if DEBUG:
+        for argv in sys.argv:
+            if not os.path.isfile(argv):
+                continue
+            main(argv)
+    elif DATAX:
         main("datax")
     else:
         main("mydata/dataset")
