@@ -27,6 +27,7 @@ import torch
 import cv2
 from PIL import Image
 import numpy as np
+import torch.nn.functional as F
 
 QUICK = "quick" in sys.argv
 DEBUG = "debug" in sys.argv
@@ -168,6 +169,15 @@ def cateclip(image, classes):
 
     return getMaxKV(retmap), retmap
 
+"""
+输入数据结构调整：
+image -- 图片
+classes -- 是一个字典，比如：{
+    "type1": ["anime", "cartoon"],
+    "type2": ["animal"],
+}
+需要找出 image 和 哪个 class 最接近，而每个 type 包含的关键字列表，要取最接近图片的那个。
+"""
 def cateclip_cn(image, classes):
 
     classe_ids = [c.split(":")[-1].strip() for c in classes]
@@ -204,38 +214,147 @@ def cateclip_cn(image, classes):
 
     return getMaxKV(retmap), retmap
 
+def cateclip2(image, classes):
+    # 对图像进行预处理
+    image_input = preprocess(image).unsqueeze(0).to(device)
+    
+    # 存储每个 type 对应的最大相似度值
+    type_max_probs = {}
+    
+    # 遍历字典中的每个 type
+    for type_key, keywords in classes.items():
+        # 生成对应的文本描述
+        texts = [f"a {keyword} image" for keyword in keywords]
+        text_tokens = torch.cat([clip.tokenize(text) for text in texts]).to(device)
+        
+        # 计算图像和文本的特征
+        with torch.no_grad():
+            image_features = model.encode_image(image_input)
+            text_features = model.encode_text(text_tokens)
+            assert image_features.size()[0] == 1, image_features.size()
+            assert text_features.size()[0] == len(keywords), text_features.size()
+            
+            # 归一化特征
+            image_features /= image_features.norm(dim=-1, keepdim=True)
+            text_features /= text_features.norm(dim=-1, keepdim=True)
+            
+            # 计算图像和文本的相似度
+            similarity = (100.0 * image_features @ text_features.T) #.softmax(dim=-1)
+            
+            # 提取相似度分数
+            similarity_scores = similarity[0].cpu().numpy()
+            print(similarity_scores)
+            
+            type_max_probs[type_key] = np.max(similarity_scores)
+    
+    # 转换为 tensor 以便使用 softmax
+    type_keys = list(type_max_probs.keys())
+    type_values = np.array(list(type_max_probs.values()))
+    
+    if type_values.size > 0:
+        # 使用 softmax 进行归一化
+        softmax_probs = F.softmax(torch.tensor(type_values, dtype=torch.float32), dim=0).numpy()
+        normalized_probs = dict(zip(type_keys, softmax_probs))
+    else:
+        # 如果没有有效的相似度值，返回所有值为 0
+        normalized_probs = {key: 0 for key in type_max_probs.keys()}
+    
+    print(type_max_probs)
+    print(normalized_probs)
+    return getMaxKV(normalized_probs), normalized_probs
+
+def cateclip_cn2(image, classes):
+    # 对图片进行预处理
+    image = preprocess(image).unsqueeze(0).to(device)
+    
+    # 存储每个 type 对应的最大相似度值
+    type_max_probs = {}
+    
+    # 遍历字典中的每个 type
+    for type_key, keywords in classes.items():
+        # 生成对应的文本描述
+        texts = [f"一张 {keyword} 图片" for keyword in keywords]
+        text_tokens = cn_clip.tokenize(texts).to(device)
+        
+        # 计算图像和文本的特征
+        with torch.no_grad():
+            image_features = model_cn.encode_image(image)
+            text_features = model_cn.encode_text(text_tokens)
+            assert image_features.size()[0] == 1, image_features.size()
+            assert text_features.size()[0] == len(keywords), text_features.size()
+
+            # 归一化特征
+            image_features /= image_features.norm(dim=-1, keepdim=True)
+            text_features /= text_features.norm(dim=-1, keepdim=True)
+            
+            # 计算图像和文本的相似度
+            similarity = (100.0 * image_features @ text_features.T) #.softmax(dim=-1)
+            
+            # 提取相似度分数
+            similarity_scores = similarity[0].cpu().numpy()
+            print(similarity_scores)
+            
+            type_max_probs[type_key] = np.max(similarity_scores)
+            continue
+            
+            # 计算图像和文本的相似度
+            logits_per_image, _ = model_cn.get_similarity(image_features, text_features)
+            
+            # 计算每个文本描述的概率
+            probs = logits_per_image.softmax(dim=-1).cpu().numpy()
+            
+            # 对于每个 type，计算最大概率
+            max_prob = np.max(probs)
+            
+            # 存储当前 type 对应的最大概率
+            type_max_probs[type_key] = max_prob
+    
+    # 转换为 tensor 以便使用 softmax
+    type_keys = list(type_max_probs.keys())
+    type_values = np.array(list(type_max_probs.values()))
+    
+    if type_values.size > 0:
+        # 使用 softmax 进行归一化
+        softmax_probs = F.softmax(torch.tensor(type_values, dtype=torch.float32), dim=0).numpy()
+        normalized_probs = dict(zip(type_keys, softmax_probs))
+    else:
+        # 如果没有有效的相似度值，返回所有值为 0
+        normalized_probs = {key: 0 for key in type_max_probs.keys()}
+    
+    print(type_max_probs)
+    print(normalized_probs)
+    return getMaxKV(normalized_probs), normalized_probs
+
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def main(dataset):
-    classes = r"""
-animal
-anime or cartoon:cartoon
-building or architecture or Urban Elements:building
-food
-goods or Everyday Objects:goods
-nightscape:nightscape
-people or person:people
-plant
-scenery or Natural landscape:landscape
-text or scanned document:text
-vehicle or transportation:vehicle
-art or abstract:abstract
-    """.strip().split("\n")
-    classes = [i.strip() for i in classes]
-    classes_cn = r"""
-动物:animal
-动漫或卡通:cartoon
-建筑:building
-食物:food
-日常物品:goods
-夜景:nightscape
-人物:people
-植物:plant
-风景:landscape
-文本或扫描件:text
-交通工具:vehicle
-抽象或艺术:abstract
-    """.strip().split("\n")
-    classes_cn = [i.strip() for i in classes_cn]
+    classes = {
+        "animal": ["animal"],
+        "cartoon": ["anime", "cartoon"],
+        "building": ["building", "architecture", "urban elements"],
+        "food": ["food"],
+        "goods": ["goods", "everyday objects"],
+        "nightscape": ["nightscape"],
+        "people": ["people", "person"],
+        "plant": ["plant"],
+        "landscape": ["scenery", "natural landscape",],
+        "text": ["text", "scanned document"],
+        "vehicle": ["vehicle", "transportation"],
+        "abstract": ["art", "abstract"],
+    }
+    classes_cn = {
+        "animal": ["动物"],
+        "cartoon": ["动漫", "卡通"],
+        "building": ["建筑"],
+        "food": ["食物"],
+        "goods": ["日常物品"],
+        "nightscape": ["夜景"],
+        "people": ["人物"],
+        "plant": ["植物"],
+        "landscape": ["风景"],
+        "text": ["文本", "扫描件"],
+        "vehicle": ["交通工具"],
+        "abstract": ["抽象", "艺术"],
+    }
 
     def mainfile(fpath, fname, ftype):
         ifile = fpath # os.path.join(subdir, idir)
@@ -339,9 +458,13 @@ goods"""
             print(retmap)
             return [maxid, maxv], retmap
 
-        (idx1, idv1), retmap1 = classification(cateclip, image, classes)
+        def classification2(catefunc, image, classes):
+            retv = catefunc(image, classes)
+            return retv
+
+        (idx1, idv1), retmap1 = classification2(cateclip2, image, classes)
         colorPrint(idx1, idv1)
-        (idx2, idv2), retmap2 = classification(cateclip_cn, image, classes_cn)
+        (idx2, idv2), retmap2 = classification2(cateclip_cn2, image, classes_cn)
         colorPrint(idx2, idv2)
 
         flag = False
