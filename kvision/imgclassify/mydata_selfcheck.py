@@ -34,12 +34,19 @@ sys.path.append("/home/yqh/code/pythonx/fastai/image_classification/demo")
 
 QUICK = "quick" in sys.argv
 DEBUG = "debug" in sys.argv
-INSTALL = True # "install" in sys.argv
+DATAX = "datax" in sys.argv
+INSTALL = not DATAX # "install" in sys.argv
 TOPK_COUNT = 11
 
 def mergeTest(fpath):
     from app import classify_imagefile, classify_score
-    retv, maxid, maxv = classify_imagefile(fpath, check=not INSTALL)
+    if INSTALL:
+        retraw = False # 相当于发布版本，准确度优先，否则要删除的数据就太多了。
+    elif DATAX:
+        retraw = True # 谨慎移除数据，删一点少一点。
+    else: # Review
+        retraw = True # 直接返回原始数据，否则就 Review 太多了。
+    retv, maxid, maxv = classify_imagefile(fpath, retraw=retraw)
     return retv, maxid, maxv, classify_score
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
@@ -87,7 +94,10 @@ def main(dataset):
 
             ifile = os.path.abspath(ifile)
             assert ifile.find("imgclassify") != -1, ifile
-            targetfile = ifile.replace("imgclassify", "imgclassifz")
+            if DATAX:
+                targetfile = ifile.replace("imgclassify", "imgclassifx_self")
+            else:
+                targetfile = ifile.replace("imgclassify", "imgclassifz")
 
             copyfile(ifile, targetfile)
             assert os.path.exists(targetfile), targetfile
@@ -100,5 +110,8 @@ def main(dataset):
 # 还需要移除相似图片。
 if __name__ == "__main__":
     #test()
-    main("mydata/dataset")
+    if DATAX:
+        main("datax")
+    else:
+        main("mydata/dataset")
     print("ok")

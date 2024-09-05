@@ -31,6 +31,7 @@ import numpy as np
 QUICK = "quick" in sys.argv
 DEBUG = "debug" in sys.argv
 INSTALL = "install" in sys.argv
+DATAX = "datax" in sys.argv
 TOPK_COUNT = 11
 
 # 官网推荐的 'ViT-B/32'
@@ -286,7 +287,10 @@ vehicle or transportation:vehicle
 
             ifile = os.path.abspath(ifile)
             assert ifile.find("imgclassify") != -1, ifile
-            targetfile = ifile.replace("imgclassify", "imgclassifz")
+            if DATAX:
+                targetfile = ifile.replace("imgclassify", "imgclassifx_clip")
+            else:
+                targetfile = ifile.replace("imgclassify", "imgclassifz")
 
             copyfile(ifile, targetfile)
             assert os.path.exists(targetfile), targetfile
@@ -299,5 +303,8 @@ vehicle or transportation:vehicle
 # 还需要移除相似图片。
 if __name__ == "__main__":
     #test()
-    main("mydata/dataset")
+    if DATAX:
+        main("datax")
+    else:
+        main("mydata/dataset")
     print("ok")
