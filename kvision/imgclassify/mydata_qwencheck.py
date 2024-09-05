@@ -14,10 +14,13 @@ for reldirx, _lidir in (
 if not reldirx in sys.path: sys.path.append(reldirx) # 放到最后，避免 sys.path.insert
 del _lidir # reldirx 可以继续使用
 from pythonx.funclib import *
+from pythonx.ksample import *
 
 import base64
 import requests
 import time
+import oss2  
+from datetime import datetime, timedelta  
 
 # https://help.aliyun.com/zh/dashscope/developer-reference/vl-plus-quick-start
 QWEN_KEY = os.getenv("DASHSCOPE_API_KEY")
@@ -46,17 +49,27 @@ QWEN_PROMPT = """
 请用一个唯一的数字作答。
 """
 
-g_count = 0
-g_time = 0
-g_countpd = 0
-g_timepd = 0
+def get_url(object_name):
+
+    bucket = getOssBucket("pythonx")
+      
+    # 设置URL的过期时间，例如1小时  
+    expiration_time = datetime.now() + timedelta(hours=1)  
+    # 将datetime对象转换为时间戳（秒），并减去当前时间的时间戳（秒），得到过期时间差（秒）  
+    expires = int((expiration_time - datetime.now()).total_seconds())   
+      
+    # 生成临时URL，这里假设我们只允许GET请求  
+    url = bucket.sign_url('GET', object_name, expires)  
+      
+    print(url)
+    return url
 
 # Function to encode the image
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode('utf-8')
 
-def build_image(image_path):
+def build_image(image_path, osskey):
     # Getting the base64 string
     base64_image = encode_image(image_path)
     fname = os.path.basename(image_path)
@@ -81,12 +94,12 @@ def build_image(image_path):
             },
             {
               # https://aliyun.sunocean.life/test/images/14c4bec3d0c47caba3789f662d3471a.jpg
-              "image": f"https://aliyun.sunocean.life/test/images/{fname}"
+              "image": get_url(osskey)
             }
           ]
         }
       ],
-      "max_tokens": 10240 # 默认是 1024
+      "max_tokens": 1024 # 默认是 1024
     }
     return headers, payload
 
@@ -109,17 +122,10 @@ def post_cache(fpath, headers, payload):
     localfile = localfile2
     print(localfile)
 
-    global g_count
-    global g_time
-
     fjson = readfileJson(localfile, "utf8")
     if fjson and "status_code" in fjson and fjson["status_code"] == 200:
 
         ctime = float(readfile(localfile+".txt", True, "utf8"))
-
-        g_count += 1
-        g_time += ctime
-        colorPrint("DASHSCOPE", g_count, g_time, g_time / g_count)
 
         calcfile = os.path.join("tempdir", "mycalc",
                 "%04d_%s"%(int(round(ctime)), os.path.basename(fpath)))
@@ -157,10 +163,6 @@ def post_cache(fpath, headers, payload):
         btime = time.time()
         writefile(localfile+".txt", str(btime-atime), "utf8")
 
-        g_count += 1
-        g_time += btime - atime
-        colorPrint("DASHSCOPE", g_count, g_time, g_time / g_count)
-
         writefile(localfile, str(response), "utf8")
         return localkey, json.loads(str(response))
 
@@ -179,8 +181,8 @@ def post_cache(fpath, headers, payload):
     except requests.RequestException as e:
         raise SystemExit(f"Failed to make the request. Error: {e}")
 
-def request_qwen(image_path):
-    headers, payload = build_image(image_path)
+def request_qwen(image_path, osskey):
+    headers, payload = build_image(image_path, osskey)
     localkey, fjson = post_cache(image_path, headers, payload)
     print(jsondumps(fjson))
     return localkey, fjson
@@ -191,14 +193,39 @@ def main():
 
     def mainfile(fpath, fname, ftype):
 
-        localkey, fjson = request_qwen(fpath)
-    
-        # qwen_format(fjson["output"]["choices"][0]["message"]["content"][0]["text"])), "utf8")
+        if ftype not in ("jpg", "jpeg", "webp", "png", "bmp"):
+            return
+
+        qwenfile = os.path.splitext(fpath)[0] + "_qwen.json"
+        if os.path.exists(qwenfile):
+            return
+
+        osskey = os.path.relpath(fpath, r"E:\kSource\blog\kvision\imgclassify")
+        osskey = osskey.replace("\\", "/")
+        localkey, fjson = request_qwen(fpath, osskey)
+
         # qwen_format(fjson["output"]["choices"][0]["message"]["content"][0]["text"])
         # {"error":{"code":"1301","message":"系统检测到输入或生成内容可能包含不安全或敏感内容，请您避免输入易产生敏感内容的提示语，感谢您的配合。"}}
         # if "error" not in fjson else fjson["error"]["message"])
 
+        writefileJson(qwenfile, fjson)
+        #openTextFile("tempfile.json")
+
+    image_directory = [
+        r"E:\kSource\blog\kvision\imgclassify\mydata\val",
+        r"E:\kSource\blog\kvision\imgclassify\mydata\train",
+        r"E:\kSource\blog\kvision\imgclassify\mydata\dataset",
+        r"E:\kSource\blog\kvision\imgclassify\mydata\valset",
+    ] if IS_WINDOWS else [
+        r"/home/yqh/code/blog/kvision/imgclassify/mydata/val",
+        r"/home/yqh/code/blog/kvision/imgclassify/mydata/train",
+        r"/home/yqh/code/blog/kvision/imgclassify/mydata/dataset",
+        r"/home/yqh/code/blog/kvision/imgclassify/mydata/valset",
+        r"/home/yqh/code/blog/kvision/imgclassify/trash",
+    ]
     
+    for idir in image_directory:
+        searchdir(idir, mainfile)
 
 if __name__ == "__main__":
     main()
