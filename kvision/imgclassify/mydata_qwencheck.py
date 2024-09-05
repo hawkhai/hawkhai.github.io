@@ -36,8 +36,8 @@ QWEN_PROMPT = """
 1. 人物 people or person
 2. 动物 animal
 3. 植物 plant
-4. 风景 scenery or landscape
-5. 建筑 building or architecture
+4. 风景 scenery or Natural landscape
+5. 建筑 building or architecture or Urban Elements
 6. 交通工具 vehicle or transportation
 7. 食物 food
 8. 日常物品 goods or Everyday Objects
