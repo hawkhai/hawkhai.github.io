@@ -33,7 +33,7 @@ QWEN_PLUS_VERSION = "plus" in sys.argv
 QWEN_ROLE = "你是一个图片分类器，对给定图片进行分类。"
 QWEN_PROMPT = """
 给定图片分类：
-1. 人物 people or human
+1. 人物 people or person
 2. 动物 animal
 3. 植物 plant
 4. 风景 scenery or landscape

@@ -195,18 +195,20 @@ def cateclip_cn(image, classes):
 # 人造环境（如建筑、交通工具）
 # 日常生活中的各种物品和场景（如食物、日常物品、夜景、人物、风景）
 # 特定的图像类型（如动漫/卡通、文本/扫描件）
+#城市元素 (Urban Elements)
+#抽象或艺术 (Art or Abstract)
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def main(dataset):
     classes = r"""
 animal
 anime or cartoon:cartoon
-building or architecture:building
+building or architecture or Urban Elements:building
 food
 goods or Everyday Objects:goods
 nightscape:nightscape
-people or human:people
+people or person:people
 plant
-scenery or landscape:landscape
+scenery or Natural landscape:landscape
 text or scanned document:text
 vehicle or transportation:vehicle
     """.strip().split("\n")
