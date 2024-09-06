@@ -350,12 +350,12 @@ def main(dataset):
         "cartoon": ["动漫", "卡通", "动画系列", "漫画", "漫画（日本）"],
         "building": ["建筑", "建筑学", "摩天大楼", "历史建筑", "办公楼"],
         "food": ["食物", "菜肴", "餐点", "美食", "小吃", "饮料", "甜点"],
-        "goods": ["商品", "产品", "商品", "消费品"],
+        "goods": ["商品", "产品", "货物", "消费品"],
         "nightscape": ["夜景", "城市灯光", "星空"],
         "people": ["人物", "肖像", "人类"],
         "plant": ["植物", "花卉", "树木", "灌木", "叶子", "植被", "灌木丛"],
         "landscape": ["风景", "自然景观", "地形", "乡村风光"],
-        "text": ["文字", "扫描件", "书写内容", "手稿"],
+        "text": ["文本", "扫描件", "书写内容", "手稿"],
         "vehicle": ["车辆", "汽车", "自行车", "公交车", "火车", "飞机", "船", "摩托车"],
         "abstract": ["抽象艺术", "概念艺术", "现代艺术", "非具象艺术", "表现主义", "超现实主义", "极简主义"],
     }
@@ -513,7 +513,7 @@ goods"""
 
         else: # Review
             mytype = os.path.split(os.path.split(fpath)[0])[-1]
-            assert mytype in [c.split(":")[-1].strip() for c in classes], mytype
+            assert mytype in [c.split(":")[-1].strip() for c in classes] or mytype == "notsure", mytype
             if idx1 == mytype: # 如果相等，就不要再 Review 了。
                 return
 
@@ -541,7 +541,7 @@ if __name__ == "__main__":
                 continue
             main(argv)
     elif DATAX:
-        main("mydata")
+        #main("mydata")
         main("datax")
     else:
         main("mydata/dataset")
