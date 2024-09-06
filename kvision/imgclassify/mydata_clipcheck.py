@@ -339,10 +339,10 @@ def main(dataset):
         "nightscape": ["nightscape", "city lights", "starlight"],
         "people": ["people", "portrait", "human"],
         "plant": ["plant", "flower", "tree", "shrub", "leaf", "vegetation", "bush"],
-        "landscape": ["scenery", "natural landscape", "nature", "countryside"],
+        "landscape": ["scenery", "natural landscape", "terrain", "countryside"],
         "text": ["text", "scanned document", "written content", "manuscript"],
         "vehicle": ["vehicle", "car", "bike", "bus", "train", "airplane", "boat", "motorcycle"],
-        "abstract": ["art", "abstract", "conceptual art", "modern art", "non-representational", "expressionism", "surrealism", "minimalism"],
+        "abstract": ["abstract art", "conceptual art", "modern art", "non-representational", "expressionism", "surrealism", "minimalism"],
     }
 
     classes_cn = {
@@ -354,10 +354,10 @@ def main(dataset):
         "nightscape": ["夜景", "城市灯光", "星空"],
         "people": ["人物", "肖像", "人类"],
         "plant": ["植物", "花卉", "树木", "灌木", "叶子", "植被", "灌木丛"],
-        "landscape": ["风景", "自然景观", "自然环境", "乡村风光"],
+        "landscape": ["风景", "自然景观", "地形", "乡村风光"],
         "text": ["文字", "扫描件", "书写内容", "手稿"],
         "vehicle": ["车辆", "汽车", "自行车", "公交车", "火车", "飞机", "船", "摩托车"],
-        "abstract": ["艺术", "抽象", "概念艺术", "现代艺术", "非具象的", "表现主义", "超现实主义", "极简主义"],
+        "abstract": ["抽象艺术", "概念艺术", "现代艺术", "非具象艺术", "表现主义", "超现实主义", "极简主义"],
     }
 
     def mainfile(fpath, fname, ftype):
