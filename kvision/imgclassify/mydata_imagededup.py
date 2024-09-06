@@ -67,7 +67,7 @@ def faiss_topk_search_bug(features_list, top_k=5):
 
 def faiss_topk_search(features_list, top_k=5):
     features_list = np.array(features_list).astype('float32')
-    
+
     # 使用余弦相似度，需要首先对特征进行归一化
     faiss.normalize_L2(features_list)  # 归一化特征向量，使得每个向量的L2范数为1
 
@@ -195,4 +195,3 @@ Top-1 准确率: 75.3%
 
 if __name__ == "__main__":
     main()
-    

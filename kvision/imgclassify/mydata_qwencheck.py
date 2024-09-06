@@ -19,8 +19,8 @@ from pythonx.ksample import *
 import base64
 import requests
 import time
-import oss2  
-from datetime import datetime, timedelta  
+import oss2
+from datetime import datetime, timedelta
 
 # https://help.aliyun.com/zh/dashscope/developer-reference/vl-plus-quick-start
 QWEN_KEY = os.getenv("DASHSCOPE_API_KEY")
@@ -52,15 +52,15 @@ QWEN_PROMPT = """
 def get_url(object_name):
 
     bucket = getOssBucket("pythonx")
-      
-    # 设置URL的过期时间，例如1小时  
-    expiration_time = datetime.now() + timedelta(hours=1)  
-    # 将datetime对象转换为时间戳（秒），并减去当前时间的时间戳（秒），得到过期时间差（秒）  
-    expires = int((expiration_time - datetime.now()).total_seconds())   
-      
-    # 生成临时URL，这里假设我们只允许GET请求  
-    url = bucket.sign_url('GET', object_name, expires)  
-      
+
+    # 设置URL的过期时间，例如1小时
+    expiration_time = datetime.now() + timedelta(hours=1)
+    # 将datetime对象转换为时间戳（秒），并减去当前时间的时间戳（秒），得到过期时间差（秒）
+    expires = int((expiration_time - datetime.now()).total_seconds())
+
+    # 生成临时URL，这里假设我们只允许GET请求
+    url = bucket.sign_url('GET', object_name, expires)
+
     print(url)
     return url
 
@@ -221,7 +221,7 @@ def main():
         r"/home/yqh/code/blog/kvision/imgclassify/mydata/dataset",
         r"/home/yqh/code/blog/kvision/imgclassify/trash",
     ]
-    
+
     for idir in imgdirs:
         searchdir(idir, mainfile)
 

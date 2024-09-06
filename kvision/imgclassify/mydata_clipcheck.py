@@ -221,40 +221,40 @@ def cateclip_cn(image, classes):
 def cateclip2(image, classes):
     # 对图像进行预处理
     image_input = preprocess(image).unsqueeze(0).to(device)
-    
+
     # 存储每个 type 对应的最大相似度值
     type_max_probs = {}
-    
+
     # 遍历字典中的每个 type
     for type_key, keywords in classes.items():
         # 生成对应的文本描述
         texts = [f"a {keyword} image" for keyword in keywords]
         text_tokens = torch.cat([clip.tokenize(text) for text in texts]).to(device)
-        
+
         # 计算图像和文本的特征
         with torch.no_grad():
             image_features = model.encode_image(image_input)
             text_features = model.encode_text(text_tokens)
             assert image_features.size()[0] == 1, image_features.size()
             assert text_features.size()[0] == len(keywords), text_features.size()
-            
+
             # 归一化特征
             image_features /= image_features.norm(dim=-1, keepdim=True)
             text_features /= text_features.norm(dim=-1, keepdim=True)
-            
+
             # 计算图像和文本的相似度
             similarity = (100.0 * image_features @ text_features.T) #.softmax(dim=-1)
-            
+
             # 提取相似度分数
             similarity_scores = similarity[0].cpu().numpy()
             #print(similarity_scores)
-            
+
             type_max_probs[type_key] = np.max(similarity_scores)
-    
+
     # 转换为 tensor 以便使用 softmax
     type_keys = list(type_max_probs.keys())
     type_values = np.array(list(type_max_probs.values()))
-    
+
     if type_values.size > 0:
         # 使用 softmax 进行归一化
         softmax_probs = F.softmax(torch.tensor(type_values, dtype=torch.float32), dim=0).numpy()
@@ -262,7 +262,7 @@ def cateclip2(image, classes):
     else:
         # 如果没有有效的相似度值，返回所有值为 0
         normalized_probs = {key: 0 for key in type_max_probs.keys()}
-    
+
     #print(type_max_probs)
     #print(normalized_probs)
     return getMaxKV(normalized_probs), normalized_probs
@@ -270,16 +270,16 @@ def cateclip2(image, classes):
 def cateclip_cn2(image, classes):
     # 对图片进行预处理
     image = preprocess(image).unsqueeze(0).to(device)
-    
+
     # 存储每个 type 对应的最大相似度值
     type_max_probs = {}
-    
+
     # 遍历字典中的每个 type
     for type_key, keywords in classes.items():
         # 生成对应的文本描述
         texts = [f"一张 {keyword} 图片" for keyword in keywords]
         text_tokens = cn_clip.tokenize(texts).to(device)
-        
+
         # 计算图像和文本的特征
         with torch.no_grad():
             image_features = model_cn.encode_image(image)
@@ -290,33 +290,33 @@ def cateclip_cn2(image, classes):
             # 归一化特征
             image_features /= image_features.norm(dim=-1, keepdim=True)
             text_features /= text_features.norm(dim=-1, keepdim=True)
-            
+
             # 计算图像和文本的相似度
             similarity = (100.0 * image_features @ text_features.T) #.softmax(dim=-1)
-            
+
             # 提取相似度分数
             similarity_scores = similarity[0].cpu().numpy()
             #print(similarity_scores)
-            
+
             type_max_probs[type_key] = np.max(similarity_scores)
             continue
-            
+
             # 计算图像和文本的相似度
             logits_per_image, _ = model_cn.get_similarity(image_features, text_features)
-            
+
             # 计算每个文本描述的概率
             probs = logits_per_image.softmax(dim=-1).cpu().numpy()
-            
+
             # 对于每个 type，计算最大概率
             max_prob = np.max(probs)
-            
+
             # 存储当前 type 对应的最大概率
             type_max_probs[type_key] = max_prob
-    
+
     # 转换为 tensor 以便使用 softmax
     type_keys = list(type_max_probs.keys())
     type_values = np.array(list(type_max_probs.values()))
-    
+
     if type_values.size > 0:
         # 使用 softmax 进行归一化
         softmax_probs = F.softmax(torch.tensor(type_values, dtype=torch.float32), dim=0).numpy()
@@ -324,7 +324,7 @@ def cateclip_cn2(image, classes):
     else:
         # 如果没有有效的相似度值，返回所有值为 0
         normalized_probs = {key: 0 for key in type_max_probs.keys()}
-    
+
     #print(type_max_probs)
     #print(normalized_probs)
     return getMaxKV(normalized_probs), normalized_probs
@@ -454,8 +454,8 @@ goods"""
                  "nightscape": retmap12["2"] * retmap34["4"] * retmap56["5"] * retmapC["nightscape"],
                  "building": retmap12["2"] * retmap34["4"] * retmap56["5"] * retmapC["building"],
                  "vehicle": retmap12["2"] * retmap34["4"] * retmap56["5"] * retmapC["vehicle"],
-                 "goods": retmap12["2"] * retmap34["4"] * retmap56["6"] * retmap78["7"],    
-                 "notsure": retmap12["2"] * retmap34["4"] * retmap56["6"] * retmap78["8"],    
+                 "goods": retmap12["2"] * retmap34["4"] * retmap56["6"] * retmap78["7"],
+                 "notsure": retmap12["2"] * retmap34["4"] * retmap56["6"] * retmap78["8"],
             }
             maxid, maxv = -1, -1
             for key in retmap.keys():
