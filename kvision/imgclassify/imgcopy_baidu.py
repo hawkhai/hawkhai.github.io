@@ -128,11 +128,18 @@ def luckcopy(rootdir, targetdir, clasz, pname):
 
         print(targetfile)
         copyimg(fpath, targetfile)
+        osremove(fpath)
 
     searchdir(rootdir, mainfile)
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def main2():
+
+    luckcopy("mydata/tempset/animal", ".", "animal", "")
+    luckcopy("mydata/tempset/goods", ".", "goods", "")
+    luckcopy("mydata/tempset/plant", ".", "plant", "")
+    luckcopy("mydata/tempset/vehicle", ".", "vehicle", "")
+    return
 
     # https://www.kaggle.com/datasets/noobyogi0100/shoe-dataset
     luckcopy(r"D:\分类数据\archive_shoeTypeClassifierDataset\shoeTypeClassifierDataset\validation", r"E:\kSource\blog\kvision\imgclassify",
@@ -446,6 +453,8 @@ def main():
     checkimg_baidu(r"dataset")
 
 if __name__ == "__main__":
-    copydir_baidu()
-    #main2()
+    if "install" in sys.argv:
+    	main2()
+    else:
+        copydir_baidu()
     print("ok")
