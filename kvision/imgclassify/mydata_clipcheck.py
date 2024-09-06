@@ -333,14 +333,14 @@ def cateclip_cn2(image, classes):
 def main(dataset):
     classes = {
         "animal": ["animal", "mammal", "bird", "reptile", "fish", "insect", "wildlife", "pet"],
-        "cartoon": ["anime", "cartoon", "animated series", "comic", "manga"],
-        "building": ["building", "architecture", "skyscraper", "historical building", "office building"],
+        "cartoon": ["anime", "cartoon", "animated series", "comic", "manga"], # animation
+        "building": ["building", "architecture", "skyscraper", "historical building", "office building"], # architecture
         "food": ["food", "dish", "meal", "cuisine", "snack", "beverage", "dessert"],
-        "goods": ["goods", "products", "merchandise", "commodities"],
+        "goods": ["goods", "products", "merchandise", "commodities"], # products
         "nightscape": ["nightscape", "city lights", "starlight"],
         "people": ["people", "portrait", "human"],
         "plant": ["plant", "flower", "tree", "shrub", "leaf", "vegetation", "bush"],
-        "landscape": ["scenery", "natural landscape", "terrain", "countryside"],
+        "landscape": ["scenery", "natural landscape", "terrain", "countryside"], # nature
         "text": ["text", "scanned document", "written content", "manuscript"],
         "vehicle": ["vehicle", "car", "bike", "bus", "train", "airplane", "boat", "motorcycle"],
         "abstract": ["abstract art", "conceptual art", "modern art", "non-representational", "expressionism", "surrealism", "minimalism"],
@@ -348,14 +348,14 @@ def main(dataset):
 
     classes_cn = {
         "animal": ["动物", "哺乳动物", "鸟类", "爬行动物", "鱼类", "昆虫", "野生动物", "宠物"],
-        "cartoon": ["动漫", "卡通", "动画系列", "漫画", "漫画（日本）"],
-        "building": ["建筑", "建筑学", "摩天大楼", "历史建筑", "办公楼"],
+        "cartoon": ["动漫", "卡通", "动画系列", "漫画", "日本漫画"], # animation
+        "building": ["建筑", "建筑学", "摩天大楼", "历史建筑", "办公楼"], # architecture
         "food": ["食物", "菜肴", "餐点", "美食", "小吃", "饮料", "甜点"],
-        "goods": ["商品", "产品", "货物", "消费品"],
+        "goods": ["商品", "产品", "货物", "消费品"], # products
         "nightscape": ["夜景", "城市灯光", "星空"],
         "people": ["人物", "肖像", "人类"],
         "plant": ["植物", "花卉", "树木", "灌木", "叶子", "植被", "灌木丛"],
-        "landscape": ["风景", "自然景观", "地形", "乡村风光"],
+        "landscape": ["风景", "自然景观", "地形", "乡村风光"], # nature
         "text": ["文本", "扫描件", "书写内容", "手稿"],
         "vehicle": ["车辆", "汽车", "自行车", "公交车", "火车", "飞机", "船", "摩托车"],
         "abstract": ["抽象艺术", "概念艺术", "现代艺术", "非具象艺术", "表现主义", "超现实主义", "极简主义"],
