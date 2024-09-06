@@ -243,6 +243,28 @@ def copydir_baidu():
         searchdir(srcdir, mainfile)
         cleardirEmpty(dstdir)
 
+    if False:
+        rootdir = r"D:\分类数据\VOCtrainval_11-May-2012.tar\VOCdevkit\VOC2012\ImageSets\Main"
+        for itxt in os.listdir(rootdir):
+            txtfile = os.path.join(rootdir, itxt)
+            if not os.path.isfile(txtfile) or itxt.find("trainval") == -1:
+                continue
+            txtlines = readfileLines(txtfile)
+            print(txtfile)
+            for txtline in txtlines:
+                #print(txtline)
+                img = txtline.split()[0]
+                if txtline.split()[-1] == "-1":
+                    continue
+                #assert idx == "-1", txtline
+                imgfile = "D:\分类数据\VOCtrainval_11-May-2012.tar\VOCdevkit\VOC2012\JPEGImages\{}.jpg".format(img)
+                if not os.path.exists(imgfile):
+                    print(imgfile)
+                else:
+                    targetd = os.path.splitext(txtfile)[0]
+                    targetf = os.path.join(targetd, "VOCtrainval_11-May-2012_{}_{}.jpg".format(itxt.split("_trainval.txt")[0], img))
+                    copyimg(imgfile, targetf)
+
     copydirkz(r"D:\分类数据\OfficeHomeDataset_10072016\Real World", "goods", "OfficeHomeDataset_10072016", True)
     copydirkz(r"D:\分类数据\archive_animals\animals\animals", "animal", "90_Different_Animals", True)
     return

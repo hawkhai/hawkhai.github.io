@@ -336,7 +336,7 @@ def main(dataset):
         "cartoon": ["anime", "cartoon", "animated series", "comic", "manga"], # animation
         "building": ["building", "architecture", "skyscraper", "historical building", "office building"], # architecture
         "food": ["food", "dish", "meal", "cuisine", "snack", "beverage", "dessert"],
-        "goods": ["goods", "products", "merchandise", "commodities", "everyday objects"], # products
+        "goods": ["goods", "products", "merchandise", "commodities", "everyday objects", "television", "computer"], # products
         "nightscape": ["nightscape", "city lights", "starlight"],
         "people": ["people", "portrait", "human", "selfie"],
         "plant": ["plant", "flower", "tree", "shrub", "leaf", "vegetation", "bush"],
@@ -351,7 +351,7 @@ def main(dataset):
         "cartoon": ["动漫", "卡通", "动画系列", "漫画", "日本漫画"], # animation
         "building": ["建筑", "建筑学", "摩天大楼", "历史建筑", "办公楼"], # architecture
         "food": ["食物", "菜肴", "餐点", "美食", "小吃", "饮料", "甜点"],
-        "goods": ["商品", "产品", "货物", "消费品", "日常用品"], # products
+        "goods": ["商品", "产品", "货物", "消费品", "日常用品", "电视机", "电脑"], # products
         "nightscape": ["夜景", "城市灯光", "星空"],
         "people": ["人物", "肖像", "人类", "自拍"],
         "plant": ["植物", "花卉", "树木", "灌木", "叶子", "植被", "灌木丛"],
