@@ -26,11 +26,10 @@ def main():
             return
         checkimg(fpath)
 
-    image_directory = [
+    imgdirs = [
         r"E:\kSource\blog\kvision\imgclassify\mydata\val",
         r"E:\kSource\blog\kvision\imgclassify\mydata\train",
         r"E:\kSource\blog\kvision\imgclassify\mydata\dataset",
-        r"E:\kSource\blog\kvision\imgclassify\mydata\valset",
     ] if IS_WINDOWS else [
         r"/home/yqh/code/blog/kvision/imgclassify/mydata/val",
         r"/home/yqh/code/blog/kvision/imgclassify/mydata/train",
@@ -39,7 +38,7 @@ def main():
         r"/home/yqh/code/blog/kvision/imgclassify/trash",
     ]
 
-    for idir in image_directory:
+    for idir in imgdirs:
         searchdir(idir, mainfile)
 
 if __name__ == "__main__":

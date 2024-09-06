@@ -127,7 +127,8 @@ def remove_duplicates(duplicates):
     for img1, img2 in duplicates:
         assert img2.find("imgclassify") != -1, img2
         if os.path.exists(img1):
-            copyfile(img1, img2.replace("imgclassify", "imgclassifz")+".jpg")
+            img2c, img2t = os.path.splitext(img2)
+            copyfile(img1, img2c.replace("imgclassify", "imgclassifz")+"_z"+img2t)
 
         if os.path.exists(img2):
             copyfile(img2, img2.replace("imgclassify", "imgclassifz"))
@@ -167,11 +168,10 @@ Top-1 准确率: 75.3%
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
 
-    image_directory = [
+    imgdirs = [
         r"E:\kSource\blog\kvision\imgclassify\mydata\val",
         r"E:\kSource\blog\kvision\imgclassify\mydata\train",
         r"E:\kSource\blog\kvision\imgclassify\mydata\dataset",
-        r"E:\kSource\blog\kvision\imgclassify\mydata\valset",
     ] if IS_WINDOWS else [
         r"/home/yqh/code/blog/kvision/imgclassify/mydata/val",
         r"/home/yqh/code/blog/kvision/imgclassify/mydata/train",
@@ -180,15 +180,15 @@ Top-1 准确率: 75.3%
         r"/home/yqh/code/blog/kvision/imgclassify/trash",
     ]
     if HEAVY:
-        image_directory = [
+        imgdirs = [
             r"E:\kSource\blog\kvision\imgclassify\mydata\tempset\animal",
         ] if IS_WINDOWS else [
             r"/home/yqh/code/blog/kvision/imgclassify/mydata/tempset/animal",
         ]
     similarity_threshold = 0.95 if HEAVY else 0.98
     print("HEAVY", HEAVY, similarity_threshold)
-    print(image_directory)
-    duplicates = find_duplicates_with_faiss(image_directory, model, transform,
+    print(imgdirs)
+    duplicates = find_duplicates_with_faiss(imgdirs, model, transform,
                         top_k=5, similarity_threshold=similarity_threshold)
     remove_duplicates(duplicates)
     cleardirEmpty(r"/home/yqh/code/blog/kvision/imgclassify")

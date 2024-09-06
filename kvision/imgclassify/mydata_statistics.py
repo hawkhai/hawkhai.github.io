@@ -21,7 +21,7 @@ import base64
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def main():
 
-    image_directory = [
+    imgdirs = [
         r"E:\kSource\blog\kvision\imgclassify\mydata\val",
         r"E:\kSource\blog\kvision\imgclassify\mydata\train",
     ] if IS_WINDOWS else [
@@ -29,7 +29,7 @@ def main():
         r"/home/yqh/code/blog/kvision/imgclassify/mydata/train",
     ]
 
-    valdir, traindir = image_directory
+    valdir, traindir = imgdirs
     trains = [i for i in os.listdir(traindir) if os.path.isdir(os.path.join(traindir, i))]
     vals   = [i for i in os.listdir(valdir) if os.path.isdir(os.path.join(valdir, i))]
 

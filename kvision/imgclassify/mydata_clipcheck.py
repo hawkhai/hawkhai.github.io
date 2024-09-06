@@ -455,7 +455,7 @@ goods"""
                  "building": retmap12["2"] * retmap34["4"] * retmap56["5"] * retmapC["building"],
                  "vehicle": retmap12["2"] * retmap34["4"] * retmap56["5"] * retmapC["vehicle"],
                  "goods": retmap12["2"] * retmap34["4"] * retmap56["6"] * retmap78["7"],    
-                 "unknow": retmap12["2"] * retmap34["4"] * retmap56["6"] * retmap78["8"],    
+                 "notsure": retmap12["2"] * retmap34["4"] * retmap56["6"] * retmap78["8"],    
             }
             maxid, maxv = -1, -1
             for key in retmap.keys():
@@ -483,7 +483,7 @@ goods"""
         idx1, idv1, idx2, idv2 = mergeTest(retmap1, retmap2)
         colorPrint(idx1, idv1, idx2, idv2)
         if HEAVY and not flag:
-            idx1 = "unknow"
+            idx1 = "notsure"
         else:
             # 均值 0.5，差距控制在 0.2，有一定把握才行。
             if idv1 >= 0.5 and idv2 < idv1 - 0.2:

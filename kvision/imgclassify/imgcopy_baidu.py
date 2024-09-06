@@ -17,6 +17,8 @@ from pythonx.funclib import *
 
 from PIL import Image
 
+INSTALL = "install" in sys.argv
+
 def checkimg(xfile):
 
     try:
@@ -453,8 +455,8 @@ def main():
     checkimg_baidu(r"dataset")
 
 if __name__ == "__main__":
-    if "install" in sys.argv:
-    	main2()
+    if INSTALL:
+        main2()
     else:
         copydir_baidu()
     print("ok")
