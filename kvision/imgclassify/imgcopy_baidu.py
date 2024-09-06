@@ -197,11 +197,11 @@ def copydir(srcdir, dstdir):
 def copydir_baidu():
     rootdir = r"E:\kSource\blog\kvision\imgclassify\mydata"
 
-    def copydirkz(xdir, ydir):
+    def copydirkz(xdir, ydir, prekey="baidu", dirname=False):
         if not ydir: return
 
         srcdir = os.path.join(rootdir, xdir)
-        dstdir = os.path.join(r"D:\kSource\blog\kvision\imgclassify\mydata", "tempset", ydir)
+        dstdir = os.path.join(r"E:\kSource\blog\kvision\imgclassify\mydata", "tempset", ydir)
         if not os.path.exists(dstdir):
             os.makedirs(dstdir)
 
@@ -216,11 +216,16 @@ def copydir_baidu():
             #imgid = li[0]
 
             ifile = os.path.relpath(fpath, srcdir)
-            assert ifile.find("\\") == -1 and ifile.find("/") == -1, ifile
+            #assert ifile.find("\\") == -1 and ifile.find("/") == -1, ifile
             xfile = os.path.join(srcdir, ifile)
             md5 = getFileMd5(fpath)[:16] # copydir_baidu
 
-            yfile = os.path.join(dstdir, "baidu_"+md5+"."+ftype)
+            # dirname
+            idirname = os.path.basename(os.path.dirname(fpath))
+            if dirname:
+                yfile = os.path.join(dstdir, prekey+"_"+idirname+"_"+os.path.splitext(fname)[0]+"."+ftype)
+            else:
+                yfile = os.path.join(dstdir, prekey+"_"+md5+"."+ftype)
 
             print(yfile)
             copyimg(xfile, yfile)
@@ -228,6 +233,10 @@ def copydir_baidu():
         print(os.path.exists(srcdir), srcdir)
         searchdir(srcdir, mainfile)
         cleardirEmpty(dstdir)
+
+    copydirkz(r"D:\分类数据\OfficeHomeDataset_10072016\Real World", "goods", "OfficeHomeDataset_10072016", True)
+    copydirkz(r"D:\分类数据\archive_animals\animals\animals", "animal", "90_Different_Animals", True)
+    return
 
     copydirkz(r"E:\kSource\blog\kvision\imgclassify\mydata\63页Png，速通高等数学！_files", "text")
     copydirkz(r"D:\BaiduNetdiskDownload\M6Doc_test\test2017", "text")
