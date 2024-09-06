@@ -26,6 +26,8 @@ import numpy as np
 import faiss
 import os
 
+HEAVY = "heavy" in sys.argv
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def extract_features(image_path, model, transform):
@@ -48,7 +50,8 @@ def batch_extract_features(image_paths, model, transform, batch_size=32):
 
     return np.array(features_list)
 
-def faiss_topk_search(features_list, top_k=5):
+def faiss_topk_search_bug(features_list, top_k=5):
+    print(features_list.shape) # (4961, 2048)
     features_list = np.array(features_list).astype('float32')
     index = faiss.IndexFlatL2(features_list.shape[1])  # 使用L2距离，构建索引
     index.add(features_list)  # 将特征向量添加到索引中
@@ -58,6 +61,26 @@ def faiss_topk_search(features_list, top_k=5):
     neighbors = []
     for i, (distances, indices) in enumerate(zip(D, I)):
         similar_indices = [(ind, dist) for ind, dist in zip(indices[1:], distances[1:]) if ind != i]
+        neighbors.append(similar_indices)
+
+    return neighbors
+
+def faiss_topk_search(features_list, top_k=5):
+    features_list = np.array(features_list).astype('float32')
+    
+    # 使用余弦相似度，需要首先对特征进行归一化
+    faiss.normalize_L2(features_list)  # 归一化特征向量，使得每个向量的L2范数为1
+
+    # 使用Inner Product (Dot Product) 作为相似度度量
+    index = faiss.IndexFlatIP(features_list.shape[1])  # 内积作为相似度度量
+    index.add(features_list)  # 将特征向量添加到索引中
+
+    D, I = index.search(features_list, top_k + 1)  # 搜索最相似的Top-K个向量
+
+    neighbors = []
+    for i, (scores, indices) in enumerate(zip(D, I)):
+        # 由于内积度量已经归一化了，不需要额外归一化，得到的分数已经在 [0, 1] 范围内
+        similar_indices = [(ind, score) for ind, score in zip(indices[1:], scores[1:]) if ind != i]
         neighbors.append(similar_indices)
 
     return neighbors
@@ -75,16 +98,29 @@ def find_duplicates_with_faiss(image_dir, model, transform, top_k=5, similarity_
 
     # 使用Faiss进行Top-K搜索
     neighbors = faiss_topk_search(features_list, top_k=top_k)
+    normalize_L2 = True # 使用余弦相似度
 
     duplicates = set()
+    distmax, distmin = -1, 10000
     for i, similar_imgs in enumerate(neighbors):
         for ind, dist in similar_imgs:
-            if dist < (1 - similarity_threshold):  # 距离越小，越相似
-                if i < ind:
-                    duplicates.add((image_paths[i], image_paths[ind]))
-                elif i > ind:
-                    duplicates.add((image_paths[ind], image_paths[i]))
+            distmax = max(distmax, dist)
+            distmim = min(distmin, dist)
+            if normalize_L2:
+                if dist >= similarity_threshold:
+                    if i < ind:
+                        duplicates.add((image_paths[i], image_paths[ind]))
+                    elif i > ind:
+                        duplicates.add((image_paths[ind], image_paths[i]))
+            else:
+                if dist < (1 - similarity_threshold):  # 距离越小，越相似
+                    if i < ind:
+                        duplicates.add((image_paths[i], image_paths[ind]))
+                    elif i > ind:
+                        duplicates.add((image_paths[ind], image_paths[i]))
 
+    print("distmim", distmim)
+    print("distmax", distmax)
     return duplicates
 
 def remove_duplicates(duplicates):
@@ -139,14 +175,24 @@ Top-1 准确率: 75.3%
     ] if IS_WINDOWS else [
         r"/home/yqh/code/blog/kvision/imgclassify/mydata/val",
         r"/home/yqh/code/blog/kvision/imgclassify/mydata/train",
+        r"/home/yqh/code/blog/kvision/imgclassify/mydata/tempset",
         r"/home/yqh/code/blog/kvision/imgclassify/mydata/dataset",
-        r"/home/yqh/code/blog/kvision/imgclassify/mydata/valset",
         r"/home/yqh/code/blog/kvision/imgclassify/trash",
     ]
+    if HEAVY:
+        image_directory = [
+            r"E:\kSource\blog\kvision\imgclassify\mydata\tempset\animal",
+        ] if IS_WINDOWS else [
+            r"/home/yqh/code/blog/kvision/imgclassify/mydata/tempset/animal",
+        ]
+    similarity_threshold = 0.95 if HEAVY else 0.98
+    print("HEAVY", HEAVY, similarity_threshold)
+    print(image_directory)
     duplicates = find_duplicates_with_faiss(image_directory, model, transform,
-                        top_k=5, similarity_threshold=0.98)
+                        top_k=5, similarity_threshold=similarity_threshold)
     remove_duplicates(duplicates)
     cleardirEmpty(r"/home/yqh/code/blog/kvision/imgclassify")
 
 if __name__ == "__main__":
     main()
+    

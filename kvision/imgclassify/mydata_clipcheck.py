@@ -34,6 +34,7 @@ DEBUG = "debug" in sys.argv
 INSTALL = "install" in sys.argv
 DATAX = "datax" in sys.argv
 TOPK_COUNT = 11
+HEAVY = "heavy" in sys.argv
 
 # 官网推荐的 'ViT-B/32'
 # ViT-L/14 35.9M 1.71GB
@@ -481,9 +482,12 @@ goods"""
 
         idx1, idv1, idx2, idv2 = mergeTest(retmap1, retmap2)
         colorPrint(idx1, idv1, idx2, idv2)
-        # 均值 0.5，差距控制在 0.2，有一定把握才行。
-        if idv1 >= 0.5 and idv2 < idv1 - 0.2:
-            flag = True
+        if HEAVY and not flag:
+            idx1 = "unknow"
+        else:
+            # 均值 0.5，差距控制在 0.2，有一定把握才行。
+            if idv1 >= 0.5 and idv2 < idv1 - 0.2:
+                flag = True
 
         if not flag and not DATAX: # 没有答案就算了。
             return
@@ -541,7 +545,9 @@ if __name__ == "__main__":
                 continue
             main(argv)
     elif DATAX:
-        #main("mydata")
+        main("mydata/val")
+        main("mydata/train")
+        main("mydata/tempset")
         main("datax")
     else:
         main("mydata/dataset")

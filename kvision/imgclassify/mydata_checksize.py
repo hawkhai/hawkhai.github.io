@@ -25,10 +25,22 @@ def main():
         if fname in ("datamap.txt",):
             return
         checkimg(fpath)
-    searchdir(r"E:\kSource\blog\kvision\imgclassify\dataset", mainfile)
-    searchdir(r"E:\kSource\blog\kvision\imgclassify\valset", mainfile)
-    searchdir(r"E:\kSource\blog\kvision\imgclassify\mydata", mainfile)
-    searchdir(r"E:\kSource\blog\kvision\imgclassify\trash", mainfile)
+
+    image_directory = [
+        r"E:\kSource\blog\kvision\imgclassify\mydata\val",
+        r"E:\kSource\blog\kvision\imgclassify\mydata\train",
+        r"E:\kSource\blog\kvision\imgclassify\mydata\dataset",
+        r"E:\kSource\blog\kvision\imgclassify\mydata\valset",
+    ] if IS_WINDOWS else [
+        r"/home/yqh/code/blog/kvision/imgclassify/mydata/val",
+        r"/home/yqh/code/blog/kvision/imgclassify/mydata/train",
+        r"/home/yqh/code/blog/kvision/imgclassify/mydata/tempset",
+        r"/home/yqh/code/blog/kvision/imgclassify/mydata/dataset",
+        r"/home/yqh/code/blog/kvision/imgclassify/trash",
+    ]
+
+    for idir in image_directory:
+        searchdir(idir, mainfile)
 
 if __name__ == "__main__":
     main()
