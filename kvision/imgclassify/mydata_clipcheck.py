@@ -509,7 +509,7 @@ goods"""
 
             # OSError: cannot write mode RGBA as JPEG
             try:
-                image.save(targetfile)
+                copyfile(ifile, targetfile)#image.save(targetfile)
             except OSError: # cannot write mode RGBA as JPEG
                 copyfile(ifile, targetfile)
             assert os.path.exists(targetfile), targetfile

@@ -53,11 +53,13 @@ prompt_suffix = "<|end|>\n"
 def run_example(image, text_input=None, model_id="Qwen/Qwen2-VL-7B-Instruct"):
     imgclear = False
     if type(image) == type(""):
+        image_path = image
         image = np.array(Image.open(image))
+        imgclear = False
+    else:
+        image_path = array_to_image_path(image)
         imgclear = True
-    
-    image_path = array_to_image_path(image)
-    
+
     print(image_path)
     model = models[model_id]
     processor = processors[model_id]

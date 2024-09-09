@@ -72,13 +72,14 @@ def main(dataset):
                 targetfile = os.path.join("tempset", "val", maxid, fmd5+fname)
             else:
                 targetfile = os.path.join("tempset", "train", maxid, fmd5+fname)
+            targetfile = targetfile.replace(fmd5*2, fmd5)
             fdir = os.path.dirname(targetfile)
             if not os.path.exists(fdir):
                 os.makedirs(fdir)
 
             # OSError: cannot write mode RGBA as JPEG
             try:
-                image.save(targetfile)
+                copyfile(ifile, targetfile)#image.save(targetfile)
             except OSError: # cannot write mode RGBA as JPEG
                 copyfile(ifile, targetfile)
             assert os.path.exists(targetfile), targetfile

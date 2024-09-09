@@ -83,7 +83,7 @@ def main(dataset):
             model_selector = "Qwen/Qwen2-VL-7B-Instruct"
             output_text = run_example(input_img, text_input, model_selector)
             print(output_text)
-            li = re.findall("|".join(classes_cn.keys()), output_text)
+            li = re.findall("animal|cartoon|building|food|goods|nightscape|people|plant|landscape|text|vehicle|abstract", output_text)
             if not li or len(li) != 1:
                 return "notsure", 1.0, "notsure", 0.0
             return li[0], 1.0, "notsure", 0.0
@@ -110,9 +110,10 @@ def main(dataset):
 
             # OSError: cannot write mode RGBA as JPEG
             try:
-                image.save(targetfile)
+                copyfile(ifile, targetfile)#image.save(targetfile)
             except OSError: # cannot write mode RGBA as JPEG
                 copyfile(ifile, targetfile)
+            print(targetfile)
             assert os.path.exists(targetfile), targetfile
             if not DEBUG:
                 image.close()
