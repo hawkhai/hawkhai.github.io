@@ -338,9 +338,9 @@ def main(dataset):
         "food": ["food", "dish", "meal", "cuisine", "snack", "beverage", "dessert"],
         "goods": ["goods", "products", "merchandise", "commodities", "everyday objects", "television", "computer"], # products
         "nightscape": ["nightscape", "city lights", "starlight"],
-        "people": ["people", "portrait", "human", "selfie"],
+        "people": ["people", "portrait", "human"],
         "plant": ["plant", "flower", "tree", "shrub", "leaf", "vegetation", "bush"],
-        "landscape": ["scenery", "natural landscape", "terrain", "countryside", "mountains", "lakes", "beaches", "forests", "aerial photography"], # nature
+        "landscape": ["scenery", "natural landscape", "terrain", "countryside", "mountains", "lakes", "beaches", "forests"], # nature
         "text": ["text", "scanned document", "written content", "manuscript", "screenshot"],
         "vehicle": ["vehicle", "car", "bike", "bus", "train", "airplane", "boat", "motorcycle"],
         "abstract": ["abstract art", "conceptual art", "modern art", "non-representational", "expressionism", "surrealism", "minimalism"],
@@ -353,9 +353,9 @@ def main(dataset):
         "food": ["食物", "菜肴", "餐点", "美食", "小吃", "饮料", "甜点"],
         "goods": ["商品", "产品", "货物", "消费品", "日常用品", "电视机", "电脑"], # products
         "nightscape": ["夜景", "城市灯光", "星空"],
-        "people": ["人物", "肖像", "人类", "自拍"],
+        "people": ["人物", "肖像", "人类"],
         "plant": ["植物", "花卉", "树木", "灌木", "叶子", "植被", "灌木丛"],
-        "landscape": ["风景", "自然景观", "地形", "乡村风光", "山脉", "湖泊", "海滩", "森林", "航拍"], # nature
+        "landscape": ["风景", "自然景观", "地形", "乡村风光", "山脉", "湖泊", "海滩", "森林"], # nature
         "text": ["文本", "扫描件", "书写内容", "手稿", "屏幕截图"],
         "vehicle": ["车辆", "汽车", "自行车", "公交车", "火车", "飞机", "船", "摩托车"],
         "abstract": ["抽象艺术", "概念艺术", "现代艺术", "非具象艺术", "表现主义", "超现实主义", "极简主义"],
@@ -490,6 +490,7 @@ goods"""
                 flag = True
 
         if not flag and not DATAX: # 没有答案就算了。
+            # 如果是 datax 就强制分类。
             return
 
         if INSTALL:
@@ -549,7 +550,6 @@ if __name__ == "__main__":
         main("mydata/val")
         main("mydata/train")
         main("mydata/tempset")
-        main("datax")
     else:
         main("mydata/dataset")
     print("ok")
