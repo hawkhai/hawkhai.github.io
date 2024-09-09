@@ -9,7 +9,6 @@ from datetime import datetime
 import numpy as np
 import os
 
-
 # subprocess.run('pip install flash-attn --no-build-isolation', env={'FLASH_ATTENTION_SKIP_CUDA_BUILD': "TRUE"}, shell=True)
 
 # models = {
@@ -52,6 +51,11 @@ prompt_suffix = "<|end|>\n"
 
 @spaces.GPU
 def run_example(image, text_input=None, model_id="Qwen/Qwen2-VL-7B-Instruct"):
+    imgclear = False
+    if type(image) == type(""):
+        image = np.array(Image.open(image))
+        imgclear = True
+    
     image_path = array_to_image_path(image)
     
     print(image_path)
@@ -96,6 +100,8 @@ def run_example(image, text_input=None, model_id="Qwen/Qwen2-VL-7B-Instruct"):
         generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False
     )
     
+    if imgclear and os.path.exists(image_path):
+        os.remove(image_path)
     return output_text[0]
 
 css = """
@@ -106,19 +112,40 @@ css = """
   }
 """
 
-with gr.Blocks(css=css) as demo:
-    gr.Markdown(DESCRIPTION)
-    with gr.Tab(label="Qwen2-VL-7B Input"):
-        with gr.Row():
-            with gr.Column():
-                input_img = gr.Image(label="Input Picture")
-                model_selector = gr.Dropdown(choices=list(models.keys()), label="Model", value="Qwen/Qwen2-VL-7B-Instruct")
-                text_input = gr.Textbox(label="Question")
-                submit_btn = gr.Button(value="Submit")
-            with gr.Column():
-                output_text = gr.Textbox(label="Output Text")
+if __name__ == "__main__":
+    input_img = "test.jpg"
+    text_input = r"""你是一个图片分类器。根据定义的图片分类及其提示词列表，请问这张图片属于哪个分类？{
+    "animal": ["动物", "哺乳动物", "鸟类", "爬行动物", "鱼类", "昆虫", "野生动物", "宠物"],
+    "cartoon": ["动漫", "卡通", "动画系列", "漫画", "日本漫画"], # animation
+    "building": ["建筑", "建筑学", "摩天大楼", "历史建筑", "办公楼"], # architecture
+    "food": ["食物", "菜肴", "餐点", "美食", "小吃", "饮料", "甜点"],
+    "goods": ["商品", "产品", "货物", "消费品", "日常用品", "电视机", "电脑"], # products
+    "nightscape": ["夜景", "城市灯光", "星空"],
+    "people": ["人物", "肖像", "人类"],
+    "plant": ["植物", "花卉", "树木", "灌木", "叶子", "植被", "灌木丛"],
+    "landscape": ["风景", "自然景观", "地形", "乡村风光", "山脉", "湖泊", "海滩", "森林"], # nature
+    "text": ["文本", "扫描件", "书写内容", "手稿", "屏幕截图"],
+    "vehicle": ["车辆", "汽车", "自行车", "公交车", "火车", "飞机", "船", "摩托车"],
+    "abstract": ["抽象艺术", "概念艺术", "现代艺术", "非具象艺术", "表现主义", "超现实主义", "极简主义"],
+}"""
+    model_selector = "Qwen/Qwen2-VL-7B-Instruct"
+    output_text = run_example(input_img, text_input, model_selector)
+    print(output_text)
 
-        submit_btn.click(run_example, [input_img, text_input, model_selector], [output_text])
+if __name__ == "__main__z":
+    with gr.Blocks(css=css) as demo:
+        gr.Markdown(DESCRIPTION)
+        with gr.Tab(label="Qwen2-VL-7B Input"):
+            with gr.Row():
+                with gr.Column():
+                    input_img = gr.Image(label="Input Picture")
+                    model_selector = gr.Dropdown(choices=list(models.keys()), label="Model", value="Qwen/Qwen2-VL-7B-Instruct")
+                    text_input = gr.Textbox(label="Question")
+                    submit_btn = gr.Button(value="Submit")
+                with gr.Column():
+                    output_text = gr.Textbox(label="Output Text")
 
-demo.queue(api_open=False)
-demo.launch(debug=True)
+            submit_btn.click(run_example, [input_img, text_input, model_selector], [output_text])
+
+    demo.queue(api_open=False)
+    demo.launch(debug=True)
