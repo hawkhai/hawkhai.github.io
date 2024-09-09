@@ -32,7 +32,7 @@ import torch.nn.functional as F
 QUICK = "quick" in sys.argv
 DEBUG = "debug" in sys.argv
 INSTALL = "install" in sys.argv
-DATAX = "datax" in sys.argv
+DATAX = "datax" in sys.argv # 强行分类
 TOPK_COUNT = 11
 HEAVY = "heavy" in sys.argv
 
@@ -489,9 +489,11 @@ goods"""
             if idv1 >= 0.5 and idv2 < idv1 - 0.2:
                 flag = True
 
-        if not flag and not DATAX: # 没有答案就算了。
-            # 如果是 datax 就强制分类。
-            return
+        if not flag:
+            if not DATAX: # 没有答案就算了。
+                return
+            else:
+                pass # 如果是 datax 就强制分类。
 
         if INSTALL:
 

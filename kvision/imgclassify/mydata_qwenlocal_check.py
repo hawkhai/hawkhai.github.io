@@ -32,7 +32,7 @@ import torch.nn.functional as F
 QUICK = "quick" in sys.argv
 DEBUG = "debug" in sys.argv
 INSTALL = "install" in sys.argv
-DATAX = "datax" in sys.argv
+DATAX = "datax" in sys.argv # 强行分类
 TOPK_COUNT = 11
 
 from mydata_Qwen2_VL_7B import run_example
@@ -91,8 +91,11 @@ def main(dataset):
         idx1, idv1, idx2, idv2 = classification2()
         colorPrint(idx1, idv1, idx2, idv2)
 
-        if not DATAX: # 没有答案就算了。
-            return
+        if idv1 == "notsure":
+            if not DATAX: # 没有答案就算了。
+                return
+            else:
+                pass # 如果是 datax 就强制分类。
 
         if INSTALL:
 

@@ -34,7 +34,7 @@ sys.path.append("/home/yqh/code/pythonx/fastai/image_classification/demo")
 
 QUICK = "quick" in sys.argv
 DEBUG = "debug" in sys.argv
-DATAX = "datax" in sys.argv
+DATAX = "datax" in sys.argv # 强行分类
 INSTALL = not DATAX # "install" in sys.argv
 TOPK_COUNT = 11
 
