@@ -43,7 +43,7 @@ def main():
         traincnt, valcnt = (len(os.listdir(os.path.join(traindir, idir))),
                             len(os.listdir(os.path.join(valdir, idir))))
         total = traincnt + valcnt
-        print(idir, "|", traincnt, "|", valcnt, "|", total, "|", "%.2f"%(valcnt/total))
+        print("%10s"%idir, "|", "%4d"%traincnt, "|", "%4d"%valcnt, "|", "%4d"%total, "|", "%.2f"%(valcnt/total))
 
 if __name__ == "__main__":
     main()
