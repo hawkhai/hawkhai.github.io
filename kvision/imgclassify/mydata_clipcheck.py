@@ -32,7 +32,7 @@ import torch.nn.functional as F
 QUICK = "quick" in sys.argv
 DEBUG = "debug" in sys.argv
 INSTALL = "install" in sys.argv
-DATAX = "datax" in sys.argv # 强行分类
+FORCE_CATE = "force" in sys.argv # 强行分类
 TOPK_COUNT = 11
 HEAVY = "heavy" in sys.argv
 
@@ -373,10 +373,6 @@ def main(dataset):
         colorPrint(ifile)
         image = Image.open(ifile)
         # 需要两步分类，避免分类之间的重叠问题。
-        """cartoon/text/abstract
-people/animal/food/plant
-landscape/nightscape/building/vehicle
-goods"""
         def classification(catefunc, image, classes):
             classe_ids = [c.split(":")[-1].strip() for c in classes]
             classes = [c.split(":")[0].strip() for c in classes]
@@ -490,7 +486,7 @@ goods"""
                 flag = True
 
         if not flag:
-            if not DATAX: # 没有答案就算了。
+            if not FORCE_CATE: # 没有答案就算了。
                 return
             else:
                 pass # 如果是 datax 就强制分类。
@@ -527,7 +523,7 @@ goods"""
 
             ifile = os.path.abspath(ifile)
             assert ifile.find("imgclassify") != -1, ifile
-            if DATAX:
+            if FORCE_CATE:
                 targetfile = ifile.replace("imgclassify", "imgclassifx_clip")
             else:
                 targetfile = ifile.replace("imgclassify", "imgclassifz_clip")
@@ -548,7 +544,7 @@ if __name__ == "__main__":
             if not os.path.isfile(argv):
                 continue
             main(argv)
-    elif DATAX:
+    elif FORCE_CATE:
         main("mydata/val")
         main("mydata/train")
         main("mydata/tempset")

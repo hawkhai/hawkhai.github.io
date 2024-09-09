@@ -32,7 +32,7 @@ import torch.nn.functional as F
 QUICK = "quick" in sys.argv
 DEBUG = "debug" in sys.argv
 INSTALL = "install" in sys.argv
-DATAX = "datax" in sys.argv # 强行分类
+FORCE_CATE = "force" in sys.argv # 强行分类
 TOPK_COUNT = 11
 
 from mydata_Qwen2_VL_7B import run_example
@@ -92,7 +92,7 @@ def main(dataset):
         colorPrint(idx1, idv1, idx2, idv2)
 
         if idv1 == "notsure":
-            if not DATAX: # 没有答案就算了。
+            if not FORCE_CATE: # 没有答案就算了。
                 return
             else:
                 pass # 如果是 datax 就强制分类。
@@ -129,7 +129,7 @@ def main(dataset):
 
             ifile = os.path.abspath(ifile)
             assert ifile.find("imgclassify") != -1, ifile
-            if DATAX:
+            if FORCE_CATE:
                 targetfile = ifile.replace("imgclassify", "imgclassifx_qwenlocal")
             else:
                 targetfile = ifile.replace("imgclassify", "imgclassifz_qwenlocal")
@@ -149,7 +149,7 @@ if __name__ == "__main__":
             if not os.path.isfile(argv):
                 continue
             main(argv)
-    elif DATAX:
+    elif FORCE_CATE:
         main("mydata/val")
         main("mydata/train")
         main("mydata/tempset")

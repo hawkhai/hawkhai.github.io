@@ -34,15 +34,15 @@ sys.path.append("/home/yqh/code/pythonx/fastai/image_classification/demo")
 
 QUICK = "quick" in sys.argv
 DEBUG = "debug" in sys.argv
-DATAX = "datax" in sys.argv # 强行分类
-INSTALL = not DATAX # "install" in sys.argv
+FORCE_CATE = "force" in sys.argv # 强行分类
+INSTALL = not FORCE_CATE # "install" in sys.argv
 TOPK_COUNT = 11
 
 def mergeTest(fpath):
     from app import classify_imagefile, classify_score
     if INSTALL:
         retraw = False # 相当于发布版本，准确度优先，否则要删除的数据就太多了。
-    elif DATAX:
+    elif FORCE_CATE:
         retraw = True # 谨慎移除数据，删一点少一点。
     else: # Review
         retraw = True # 直接返回原始数据，否则就 Review 太多了。
@@ -95,7 +95,7 @@ def main(dataset):
 
             ifile = os.path.abspath(ifile)
             assert ifile.find("imgclassify") != -1, ifile
-            if DATAX:
+            if FORCE_CATE:
                 targetfile = ifile.replace("imgclassify", "imgclassifx_self")
             else:
                 targetfile = ifile.replace("imgclassify", "imgclassifz_self")
@@ -111,7 +111,7 @@ def main(dataset):
 # 还需要移除相似图片。
 if __name__ == "__main__":
     #test()
-    if DATAX:
+    if FORCE_CATE:
         main("datax")
     else:
         main("mydata/dataset")
