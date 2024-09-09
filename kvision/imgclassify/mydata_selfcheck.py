@@ -97,7 +97,7 @@ def main(dataset):
             if DATAX:
                 targetfile = ifile.replace("imgclassify", "imgclassifx_self")
             else:
-                targetfile = ifile.replace("imgclassify", "imgclassifz")
+                targetfile = ifile.replace("imgclassify", "imgclassifz_self")
 
             copyfile(ifile, targetfile)
             assert os.path.exists(targetfile), targetfile

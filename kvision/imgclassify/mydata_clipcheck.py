@@ -528,7 +528,7 @@ goods"""
             if DATAX:
                 targetfile = ifile.replace("imgclassify", "imgclassifx_clip")
             else:
-                targetfile = ifile.replace("imgclassify", "imgclassifz")
+                targetfile = ifile.replace("imgclassify", "imgclassifz_clip")
 
             copyfile(ifile, targetfile)
             assert os.path.exists(targetfile), targetfile
