@@ -66,6 +66,8 @@ dlrootdir = os.path.split(os.path.abspath(__file__))[0]
 model_cn, preprocess_cn = load_from_name(DEVAULTV_CNCLIP[0 if QUICK else 1], device=device, download_root=dlrootdir)
 model_cn.eval()
 
+from mydata_Qwen2_VL_7B import run_example
+
 """
 动漫或卡通:cartoon/文本或扫描件:text/抽象或艺术:art or abstract
 风景:landscape/夜景:nightscape/建筑:building/交通工具:vehicle
@@ -218,133 +220,8 @@ def cateclip_cn(image, classes):
 
     return getMaxKV(retmap), retmap
 
-def cateclip2(image, classes):
-    # 对图像进行预处理
-    image_input = preprocess(image).unsqueeze(0).to(device)
-
-    # 存储每个 type 对应的最大相似度值
-    type_max_probs = {}
-
-    # 遍历字典中的每个 type
-    for type_key, keywords in classes.items():
-        # 生成对应的文本描述
-        texts = [f"a {keyword} image" for keyword in keywords]
-        text_tokens = torch.cat([clip.tokenize(text) for text in texts]).to(device)
-
-        # 计算图像和文本的特征
-        with torch.no_grad():
-            image_features = model.encode_image(image_input)
-            text_features = model.encode_text(text_tokens)
-            assert image_features.size()[0] == 1, image_features.size()
-            assert text_features.size()[0] == len(keywords), text_features.size()
-
-            # 归一化特征
-            image_features /= image_features.norm(dim=-1, keepdim=True)
-            text_features /= text_features.norm(dim=-1, keepdim=True)
-
-            # 计算图像和文本的相似度
-            similarity = (100.0 * image_features @ text_features.T) #.softmax(dim=-1)
-
-            # 提取相似度分数
-            similarity_scores = similarity[0].cpu().numpy()
-            #print(similarity_scores)
-
-            type_max_probs[type_key] = np.max(similarity_scores)
-
-    # 转换为 tensor 以便使用 softmax
-    type_keys = list(type_max_probs.keys())
-    type_values = np.array(list(type_max_probs.values()))
-
-    if type_values.size > 0:
-        # 使用 softmax 进行归一化
-        softmax_probs = F.softmax(torch.tensor(type_values, dtype=torch.float32), dim=0).numpy()
-        normalized_probs = dict(zip(type_keys, softmax_probs))
-    else:
-        # 如果没有有效的相似度值，返回所有值为 0
-        normalized_probs = {key: 0 for key in type_max_probs.keys()}
-
-    #print(type_max_probs)
-    #print(normalized_probs)
-    return getMaxKV(normalized_probs), normalized_probs
-
-def cateclip_cn2(image, classes):
-    # 对图片进行预处理
-    image = preprocess(image).unsqueeze(0).to(device)
-
-    # 存储每个 type 对应的最大相似度值
-    type_max_probs = {}
-
-    # 遍历字典中的每个 type
-    for type_key, keywords in classes.items():
-        # 生成对应的文本描述
-        texts = [f"一张 {keyword} 图片" for keyword in keywords]
-        text_tokens = cn_clip.tokenize(texts).to(device)
-
-        # 计算图像和文本的特征
-        with torch.no_grad():
-            image_features = model_cn.encode_image(image)
-            text_features = model_cn.encode_text(text_tokens)
-            assert image_features.size()[0] == 1, image_features.size()
-            assert text_features.size()[0] == len(keywords), text_features.size()
-
-            # 归一化特征
-            image_features /= image_features.norm(dim=-1, keepdim=True)
-            text_features /= text_features.norm(dim=-1, keepdim=True)
-
-            # 计算图像和文本的相似度
-            similarity = (100.0 * image_features @ text_features.T) #.softmax(dim=-1)
-
-            # 提取相似度分数
-            similarity_scores = similarity[0].cpu().numpy()
-            #print(similarity_scores)
-
-            type_max_probs[type_key] = np.max(similarity_scores)
-            continue
-
-            # 计算图像和文本的相似度
-            logits_per_image, _ = model_cn.get_similarity(image_features, text_features)
-
-            # 计算每个文本描述的概率
-            probs = logits_per_image.softmax(dim=-1).cpu().numpy()
-
-            # 对于每个 type，计算最大概率
-            max_prob = np.max(probs)
-
-            # 存储当前 type 对应的最大概率
-            type_max_probs[type_key] = max_prob
-
-    # 转换为 tensor 以便使用 softmax
-    type_keys = list(type_max_probs.keys())
-    type_values = np.array(list(type_max_probs.values()))
-
-    if type_values.size > 0:
-        # 使用 softmax 进行归一化
-        softmax_probs = F.softmax(torch.tensor(type_values, dtype=torch.float32), dim=0).numpy()
-        normalized_probs = dict(zip(type_keys, softmax_probs))
-    else:
-        # 如果没有有效的相似度值，返回所有值为 0
-        normalized_probs = {key: 0 for key in type_max_probs.keys()}
-
-    #print(type_max_probs)
-    #print(normalized_probs)
-    return getMaxKV(normalized_probs), normalized_probs
-
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def main(dataset):
-    classes = {
-        "animal": ["animal", "mammal", "bird", "reptile", "fish", "insect", "wildlife", "pet"],
-        "cartoon": ["anime", "cartoon", "animated series", "comic", "manga"], # animation
-        "building": ["building", "architecture", "skyscraper", "historical building", "office building"], # architecture
-        "food": ["food", "dish", "meal", "cuisine", "snack", "beverage", "dessert"],
-        "goods": ["goods", "products", "merchandise", "commodities", "everyday objects", "television", "computer"], # products
-        "nightscape": ["nightscape", "city lights", "starlight"],
-        "people": ["people", "portrait", "human"],
-        "plant": ["plant", "flower", "tree", "shrub", "leaf", "vegetation", "bush"],
-        "landscape": ["scenery", "natural landscape", "terrain", "countryside", "mountains", "lakes", "beaches", "forests"], # nature
-        "text": ["text", "scanned document", "written content", "manuscript", "screenshot"],
-        "vehicle": ["vehicle", "car", "bike", "bus", "train", "airplane", "boat", "motorcycle"],
-        "abstract": ["abstract art", "conceptual art", "modern art", "non-representational", "expressionism", "surrealism", "minimalism"],
-    }
 
     classes_cn = {
         "animal": ["动物", "哺乳动物", "鸟类", "爬行动物", "鱼类", "昆虫", "野生动物", "宠物"],
@@ -377,120 +254,36 @@ def main(dataset):
 people/animal/food/plant
 landscape/nightscape/building/vehicle
 goods"""
-        def classification(catefunc, image, classes):
-            classe_ids = [c.split(":")[-1].strip() for c in classes]
-            classes = [c.split(":")[0].strip() for c in classes]
-            classmap = {}
-            for idx in range(len(classe_ids)):
-                classmap[classe_ids[idx]] = classes[idx]
 
-            supclasz = [
-                f'{classmap["cartoon"]} or {classmap["text"]}:1',
-                f'not {classmap["cartoon"]} and not {classmap["text"]}:2',
-            ]
-            (idx12, idv12), retmap12 = catefunc(image, supclasz)
-            print(supclasz)
-            print(retmap12)
-            subclasz = [
-                f'{classmap["cartoon"]}:cartoon',
-                f'{classmap["text"]}:text',
-                f'{classmap["abstract"]}:abstract',
-            ]
-            (idxA, idvA), retmapA = catefunc(image, subclasz)
-            print(subclasz)
-            print(retmapA)
+        def classification2():
 
-            supclasz = [
-                f'{classmap["people"]} or {classmap["animal"]} or {classmap["food"]} or {classmap["plant"]}:3',
-                f'not {classmap["people"]} and not {classmap["animal"]} and not {classmap["food"]} and not {classmap["plant"]}:4',
-            ]
-            (idx34, idv34), retmap34 = catefunc(image, supclasz)
-            print(supclasz)
-            print(retmap34)
-            subclasz = [
-                f'{classmap["people"]}:people',
-                f'{classmap["animal"]}:animal',
-                f'{classmap["food"]}:food',
-                f'{classmap["plant"]}:plant',
-            ]
-            (idxB, idvB), retmapB = catefunc(image, subclasz)
-            print(subclasz)
-            print(retmapB)
+            input_img = ifile
+            text_input = r"""你是一个图片分类器。根据定义的图片分类及其提示词列表，请问这张图片属于哪个分类？{
+    "animal": ["动物", "哺乳动物", "鸟类", "爬行动物", "鱼类", "昆虫", "野生动物", "宠物"],
+    "cartoon": ["动漫", "卡通", "动画系列", "漫画", "日本漫画"], # animation
+    "building": ["建筑", "建筑学", "摩天大楼", "历史建筑", "办公楼"], # architecture
+    "food": ["食物", "菜肴", "餐点", "美食", "小吃", "饮料", "甜点"],
+    "goods": ["商品", "产品", "货物", "消费品", "日常用品", "电视机", "电脑"], # products
+    "nightscape": ["夜景", "城市灯光", "星空"],
+    "people": ["人物", "肖像", "人类"],
+    "plant": ["植物", "花卉", "树木", "灌木", "叶子", "植被", "灌木丛"],
+    "landscape": ["风景", "自然景观", "地形", "乡村风光", "山脉", "湖泊", "海滩", "森林"], # nature
+    "text": ["文本", "扫描件", "书写内容", "手稿", "屏幕截图"],
+    "vehicle": ["车辆", "汽车", "自行车", "公交车", "火车", "飞机", "船", "摩托车"],
+    "abstract": ["抽象艺术", "概念艺术", "现代艺术", "非具象艺术", "表现主义", "超现实主义", "极简主义"],
+}"""
+            model_selector = "Qwen/Qwen2-VL-7B-Instruct"
+            output_text = run_example(input_img, text_input, model_selector)
+            print(output_text)
+            li = re.findall("|".join(classes_cn.keys()), output_text)
+            if not li or len(li) != 1:
+                return "notsure", 1.0, "notsure", 0.0
+            return li[0], 1.0, "notsure", 0.0
 
-            supclasz = [
-                f'{classmap["landscape"]} or {classmap["nightscape"]} or {classmap["building"]} or {classmap["vehicle"]}:5',
-                f'not {classmap["landscape"]} and not {classmap["nightscape"]} and not {classmap["building"]} and not {classmap["vehicle"]}:6',
-            ]
-            (idx56, idv56), retmap56 = catefunc(image, supclasz)
-            print(supclasz)
-            print(retmap56)
-            subclasz = [
-                f'{classmap["landscape"]}:landscape',
-                f'{classmap["nightscape"]}:nightscape',
-                f'{classmap["building"]}:building',
-                f'{classmap["vehicle"]}:vehicle',
-            ]
-            (idxC, idvC), retmapC = catefunc(image, subclasz)
-            print(subclasz)
-            print(retmapC)
-
-            supclasz = [
-                f'{classmap["goods"]}:7',
-                f'not {classmap["goods"]}:8',
-            ]
-            (idx78, idv78), retmap78 = catefunc(image, supclasz)
-            print(supclasz)
-            print(retmap78)
-
-            retmap = {
-                 "cartoon": retmap12["1"] * retmapA["cartoon"],
-                 "text": retmap12["1"] * retmapA["text"],
-                 "abstract": retmap12["1"] * retmapA["abstract"],
-                 "people": retmap12["2"] * retmap34["3"] * retmapB["people"],
-                 "animal": retmap12["2"] * retmap34["3"] * retmapB["animal"],
-                 "food": retmap12["2"] * retmap34["3"] * retmapB["food"],
-                 "plant": retmap12["2"] * retmap34["3"] * retmapB["plant"],
-                 "landscape": retmap12["2"] * retmap34["4"] * retmap56["5"] * retmapC["landscape"],
-                 "nightscape": retmap12["2"] * retmap34["4"] * retmap56["5"] * retmapC["nightscape"],
-                 "building": retmap12["2"] * retmap34["4"] * retmap56["5"] * retmapC["building"],
-                 "vehicle": retmap12["2"] * retmap34["4"] * retmap56["5"] * retmapC["vehicle"],
-                 "goods": retmap12["2"] * retmap34["4"] * retmap56["6"] * retmap78["7"],
-                 "notsure": retmap12["2"] * retmap34["4"] * retmap56["6"] * retmap78["8"],
-            }
-            maxid, maxv = -1, -1
-            for key in retmap.keys():
-                val = retmap[key]
-                if val > maxv:
-                    maxv = val
-                    maxid = key
-            print(retmap)
-            return [maxid, maxv], retmap
-
-        def classification2(catefunc, image, classes):
-            retv = catefunc(image, classes)
-            return retv
-
-        (idx1, idv1), retmap1 = classification2(cateclip2, image, classes)
-        colorPrint(idx1, idv1)
-        (idx2, idv2), retmap2 = classification2(cateclip_cn2, image, classes_cn)
-        colorPrint(idx2, idv2)
-
-        flag = False
-        # 分类和分类之间存在重叠，所以 0.4 就可以了。
-        if idx1 == idx2 and idv1 >= 0.4 and idv2 >= 0.4:
-            flag = True
-
-        idx1, idv1, idx2, idv2 = mergeTest(retmap1, retmap2)
+        idx1, idv1, idx2, idv2 = classification2()
         colorPrint(idx1, idv1, idx2, idv2)
-        if HEAVY and not flag:
-            idx1 = "notsure"
-        else:
-            # 均值 0.5，差距控制在 0.2，有一定把握才行。
-            if idv1 >= 0.5 and idv2 < idv1 - 0.2:
-                flag = True
 
-        if not flag and not DATAX: # 没有答案就算了。
-            # 如果是 datax 就强制分类。
+        if not DATAX: # 没有答案就算了。
             return
 
         if INSTALL:
