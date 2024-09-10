@@ -50,11 +50,14 @@ QWEN_PROMPT = """
 """
 
 def get_url(object_name):
+    cachepath = os.path.join(TEMPDIR, "cachefunc", object_name)
+    if os.path.exists(cachepath):
+        return readfile(cachepath, True, "utf8")
 
     bucket = getOssBucket("pythonx")
 
     # 设置URL的过期时间，例如1小时
-    expiration_time = datetime.now() + timedelta(hours=1)
+    expiration_time = datetime.now() + timedelta(hours=24)
     # 将datetime对象转换为时间戳（秒），并减去当前时间的时间戳（秒），得到过期时间差（秒）
     expires = int((expiration_time - datetime.now()).total_seconds())
 
@@ -62,6 +65,7 @@ def get_url(object_name):
     url = bucket.sign_url('GET', object_name, expires)
 
     print(url)
+    writefile(cachepath, url, "utf8")
     return url
 
 # Function to encode the image
