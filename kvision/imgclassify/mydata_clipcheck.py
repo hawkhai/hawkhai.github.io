@@ -524,9 +524,9 @@ def main(dataset):
             ifile = os.path.abspath(ifile)
             assert ifile.find("imgclassify") != -1, ifile
             if FORCE_CATE:
-                targetfile = ifile.replace("imgclassify", "imgclassifx_clip")
+                targetfile = ifile.replace("imgclassify", "imgclassifx_clip_force")
             else:
-                targetfile = ifile.replace("imgclassify", "imgclassifz_clip")
+                targetfile = ifile.replace("imgclassify", "imgclassifz_clip_review")
 
             copyfile(ifile, targetfile)
             assert os.path.exists(targetfile), targetfile
@@ -545,8 +545,8 @@ if __name__ == "__main__":
                 continue
             main(argv)
     elif FORCE_CATE:
-        main("mydata/val")
-        main("mydata/train")
+        #main("mydata/val")
+        #main("mydata/train")
         main("mydata/tempset")
     else:
         main("mydata/dataset")

@@ -69,9 +69,9 @@ def main(dataset):
             rad = int(fmd5, 16) % 100
 
             if rad < 20:
-                targetfile = os.path.join("tempset", "val", maxid, fmd5+fname)
+                targetfile = os.path.join("mydata", "tempset", "val", idx1, fmd5+fname)
             else:
-                targetfile = os.path.join("tempset", "train", maxid, fmd5+fname)
+                targetfile = os.path.join("mydata", "tempset", "train", idx1, fmd5+fname)
             targetfile = targetfile.replace(fmd5*2, fmd5)
             fdir = os.path.dirname(targetfile)
             if not os.path.exists(fdir):
@@ -96,9 +96,9 @@ def main(dataset):
             ifile = os.path.abspath(ifile)
             assert ifile.find("imgclassify") != -1, ifile
             if FORCE_CATE:
-                targetfile = ifile.replace("imgclassify", "imgclassifx_self")
+                targetfile = ifile.replace("imgclassify", "imgclassifx_self_force")
             else:
-                targetfile = ifile.replace("imgclassify", "imgclassifz_self")
+                targetfile = ifile.replace("imgclassify", "imgclassifz_self_review")
 
             copyfile(ifile, targetfile)
             assert os.path.exists(targetfile), targetfile

@@ -130,9 +130,9 @@ def main(dataset):
             ifile = os.path.abspath(ifile)
             assert ifile.find("imgclassify") != -1, ifile
             if FORCE_CATE:
-                targetfile = ifile.replace("imgclassify", "imgclassifx_qwenlocal")
+                targetfile = ifile.replace("imgclassify", "imgclassifx_qwenlocal_force")
             else:
-                targetfile = ifile.replace("imgclassify", "imgclassifz_qwenlocal")
+                targetfile = ifile.replace("imgclassify", "imgclassifz_qwenlocal_review")
 
             copyfile(ifile, targetfile)
             assert os.path.exists(targetfile), targetfile
