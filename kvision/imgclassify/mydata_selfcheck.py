@@ -69,9 +69,9 @@ def main(dataset):
             rad = int(fmd5, 16) % 100
 
             if rad < 20:
-                targetfile = os.path.join("mydata", "tempset", "val", idx1, fmd5+fname)
+                targetfile = os.path.join("mydata", "tempset", "val", maxid, fmd5+"_"+fname)
             else:
-                targetfile = os.path.join("mydata", "tempset", "train", idx1, fmd5+fname)
+                targetfile = os.path.join("mydata", "tempset", "train", maxid, fmd5+"_"+fname)
             targetfile = targetfile.replace(fmd5*2, fmd5)
             fdir = os.path.dirname(targetfile)
             if not os.path.exists(fdir):
