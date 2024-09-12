@@ -39,7 +39,7 @@ INSTALL = not FORCE_CATE # "install" in sys.argv
 TOPK_COUNT = 11
 
 def mergeTest(fpath):
-    from app import classify_imagefile, classify_score
+    from app import classify_imagefile
     if INSTALL:
         retraw = False # 相当于发布版本，准确度优先，否则要删除的数据就太多了。
     elif FORCE_CATE:
@@ -47,7 +47,7 @@ def mergeTest(fpath):
     else: # Review
         retraw = True # 直接返回原始数据，否则就 Review 太多了。
     retv, maxid, maxv = classify_imagefile(fpath, retraw=retraw)
-    return retv, maxid, maxv, classify_score
+    return retv, maxid, maxv
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def main(dataset):
@@ -61,7 +61,7 @@ def main(dataset):
         colorPrint(ifile)
         image = Image.open(ifile)
 
-        retv, maxid, maxv, classify_score = mergeTest(ifile)
+        retv, maxid, maxv = mergeTest(ifile)
 
         if INSTALL:
 
@@ -89,7 +89,7 @@ def main(dataset):
 
         else: # Review
             mytype = os.path.split(os.path.split(fpath)[0])[-1]
-            assert mytype in [c.split(":")[-1].strip() for c in classify_score.keys()], mytype
+            assert mytype in "".split("|"), mytype
             if maxid == mytype: # 如果相等，就不要再 Review 了。
                 return
 
