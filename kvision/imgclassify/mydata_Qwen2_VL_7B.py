@@ -18,19 +18,19 @@ import os
 def array_to_image_path(image_array):
     # Convert numpy array to PIL Image
     img = Image.fromarray(np.uint8(image_array))
-    
+
     # Generate a unique filename using timestamp
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"image_{timestamp}.png"
-    
+
     # Save the image
     img.save(filename)
-    
+
     # Get the full path of the saved image
     full_path = os.path.abspath(filename)
-    
+
     return full_path
-    
+
 models = {
     "Qwen/Qwen2-VL-7B-Instruct": Qwen2VLForConditionalGeneration.from_pretrained("Qwen/Qwen2-VL-7B-Instruct", trust_remote_code=True, torch_dtype="auto").cuda().eval()
 
@@ -78,7 +78,7 @@ def run_example(image, text_input=None, model_id="Qwen/Qwen2-VL-7B-Instruct"):
             ],
         }
     ]
-    
+
     # Preparation for inference
     text = processor.apply_chat_template(
         messages, tokenize=False, add_generation_prompt=True
@@ -92,7 +92,7 @@ def run_example(image, text_input=None, model_id="Qwen/Qwen2-VL-7B-Instruct"):
         return_tensors="pt",
     )
     inputs = inputs.to("cuda")
-    
+
     # Inference: Generation of the output
     generated_ids = model.generate(**inputs, max_new_tokens=1024)
     generated_ids_trimmed = [
@@ -101,16 +101,16 @@ def run_example(image, text_input=None, model_id="Qwen/Qwen2-VL-7B-Instruct"):
     output_text = processor.batch_decode(
         generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False
     )
-    
+
     if imgclear and os.path.exists(image_path):
         os.remove(image_path)
     return output_text[0]
 
 css = """
   #output {
-    height: 500px; 
-    overflow: auto; 
-    border: 1px solid #ccc; 
+    height: 500px;
+    overflow: auto;
+    border: 1px solid #ccc;
   }
 """
 
