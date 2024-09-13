@@ -401,7 +401,7 @@ def cateclip_imgfile(fpath, fname, ftype):
     if not flag:
         retmap["notsure"] = 1.0
         return retmap
-    return retmap, idx1, idv1 
+    return retmap, idx1, idv1
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
 def main(dataset):

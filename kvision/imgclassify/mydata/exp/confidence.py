@@ -19,18 +19,18 @@ def main():
     def mainfile(fpath, fname, ftype):
         if fname not in "resultconfidence.json".split():
             return
-        
+
         fjson = readfileJson(fpath)
         print("x,", end=" ")
         for i in range(101):
             print("%d"%i + ",", end=" ")
         print()
-        
+
         for key in fjson.keys():
             print(key + ",", end=" ")
             val = fjson[key]
             vkeys = val.keys()
-            
+
             for i in range(101):
                 okcnt, errcnt = 0, 0
                 total = 0
