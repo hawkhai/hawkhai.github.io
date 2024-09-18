@@ -31,6 +31,7 @@ import numpy as np
 import sys, os
 sys.path.append("/home/yqh/code/pythonx/fastai/image_classification")
 sys.path.append("/home/yqh/code/pythonx/fastai/image_classification/demo")
+from config import NUM_CLASSES
 
 QUICK = "quick" in sys.argv
 DEBUG = "debug" in sys.argv
@@ -158,7 +159,7 @@ def main(dataset):
         else: # Review
             mytype = os.path.split(os.path.split(fpath)[0])[-1]
             assert mytype in "animal|text|people|landscape|other|cartoon".split("|"), mytype
-            if maxv < 0.80:
+            if maxv < 0.75:
                 maxid = "notsure"
             if maxid == mytype: # 如果相等，就不要再 Review 了。
                 return
