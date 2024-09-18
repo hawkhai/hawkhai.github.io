@@ -33,7 +33,7 @@ QUICK = "quick" in sys.argv
 DEBUG = "debug" in sys.argv
 INSTALL = "install" in sys.argv
 FORCE_CATE = "force" in sys.argv # 强行分类
-TOPK_COUNT = 11
+TOPK_COUNT = NUM_CLASSES
 HEAVY = "heavy" in sys.argv
 
 # 官网推荐的 'ViT-B/32'

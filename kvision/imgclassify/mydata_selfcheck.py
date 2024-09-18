@@ -36,7 +36,7 @@ QUICK = "quick" in sys.argv
 DEBUG = "debug" in sys.argv
 FORCE_CATE = "force" in sys.argv # 强行分类
 INSTALL = not FORCE_CATE # "install" in sys.argv
-TOPK_COUNT = 11
+TOPK_COUNT = NUM_CLASSES
 
 # https://blog.csdn.net/qq_40243750/article/details/125545964
 # https://blog.csdn.net/juluwangriyue/article/details/118082260
