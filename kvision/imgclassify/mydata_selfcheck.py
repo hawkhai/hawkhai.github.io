@@ -38,6 +38,69 @@ FORCE_CATE = "force" in sys.argv # 强行分类
 INSTALL = not FORCE_CATE # "install" in sys.argv
 TOPK_COUNT = 11
 
+# https://blog.csdn.net/qq_40243750/article/details/125545964
+# https://blog.csdn.net/juluwangriyue/article/details/118082260
+import tensorflow as tf
+
+# 加载 TFLite 模型
+interpreter = tf.lite.Interpreter(model_path="mydata/exp/aimodel/pic_recommend_local_pc/pic_recommend_model.tflite")
+interpreter.allocate_tensors()
+
+# 获取输入和输出张量的详细信息
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
+
+# 定义预处理函数
+def preprocess_image(image_path, input_shape):
+    img = Image.open(image_path).convert("RGB").resize((input_shape[1], input_shape[2]))
+    img = np.array(img).astype(np.float32)  # 模型要求浮点32类型
+    img = img / 255.0  # 归一化至 [0, 1]
+    img = np.expand_dims(img, axis=0)  # 增加 batch 维度
+    return img
+
+# 进行推理
+def run_inference(image_path):
+    # 加载和预处理图片
+    input_shape = input_details[0]['shape']
+    img = preprocess_image(image_path, input_shape)
+
+    # 设置模型输入
+    interpreter.set_tensor(input_details[0]['index'], img)
+
+    # 执行推理
+    interpreter.invoke()
+
+    # 获取输出数据
+    output_data = interpreter.get_tensor(output_details[0]['index'])
+
+    return output_data
+
+# 调用推理函数，打印输出
+def print_output(output):
+    #output = run_inference(image_path)
+
+    categories = r"""animal
+text
+people
+landscape
+other
+cartoon""".split()
+
+    # 获取分类及其对应概率
+    retv = {}
+    for i, score in enumerate(output[0]):
+        #print(f"{categories[i]}: {score:.4f}")
+        retv[categories[i]] = float(score)
+
+    # 找出概率最大的类别
+    predicted_index = np.argmax(output[0])
+    predicted_category = categories[predicted_index]
+    confidence = output[0][predicted_index]
+
+    print(f"\nPredicted category: {predicted_category} (confidence: {confidence:.4f})")
+    return retv, predicted_category, float(confidence)
+
+
 def mergeTest(fpath):
     from app import classify_imagefile
     if INSTALL:
@@ -46,7 +109,12 @@ def mergeTest(fpath):
         retraw = True # 谨慎移除数据，删一点少一点。
     else: # Review
         retraw = True # 直接返回原始数据，否则就 Review 太多了。
-    retv, maxid, maxv = classify_imagefile(fpath, retraw=retraw)
+    #retv, maxid, maxv = classify_imagefile(fpath, retraw=retraw)
+
+    # 调用推理函数，打印输出
+    output = run_inference(fpath)
+    retv, maxid, maxv = print_output(output)
+
     return retv, maxid, maxv
 
 @CWD_DIR_RUN(os.path.split(os.path.abspath(__file__))[0])
@@ -89,7 +157,9 @@ def main(dataset):
 
         else: # Review
             mytype = os.path.split(os.path.split(fpath)[0])[-1]
-            assert mytype in "".split("|"), mytype
+            assert mytype in "animal|text|people|landscape|other|cartoon".split("|"), mytype
+            if maxv < 0.80:
+                maxid = "notsure"
             if maxid == mytype: # 如果相等，就不要再 Review 了。
                 return
 
@@ -112,7 +182,7 @@ def main(dataset):
 if __name__ == "__main__":
     #test()
     if FORCE_CATE:
-        main("datax")
+        main("mydatax")
     else:
         main("mydata/dataset")
     print("ok")
