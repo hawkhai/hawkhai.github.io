@@ -30,6 +30,9 @@ def main():
     ]
 
     valdir, traindir = imgdirs
+    if "datax" in sys.argv:
+        valdir = valdir.replace("mydata", "mydatax")
+        traindir = traindir.replace("mydata", "mydatax")
     trains = [i for i in os.listdir(traindir) if os.path.isdir(os.path.join(traindir, i))]
     vals   = [i for i in os.listdir(valdir) if os.path.isdir(os.path.join(valdir, i))]
 
