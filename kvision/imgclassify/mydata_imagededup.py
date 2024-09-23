@@ -88,7 +88,8 @@ def faiss_topk_search(features_list, top_k=5):
 def find_duplicates_with_faiss(image_dir, model, transform, top_k=5, similarity_threshold=0.98):
 
     image_paths = []
-    def mainfile(fpath, fname, ftype):
+    def mainfile(fpath, fname, ftype, depth):
+        if depth >= 1: return # 只检索根目录
         if ftype in ("jpg", "jpeg", "webp", "png", "bmp"):
             image_paths.append(fpath)
     for i in image_dir:
