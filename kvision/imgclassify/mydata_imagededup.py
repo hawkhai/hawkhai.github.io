@@ -89,8 +89,13 @@ def find_duplicates_with_faiss(image_dir, model, transform, top_k=5, similarity_
 
     image_paths = []
     def mainfile(fpath, fname, ftype, depth):
-        if depth >= 1: return # 只检索根目录
+        if depth >= 2: return # 只检索根目录
         if ftype in ("jpg", "jpeg", "webp", "png", "bmp"):
+            try:
+                Image.open(fpath)
+            except:
+                colorPrint("Image.open", fpath)
+                return
             image_paths.append(fpath)
     for i in image_dir:
         searchdir(i, mainfile)
@@ -181,15 +186,15 @@ Top-1 准确率: 75.3%
         r"E:\kSource\blog\kvision\ksample\imgtable",
         r"E:\kSource\blog\kvision\ksample\mytable",
     ] if IS_WINDOWS else [
-        r"/home/yqh/code/myocr/win32/1_images/",
-        r"/home/yqh/code/myocr/win32/2_images/",
-        r"/home/yqh/code/myocr/win32/3_images/",
-        r"/home/yqh/code/myocr/win32/images/",
-        r"/home/yqh/code/myocr/win32/wechat/",
-        r"/home/yqh/code/myocr/win32/output/",
-        r"/home/yqh/code/ksample/imgtable_v3/",
-        r"/home/yqh/code/ksample/imgtable_2x/",
-        r"/home/yqh/code/ksample/imgtable/",
+        #r"/home/yqh/code/myocr/win32/1_images/",
+        #r"/home/yqh/code/myocr/win32/2_images/",
+        #r"/home/yqh/code/myocr/win32/3_images/",
+        #r"/home/yqh/code/myocr/win32/images/",
+        #r"/home/yqh/code/myocr/win32/wechat/",
+        #r"/home/yqh/code/myocr/win32/output/",
+        #r"/home/yqh/code/ksample/imgtable_v3/",
+        #r"/home/yqh/code/ksample/imgtable_2x/",
+        #r"/home/yqh/code/ksample/imgtable/",
         r"/home/yqh/code/ksample/mytable/",
     ]
     if HEAVY:
