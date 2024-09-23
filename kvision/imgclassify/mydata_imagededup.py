@@ -125,13 +125,13 @@ def find_duplicates_with_faiss(image_dir, model, transform, top_k=5, similarity_
 
 def remove_duplicates(duplicates):
     for img1, img2 in duplicates:
-        assert img2.find("imgclassify") != -1, img2
+        imgclaz = img2.find("imgclassify") != -1
         if os.path.exists(img1):
             img2c, img2t = os.path.splitext(img2)
-            copyfile(img1, img2c.replace("imgclassify", "imgclassifz")+"_z"+img2t)
+            if imgclaz: copyfile(img1, img2c.replace("imgclassify", "imgclassifz")+"_z"+img2t)
 
         if os.path.exists(img2):
-            copyfile(img2, img2.replace("imgclassify", "imgclassifz"))
+            if imgclaz: copyfile(img2, img2.replace("imgclassify", "imgclassifz"))
             os.remove(img2)
         print(f"Removed: {img2}")
 
@@ -175,16 +175,21 @@ Top-1 准确率: 75.3%
         r"E:\kpdf\pdfreader_master\pdfai_client\pdfocr\win32\images",
         r"E:\kpdf\pdfreader_master\pdfai_client\pdfocr\win32\wechat",
         r"E:\kpdf\pdfreader_master\pdfai_client\pdfocr\win32\output",
-        r"E:\kSource\blog\kvision\ksample\imgtable",
-        r"E:\kSource\blog\kvision\ksample\imgtable_2x",
         r"E:\kSource\blog\kvision\ksample\imgtable_v3",
+        r"E:\kSource\blog\kvision\ksample\imgtable_2x",
+        r"E:\kSource\blog\kvision\ksample\imgtable",
         r"E:\kSource\blog\kvision\ksample\mytable",
     ] if IS_WINDOWS else [
-        r"/home/yqh/code/blog/kvision/imgclassify/mydata/val",
-        r"/home/yqh/code/blog/kvision/imgclassify/mydata/train",
-        r"/home/yqh/code/blog/kvision/imgclassify/mydata/tempset",
-        r"/home/yqh/code/blog/kvision/imgclassify/mydata/dataset",
-        r"/home/yqh/code/blog/kvision/imgclassify/trash",
+        r"/home/yqh/code/myocr/win32/1_images/",
+        r"/home/yqh/code/myocr/win32/2_images/",
+        r"/home/yqh/code/myocr/win32/3_images/",
+        r"/home/yqh/code/myocr/win32/images/",
+        r"/home/yqh/code/myocr/win32/wechat/",
+        r"/home/yqh/code/myocr/win32/output/",
+        r"/home/yqh/code/ksample/imgtable_v3/",
+        r"/home/yqh/code/ksample/imgtable_2x/",
+        r"/home/yqh/code/ksample/imgtable/",
+        r"/home/yqh/code/ksample/mytable/",
     ]
     if HEAVY:
         imgdirs = [
