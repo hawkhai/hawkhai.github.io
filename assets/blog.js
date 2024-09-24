@@ -303,6 +303,9 @@ function checkHrefTagk() {
                 if (host.indexOf("10.12.168.") == 0) {
                     return;
                 }
+                if (GetQueryValue("nohost")) { // 不显示。
+                    return;
+                }
                 $this.html(textv + "<span class='domaintag_sep'> | </span><sub class='domaintag_host'>"+host+"</sub>");
             }
         }

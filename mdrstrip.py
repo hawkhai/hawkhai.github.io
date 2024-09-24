@@ -661,6 +661,10 @@ def mainfile(fpath, fname, ftype, fdepth=0):
         writefileJson(fpath, fjson, ascii=False, encoding="utf8")
         return
 
+    iglist = readfileIglist("config/mdrstrip_file_ignore.txt")
+    if fname in iglist:
+        return
+
     fpathsrc, fnamesrc, ftypesrc = fpath, fname, ftype
     checkfilesize(fpath, fname, ftype)
 
