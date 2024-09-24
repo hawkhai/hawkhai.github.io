@@ -67,6 +67,10 @@ def mainfilew(fpath, fname, ftype):
     codestate = False
     for line in li:
 
+        # 避免格式化的文件。
+        if "".join(line.strip().lower().split()) == "codeformat:false":
+            return
+
         line = twikiImage(line)
 
         fxline = "".join(line.split())
