@@ -107,6 +107,45 @@ if __name__ == "__main__":
 {% include image.html url="/assets/images/240924-how-to-run-qwen-using-o~6d/qwen-python-result.jpg" %}
 
 
+## 支持本地部署的 AI 模型进行翻译
+
+<https://lmstudio.ai/>
+sudo systemctl enable ollama 打开开机自启动
+sudo systemctl disable ollama 关闭开机自启动
+
+[note {% include relref_github.html %}](https://github.com/immersive-translate/immersive-translate/issues/1451)
+OLLAMA_ORIGINS="\*" ollama serve
+
+```python
+API_URL = "http://10.12.172.128:11434/v1/chat/completions"
+# "model": "qwen2.5:14b",
+REQ_SENTENCE = {
+	"model": "qwen2.5:14b",
+	"temperature": 0,
+	"top_p": 1,
+	"frequency_penalty": 1,
+	"presence_penalty": 1,
+	"keep_alive": "5m",
+	"messages": [{
+		"role": "user",
+		"content": "You are a professional translator.\n\nOnly reply the result and nothing else. Please translate to 简体中文:\n\n"
+	}]
+}
+REQ_WORD = {
+	"model": "qwen2.5:14b",
+	"temperature": 0,
+	"top_p": 1,
+	"frequency_penalty": 1,
+	"presence_penalty": 1,
+	"keep_alive": "5m",
+	"messages": [{
+		"role": "user",
+		"content": "你是一个翻译引擎，请翻译给出的文本，只需要翻译不需要解释。当且仅当文本只有一个单词时，请给出单词原始形态（如果有）、单词的语种、对应的音标或转写、所有含义（含词性）、双语示例，至少三条例句。如果你认为单词拼写错误，请提示我最可能的正确拼写，否则请严格按照下面格式给到翻译结果：\n    < 单词 >\n    [< 语种 >]· / <Pinyin>\n    [< 词性缩写 >] < 中文含义 >]\n    例句：\n    < 序号 >< 例句 >( 例句翻译 )\n    词源：\n    < 词源 >\n\nOnly reply the result and nothing else. 好的，我明白了，请给我这个单词。:\n\n 单词是："
+	}]
+}
+```
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-09-24-how-to-run-qwen-using-ollama.md.js" %}'></script></p>
@@ -114,3 +153,5 @@ if __name__ == "__main__":
 
 - [https://huwangyun.cn/blog/how-to-run-qwen-using-ollama]({% include relrefx.html url="/backup/2024-09-24-how-to-run-qwen-using-ollama.md/huwangyun.cn/0955c838.html" %})
 - [https://ollama.com/download]({% include relrefx.html url="/backup/2024-09-24-how-to-run-qwen-using-ollama.md/ollama.com/181a6069.html" %})
+- [https://lmstudio.ai/]({% include relrefx.html url="/backup/2024-09-24-how-to-run-qwen-using-ollama.md/lmstudio.ai/0de63b87.html" %})
+- [https://github.com/immersive-translate/immersive-translate/issues/1451]({% include relrefx.html url="/backup/2024-09-24-how-to-run-qwen-using-ollama.md/github.com/da1105fb.html" %})
