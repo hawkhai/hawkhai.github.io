@@ -109,6 +109,7 @@ if __name__ == "__main__":
 
 ## 支持本地部署的 AI 模型进行翻译
 
+<https://lionad.art/articles/local-translator>
 <https://lmstudio.ai/>
 sudo systemctl enable ollama 打开开机自启动
 sudo systemctl disable ollama 关闭开机自启动
@@ -168,5 +169,6 @@ Only reply the result and nothing else. \
 
 - [https://huwangyun.cn/blog/how-to-run-qwen-using-ollama]({% include relrefx.html url="/backup/2024-09-24-how-to-run-qwen-using-ollama.md/huwangyun.cn/0955c838.html" %})
 - [https://ollama.com/download]({% include relrefx.html url="/backup/2024-09-24-how-to-run-qwen-using-ollama.md/ollama.com/181a6069.html" %})
+- [https://lionad.art/articles/local-translator]({% include relrefx.html url="/backup/2024-09-24-how-to-run-qwen-using-ollama.md/lionad.art/f1027b02.html" %})
 - [https://lmstudio.ai/]({% include relrefx.html url="/backup/2024-09-24-how-to-run-qwen-using-ollama.md/lmstudio.ai/0de63b87.html" %})
 - [https://github.com/immersive-translate/immersive-translate/issues/1451]({% include relrefx.html url="/backup/2024-09-24-how-to-run-qwen-using-ollama.md/github.com/da1105fb.html" %})
