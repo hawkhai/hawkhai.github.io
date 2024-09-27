@@ -9,8 +9,10 @@ from pythonx.kangxi import TranslateKangXi
 from pythonx.pelib import getLuckFileMd5
 
 __file__   = os.path.abspath(__file__)
-
-MYCACHE = LocalLimitedDict(os.path.join("tempdir", "mycache", os.path.split(__file__)[-1], 'cache.db'), max_size=5000)
+if __name__ == "__main__":
+    MYCACHE = LocalLimitedDict(os.path.join("tempdir", "mycache", os.path.split(__file__)[-1], 'cache.db'), max_size=5000)
+else:
+    MYCACHE = None
 
 from PIL import Image
 # AttributeError: module 'PIL.Image' has no attribute 'Resampling'
@@ -1269,4 +1271,5 @@ if __name__ == "__main__":
     else:
         cProfile.run("mainw()") if DEBUG else mainw()
         os.system(r"cd invisible & {} tempd.py encrypt".format(getPythonExe(),))
+    del MYCACHE
     print(parsePythonCmdx(__file__))

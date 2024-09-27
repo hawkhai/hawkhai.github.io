@@ -17,8 +17,6 @@ from pythonx.funclib import *
 
 REMOVE = "remove" in sys.argv
 
-MYCACHE = LocalLimitedDict(os.path.join("tempdir", "mycache", os.path.split(__file__)[-1], 'cache.db'), max_size=5000)
-
 def needcheck(fpath, fname, ftype):
     for sign in r""".zhihu.com
                     .jianshu.com
@@ -57,7 +55,7 @@ def maincheck(fpath, fname, ftype):
         if REMOVE:
             osremove(fpath)
 
-def formatbigfiles(fpath, md5hub):
+def formatbigfiles(fpath, md5hub, mycache=None):
     fpage = readfile(fpath, True, "utf8")
     lines = fpage.replace("\r\n", "\n").replace("\r", "\n").split("\n")
     rootdir = os.path.split(fpath)[0]
@@ -74,7 +72,7 @@ def formatbigfiles(fpath, md5hub):
             if srcmd5 in md5hub:
                 srcpath = md5hub[srcmd5]
             elif os.path.exists(srcpath):
-                srcmd5 = getFileSrcMd5z(srcpath, mycache=MYCACHE)
+                srcmd5 = getFileSrcMd5z(srcpath, mycache=mycache)
             else:
                 return None # 文件已经不存在了。
 
@@ -104,7 +102,7 @@ if __name__ == "__main__":
     md5hub = readfileJson(md5hubfile)
     if not md5hub: md5hub = {}
     def mainmd5file(fpath, fname, ftype):
-        fmd5 = getFileSrcMd5z(fpath, mycache=MYCACHE)
+        fmd5 = getFileSrcMd5z(fpath, mycache=None)
         if not fmd5 in md5hub:
             md5hub[fmd5] = fpath
     if not md5hub:
