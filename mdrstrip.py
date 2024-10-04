@@ -773,10 +773,10 @@ def mainfile(fpath, fname, ftype, fdepth=0):
             return mainfile(fpathsrc, fnamesrc, ftypesrc, fdepth+1)
 
     # .spaceback.json
-    spacebackfile = fpath + SPACEBACKFILE_TAIL
+    spacebackfile = (os.path.splitext(fpath)[0] + SPACEBACKFILE_TAIL)
     spacebackjson = {}
     if not os.path.exists(spacebackfile):
-        spacebackfile = os.path.join(os.path.split(fpath)[0], "k"+fname+SPACEBACKFILE_TAIL)
+        spacebackfile = os.path.join(os.path.split(fpath)[0], "k"+os.path.splitext(fname)[0]+SPACEBACKFILE_TAIL)
     if os.path.exists(spacebackfile):
         spacebackjson = readfileJson(spacebackfile, "utf8")
 
@@ -1057,8 +1057,22 @@ def mainfile(fpath, fname, ftype, fdepth=0):
     if not fname in ("2021-03-14-Equivalent-Unified-Ideograph.md",):
         page = TranslateKangXi(page)
 
+    def spacebackreg(regkey, regmap, page):
+        li = re.findall(regkey, page)
+        if not li: return page
+        for i in li:
+            ix = i
+            for ik in regmap.keys():
+                ix = ix.replace(ik, regmap[ik])
+            page = page.replace(i, ix)
+        return page
     for spacebackkey in spacebackjson.keys():
         spacebackvalue = spacebackjson[spacebackkey]
+        if spacebackkey == "regex":
+            for regkey in spacebackvalue.keys():
+                regmap = spacebackvalue[regkey] # 字典
+                page = spacebackreg(regkey, regmap, page)
+            continue
         page = page.replace(spacebackkey, spacebackvalue)
 
     # 时间过长，如果被手工改了，这里会形成覆盖。
