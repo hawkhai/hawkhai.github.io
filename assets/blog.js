@@ -93,7 +93,7 @@ function calcShortUrlx() {
 
 function setupBackToTop() {
 
-    if (GetQueryValue("print")) {
+    if (GetQueryValue("print")) { // 打印版本，不显示到顶的按钮。
         return;
     }
 
@@ -268,7 +268,7 @@ function checkTableStyle() {
 }
 
 function checkFlowChart() {
-    if (!GetQueryValue("nochart")) {
+    if (!GetQueryValue("nochart")) {// 不显示 mermaid 图表。
         return;
     }
     // <code class="language-mermaid">
@@ -303,7 +303,7 @@ function checkHrefTagk() {
                 if (host.indexOf("10.12.168.") == 0) {
                     return;
                 }
-                if (GetQueryValue("nohost")) { // 不显示。
+                if (GetQueryValue("nohost")) { // 不显示 host 标记。
                     return;
                 }
                 $this.html(textv + "<span class='domaintag_sep'> | </span><sub class='domaintag_host'>"+host+"</sub>");
@@ -317,7 +317,7 @@ function checkHrefTagk() {
 // https://qastack.cn/programming/23218174/how-do-i-save-export-an-svg-file-after-creating-an-svg-with-d3-js-ie-safari-an
 function genSvgDownloadLink() { // for mermaid
 
-    if (!GetQueryValue("svgdl")) {
+    if (!GetQueryValue("svgdl")) { // svg 可以下载。
         return;
     }
 
@@ -406,7 +406,7 @@ $(document).ready(function () {
 
     function addCopyButton(pre) {
 
-        if (GetQueryValue("print")) {
+        if (GetQueryValue("print")) { // 打印版本，不显示代码拷贝的按钮。
             return;
         }
 

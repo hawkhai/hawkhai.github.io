@@ -247,7 +247,7 @@ function GetQueryValue(queryName) {
 
 function checkToc() {
 
-    if (GetQueryValue("noborder")) {
+    if (GetQueryValue("noborder")) { // 不显示表格边框。
         $(".post table").addClass('noborder');
         $(".post .reviewline").remove();
         $(".post .reviewtip").remove();
@@ -255,13 +255,13 @@ function checkToc() {
         $(".post hr").remove();
     }
 
-    if (GetQueryValue("print")) {
+    if (GetQueryValue("print")) { // 打印版本，全部加载，避免延迟加载。
         //$("footer.site-footer").remove(); // 网站申明
         $("div.post-footer").remove(); // 版权声明
         $("div#section_info + hr").remove(); // 短链接
         //$("div#section_info").remove();
         //$("div#section_cluster").remove();  // 聚类
-        if (GetQueryValue("print") == "2") {
+        if (GetQueryValue("print") == "2") { // 移除快照之类的，保持界面干净。
             $("font.ref_snapshot + ul").remove(); // 快照
             $("font.ref_snapshot").remove();
             $("div#section_refsnap").remove();
