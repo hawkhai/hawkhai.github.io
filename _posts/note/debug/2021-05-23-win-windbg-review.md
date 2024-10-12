@@ -20,6 +20,19 @@ cluster: "WinDBG"
 Windbg 的一些简单使用命令
 
 
+## 崩溃 自动关联 WinDbg 并调试
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AeDebug
+```
+Debugger "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\windbg.exe" -p %ld -e %ld -g
+Auto 1
+```
+
+* !analyze -v: 获取详细的崩溃分析。
+* k: 查看调用堆栈。
+* lm: 列出加载的模块。
+
+
 ## 查看地址附近代码
 
 [from {% include relref_cnblogs.html %}](https://www.cnblogs.com/zengkefu/p/6938071.html)
