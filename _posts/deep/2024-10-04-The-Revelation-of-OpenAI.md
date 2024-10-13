@@ -17,6 +17,10 @@ codeprint:
 
 baidu
 openai 为什么坚定选择了 gpt 路线
+在物理上，宇宙的下一状态只与上一状态有关，这是所谓的 locality 和 causality，量子场论遵循这一原则。而 Transformer 是一种 state（KV cache）不断增大的 RNN，它每个字都要和前面的字比对一遍，这相当于“超距作用”，不符合我们这个宇宙的物理。
+
+大模型的涌现能力来自于其不连续的评价指标，这种不连续的评价指标导致了模型性能在到达一定程度后出现“大幅提升”。如果换成更为平滑的指标，会发现相对较小的模型的效果也并非停滞不前，规模在阈值以下的模型，随着规模的提高，生成的内容也在逐渐靠近正确答案。
+{% include image.html url="/assets/images/241004-the-revelation-of-openai/20241013232526.jpg" %}
 
 
 ## [GPT、DALL·E、Sora，为什么 OpenAI 可以跑通所有 AGI 技术栈？ {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/Trlbl0RF1umCi_FeSKJI4w)
