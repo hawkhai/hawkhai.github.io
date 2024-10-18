@@ -175,12 +175,12 @@ Top-1 准确率: 75.3%
     ])
 
     imgdirs = [
-        r"E:\kpdf\pdfreader_master\pdfai_client\pdfocr\win32\1_images",
-        r"E:\kpdf\pdfreader_master\pdfai_client\pdfocr\win32\2_images",
-        r"E:\kpdf\pdfreader_master\pdfai_client\pdfocr\win32\3_images",
-        r"E:\kpdf\pdfreader_master\pdfai_client\pdfocr\win32\images",
-        r"E:\kpdf\pdfreader_master\pdfai_client\pdfocr\win32\wechat",
-        r"E:\kpdf\pdfreader_master\pdfai_client\pdfocr\win32\output",
+        r"E:\kSource\blog\kvision\ksample\myocr\win32\1_images",
+        r"E:\kSource\blog\kvision\ksample\myocr\win32\2_images",
+        r"E:\kSource\blog\kvision\ksample\myocr\win32\3_images",
+        r"E:\kSource\blog\kvision\ksample\myocr\win32\images",
+        r"E:\kSource\blog\kvision\ksample\myocr\win32\wechat",
+        r"E:\kSource\blog\kvision\ksample\myocr\win32\output",
         r"E:\kSource\blog\kvision\ksample\imgtable_v3",
         r"E:\kSource\blog\kvision\ksample\imgtable_2x",
         r"E:\kSource\blog\kvision\ksample\imgtable",
