@@ -1,3 +1,5 @@
+贵有恒，何必三更起五更睡；最无益，只怕一日曝十日寒。
+
 This is a modified version of [Gaurav Chaurasia's Much-Worse Jekyll theme {% include relref_github.html %}](https://github.com/gchauras/much-worse-jekyll-theme/).
 
 Source for [https://blog.hawkhai.com](https://blog.hawkhai.com).
