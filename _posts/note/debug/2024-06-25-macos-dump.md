@@ -59,9 +59,14 @@ cp -R out/x64/Release/crashpad_handler*   ../../lib/macos/dump/x86_64/Release/
 崩溃分析需要准备的文件：
 1. 崩溃文件 minidump
 2. 对应的符号 .dSYM 文件
-3. 安装和崩溃电脑同样的程序版本
+3. 安装和崩溃电脑同样的程序版本 **（分析 dump 的机器环境上安装的 app 版本必须要与崩溃的版本一致）**
 
 **如果代码和构建电脑保持一致，会自动显示代码行。**
+
+```
+sudo xcodebuild -license
+settings set target.source-map /oldpath /newpath
+```
 
 
 ## 几个工具
