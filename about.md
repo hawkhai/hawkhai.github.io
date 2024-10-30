@@ -85,6 +85,28 @@ All three conditions are now satisfied.”
 因此机器学习研究者会重点研究学习算法在计算机上执行的效率与准确性的提升。
 
 
+## Mindset 是很难打破的
+
+[note {% include relref_zhihu.html %}](https://www.zhihu.com/question/391756708/answer/1196224166)
+
+Mindset 是很难打破的， 体系越复杂成熟，就越难。比如以下两个 mindset：
+
+1. 苏联没搞定大推力，但是知道大力出奇迹，所以 N1 装了那么些台发动机，4 次试飞全炸了，
+    于是后世坚定认为发动机多了可靠性肯定完蛋，一提大火箭就非得弄大发动机，可弄大发动机又谈何容易。
+    结果现在 space x 另辟蹊径，化繁为简，用简单可靠 + 省钱的小发动机，加上软件控制的进步，
+    把这问题给解决了。是不是还要继续怼大发动机，要再琢磨下了。
+
+2. 中美都想登月，目前方案都是弄新世代土星 5。乖乖，土星 5 好费钱的。当年为什么要弄土星 5 呢，
+    是因为没把握同时成功发射几个火箭，几个舱上去了再对接出发，只能来一个大的，
+    登月舱返回舱设备舱一起上，半路拆开掉个头再合上，一起飞月球。
+    现在这个前提是不是也变了呢？ 以猎鹰或者其他新火箭的成功率，加上数量不少的发射台，俩，仨甚至更多同时发射可以考虑的。
+    走老路的 SLS，被波音拖成这熊样，有人信 24 年能登月？
+
+长 9 立项，还是要搞大发动机，大火箭。nasa 给了 space x 往月球轨道送载荷的订单，感觉有点暗度陈仓的意思，
+波音的 sls 要是再延误或者大幅超预算，nasa 估计就直接让 space x 送人登月了。
+重型猎鹰比不了 sls，要登月必须打破 mindset 2，让人期待。
+
+
 ## 为什么要写博客（Why write blog）
 
 学习是一件非常困难的事情。首先是工作本身已经很累了，然后是一些客观的家里的事情会消耗你的时间，再然后是新知识本身的难度，面对一堆看不懂的公式，再掂量一下自己有限的智商，不学习貌似日子还是可以继续过下去，那我为什么还要学习呢？夜深人静的时候，媳妇已经睡下，想到自己人生将半，学习计划还是得坚持下去：夜来欹枕细思量，独卧残灯漏夜长； **名不显时心不朽，再挑灯火夜读书。**
@@ -253,6 +275,7 @@ Enjoy!
 - [http://www.songho.ca/]({% include relrefx.html url="/backup/about.md/www.songho.ca/d3f4e364.html" %})
 - [https://mp.weixin.qq.com/s/_lnyIzWDjzwkyBEjQ1gjtA]({% include relrefx.html url="/backup/about.md/mp.weixin.qq.com/2776a4cd.html" %})
 - [https://www.cnblogs.com/subconscious/p/5058741.html]({% include relrefx.html url="/backup/about.md/www.cnblogs.com/3b4d6ae9.html" %})
+- [https://www.zhihu.com/question/391756708/answer/1196224166]({% include relrefx.html url="/backup/about.md/www.zhihu.com/93bcf4a6.html" %})
 - [http://www.matrix67.com/blog/archives/4930]({% include relrefx.html url="/backup/about.md/www.matrix67.com/84c24598.html" %})
 - [https://mp.weixin.qq.com/s/S3D1T6WTvodwwv-4aGASrg]({% include relrefx.html url="/backup/about.md/mp.weixin.qq.com/ee9e9120.html" %})
 - [https://twitter.com/]({% include relrefx.html url="/backup/about.md/twitter.com/4fd9c9a2.html" %})
