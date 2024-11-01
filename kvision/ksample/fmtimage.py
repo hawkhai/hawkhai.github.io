@@ -44,6 +44,13 @@ def main(rootdir):
     print("ROOTDIR", rootdir)
 
     def mainfile(fpath, fname, ftype, depth):
+        if not fname.endswith(ftype) or fpath.find("Engine_CADF_Samples_SampleImages_") != -1:
+            fdata = readfile(fpath)
+            fpath = os.path.splitext(fpath)[0]+"."+ftype
+            osremove(fpath)
+            fpath = fpath.replace("Engine_CADF_Samples_SampleImages_", "")
+            writefile(fpath, fdata)
+
         try:
             assert ftype not in ("webp", "jfif",)
             img = Image.open(fpath)
