@@ -17,13 +17,39 @@ from pythonx.funclib import *
 from PIL import Image
 import cv2
 
+# 最终 png 文件能控制在 5 MB 左右。
+def resize_image(image, output_image_path, size=(1754, 1754)): # 1241 x 1754
+    #with Image.open(input_image_path) as image:
+    
+    # 获取原始图片的宽度和高度
+    width, height = image.size
+    
+    # 检查是否需要调整大小
+    if width > size[0] or height > size[1]:
+        # 计算新的尺寸以保持原始宽高比
+        if width > height:
+            new_width = size[0]
+            new_height = int(height * (new_width / width))
+        else:
+            new_height = size[1]
+            new_width = int(width * (new_height / height))
+        
+        # 使用高质量的重采样滤波器调整图片大小
+        image = image.resize((new_width, new_height), Image.ANTIALIAS)
+    
+        # 保存调整后的图片
+        image.save(output_image_path)
+
 def main(rootdir):
     print("ROOTDIR", rootdir)
 
     def mainfile(fpath, fname, ftype, depth):
         try:
             assert ftype not in ("webp", "jfif",)
-            Image.open(fpath)
+            img = Image.open(fpath)
+            if img.size[0] * img.size[1] > 1241 * 1754:
+                resize_image(img, fpath)
+                print(fpath)
             return
         except Exception as ex:
             print(ex, fpath)
@@ -51,4 +77,5 @@ if __name__ == "__main__":
     #main(os.path.dirname(os.path.abspath(__file__)))
     main(r"E:\kSource\blog\kvision\ksample\dewarp")
     main(r"E:\kSource\blog\kvision\ksample\testimg")
+    main(r"E:\kSource\blog\kvision\ksample\myocr")
     print("ok")
