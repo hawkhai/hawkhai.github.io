@@ -139,6 +139,34 @@ markdown [https://www.runoob.com/markdown/md-lists.html](https://www.runoob.com/
 执行命令后需要连续回车 3 次或 4 次。
 
 
+## 修复 TortoiseGit 文件夹和文件状态图标不显示问题
+
+[修复 TortoiseGit 文件夹和文件状态图标不显示问题 {% include relref_cnblogs.html %}](https://www.cnblogs.com/xiesong/p/5761352.html)
+
+按 Win+R 键打开运行对话框，输入 regedit ，打开注册表；
+找到 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Explorer；
+新建一个“字符串值”名称为 “Max Cached Icons” 值是 “2000”；
+重启一下电脑，看图标是否显示。
+如果图标还不显示，看下一步。
+
+**修改注册表**
+
+(1) 在弹出的注册表编辑器中找到 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ShellIconOverlayIdentifiers 这一项。
+
+(2) 找到后可以发现在该项下有很多个，而 Windows Explorer Shell 支持的 Overlay Icon 最多 15 个，Windows 自身使用了 4 个，只剩 11 个可扩展使用。
+
+(3) 编辑 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ShellIconOverlayIdentifiers，修改 tortoise 相关的名称（如在名称前加一个空格前缀，并加数字）。
+
+[TortoiseSVN/TortoiseGIT 文件和文件夹或图标不显示问题解决方法 {% include relref_csdn.html %}](https://blog.csdn.net/ayang1986/article/details/107381997)
+{% include image.html url="/assets/images/200822-tortoise-git-ssh/15c0c5e9843e32b26ebb0d21b966ac7c.png" %}
+
+Windows 10 takes a step away from icon overlays by moving the OneDrive file synchronization status indicator from an icon overlay to a separate Status column.
+
+Since it’s a separate column, there’s room to put more than one status icon there.
+
+{% include image.html url="/assets/images/200822-tortoise-git-ssh/e0a2ee7fa8d7d7e7148917a093169c1d.png" %}
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-08-22-tortoise-git-ssh.md.js" %}'></script></p>
@@ -147,3 +175,5 @@ markdown [https://www.runoob.com/markdown/md-lists.html](https://www.runoob.com/
 - [https://www.cnblogs.com/zy20160429/p/7493693.html]({% include relrefx.html url="/backup/2020-08-22-tortoise-git-ssh.md/www.cnblogs.com/4fa376fa.html" %})
 - [https://www.runoob.com/markdown/md-lists.html]({% include relrefx.html url="/backup/2020-08-22-tortoise-git-ssh.md/www.runoob.com/ce4c95d5.html" %})
 - [https://www.wenwl.site/pages/f0c240/]({% include relrefx.html url="/backup/2020-08-22-tortoise-git-ssh.md/www.wenwl.site/d8ee3ea4.html" %})
+- [https://www.cnblogs.com/xiesong/p/5761352.html]({% include relrefx.html url="/backup/2020-08-22-tortoise-git-ssh.md/www.cnblogs.com/87730d05.html" %})
+- [https://blog.csdn.net/ayang1986/article/details/107381997]({% include relrefx.html url="/backup/2020-08-22-tortoise-git-ssh.md/blog.csdn.net/6084dbfb.html" %})
