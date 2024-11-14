@@ -58,6 +58,25 @@ private:
 ```
 
 
+## 使用 Windows 错误报告 (WER)
+
+打开注册表编辑器：
+* 按 Win + R 打开运行对话框，输入 regedit 并按回车键。
+
+导航到注册表项：
+* 导航到 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps。
+
+创建子项：
+* 如果 LocalDumps 子项不存在，右键点击 Windows Error Reporting，选择 新建 -> 项，命名为 LocalDumps。
+
+配置应用程序的转储设置：
+* 在 LocalDumps 下，右键点击右侧窗格，选择 新建 -> 项，命名为您的应用程序的可执行文件名（例如 onnxruntime.exe）。
+* 在新创建的项下，右键点击右侧窗格，选择 新建 -> 字符串值，命名为 DumpFolder。
+* 双击 DumpFolder，输入您希望保存转储文件的路径（例如 C:\Dumps）。
+* 再次右键点击右侧窗格，选择 新建 -> DWORD (32-bit) 值，命名为 DumpType。
+* 双击 DumpType，设置其值为 2（表示完整内存转储）或 1（表示小型内存转储）。
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-07-windows-dump-Exception-capture.md.js" %}'></script></p>
