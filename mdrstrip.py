@@ -188,7 +188,7 @@ def backupUrlContent(fpath, md5src, url):
         if NETFAKE:
             fdata = b""
         else:
-            fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=flocal, shotpath=shotpath, chromeDialog=chromeDialog)
+            fdata = netgetCacheLocal(url, cacheTimeout=60*60*24*1000, chrome=chrome, local=flocal, shotpath=shotpath, chromeDialog=chromeDialog)
         fdatalocal = False
 
     idata = bytesToString(fdata)
