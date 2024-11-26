@@ -73,6 +73,13 @@ unlocker-3.0.3.zip
 {% include image.html url="/assets/images/240821-vmware-macos/20240822180734.png" %}
 
 
+## 另外的版本
+
+[如何在 windows 上使用 VMware 安装 macOS 虚拟机 {% include relref_csdn.html %}](https://blog.csdn.net/hubing_hust/article/details/128596690)
+
+unlocker424.zip
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-08-21-vmware-macos.md.js" %}'></script></p>
@@ -83,3 +90,4 @@ unlocker-3.0.3.zip
 - [https://pan.baidu.com/s/1JJXw0K6l1R2ljLkoKeDUBA]({% include relrefx.html url="/backup/2024-08-21-vmware-macos.md/pan.baidu.com/f78ee94e.html" %})
 - [https://pan.baidu.com/s/12yekpzlrJQZYS_QNS9nN_A]({% include relrefx.html url="/backup/2024-08-21-vmware-macos.md/pan.baidu.com/de95d1c1.html" %})
 - [https://cloud.189.cn/web/share?code=3Eb2Ir7N3QZj]({% include relrefx.html url="/backup/2024-08-21-vmware-macos.md/cloud.189.cn/cf4b44fe.html" %})
+- [https://blog.csdn.net/hubing_hust/article/details/128596690]({% include relrefx.html url="/backup/2024-08-21-vmware-macos.md/blog.csdn.net/85d83701.html" %})
