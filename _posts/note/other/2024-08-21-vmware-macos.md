@@ -79,6 +79,9 @@ unlocker-3.0.3.zip
 
 unlocker424.zip
 
+穿梭在 App Store 下载就可以
+{% include image.html url="/assets/images/240821-vmware-macos/20241206-111232.jpg" %}
+
 
 
 <hr class='reviewline'/>
