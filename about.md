@@ -111,6 +111,7 @@ Mindset 是很难打破的， 体系越复杂成熟，就越难。比如以下�
 
 学习是一件非常困难的事情。首先是工作本身已经很累了，然后是一些客观的家里的事情会消耗你的时间，再然后是新知识本身的难度，面对一堆看不懂的公式，再掂量一下自己有限的智商，不学习貌似日子还是可以继续过下去，那我为什么还要学习呢？夜深人静的时候，媳妇已经睡下，想到自己人生将半，学习计划还是得坚持下去：夜来欹枕细思量，独卧残灯漏夜长； **名不显时心不朽，再挑灯火夜读书。**
 
+**We write to remember more accurately, understand better, and evaluate what we think more objectively.**
 工作多年后，发现什么都没留下，一直忙于赶路，很多东西搞过，然后都忘记了。
 稍微放慢一点，写写博客，用途多：
 
@@ -119,6 +120,12 @@ Mindset 是很难打破的， 体系越复杂成熟，就越难。比如以下�
 3. 写作即思考，把学习的知识按自己的结构整理记录，方便日后查阅，还方便与他人交流。
 4. 短期看，写文档是浪费时间的；长期看，是节约时间的；更长期看，没有文档的代码甚至价值都不大，因为去理解它，重新用起来，需要的成本太大了。
 5. 能用图的就用图，不能用图就用表，不能用表，就用文字描述，读者就是未来完全忘光了的自己。
+
+Writing up your blog is, finally, thinking with and for your readers. When you write
+for others, you disentangle your ideas from your memories and wishes, so that you – and
+others – can explore, expand, combine, and understand them more fully. Thinking for
+others is more careful, more sustained, more insightful – in short, more thoughtful – than
+just about any other kind of thinking.
 
 基于文档的知识迭代，比基于脑壳的迭代，更稳固、更可靠。正所谓：好记性不如烂笔头。
 
