@@ -92,8 +92,8 @@ def popenCmdW(cmdx):
     return datax
 
 gkvmap = {}
-def formatkv(fpath, fname, ftype, fsecli, setkv={}):
-
+def formatkv(fpath, fname, ftype, fsecli, setkv=None):
+    if None == setkv: setkv = {}
     fdata = readfile(fpath, True)
     li = [line.strip() for line in fsecli.split("\n") if line.strip()]
 
@@ -229,7 +229,8 @@ def parseHeadKeyValueRaw(fpath, fname, ftype):
     if len(fsecli) <= 2 or len(fsecli[0]) > 3: return
     return fsecli
 
-def parseHeadKeyValue(fpath, fname, ftype, setkv={}):
+def parseHeadKeyValue(fpath, fname, ftype, setkv=None):
+    if None == setkv: setkv = {}
     fsecli = parseHeadKeyValueRaw(fpath, fname, ftype)
     if not fsecli: return
     tempv = formatkv(fpath, fname, ftype, fsecli[1], setkv=setkv)
@@ -238,7 +239,8 @@ def parseHeadKeyValue(fpath, fname, ftype, setkv={}):
 
 gkvconfig = readfileJson("config/headnote.json", "utf8")
 gkvconfig = gkvconfig if gkvconfig else {}
-def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv={}):
+def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv=None):
+    if None == setkv: setkv = {}
     if ftype in ("mdtag",): return
     if fpath.endswith(SPACEBACKFILE_TAIL):
         return

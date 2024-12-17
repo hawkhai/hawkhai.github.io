@@ -134,7 +134,8 @@ def check(file, depth):
             errprint("%s: SyntaxError: %s" % (file, str(se)))
             return
     try:
-        print(file)
+        #print(file)
+        pythonxcheck(file)
         with open(file, encoding=encoding) as f:
             r = Reindenter(f)
     except IOError as msg:
