@@ -24,7 +24,7 @@ brew upgrade cmake
 ## Error: Failed to install Homebrew Portable Ruby (and your system version is too old)!
 
 ```
-rm -rf /Users/apple/Library/Caches/Homebrew/portable-ruby-3.1.4.arm64_big_sur.bottle.tar.gz
+rm -rf ~/Library/Caches/Homebrew/portable-ruby-3.1.4.arm64_big_sur.bottle.tar.gz
 ```
 
 
@@ -183,7 +183,7 @@ defaults write com.apple.finder AppleShowAllFiles -bool false 此命令关闭显
 5. 检查目标文件。check_target
 6. 提交构建结果。submit_result
 
-/Users/apple/.jenkins/workspace
+~/.jenkins/workspace
 
 
 ## Jenkins 从 git 拉取大文件失败的解决方式

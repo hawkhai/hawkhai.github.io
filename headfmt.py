@@ -310,6 +310,6 @@ if __name__ == "__main__":
     print(parsePythonCmdx(__file__))
     try:
         os.system(r"cd invisible & {} tempd.py encrypt".format(getPythonExe(),))
-    except: # python3.10: can't open file '/Users/apple/Desktop/cfcode/blog/tempd.py': [Errno 2] No such file or directory
+    except: # python3.10: can't open file '~/Desktop/cfcode/blog/tempd.py': [Errno 2] No such file or directory
         pass
     print("ok")

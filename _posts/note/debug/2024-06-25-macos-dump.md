@@ -50,7 +50,7 @@ cp -R out/x64/Release/crashpad_handler*   ../../lib/macos/dump/x86_64/Release/
 
 ```
 # : Mach-O 64-bit executable arm64
-/Users/apple/crashpad_handler # 这个不分配 7777 貌似会崩溃？！
+~/crashpad_handler # 这个不分配 7777 貌似会崩溃？！
 ```
 
 也有可能是 cpu arch 不同吧，分析 dump 的机器环境上安装的 app 版本必须要与崩溃的版本一致才可以。
@@ -250,7 +250,7 @@ How to Build Google Crashpad [link](https://docs.bugsplat.com/introduction/getti
 
 ```
 git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
-sudo echo "export PATH=/Users/apple/Desktop/cfcode/depot_tools:$PATH" >> ~/.zshrc
+sudo echo "export PATH=~/Desktop/cfcode/depot_tools:$PATH" >> ~/.zshrc
 
 # Generating Build Configuration
 cd ~/crashpad/crashpad
