@@ -92,7 +92,6 @@ All three conditions are now satisfied.”
 ## Mindset 是很难打破的
 
 [note {% include relref_zhihu.html %}](https://www.zhihu.com/question/391756708/answer/1196224166)
-
 Mindset 是很难打破的， 体系越复杂成熟，就越难。比如以下两个 mindset：
 
 1. 苏联没搞定大推力，但是知道大力出奇迹，所以 N1 装了那么些台发动机，4 次试飞全炸了，
@@ -116,6 +115,13 @@ Mindset 是很难打破的， 体系越复杂成熟，就越难。比如以下�
 学习是一件非常困难的事情。首先是工作本身已经很累了，然后是一些客观的家里的事情会消耗你的时间，再然后是新知识本身的难度，面对一堆看不懂的公式，再掂量一下自己有限的智商，不学习貌似日子还是可以继续过下去，那我为什么还要学习呢？夜深人静的时候，媳妇已经睡下，想到自己人生将半，学习计划还是得坚持下去：夜来欹枕细思量，独卧残灯漏夜长； **名不显时心不朽，再挑灯火夜读书。**
 
 **We write to remember more accurately, understand better, and evaluate what we think more objectively.**
+**Write is Thinking**
+Writing a research report is, finally, thinking with and for your readers.
+If instead you find a topic that you care about, ask a question that you want to answer.
+* Write to Remenber
+* Write to Understand
+* Write to Test Your Thinking
+
 工作多年后，发现什么都没留下，一直忙于赶路，很多东西搞过，然后都忘记了。
 稍微放慢一点，写写博客，用途多：
 
@@ -167,6 +173,10 @@ just about any other kind of thinking.
 1. 这个逻辑本身就非常复杂，比如 3D 引擎、Chrome、机器学习；
     * GAN、SVM 和 强化学习 的 数学部分，刺猬摸电线，卷麻了。
     * **Gall 定律** 一个有效的复杂系统通常是从一个有效的简单系统演化而来的。 —— John Gall
+        * **复杂系统总是源于简单系统的演化。**
+            “一个有效的复杂系统总是被发现是由一个有效的简单系统演变而来。
+            一个从零开始设计的复杂系统永远不会工作，也不能通过修补来使其工作。
+            你必须从一个简单的工作系统重新开始。”
 2. 代码混乱和冗余造成的复杂，呵呵，比如公司维护了十多年的代码。
 
 大部分时候，考验的是我们的基本功和知识储备，同时用工整的代码去对抗复杂。

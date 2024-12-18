@@ -17,18 +17,107 @@ archived:
 ---
 
 [The Craft of Research, Fourth Edition](https://book.douban.com/subject/26883575/)
+(Chicago Guides to Writing, Editing, and Publishing)
+[book](https://archive.org/details/WayneC.BoothGregoryG.ColombJosephM.WilliamsTheCraftOfResearchThirdEditionChicago/mode/2up)
+[note {% include relref_bili.html %}](https://www.bilibili.com/opus/675153998359035925)
+
 {% include image.html url="/assets/images/241218-book-the-craft-of-resea~15/s29466600.jpg" %}
 
 
 ## Preface: The Aims of This Edition
 
+论文写作
 Our Debts
 
 
 ### I. Research, Researchers, and Readers
 
-1. Thinking in Print: The Uses of Research, Public and Private
+**跟读者建立联系**
+**读者知道什么了，他们接下来想要知道什么。**
+整个论文的写作，就是跟你的读者的一个无声的交流。
+跟正常的交流不一样的是说，他不是互动的，而说你要一开始就想好，整个交流应该是一个什么的过程，要想清楚读者是谁，他们需要什么。
+所以你在写文章时，而写的能满足他们的需求，使得他们能信服你写的东西。
+
+#### Thinking in Print: The Uses of Research, Public and Private
+
+1. Thinking in Print: The Uses of Research, Public and Private 9
+    1. What Is Research? 10
+    1. Why Write It Up? 11
+    1. Why a Formal Report? 13
+    1. Writing Is Thinking 14
+
+研究是什么：
+Gather information to answer a question that solves a problem.
+
+写作的好处：
+We write to remember more accurately, understand better, and evaluate
+what we think more objectively.
+* Write to Remenber
+* Write to Understand
+* Write to Test Your Thinking
+
+论文格式，是同行交流的一个协议。
+
+**Write is Thinking**
+Writing a research report is, finally, thinking with and for your readers.
+If instead you find a topic that you care about, ask a question that you want to answer.
+
+#### Connecting with Your Reader: Creating a Role for Yourself and Your Readers
+
 2. Connecting with Your Reader: Creating a Role for Yourself and Your Readers
+2. Connecting with Your Reader: (Re-) Creating Yourself and Your Readers 16
+    2. Creating Roles for Yourself and Your Readers 16
+    2. Understanding Your Role 18
+    2. Imagining Your Reader’s Role 20
+
+为你自己和读者都创建一个角色。
+Research counts for little if few read it. Yet even experienced researchers sometimes forget to keep their readers in mind as they plan and draft their report. In this chapter we show you how to think about readers even before you begin your project.
+
+**Writing is an imagined conversation.**
+once we decide what role to play and what role to assign to readers, those roles are fixed.
+
+作者的角色有三种：
+1. I’ve Found Some New and Interesting Information
+2. I’ve Found a Solution to an Important Practical Problem
+3. I’ve Found an Answer to an Important Question
+
+读者的角色也有三种：
+1. 娱乐我。Entertain Me
+2. Help Me Solve My Practical Problem
+3. Help Me Understand Something Better
+
+没有找准读者的角色，可能会造成读者反馈： **I don't care.**
+
+#### A Checklist for Understanding Your Readers
+
+Think about your readers from the start, knowing that you’ll understand them better as you work through your project. Answer these questions early on, then revisit them when you start planning and again when you revise.
+
+1. Who will read my report?
+
+    * Professionals who expect me to follow every academic convention and use a standard format?
+    * Well-informed general readers?
+    * General readers who know little about the topic?
+
+2. What do they expect me to do? Should I
+
+    * entertain them?
+    * provide new factual knowledge?
+    * help them understand something better?
+    * help them do something to solve a practical problem in the world?
+
+3. How much can I expect them to know already?
+
+    * What do they know about my topic?
+    * Is the problem one that they already recognize?
+    * Is it one that they have but haven’t yet recognized?
+    * Is the problem not theirs, but only mine?
+    * Will they take the problem seriously, or must I convince them that it matters?
+
+4. How will readers respond to the solution /answer in my main claim?
+
+    * Will it contradict what they already believe? How?
+    * Will they make standard arguments against my solution?
+    * Will they want to see the steps that led me to the solution?
 
 
 ### II. Asking Questions, Finding Answers
@@ -41,6 +130,8 @@ Our Debts
 
 ### III. Making an Argument
 
+怎么样讲一个故事。
+
 7. Making Good Arguments: An Overview
 8. Making Claims
 9. Assembling Reasons and Evidence
@@ -49,6 +140,8 @@ Our Debts
 
 
 ### IV. Writing Your Argument
+
+怎么样把这个故事写下来。
 
 12. Planning and Drafting
 13. Organizing Your Argument
@@ -169,4 +262,6 @@ Our Debts
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://book.douban.com/subject/26883575/]({% include relrefx.html url="/backup/2024-12-18-book-The-Craft-of-Research.md/book.douban.com/c3c0abbb.html" %})
+- [https://archive.org/details/WayneC.BoothGregoryG.ColombJosephM.WilliamsTheCraftOfResearchThirdEditionChicago/mode/2up]({% include relrefx.html url="/backup/2024-12-18-book-The-Craft-of-Research.md/archive.org/53d3d73a.html" %})
+- [https://www.bilibili.com/opus/675153998359035925]({% include relrefx.html url="/backup/2024-12-18-book-The-Craft-of-Research.md/www.bilibili.com/f19a0262.html" %})
 - [https://book.douban.com/review/15037339/]({% include relrefx.html url="/backup/2024-12-18-book-The-Craft-of-Research.md/book.douban.com/e333275d.html" %})
