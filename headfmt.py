@@ -160,9 +160,12 @@ ktitle kaliyun imgthumb zhconv codeformat
             cmdx = ('''cd {} '''+cmdsep+''' git log -n 10000 --pretty=format:"%ad" --date=format:%Y-%m-%d_%H:%M:%S -- "{}"''').format(
                     *frelgit.replace("/", os.path.sep).replace("\\", os.path.sep).split(os.path.sep, 1))
             #print(cmdx)
-            datestr = popenCmdW(cmdx)
-            datestr = bytesToString(datestr)
-            # date: 1970-03-23 20:17:42 +0800
+            try:
+                datestr = popenCmdW(cmdx)
+                datestr = bytesToString(datestr)
+            except FileNotFoundError: # [Errno 2] No such file or directory: 'cd invisible ; git log -n 10000 --pretty=format:"%ad" --date=format:%Y-%m-%d_%H:%M:%S -- "chatgpt/README.md"'
+                # date: 1970-03-23 20:17:42 +0800
+                datestr = "2024-09-24_15:01:05"
             datestr = datestr.replace("_", " ")
             datestr = datestr.strip().split("\n")[-1]
             assert datestr, frelgit
@@ -305,4 +308,8 @@ if __name__ == "__main__":
     import cProfile
     cProfile.run("maink()") if DEBUG else maink()
     print(parsePythonCmdx(__file__))
-    os.system(r"cd invisible & {} tempd.py encrypt".format(getPythonExe(),))
+    try:
+        os.system(r"cd invisible & {} tempd.py encrypt".format(getPythonExe(),))
+    except: # python3.10: can't open file '/Users/apple/Desktop/cfcode/blog/tempd.py': [Errno 2] No such file or directory
+        pass
+    print("ok")

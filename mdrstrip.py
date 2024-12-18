@@ -604,8 +604,11 @@ def appendRefs(fpath, md5src, lines, imgthumb):
         if invdir and IS_MACOS:
             cmdx = 'cd {} && git log -n 1 --pretty=format:"%ad" --date=short -- "{}" && cd ..'.format(*frelgit.split(os.sep, 1))
 
-        datestr = popenCmd(cmdx)
-        datestr = bytesToString(datestr)
+        try:
+            datestr = popenCmd(cmdx)
+            datestr = bytesToString(datestr)
+        except FileNotFoundError: # [Errno 2] No such file or directory: 'cd invisible && git log -n 1 --pretty=format:"%ad" --date=short -- "ncnn/onnxruntime-for-win7/README_EN.md" && cd ..'
+            datestr = None
         if not datestr:
             datestr = datetime.datetime.now().date()
         return datestr
