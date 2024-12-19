@@ -55,17 +55,19 @@ And, I welcome any feedback on the contents and your suggestions.
 
 如果大脑也是神经网络，那梦更像是高维的投影。
 
+
 ## 保持阅读
 
 [read](https://sirupsen.com/read)
 
 > In my whole life, I have known no wise people (over a broad subject matter area) who didn’t read all the time — none, zero. You’d be amazed at how much Warren reads—and at how much I read. My children laugh at me. They think I’m a book with a couple of legs sticking out. – Charlie Munger
 >
-> 在我的一生中，我认识的所有聪明人（在广泛的主题领域）中，没有一个不是一直读书的——没有，零。沃伦读书之多，以及我的读书之多，会让你大吃一惊。我的孩子们都笑我。他们认为我是一本伸出几条腿的书。——查理·芒格
+> 在我的一生中，我认识的所有聪明人（在广泛的主题领域）中，没有一个不是一直读书的 —— 没有，零。沃伦读书之多，以及我的读书之多，会让你大吃一惊。我的孩子们都笑我。他们认为我是一本伸出几条腿的书。 —— 查理 · 芒格
 
 > Reading and experience train your model of the world. And even if you forget the experience or what you read, its effect on your model of the world persists. Your mind is like a compiled program you’ve lost the source of. It works, but you don’t know why. – Paul Graham
 >
-> 阅读和经验可以训练你的世界观。即使你忘记了经验或读过的内容，它对你的世界观的影响仍然存在。你的大脑就像一个你失去了来源的编译程序。它能工作，但你不知道为什么。——保罗·格雷厄姆
+> 阅读和经验可以训练你的世界观。即使你忘记了经验或读过的内容，它对你的世界观的影响仍然存在。你的大脑就像一个你失去了来源的编译程序。它能工作，但你不知道为什么。 —— 保罗 · 格雷厄姆
+
 
 ## 人工智能
 
@@ -311,6 +313,7 @@ Enjoy!
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [http://www.songho.ca/]({% include relrefx.html url="/backup/about.md/www.songho.ca/d3f4e364.html" %})
+- [https://sirupsen.com/read]({% include relrefx.html url="/backup/about.md/sirupsen.com/0810778b.html" %})
 - [https://mp.weixin.qq.com/s/_lnyIzWDjzwkyBEjQ1gjtA]({% include relrefx.html url="/backup/about.md/mp.weixin.qq.com/2776a4cd.html" %})
 - [https://www.cnblogs.com/subconscious/p/5058741.html]({% include relrefx.html url="/backup/about.md/www.cnblogs.com/3b4d6ae9.html" %})
 - [https://www.zhihu.com/question/391756708/answer/1196224166]({% include relrefx.html url="/backup/about.md/www.zhihu.com/93bcf4a6.html" %})

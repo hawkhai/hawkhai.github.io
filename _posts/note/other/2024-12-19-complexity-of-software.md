@@ -19,15 +19,16 @@ l2dwidget: true
 
 ## 计算机系统的设计原则
 
-[note csdn](https://blog.csdn.net/u012491166/article/details/106571170)
+[note {% include relref_csdn.html %}](https://blog.csdn.net/u012491166/article/details/106571170)
+
 
 ### General
+
 
 ### 设计
 
 复杂的系统由有效的简单系统演变而来（John Gall）
 > “A complex system that works is invariably found to have evolved from a simple system that worked. The inverse proposition also appears to be true: A complex system designed from scratch never works and cannot be made to work. You have to start over, beginning with a working simple system.” (John Gall)
-
 
 Decompose complex problems into smaller sub-problems
 * If a problem can be decomposed into two or more independently solvable problems, then solve them independently first!
@@ -35,18 +36,23 @@ Decompose complex problems into smaller sub-problems
 
 不要解决不存在的问题。
 
+
 ### 成本
+
 
 ### 任务
 
+
 ### 硬件
+
 
 ### 软件重用
 
 优先使用已被其他人重复使用的现有经过审查的代码。
-* 例如 使用STL而不是编写自己的容器。
+* 例如 使用 STL 而不是编写自己的容器。
 
 重用最好在大部分代码中完成–考虑重用整个驱动程序或库，而不是重用功能（Jack Ganssle）。
+
 
 ### 优化
 
@@ -55,19 +61,25 @@ Algorithmic optimizations have a greater impact than micro optimizations.
 
 切勿为了获得感知的效率而牺牲清晰度，尤其是在没有数据证明效率提高的情况下。
 
+
 ### 危险信号和危险区
+
 
 ### 中断
 
+
 ### 系统功能点规则
+
 
 ### 进一步阅读
 
+
 ## Complexity & Technical Debt 复杂度和技术负债
 
-[note zhihu](https://zhuanlan.zhihu.com/p/87994255)
+[note {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/87994255)
 
-技术负债和Gall's Law有什么关系呢？当一个程序或者文件或者公司或者系统，什么都好，因为上面讨论的技术负债的原因变得过于复杂的时候，根据Gall's Law，想要重新从头开始重做基本上就是不可能的了， 只能从简单的开始然后再进化，过程中很有可能又有需要注重短线的情况复杂度会再度提高，简直是个死循环。
+技术负债和 Gall's Law 有什么关系呢？当一个程序或者文件或者公司或者系统，什么都好，因为上面讨论的技术负债的原因变得过于复杂的时候，根据 Gall's Law，想要重新从头开始重做基本上就是不可能的了， 只能从简单的开始然后再进化，过程中很有可能又有需要注重短线的情况复杂度会再度提高，简直是个死循环。
+
 
 ### Jeff Bezos Mandate
 
@@ -79,18 +91,18 @@ Algorithmic optimizations have a greater impact than micro optimizations.
 6. Anyone who doesn't do this will be fired.
 7. Thank you; have a nice day!
 
-
-Jeff Bezos, 亚马逊的创始人和CEO，在AWS发布的两年前，大概是2002年的时候，给全体员工发了这个邮件，下面是大体的翻译：
+Jeff Bezos, 亚马逊的创始人和 CEO，在 AWS 发布的两年前，大概是 2002 年的时候，给全体员工发了这个邮件，下面是大体的翻译：
 
 1. 从现在开始所有的团队都需要使用服务接口来提供数据和功能。
 2. 团队直接必须通过服务接口来交流。
 3. 不允许其他形式的进程交流：不能直接连接，不能直接读取其他团队的数据，不能共享内存，不能有任何形式的后门。唯一允许的交流方式就是通过网络调取服务接口。
-4. 用什么技术都无所谓，HTTP, Corba, Pubsub, 定制协议都不要紧，Jeff Bezos不管。
+4. 用什么技术都无所谓，HTTP, Corba, Pubsub, 定制协议都不要紧，Jeff Bezos 不管。
 5. 没有任何的例外，所有的服务接口从开始就必须以公开化作为设计的原则。这也就是说，所有的团队从计划和设计之初就要让系统可以对外部人员开放。没有例外。
 6. 不遵守这些的人会被开除。
 7. 谢谢，祝你今天愉快。
 
-### [Technical debt（技术负债 / 技术债） csdn](https://blog.csdn.net/chengyq116/article/details/132218525)
+
+### [Technical debt（技术负债 / 技术债） {% include relref_csdn.html %}](https://blog.csdn.net/chengyq116/article/details/132218525)
 
 In software development, or any other IT field (e.g., Infrastructure, Networking, etc.) technical debt (also known as design debt or code debt) is the implied cost of future reworking required when choosing an easy but limited solution instead of a better approach that could take more time.
 
@@ -98,4 +110,10 @@ In software development, or any other IT field (e.g., Infrastructure, Networking
 
 
 
+<hr class='reviewline'/>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-12-19-complexity-of-software.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
 
+- [https://blog.csdn.net/u012491166/article/details/106571170]({% include relrefx.html url="/backup/2024-12-19-complexity-of-software.md/blog.csdn.net/1016c579.html" %})
+- [https://zhuanlan.zhihu.com/p/87994255]({% include relrefx.html url="/backup/2024-12-19-complexity-of-software.md/zhuanlan.zhihu.com/e382c8ef.html" %})
+- [https://blog.csdn.net/chengyq116/article/details/132218525]({% include relrefx.html url="/backup/2024-12-19-complexity-of-software.md/blog.csdn.net/15b13777.html" %})
