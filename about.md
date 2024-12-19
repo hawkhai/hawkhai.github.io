@@ -55,6 +55,17 @@ And, I welcome any feedback on the contents and your suggestions.
 
 如果大脑也是神经网络，那梦更像是高维的投影。
 
+## 保持阅读
+
+[read](https://sirupsen.com/read)
+
+> In my whole life, I have known no wise people (over a broad subject matter area) who didn’t read all the time — none, zero. You’d be amazed at how much Warren reads—and at how much I read. My children laugh at me. They think I’m a book with a couple of legs sticking out. – Charlie Munger
+>
+> 在我的一生中，我认识的所有聪明人（在广泛的主题领域）中，没有一个不是一直读书的——没有，零。沃伦读书之多，以及我的读书之多，会让你大吃一惊。我的孩子们都笑我。他们认为我是一本伸出几条腿的书。——查理·芒格
+
+> Reading and experience train your model of the world. And even if you forget the experience or what you read, its effect on your model of the world persists. Your mind is like a compiled program you’ve lost the source of. It works, but you don’t know why. – Paul Graham
+>
+> 阅读和经验可以训练你的世界观。即使你忘记了经验或读过的内容，它对你的世界观的影响仍然存在。你的大脑就像一个你失去了来源的编译程序。它能工作，但你不知道为什么。——保罗·格雷厄姆
 
 ## 人工智能
 
@@ -173,11 +184,13 @@ just about any other kind of thinking.
 1. 这个逻辑本身就非常复杂，比如 3D 引擎、Chrome、机器学习；
     * GAN、SVM 和 强化学习 的 数学部分，刺猬摸电线，卷麻了。
     * **Gall 定律** 一个有效的复杂系统通常是从一个有效的简单系统演化而来的。 —— John Gall
-        * **复杂系统总是源于简单系统的演化。**
-            “一个有效的复杂系统总是被发现是由一个有效的简单系统演变而来。
-            一个从零开始设计的复杂系统永远不会工作，也不能通过修补来使其工作。
-            你必须从一个简单的工作系统重新开始。”
 2. 代码混乱和冗余造成的复杂，呵呵，比如公司维护了十多年的代码。
+
+> **Gall's law** "A complex system that works is invariably found to have evolved from a simple system that worked...A complex system designed from scratch never works and cannot be patched up to make it work. You have to start over with a working simple system." - John Gall in Systemantics: How Systems Really Work and How They Fail
+>
+> **复杂系统总是源于简单系统的演化。** “一个有效的复杂系统总是被发现是由一个有效的简单系统演变而来。
+> 一个从零开始设计的复杂系统永远不会工作，也不能通过修补来使其工作。
+> 你必须从一个简单的工作系统重新开始。”
 
 大部分时候，考验的是我们的基本功和知识储备，同时用工整的代码去对抗复杂。
 
