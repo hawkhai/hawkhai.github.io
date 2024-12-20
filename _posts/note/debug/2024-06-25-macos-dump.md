@@ -250,7 +250,7 @@ How to Build Google Crashpad [link](https://docs.bugsplat.com/introduction/getti
 
 ```
 git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
-sudo echo "export PATH=~/Desktop/cfcode/depot_tools:$PATH" >> ~/.zshrc
+sudo echo "export PATH=/Users/apple/Desktop/cfcode/depot_tools:$PATH" >> ~/.zshrc
 
 # Generating Build Configuration
 cd ~/crashpad/crashpad

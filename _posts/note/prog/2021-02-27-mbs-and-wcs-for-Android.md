@@ -62,8 +62,8 @@ Android 配置不了，配置生成 linux 环境下的 config.h 文件，反正 
 ### Building iconv for Android
 
 ```shell
-hawkhai@ubuntu:~/Desktop/libiconv-1.16$ sudo sh ./configure
-hawkhai@ubuntu:~/Desktop/libiconv-1.16$
+hawkhai@ubuntu:/Users/apple/Desktop/libiconv-1.16$ sudo sh ./configure
+hawkhai@ubuntu:/Users/apple/Desktop/libiconv-1.16$
 ```
 
 再搞一个 cmake 去编译它。
