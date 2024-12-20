@@ -174,6 +174,57 @@ We wish we could tell you how to balance your belief in the worth of your projec
 5. From Problems to Sources
 6. Engaging Sources
 
+你先找到大小合适的话题，然后问一些问题，然后把一个读者认为值得去了解答案的问题抽出来，做成一个研究问题。
+
+研究问题可能是实际的也可能是概念上的，那不管是哪类问题，你都要想清楚，一它的状况是什么，二不解决它的话，它的后果是什么，但后面两节是说给一个问题的时候，你怎么样找到。资源就是找到前面的工作，然后怎么样读懂别人的工作，以及把你的工作放在别人的工作之上。
+
+就是话题、问题以及它的后果。
+
+* ★ Quick Tip: Creating a Writing Group
+* 3 From Topics to Questions
+* 3.1 From an Interest to a Topic
+    * 3.4.1 Step 1: Name Your Topic 你的话题是什么？
+    * 3.4.2 Step 2: Add an Indirect Question 你在这个话题里面的问题是什么？
+    * 3.4.3 Step 3: Answer So What? by Motivating Your Question 为什么别人会在意这个事情。
+* 3.2 From a Broad Topic to a Focused One
+* 3.3 From a Focused Topic to Questions
+* 3.4 The Most Significant Question: So What?
+* ★ Quick Tip: Finding Topics
+* 4 From Questions to a Problem
+* 4.1 Understanding Research Problems4.2 Understanding the Common Structure of Problems
+* 4.3 Finding a Good Research Problem
+    * 4.3.1 Ask for Help
+    * 4.3.2 Look for Problems as You Read
+    * 4.3.3 Look at Your Own Conclusion
+* 4.4 Learning to Work with Problems
+* ★ Quick Tip: Manage the Unavoidable Problem of Inexperience
+* 5 From Problems to Sources
+* 5.1 Three Kinds of Sources and Their Uses
+* 5.2 Navigating the Twenty-First-Century Library
+* 5.3 Locating Sources on the Internet
+* 5.4 Evaluating Sources for Relevance and Reliability
+* 5.5 Looking Beyond Predictable Sources
+* 5.6 Using People to Further Your Research
+* ★ Quick Tip: The Ethics of Using People as Sources of Data
+* 6 Engaging Sources
+* 6.1 Recording Complete Bibliographical Information
+* 6.2 Engaging Sources Actively
+* 6.3 Reading for a Problem
+* 6.4 Reading for Arguments
+* 6.5 Reading for Data and Support
+* 6.6 Taking Notes
+* 6.7 Annotating Your Sources
+* ★ Quick Tip: Manage Moments of Normal Anxiety
+
+A topic is an approach to a subject, one that
+asks a question whose answer solves a problem that your readers care about.
+
+Even so, once you have a question that holds your
+interest, you must pose a tougher one about it: So what?
+
+At that
+point, you have posed a problem that they recognize needs a solution.
+
 
 ## III. Making an Argument
 
