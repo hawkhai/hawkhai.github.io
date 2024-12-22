@@ -101,6 +101,19 @@ All three conditions are now satisfied.”
 而机器学习者更关注的是能够解决问题，偏实践，
 因此机器学习研究者会重点研究学习算法在计算机上执行的效率与准确性的提升。
 
+{% include image.html url="/assets/images/about/v2-1da799949a7a64453c4b5d99bcbd9243_720w.png" %}
+
+[算法工程师与程序员的区别是什么？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/299309521/answer/3177846306)
+算法工程师解决的问题通常是结论不明确、不清晰的；研发工程师解决问题的类型则相对明确。
+* 研发工程师只需要保证各种功能（页面交互、业务逻辑、数据报表）正常运行，如果出了问题，可以用相对清晰的步骤进行 debug 修复问题。
+* 算法工程师则需要去做一些效果不明确的事情，比如给用户推荐，推荐效果能提升多少是未知的；
+    模型运行如果效果不好，还需要各种调参、特征工程等等，这些没有较明确的方法，只能结合经验不断尝试。
+
+* 阶段一 —— 成为有技术深度算法工程师（角色化）
+    * 基于当前角色打磨技术能力，同时在工作中积累资源提升对环境及业务的理解，为下一个阶段做准备。
+* 阶段二 —— 成为解决问题的专家（去角色化）
+    * 这个阶段需要由内向外的顶层规划，避免成为忙于工作的资深工具人。
+
 
 ## Mindset 是很难打破的
 
@@ -316,6 +329,7 @@ Enjoy!
 - [https://sirupsen.com/read]({% include relrefx.html url="/backup/about.md/sirupsen.com/0810778b.html" %})
 - [https://mp.weixin.qq.com/s/_lnyIzWDjzwkyBEjQ1gjtA]({% include relrefx.html url="/backup/about.md/mp.weixin.qq.com/2776a4cd.html" %})
 - [https://www.cnblogs.com/subconscious/p/5058741.html]({% include relrefx.html url="/backup/about.md/www.cnblogs.com/3b4d6ae9.html" %})
+- [https://www.zhihu.com/question/299309521/answer/3177846306]({% include relrefx.html url="/backup/about.md/www.zhihu.com/220ae1a0.html" %})
 - [https://www.zhihu.com/question/391756708/answer/1196224166]({% include relrefx.html url="/backup/about.md/www.zhihu.com/93bcf4a6.html" %})
 - [http://www.matrix67.com/blog/archives/4930]({% include relrefx.html url="/backup/about.md/www.matrix67.com/84c24598.html" %})
 - [https://mp.weixin.qq.com/s/S3D1T6WTvodwwv-4aGASrg]({% include relrefx.html url="/backup/about.md/mp.weixin.qq.com/ee9e9120.html" %})
