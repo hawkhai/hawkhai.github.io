@@ -14,6 +14,7 @@ mermaid:
 glslcanvas:
 codeprint:
 kaliyun: true
+cluster: "机器学习课程"
 ---
 
 **深度学习 Deep Learning**

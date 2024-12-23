@@ -14,6 +14,7 @@ mermaid:
 glslcanvas:
 codeprint:
 kaliyun: true
+cluster: "机器学习课程"
 ---
 
 机器学习。这个视频太惊艳了，大概讲的是，我们训练出来的网络模型究竟是个什么东西，其内部是怎么运作的。

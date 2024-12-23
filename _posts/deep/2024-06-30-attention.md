@@ -13,6 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
+cluster: "机器学习课程"
 ---
 
 注意力机制。网上很多文章，但是我这篇文章应该是最浅显易懂的。零基础都能看懂，并且学会手算。
