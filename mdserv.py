@@ -166,15 +166,10 @@ class Resquest(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'application/json')
 
         CrossOrigin = False
-        ipaddrx = mydllfunc("getipaddr", {"minorVer": 2, "majorVer": 2,})
-        if ipaddrx and ipaddrx["ret"] == 0:
-            ipaddrx = ipaddrx["result"]
-            ipaddrx = ipaddrx["result"]
-            # ['192.168.110.1', '192.168.245.1', '192.168.0.102']
-            ipaddrx = [i for i in ipaddrx if not refindall("^[0-9]+\\.[0-9]+\\.[0-9]+\\.1$", i)]
-            if ipaddrx and len(ipaddrx) == 1:
-                self.send_header('Access-Control-Allow-Origin', 'http://{}:4000'.format(ipaddrx[0]))
-                CrossOrigin = True
+        ipaddrx = get_local_ipinfo()
+        if ipaddrx and len(ipaddrx) == 1:
+            self.send_header('Access-Control-Allow-Origin', 'http://{}:4000'.format(ipaddrx[0]))
+            CrossOrigin = True
         if not CrossOrigin:
             self.send_header('Access-Control-Allow-Origin', 'http://localhost:4000')
 
