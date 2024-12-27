@@ -112,13 +112,14 @@ if __name__ == "__main__":
         copyfile("Gemfile-mac", "Gemfile")
         copyfile("Gemfile-mac.lock", "Gemfile.lock")
     osremove("assets\\localhost.js")
-    if result and result["ret"] == 0:
-        result = result["result"]
-        result = result["result"]
+    ipaddrx = result
+    if ipaddrx and ipaddrx["ret"] == 0:
+        ipaddrx = ipaddrx["result"]
+        ipaddrx = ipaddrx["result"]
         # ['192.168.110.1', '192.168.245.1', '192.168.0.102']
-        result = [i for i in result if not refindall("^[0-9]+\\.[0-9]+\\.[0-9]+\\.1$", i)]
-        if result and len(result) == 1:
-            result = result[0]
+        ipaddrx = [i for i in ipaddrx if not refindall("^[0-9]+\\.[0-9]+\\.[0-9]+\\.1$", i)]
+        if ipaddrx and len(ipaddrx) == 1:
+            result = ipaddrx[0]
             writefile("assets\\localhost.js", "var localhostip = '" + result + "';\r\n")
     print(result)
     if IS_MACOS:

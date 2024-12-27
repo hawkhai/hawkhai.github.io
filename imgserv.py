@@ -67,14 +67,14 @@ class HTTPServer:
     def __init__(self, host="localhost", port=9001, directory="."):
 
         if host == "localhost":
-            ipaddr = mydllfunc("getipaddr", {"minorVer": 2, "majorVer": 2,})
-            if ipaddr and ipaddr["ret"] == 0:
-                ipaddr = ipaddr["result"]
-                ipaddr = ipaddr["result"]
+            ipaddrx = mydllfunc("getipaddr", {"minorVer": 2, "majorVer": 2,})
+            if ipaddrx and ipaddrx["ret"] == 0:
+                ipaddrx = ipaddrx["result"]
+                ipaddrx = ipaddrx["result"]
                 # ['192.168.110.1', '192.168.245.1', '192.168.0.102']
-                ipaddr = [i for i in ipaddr if not refindall("^[0-9]+\\.[0-9]+\\.[0-9]+\\.1$", i)]
-                if ipaddr and len(ipaddr) == 1:
-                    host = ipaddr[0] # 换算成 IP。
+                ipaddrx = [i for i in ipaddrx if not refindall("^[0-9]+\\.[0-9]+\\.[0-9]+\\.1$", i)]
+                if ipaddrx and len(ipaddrx) == 1:
+                    host = ipaddrx[0] # 换算成 IP。
 
         assert host != "localhost", "host 不能是 'localhost'!!"
 
