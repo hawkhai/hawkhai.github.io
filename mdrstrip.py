@@ -6,7 +6,7 @@ import traceback
 from coderstrip import *
 from pythonx.funclib import *
 from pythonx.kangxi import TranslateKangXi
-from pythonx.pelib import getLuckFileMd5
+from pythonx.pelib import getLuckFileMd5, get_local_ipinfo
 
 __file__   = os.path.abspath(__file__)
 if __name__ == "__main__":
