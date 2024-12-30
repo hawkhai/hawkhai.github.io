@@ -2,7 +2,7 @@
 import re, os, sys
 sys.path.append("../")
 from pythonx.funclib import *
-from pythonx.pelib import mydllfunc
+from pythonx.pelib import mydllfunc, get_local_ipinfo
 
 GIT_URL = 'url: "https://blog.hawkhai.com"'
 GIT_URLx = 'urlx: "https://blog.hawkhai.com"'
