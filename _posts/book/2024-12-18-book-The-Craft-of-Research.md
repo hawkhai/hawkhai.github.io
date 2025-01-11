@@ -237,6 +237,133 @@ point, you have posed a problem that they recognize needs a solution.
 10. Acknowledgments and Responses
 11. Warrants
 
+* III Making an Argument
+    * Prologue: Assembling a Research Argument
+* 7 Making Good Arguments: An Overview
+    * 7.1 Argument as a Conversation with Readers
+    * 7.2 Supporting Your Claim
+    * 7.3 Acknowledging and Responding to Anticipated Questions and Objections
+    * 7.4 Connecting Claims and Reasons with Warrants
+    * 7.5 Building a Complex Argument Out of Simple Ones
+    * 7.6 Creating an Ethos by Thickening Your Argument
+    * ★ Quick Tip: A Common Mistake—Falling Back on What You Know
+* 8 Making Claims
+    * 8.1 Determining the Kind of Claim You Should Make
+    * 8.2 Evaluating Your Claim
+    * 8.3 Qualifying Claims to Enhance Your Credibility
+* 9 Assembling Reasons and Evidence
+    * 9.1 Using Reasons to Plan Your Argument
+    * 9.2 Distinguishing Evidence from Reasons
+    * 9.3 Distinguishing Evidence from Reports of It
+    * 9.4 Evaluating Your Evidence
+* 10 Acknowledgments and Responses
+    * 10.1 Questioning Your Argument as Your Readers Will
+    * 10.2 Imagining Alternatives to Your Argument
+    * 10.3 Deciding What to Acknowledge
+    * 10.4 Framing Your Responses as Subordinate Arguments
+    * 10.5 The Vocabulary of Acknowledgment and Response
+    * ★ Quick Tip: Three Predictable Disagreements
+* 11 Warrants
+    * 11.1 Warrants in Everyday Reasoning
+    * 11.2 Warrants in Academic Arguments
+    * 11.3 Understanding the Logic of Warrants
+    * 11.4 Testing Warrants
+    * 11.5 Knowing When to State a Warrant
+    * 11.6 Using Warrants to Test Your Argument
+    * 11.7 Challenging Others’ Warrants
+    * ★ Quick Tip: Reasons, Evidence, and Warrants
+
+前情回顾：
+* 写文章的时候呢要跟读者建立联系，因为我们写的文章最后是要给读者来读的；
+* 在选题的时候要选择有价值的题，读者认为这个问题是值得解决的。
+
+对大部分研究来讲，很难在一开始就能预测到我们想要怎么样的结果，如果在一开始就知道最后的方案是什么样子，结果是什么样子的话，很有可能这个就不叫研究，这个东西一般叫做工程。
+* 工程就是我们一开始能想清楚答案，只要我们把它执行好就行了；
+* 对研究来讲，我们通常要去探索未知的一些答案。
+
+这个故事（research argument，学术的论点或论述）呢，就是用来回答所有我们可以预测的一些读者的问题。
+
+如果整个这本书要抽出两个核心的问题的话，其实也就是 **So What** 和 **我为什么要信** 这两个问题。
+
+
+### 7 论证的总览 Making Good Arguments
+
+整个论证里面几个核心的东西：
+* 首先要提出一个论点；
+* 然后用一些原因和证据来支撑我们的论点；
+* 有时候需要承认和回复一些别的观点；
+* 最后有时候要提供一下你推理的一些逻辑的原则；
+
+In a research argument, you make a claim, back it with reasons supported by
+evidence, acknowledge and respond to other views, and sometimes explain
+your principles of reasoning.
+
+所以写作的核心是说，要在脑海中去预测这样子对话，使得在跟人真的对话之前，把所有这种可能性 —— 别人攻击你的地方，以及缺失的理由、论点、论据全部补充起来，这样子就能写出别人相信的故事了。
+
+几个重要的元素：
+* 论点：我们核心的理由是什么东西，很多时候文章最后就是一个核心的论点，当然论点还有别的子论点支撑；
+    Claim: What do you want me to believe? What’s your point?
+* 理由：为什么我们的论点是对的；
+    Reasons: Why do you say that? Why should I agree?
+* 论据：一些数据点或者别人的工作；
+    Evidence: How do you know? Can you back it up?
+* 承认和回复：对于别的一个观点的一个说明；
+    Acknowledgment and Response: But what about ... ?
+* 保证：这个逻辑是怎么样过来的，如果读者不理解的话，应该把它说出来，解释一下我们的理由为什么能解释我们的结论好；
+    Warrant: How does that follow? What’s your logic? Can you explain your reasoning?
+
+理由必须是在论据之上的，结论是基于好的原因，理由又是基于好的论据；
+* You have to base your claim on good reasons.
+* You have to base your claim on good evidence.
+
+{% include image.html url="/assets/images/241218-book-the-craft-of-resea~15/20250111121309.png" %}
+
+7.6 要把 argument 弄得“厚一点”：
+在支撑论点的时候，正正反反啊都要多讲一点，因为我们的目的是要通过这些比较厚实的论述，让读者能够相信我们所说的内容。
+
+
+### 8 Making Claims 关于声明
+
+**怎么样去看现在想到的声明重不重要** ：把结论反过来看一下反过来的那个结论是长什么样子。
+
+But you don’t have to make big claims to make a useful contribution: small
+findings can open up new lines of thinking.
+
+8.3 **怎么样把论点变得更加可信一点** ：
+* **如果想让别人信我们说的话，最好不要把话说的特别的满；**
+* 可以承认一些局限性的条件。Acknowledge Limiting Conditions
+* 要去想的限制条件的时候，是从读者角度来出发的。Use Hedges to Limit Certainty
+    从他们的角度来讲，去想想我们的理由也好我们的论据也好，在哪些地方更加薄弱一点，
+    把这些薄弱的地方作为限制条件给出来之话，那么对整个的可信度就会增加。
+
+Of course, if you hedge too much, you will seem timid or uncertain. But in
+most fields, readers distrust flatfooted certainty expressed in words like **all,**
+**no one, every, always, never, and so on** . Some teachers say they object to all
+hedging, but what most of them really reject are hedges that qualify every
+trivial claim. And some fields do tend to use fewer hedges than others. It
+takes a deft touch. Hedge too much and you seem mealy-mouthed; hedge too
+little and you can seem overconfident. Unfortunately, the line between the
+two is thin. So watch how those in your field manage uncertainty and do
+likewise.
+
+使用一些降低语气确信度的词，使得论点显得没那么的强硬：
+* 如果讲的特别自信的话，读者会觉得更加的难以置信一些；
+* 如果用了大量这样子的不确定的词汇呢，整个文章可能会显得比较弱，别人会觉得你可能自己也不是那么的确信。
+* 尽量要避免这些词汇：all、no one、every、always、never **哈哈**
+    * attention is all you need
+    * segment anything
+    * SOTA
+
+一个好的论点一定是具体的而且是有价值的，可以通过把论点写的没那么满，使得读者认为你的论点解释出来更加容易一些。
+
+要讲一个故事，让读者信你写的东西。
+想一个故事和做研究是交错进行的过程，故事会随着研究的进展发生改变，因为很难一开始就预测到会得到什么样的研究结果。
+也不能等所有实验都做完了写论文的时候再去想故事，这种情况往往要补做很多工作。
+讲故事的时候，要不断站在读者的角度去思考，为什么要相信这个事情。
+尽可能把所有读者可能攻击、疑问的点都考虑到，把相应的论点论据阐述清楚。
+整个做研究的过程不断问自己 so what 和读者为什么要相信这两个问题基本就可以指导你的研究了。
+此外，文中得到的结论必须要有相应的证据支撑。
+
 
 ## IV. Writing Your Argument
 
@@ -249,6 +376,8 @@ point, you have posed a problem that they recognize needs a solution.
 15. Communicating Evidence Visually
 16. Introductions and Conclusions
 17. Revising Style: Telling Your Story Clearly
+
+{% include image.html url="/assets/images/241218-book-the-craft-of-resea~15/20250111114525.png" caption="小孩哥的例子" %}
 
 
 ## V. Some Last Considerations
