@@ -404,10 +404,9 @@ and alternatives that your readers are likely to raise along the way.
 
 读者通常有两种方法去挑战我们说的东西：
 * 内在的完备性，也就是说他们会挑战论点是不是讲的很清楚，然后理由是不是相关的，以及说论据的质量是怎么样的；
-* 外部的完备性：包括了 是不是有一个别的方法来重新来讲我们的问题，或者是说 是不是有一些我们自己没有注意到论据，还有是说 是不是有别人的工作也写过相似的一些话题，但是他们提供了不一样的意见，我们并没有引用他们；
+* 外部的完备性：包括了 是不是有一个别的方法来重新来讲我们的问题，或者是说 是不是有一些我们自己没有注意到论据，还有是说 是不是有别人的工作也写过相似的一些话题，但是他们提供了不一样的意见，我们并没有引用他们。
 
-看一下自己这些原因和论据
-{% include image.html url="/assets/images/241218-book-the-craft-of-resea~15/fac77f74023063c0b3140df86ed1730465a3d1f1.png" %}
+{% include image.html url="/assets/images/241218-book-the-craft-of-resea~15/fac77f74023063c0b3140df86ed1730465a3d1f1.png" caption="看一下自己这些原因和论据" %}
 
 
 ### 11 Warrants 推理的保证
