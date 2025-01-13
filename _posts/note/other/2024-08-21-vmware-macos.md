@@ -122,6 +122,11 @@ VMware Tools 的安装教程：<https://www.dhzy.fun/archives/4366.html>
 设置成功后拖动虚拟机窗口边界，虚拟机画面会根据虚拟机窗口大小进行自适应，但不会小于设置分辨率。系统提示“系统偏好设置”正在尝试解锁“安全性与隐私”偏好设置时，输入密码，解锁，将 vmware-tools-daemon 打钩即可。
 {% include image.html url="/assets/images/240821-vmware-macos/7ffdd55b403f4b4.jpg" %}
 
+
+### 最重要的一个更改
+
+{% include image.html url="/assets/images/240821-vmware-macos/20250113151715.png" %}
+
 在进行了一系列设置后，macOS 系统会变得流畅一些，希望你能拥有更好的体验，再见。
 
 
