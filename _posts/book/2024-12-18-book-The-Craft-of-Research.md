@@ -251,27 +251,6 @@ point, you have posed a problem that they recognize needs a solution.
     * 8.1 Determining the Kind of Claim You Should Make
     * 8.2 Evaluating Your Claim
     * 8.3 Qualifying Claims to Enhance Your Credibility
-* 9 Assembling Reasons and Evidence
-    * 9.1 Using Reasons to Plan Your Argument
-    * 9.2 Distinguishing Evidence from Reasons
-    * 9.3 Distinguishing Evidence from Reports of It
-    * 9.4 Evaluating Your Evidence
-* 10 Acknowledgments and Responses
-    * 10.1 Questioning Your Argument as Your Readers Will
-    * 10.2 Imagining Alternatives to Your Argument
-    * 10.3 Deciding What to Acknowledge
-    * 10.4 Framing Your Responses as Subordinate Arguments
-    * 10.5 The Vocabulary of Acknowledgment and Response
-    * ★ Quick Tip: Three Predictable Disagreements
-* 11 Warrants
-    * 11.1 Warrants in Everyday Reasoning
-    * 11.2 Warrants in Academic Arguments
-    * 11.3 Understanding the Logic of Warrants
-    * 11.4 Testing Warrants
-    * 11.5 Knowing When to State a Warrant
-    * 11.6 Using Warrants to Test Your Argument
-    * 11.7 Challenging Others’ Warrants
-    * ★ Quick Tip: Reasons, Evidence, and Warrants
 
 前情回顾：
 * 写文章的时候呢要跟读者建立联系，因为我们写的文章最后是要给读者来读的；
@@ -354,6 +333,8 @@ likewise.
     * segment anything
     * SOTA
 
+{% include image.html url="/assets/images/241218-book-the-craft-of-resea~15/20250112235921.png" %}
+
 一个好的论点一定是具体的而且是有价值的，可以通过把论点写的没那么满，使得读者认为你的论点解释出来更加容易一些。
 
 要讲一个故事，让读者信你写的东西。
@@ -363,6 +344,93 @@ likewise.
 尽可能把所有读者可能攻击、疑问的点都考虑到，把相应的论点论据阐述清楚。
 整个做研究的过程不断问自己 so what 和读者为什么要相信这两个问题基本就可以指导你的研究了。
 此外，文中得到的结论必须要有相应的证据支撑。
+
+
+### 9 Assembling Reasons and Evidence
+
+* 9 Assembling Reasons and Evidence
+    * 9.1 Using Reasons to Plan Your Argument
+    * 9.2 Distinguishing Evidence from Reasons
+    * 9.3 Distinguishing Evidence from Reports of It
+    * 9.4 Evaluating Your Evidence
+* 10 Acknowledgments and Responses
+    * 10.1 Questioning Your Argument as Your Readers Will
+    * 10.2 Imagining Alternatives to Your Argument
+    * 10.3 Deciding What to Acknowledge
+    * 10.4 Framing Your Responses as Subordinate Arguments
+    * 10.5 The Vocabulary of Acknowledgment and Response
+    * ★ Quick Tip: Three Predictable Disagreements
+* 11 Warrants
+    * 11.1 Warrants in Everyday Reasoning
+    * 11.2 Warrants in Academic Arguments
+    * 11.3 Understanding the Logic of Warrants
+    * 11.4 Testing Warrants
+    * 11.5 Knowing When to State a Warrant
+    * 11.6 Using Warrants to Test Your Argument
+    * 11.7 Challenging Others’ Warrants
+    * ★ Quick Tip: Reasons, Evidence, and Warrants
+
+我们有一个论点，然后通过理由，这个是能够架在我们的论据上面，理由是能够撑住你的论点的，如果中间任何一个部分没有做好的话，那么导致我们的论点是支撑不起来，就会导致大家不会信你。
+
+So as you assemble your argument, you must offer readers a plausible set
+of reasons, in a clear, logical order, based on evidence they will accept. This
+chapter shows you how to do that.
+
+{% include image.html url="/assets/images/241218-book-the-craft-of-resea~15/20250112233040.png" %}
+
+在文章中间所用的证据只是对一个证据的描述，要确保两件事情：
+* 证据的本身是能站得住脚的
+* 对证据的描述是客观的
+
+
+### 9.4 怎么样评估论据的好坏 EVALUATING YOUR EVIDENCE
+
+They want evidence to be accurate, precise, sufficient, representative,
+and authoritative.
+一个好的证据必须是准确的、精确的、足够的、有代表性的和权威的；这里一个反例：
+
+{% include image.html url="/assets/images/241218-book-the-craft-of-resea~15/20250111114525.png" caption="小孩哥的例子" %}
+
+9.4.2 要有合理的精度：
+精确就说不要使用这种很模棱两可的词，而要使用一些比较精确的语言；
+所谓的模棱两可的词就包括了 some most many almost often usually frequently generally 这都是一些比较模糊的词，我们要尽量得避免它。
+
+
+### 10 Acknowledgments and Responses
+
+But you can do it throughout your argument as
+well by anticipating, acknowledging, and responding to questions, objections,
+and alternatives that your readers are likely to raise along the way.
+
+读者通常有两种方法去挑战我们说的东西：
+* 内在的完备性，也就是说他们会挑战论点是不是讲的很清楚，然后理由是不是相关的，以及说论据的质量是怎么样的；
+* 外部的完备性：包括了 是不是有一个别的方法来重新来讲我们的问题，或者是说 是不是有一些我们自己没有注意到论据，还有是说 是不是有别人的工作也写过相似的一些话题，但是他们提供了不一样的意见，我们并没有引用他们；
+
+看一下自己这些原因和论据
+{% include image.html url="/assets/images/241218-book-the-craft-of-resea~15/fac77f74023063c0b3140df86ed1730465a3d1f1.png" %}
+
+
+### 11 Warrants 推理的保证
+
+什么时候需要用到担保：
+
+* 读者是在领域之外的时候（写教科书的时候经常会用它），大量的新来读者不清楚里面的一些隐藏逻辑，
+    把它给大家讲出来是非常有用的，不然读者可能会看不懂。如果说发一篇文章，必须要是自然杂志的话，
+    它的读者相对来说比较广的时候，也尽量要把这个领域相关的一些东西给大家写出来，让大家明白我们的这一个逻辑；
+* 如果我们使用的原则对这个领域的读者来说，比较新或者是有争议的时候，也应该把它讲一讲；
+* 当我们的论点特别有争议性可能读者觉得很难接受的时候，
+    那么在大家都会接受的情况下在前面说一些准则（如果他接受第一句，然后再过渡到第二句的时候）就显得没那么难接受一些。
+
+我们选择去把这样子担保说出来时候，意味着是说我们其实关心读者，生怕他不懂我在说什么，所以把前面这一些逻辑给他们交代的更清楚。
+
+关于怎么样去讲一个故事，故事也就是对你这个研究问题的一个回答；
+我们的追求的终极目标是让读者信我们讲的故事，在这个故事里面有以下元素：
+* 论点，也就是我们对研究问题的一个答案；
+* 我们需要用很多原因来支撑我们的论点；
+* 然后所有这些原因都应该架在读者能够信的这些论据上面的；
+* 当原因和论点隔得比较远的时候，需要提供一些这样子的担保，来把整个逻辑说的更通一些；
+* 不管我们提供多少原因去证明我们的论点，在读者读的时候总会有一些别的一些想法，
+    这时候我们如果能够提前预测出来读者的想法，然后承认他们并回复他们的话能够使得整个故事更加可信。
 
 
 ## IV. Writing Your Argument
@@ -376,8 +444,6 @@ likewise.
 15. Communicating Evidence Visually
 16. Introductions and Conclusions
 17. Revising Style: Telling Your Story Clearly
-
-{% include image.html url="/assets/images/241218-book-the-craft-of-resea~15/20250111114525.png" caption="小孩哥的例子" %}
 
 
 ## V. Some Last Considerations
