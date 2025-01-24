@@ -265,6 +265,9 @@ function checkToc() {
             $("font.ref_snapshot + ul").remove(); // 快照
             $("font.ref_snapshot").remove();
             $("div#section_refsnap").remove();
+            $("header.site-header").remove();
+            $("footer.site-footer").remove();
+            $("div#section_info").remove();
         }
         //$("div#blog_content + hr").remove(); // 底部分割线
         $("div#postdiv").removeClass("codeprint"); // 代码排版
