@@ -109,6 +109,7 @@ def main():
 
 def check(file, depth):
     if depth > 1 and os.path.isfile(os.path.join(file, ".git")): return
+    if depth > 1 and os.path.isfile(os.path.join(file, "python3.dll")): return
     if os.path.isdir(file) and not os.path.islink(file):
         if verbose:
             print("listing directory", file)
