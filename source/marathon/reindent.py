@@ -60,7 +60,7 @@ import sys
 verbose = False
 recurse = False
 dryrun = False
-makebackup = True
+makebackup = False
 # A specified newline to be used in the output (set by --newline option)
 spec_newline = None
 
