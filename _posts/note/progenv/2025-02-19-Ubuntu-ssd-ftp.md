@@ -849,6 +849,41 @@ ftp> put testfile.txt
 
 完成以上步骤后，`ftp_readonly_user` 用户将具备除了创建文件和写入文件之外的所有权限。
 
+sudo chown ftp_readwrite:ftp_group /mnt/ssd/ftp/
+sudo chmod 755 /mnt/ssd/ftp/
+
+sudo systemctl restart vsftpd
+
+sudo groupadd ftp_group
+sudo usermod -aG ftp_group ftp_readwrite
+sudo usermod -aG ftp_group ftp_readonly
+sudo usermod -aG ftp_group ftp_readonly_user
+sudo chown -R :ftp_group /mnt/ssd/ftp
+sudo chmod -R 775 /mnt/ssd/ftp
+sudo chmod g+s /mnt/ssd/ftp
+ls -ld /mnt/ssd/ftp
+
+(base) yqh@yqh-Z790-UD:~$ ls -ld /mnt/ssd/ftp
+drwxrwsr-x 4 ftp_readonly ftp_group 4096  2月 19 17:14 /mnt/ssd/ftp
+```
+ls -ld /mnt/ssd/ftp
+ls -ld /mnt/ssd/ftp/gitremote
+ls -ld /mnt/ssd/ftp/_md5dir
+```
+
+在 /etc/vsftpd.conf 中，设置 local_umask 来为文件和目录设置默认权限：
+sudo nano /etc/vsftpd.conf
+确保 umask 设置合适，确保文件和目录的权限对于组成员是可读写的。
+local_umask=022
+
+sudo chmod g+s /mnt/ssd/ftp
+
+sudo setfacl -m g:ftp_group:rwx /mnt/ssd/ftp
+sudo setfacl -d -m g:ftp_group:rwx /mnt/ssd/ftp
+
+sudo chmod -R 775 /mnt/ssd/ftp
+sudo chown -R :ftp_group /mnt/ssd/ftp
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2025-02-19-Ubuntu-ssd-ftp.md.js" %}'></script></p>
