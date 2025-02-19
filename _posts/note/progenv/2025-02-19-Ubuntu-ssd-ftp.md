@@ -694,5 +694,161 @@ sudo systemctl restart vsftpd
 完成以上步骤后，`ftp_readonly` 用户应具备文件夹列举权限，但无法写入文件。
 
 
+
+## 要创建一个新 FTP 账号，使其具备 **除了创建文件和写入文件之外的所有权限**（包括文件夹列举、文件读取等），可以按照以下步骤操作：
+
+---
+
+### 1. 创建新用户
+
+假设新用户名为 `ftp_readonly_user`，运行以下命令创建用户：
+
+```bash
+sudo deluser ftp_readonly_user
+sudo adduser ftp_readonly_user
+```
+
+按照提示设置密码和其他信息。
+7123854796
+
+---
+
+### 2. 设置用户根目录
+
+将新用户的根目录设置为 `/mnt/ssd/ftp`：
+
+```bash
+sudo usermod -d /mnt/ssd/ftp ftp_readonly_user
+```
+
+---
+
+### 3. 检查目录权限
+
+确保 `/mnt/ssd/ftp` 目录的权限允许 `ftp_readonly_user` 读取和列举文件。
+
+运行以下命令检查目录权限：
+
+```bash
+ls -ld /mnt/ssd/ftp
+```
+
+输出示例：
+
+```bash
+drwxr-xr-x 2 ftp_readwrite ftp_readwrite 4096 Oct 10 12:34 /mnt/ssd/ftp
+```
+
+- **权限**：`drwxr-xr-x`（所有者有读写执行权限，其他用户只有读和执行权限）
+
+如果权限不正确，可以使用以下命令修复：
+
+```bash
+sudo chmod 755 /mnt/ssd/ftp
+```
+
+---
+
+### 4. 配置 `vsftpd`
+
+编辑 `vsftpd` 的配置文件 `/etc/vsftpd.conf`，确保以下配置已启用：
+
+```bash
+local_enable=YES
+write_enable=YES
+chroot_local_user=YES
+allow_writeable_chroot=YES
+```
+
+- `local_enable=YES`：允许本地用户登录。
+- `write_enable=YES`：允许写入（即使只读用户不需要写入权限，此选项也需要启用以支持其他功能）。
+- `chroot_local_user=YES`：将用户限制在其根目录内。
+- `allow_writeable_chroot=YES`：允许可写根目录（即使只读用户不需要写入权限，此选项也需要启用）。
+
+保存并退出编辑器。
+
+---
+
+### 5. 配置只读用户的权限
+
+为了确保 `ftp_readonly_user` 用户只能读取文件而不能写入，可以通过 `vsftpd` 的用户配置文件限制其权限。
+
+#### 创建用户配置文件
+
+编辑 `ftp_readonly_user` 的用户配置文件：
+
+```bash
+sudo nano /etc/vsftpd/user_conf/ftp_readonly_user
+```
+
+添加以下内容：
+
+```bash
+write_enable=NO
+```
+
+保存并退出。
+
+#### 确保 `vsftpd` 使用用户配置文件
+
+编辑 `/etc/vsftpd.conf`，确保以下配置已启用：
+
+```bash
+user_config_dir=/etc/vsftpd/user_conf
+```
+
+保存并退出，然后重启 `vsftpd` 服务：
+
+```bash
+sudo systemctl restart vsftpd
+```
+
+---
+
+### 6. 测试只读权限
+
+使用 `ftp_readonly_user` 账户登录 FTP 服务器，测试其权限：
+
+#### 使用 FTP 客户端
+
+1. 使用 FTP 客户端（如 FileZilla）登录。
+2. 尝试列举 `/mnt/ssd/ftp` 目录中的文件和子目录。
+3. 尝试上传文件或创建目录，确认操作被拒绝。
+
+#### 使用命令行
+
+使用 `ftp` 命令行工具测试：
+
+```bash
+ftp localhost
+```
+
+输入用户名 `ftp_readonly_user` 和密码，然后尝试列举目录：
+
+```bash
+ftp> ls
+```
+
+尝试上传文件：
+
+```bash
+ftp> put testfile.txt
+```
+
+如果文件上传失败并返回 `550 Permission denied`，说明只读权限配置正确。
+
+---
+
+### 总结
+
+- **新用户**：`ftp_readonly_user`，可以读取和列举目录，但不能写入或创建文件。
+- **目录权限**：确保 `/mnt/ssd/ftp` 的权限为 `755`。
+- **`vsftpd` 配置**：通过用户配置文件限制 `ftp_readonly_user` 的写入权限。
+- **测试**：使用 FTP 客户端或命令行工具测试权限。
+- **SELinux/AppArmor**：如果启用，确保策略允许 FTP 读取。
+
+完成以上步骤后，`ftp_readonly_user` 用户将具备除了创建文件和写入文件之外的所有权限。
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2025-02-19-Ubuntu-ssd-ftp.md.js" %}'></script></p>
