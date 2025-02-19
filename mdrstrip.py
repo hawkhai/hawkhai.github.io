@@ -1288,5 +1288,6 @@ if __name__ == "__main__":
     else:
         cProfile.run("mainw()") if DEBUG else mainw()
         os.system(r"cd invisible & {} tempd.py encrypt".format(getPythonExe(),))
+    if MYCACHE: MYCACHE.del_impl()
     del MYCACHE
     print(parsePythonCmdx(__file__))
