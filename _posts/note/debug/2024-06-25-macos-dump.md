@@ -489,6 +489,24 @@ set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimum OS X deployment ve
 在 makefile 里自行给 clang 传递参数-mmacos-version-min=10.15 即可。
 
 
+## 源码重定向
+
+```
+(lldb) image list QtWidgets
+[  0] 8C1C9C21-74CF-35FB-8AB7-15B67F6E2731 0x000000010a63c000 /Users/hxf/bin/qt_5.15.4/qt/5.15.4_macos_arm64/lib/QtWidgets.framework/Versions/5/QtWidgets
+      /Users/hxf/bin/qt_5.15.4/qt/5.15.4_macos_arm64/lib/QtWidgets.framework/Versions/5/QtWidgets.dSYM/Contents/Resources/DWARF/QtWidgets
+(lldb) source info
+Lines found in module `QtWidgets
+[0x000000010a65116c-0x000000010a651170): /Users/apple/Desktop/cfcode/qt/qt-everywhere-src-5.15.4/qtbase/src/widgets/kernel/qapplication.cpp:2829:12
+(lldb) settings show target.source-map
+target.source-map (path-map) =
+(lldb) settings set target.source-map /Users/apple/Desktop/cfcode/qt/ /Users/hxf/bin/qt_5.15.4/qt/
+(lldb) settings show target.source-map
+target.source-map (path-map) =
+[0] "/Users/apple/Desktop/cfcode/qt" -> "/Users/hxf/bin/qt_5.15.4/qt"
+```
+
+
 ## 其它
 
 * [Mac/iOS crash 或者地址符号解析 —— 工具篇 {% include relref_csdn.html %}](https://blog.csdn.net/goldWave01/article/details/90177708)
