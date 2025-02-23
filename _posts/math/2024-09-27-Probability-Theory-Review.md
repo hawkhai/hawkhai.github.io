@@ -16,6 +16,9 @@ codeprint:
 cluster: "机器学习的数学基础"
 ---
 
+了解香农熵，交叉熵和 KL 散度
+<https://www.bilibili.com/video/BV1JY411q72n/>
+
 
 ## 信息熵
 
@@ -83,6 +86,7 @@ $$
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-09-27-Probability-Theory-Review.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.bilibili.com/video/BV1JY411q72n/]({% include relrefx.html url="/backup/2024-09-27-Probability-Theory-Review.md/www.bilibili.com/41ca4b25.html" %})
 - [https://zhuanlan.zhihu.com/p/100676922]({% include relrefx.html url="/backup/2024-09-27-Probability-Theory-Review.md/zhuanlan.zhihu.com/7d705530.html" %})
 - [https://www.countbayesie.com/blog/2017/5/9/kullback-leibler-divergence-explained]({% include relrefx.html url="/backup/2024-09-27-Probability-Theory-Review.md/www.countbayesie.com/d077bc2b.html" %})
 - [https://blog.csdn.net/sdksdf/article/details/138322038]({% include relrefx.html url="/backup/2024-09-27-Probability-Theory-Review.md/blog.csdn.net/bf4201a9.html" %})
