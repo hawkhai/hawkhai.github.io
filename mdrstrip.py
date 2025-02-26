@@ -10,7 +10,9 @@ from pythonx.pelib import getLuckFileMd5, get_local_ipinfo
 
 __file__   = os.path.abspath(__file__)
 if __name__ == "__main__":
-    MYCACHE = LocalLimitedDict(os.path.join("tempdir", "mycache", os.path.split(__file__)[-1], 'cache.db'), max_size=5000)
+    CACHEFILE = os.path.join("tempdir", "mycache", os.path.split(__file__)[-1], 'cache.db')
+    print("CACHEFILE", CACHEFILE)
+    MYCACHE = LocalLimitedDict(CACHEFILE, max_size=10000)
 else:
     MYCACHE = None
 
