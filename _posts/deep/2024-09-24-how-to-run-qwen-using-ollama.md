@@ -161,6 +161,8 @@ Only reply the result and nothing else. \
 }
 ```
 
+还可以基于 vLLM 部署。
+
 
 
 <hr class='reviewline'/>
