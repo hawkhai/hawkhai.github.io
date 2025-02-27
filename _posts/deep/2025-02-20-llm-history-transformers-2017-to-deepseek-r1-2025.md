@@ -39,6 +39,20 @@ DeepSeek-R1 GRPO 算法揭秘
 
 <https://huggingface.co/docs/trl/main/en/grpo_trainer>
 
+https://space.bilibili.com/288748846
+单卡20G显存，复现DeepSeek R1顿悟时刻
+【深入浅出】DeepSeek-R1 GRPO算法揭秘
+【深入浅出】DeepSeek V3模型架构创新点
+【走进RL强化学习】奖励模型Reward Model训练
+
+https://space.bilibili.com/1071860520
+【15分钟】了解变分自编码器
+【15分钟】了解变分推理
+【10分钟】了解香农熵，交叉熵和KL散度
+【10分钟】了解线性回归
+【10分钟】了解最大似然估计
+难道ChatGPT里有个罗振宇？
+
 
 
 <hr class='reviewline'/>
