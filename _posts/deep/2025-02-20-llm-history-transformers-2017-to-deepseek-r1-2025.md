@@ -9,7 +9,7 @@ toc: true
 toclistyle:
 comments:
 visibility:
-mathjax:
+mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
@@ -27,6 +27,44 @@ cluster: "机器学习课程"
 > 这些极度聪明的人推动了人工智能的发展。而我，不够聪明，无法参与其中。
 
 
+## 交叉熵、信息熵、相对熵、KL 散度
+
+KL 散度（也叫相对熵）公式：
+
+$$
+D_{K L}(p \| q)=\sum_{i=1}^n p\left(x_i\right) \log \left(\frac{p\left(x_i\right)}{q\left(x_i\right)}\right)
+$$
+
+**交叉熵**
+交叉熵主要应用：主要用于度量同一个随机变量 $X$ 的预测分布 $Q$ 与真实分布 $P$ 之间的差距。
+差距可理解为：距离、误差、失望值、困难程度、混乱程度、一辆车、一套房。
+
+$$
+\begin{aligned}
+& H(P, Q)=-\sum_{i=1}^n p\left(x_i\right) \log q\left(x_i\right) \\
+& H(P, Q)=\sum_x p(x) \cdot \log \left(\frac{1}{q(x)}\right)
+\end{aligned}
+$$
+
+**CrossEntropyLoss**
+
+$$
+\operatorname{loss}(x, \operatorname{class})=-\log \left(\frac{\exp (x[\operatorname{class}])}{\sum_j \exp (x[j])}\right)=-x[\operatorname{class}]+\log \left(\sum_j \exp (x[j])\right)
+$$
+
+程序算交叉熵：
+```python
+entroy = nn.CrossEntropyLoss()
+input = torch.Tensor([[-0.7715, -0.6205, -0.2562]])
+target = torch.tensor([0])
+output = entroy(input, target) # 打印输出：1.3447
+```
+
+为什么在很多的网络模型中，使用交叉熵做损失函数而不使用 KL 散度做损失函数呢？
+* 此时：KL 散度 = 交叉熵-信息熵 = 交叉熵 - 0 = 交叉熵
+* 因为有真实分布，所以用交叉熵。如果没有真实分布，请用 KL 散度。
+
+
 ## GRPO（Group Relative Policy Optimization）
 
 DeepSeek-R1 GRPO 算法揭秘
@@ -39,19 +77,19 @@ DeepSeek-R1 GRPO 算法揭秘
 
 <https://huggingface.co/docs/trl/main/en/grpo_trainer>
 
-https://space.bilibili.com/288748846
-单卡20G显存，复现DeepSeek R1顿悟时刻
-【深入浅出】DeepSeek-R1 GRPO算法揭秘
-【深入浅出】DeepSeek V3模型架构创新点
-【走进RL强化学习】奖励模型Reward Model训练
+<https://space.bilibili.com/288748846>
+单卡 20G 显存，复现 DeepSeek R1 顿悟时刻
+【深入浅出】DeepSeek-R1 GRPO 算法揭秘
+【深入浅出】DeepSeek V3 模型架构创新点
+【走进 RL 强化学习】奖励模型 Reward Model 训练
 
-https://space.bilibili.com/1071860520
-【15分钟】了解变分自编码器
-【15分钟】了解变分推理
-【10分钟】了解香农熵，交叉熵和KL散度
-【10分钟】了解线性回归
-【10分钟】了解最大似然估计
-难道ChatGPT里有个罗振宇？
+<https://space.bilibili.com/1071860520>
+【15 分钟】了解变分自编码器
+【15 分钟】了解变分推理
+【10 分钟】了解香农熵，交叉熵和 KL 散度
+【10 分钟】了解线性回归
+【10 分钟】了解最大似然估计
+难道 ChatGPT 里有个罗振宇？
 
 
 
@@ -63,3 +101,5 @@ https://space.bilibili.com/1071860520
 - [https://www.bilibili.com/video/BV15zNyeXEVP/]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/www.bilibili.com/28741d25.html" %})
 - [https://blog.csdn.net/v_JULY_v/article/details/136656918]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/blog.csdn.net/d3167ade.html" %})
 - [https://huggingface.co/docs/trl/main/en/grpo_trainer]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/huggingface.co/fe7b7c63.html" %})
+- [https://space.bilibili.com/288748846]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/space.bilibili.com/fe2c6382.html" %})
+- [https://space.bilibili.com/1071860520]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/space.bilibili.com/c83ca2b6.html" %})
