@@ -64,6 +64,9 @@ $$
 
 ## 变分自动编码器和变分贝叶斯方法
 
+用一族相对比较简单并且可以参数化的概率分布去近似它，这个近似的过程就叫做变分。
+使用近似的概率分布去尝试完成被给定观测变量的情况下对隐变量概率分布的估计的过程就叫变分推理。
+
 [Kullback-Leibler(KL) 散度介绍 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/100676922)
 <https://www.countbayesie.com/blog/2017/5/9/kullback-leibler-divergence-explained>
 

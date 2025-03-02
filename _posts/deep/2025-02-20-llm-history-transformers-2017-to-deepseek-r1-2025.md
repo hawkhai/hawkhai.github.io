@@ -22,12 +22,22 @@ cluster: "机器学习课程"
 
 > GRPO 人工智能的每次发展，基本原理感觉都很简单，那些完成严格数学表达，完整代码实现的人，应该都是天才。
 > 在尝试了大量可能后，找到了那条最优美的路。简洁的像诗歌，璀璨如星辰。
-> 每当深夜阅读这些文章，总会令人惊叹与震撼，感受那纯粹的美妙。
+> 每当深夜阅读这些文章，总会令人惊叹与震撼，感受那纯粹的美妙。高雅又优雅！
 > 不管什么奇奇怪怪的模型结构，不管多少维度的 Tensor 都能算梯度，并完成正向反向传播。
 > 这些极度聪明的人推动了人工智能的发展。而我，不够聪明，无法参与其中。
 
 
 ## 交叉熵、信息熵、相对熵、KL 散度
+
+*Amount of Information*
+for an event:
+* small probability --> large amount of information
+* large probability --> small amount of information
+* amount of information of independent events can be summed
+
+for a probability distribution:
+* pdf more uniform --> more random --> larger entropy
+* pdf more condensed --> more certain --> smaller entropy
 
 KL 散度（也叫相对熵）公式：
 
@@ -64,6 +74,8 @@ output = entroy(input, target) # 打印输出：1.3447
 * 此时：KL 散度 = 交叉熵-信息熵 = 交叉熵 - 0 = 交叉熵
 * 因为有真实分布，所以用交叉熵。如果没有真实分布，请用 KL 散度。
 
+[香农熵，交叉熵和 KL 散度 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1JY411q72n/)
+
 
 ## GRPO（Group Relative Policy Optimization）
 
@@ -78,18 +90,10 @@ DeepSeek-R1 GRPO 算法揭秘
 <https://huggingface.co/docs/trl/main/en/grpo_trainer>
 
 <https://space.bilibili.com/288748846>
-单卡 20G 显存，复现 DeepSeek R1 顿悟时刻
-【深入浅出】DeepSeek-R1 GRPO 算法揭秘
-【深入浅出】DeepSeek V3 模型架构创新点
-【走进 RL 强化学习】奖励模型 Reward Model 训练
-
-<https://space.bilibili.com/1071860520>
-【15 分钟】了解变分自编码器
-【15 分钟】了解变分推理
-【10 分钟】了解香农熵，交叉熵和 KL 散度
-【10 分钟】了解线性回归
-【10 分钟】了解最大似然估计
-难道 ChatGPT 里有个罗振宇？
+* RL 强化学习，奖励模型 Reward Model 训练
+* DeepSeek V3 模型架构创新点
+* DeepSeek-R1 GRPO 算法揭秘
+* 单卡 20G 显存，复现 DeepSeek R1 顿悟时刻
 
 
 
@@ -98,8 +102,8 @@ DeepSeek-R1 GRPO 算法揭秘
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://medium.com/@lmpo/%E5%A4%A7%E5%9E%8B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E7%AE%80%E5%8F%B2-%E4%BB%8Etransformer-2017-%E5%88%B0deepseek-r1-2025-cc54d658fb43]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/medium.com/32ba340f.html" %})
+- [https://www.bilibili.com/video/BV1JY411q72n/]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/www.bilibili.com/41ca4b25.html" %})
 - [https://www.bilibili.com/video/BV15zNyeXEVP/]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/www.bilibili.com/28741d25.html" %})
 - [https://blog.csdn.net/v_JULY_v/article/details/136656918]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/blog.csdn.net/d3167ade.html" %})
 - [https://huggingface.co/docs/trl/main/en/grpo_trainer]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/huggingface.co/fe7b7c63.html" %})
 - [https://space.bilibili.com/288748846]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/space.bilibili.com/fe2c6382.html" %})
-- [https://space.bilibili.com/1071860520]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/space.bilibili.com/c83ca2b6.html" %})
