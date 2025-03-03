@@ -89,9 +89,20 @@ DeepSeek-R1 GRPO 算法揭秘
 
 <https://huggingface.co/docs/trl/main/en/grpo_trainer>
 
+
+## DeepSeek V3 & R1
+
 <https://space.bilibili.com/288748846>
-* RL 强化学习，奖励模型 Reward Model 训练
 * DeepSeek V3 模型架构创新点
+    * MoE(Mixture of Experts): 提出了一种解决 expert 不均衡问题的非 loss 解法
+    * MLA(Multi-head Latent Attention): 多头注意力情况下，推理面临的 K,V 缓存空间大问题
+    * MTP(multi-token prediction): 训练阶段让模型预测后几跳的 token，提升模型性能
+
+{% include image.html url="/assets/images/250220-llm-history-transformer~a8/20250304003905.png" %}
+{% include image.html url="/assets/images/250220-llm-history-transformer~a8/20250304003923.png" %}
+{% include image.html url="/assets/images/250220-llm-history-transformer~a8/20250304003933.png" %}
+{% include image.html url="/assets/images/250220-llm-history-transformer~a8/20250304003942.png" %}
+
 * DeepSeek-R1 GRPO 算法揭秘
 * 单卡 20G 显存，复现 DeepSeek R1 顿悟时刻
 
