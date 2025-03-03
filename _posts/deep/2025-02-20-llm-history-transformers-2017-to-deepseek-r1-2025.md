@@ -87,8 +87,6 @@ DeepSeek-R1 GRPO 算法揭秘
 
 {% include image.html url="/assets/images/250220-llm-history-transformer~a8/1e5e5964c5cf44759136de53a5a89808.png" %}
 
-<https://huggingface.co/docs/trl/main/en/grpo_trainer>
-
 
 ## DeepSeek V3 & R1
 
@@ -104,7 +102,22 @@ DeepSeek-R1 GRPO 算法揭秘
 {% include image.html url="/assets/images/250220-llm-history-transformer~a8/20250304003942.png" %}
 
 * DeepSeek-R1 GRPO 算法揭秘
+
+$$
+\begin{aligned}
+& \hat{A}_{i, t}=\frac{r_i-\operatorname{mean}(\mathbf{r})}{\operatorname{std}(\mathbf{r})} \\
+& \mathbb{D}_{\mathrm{KL}}\left[\pi_\theta \| \pi_{\mathrm{ref}}\right]=\frac{\pi_{\mathrm{ref}}\left(o_{i, t} \mid q, o_{i,<t}\right)}{\pi_\theta\left(o_{i, t} \mid q, o_{i,<t}\right)}-\log \frac{\pi_{\mathrm{ref}}\left(o_{i, t} \mid q, o_{i,<t}\right)}{\pi_\theta\left(o_{i, t} \mid q, o_{i,<t}\right)}-1 \\
+& \mathcal{L}_{\mathrm{GRPO}}(\theta)=-\frac{1}{G} \sum_{i=1}^G \frac{1}{\left|o_i\right|} \sum_{t=1}^{\left|o_i\right|}\left[\frac{\pi_\theta\left(o_{i, t} \mid q, o_{i,<t}\right)}{\left[\pi_\theta\left(o_{i, t} \mid q, o_{i,<t}\right)\right]_{\mathrm{no} \text { grad }}} \hat{A}_{i, t}-\beta \mathbb{D}_{\mathrm{KL}}\left[\pi_\theta \| \pi_{\mathrm{ref}}\right]\right.
+\end{aligned}
+$$
+
+1. Ref 是原版冻结住的 LLM，存在的目的是：无论 Policy 怎么训练，都不能和 Ref 的 next token prob 偏离太夸张（KL 散度）
+2. 同一组答案 RL 会拿来 trainN 次，会把 train 之前 policy 的 next token prob 记下来作为基准。
+    在每次 train 后 policy 会更新，下次出的 next token prob 除以基准，就形成了给 adv 加权效果，好的 adv 得到放大。
+
 * 单卡 20G 显存，复现 DeepSeek R1 顿悟时刻
+
+<https://huggingface.co/docs/trl/main/en/grpo_trainer>
 
 
 
@@ -116,5 +129,5 @@ DeepSeek-R1 GRPO 算法揭秘
 - [https://www.bilibili.com/video/BV1JY411q72n/]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/www.bilibili.com/41ca4b25.html" %})
 - [https://www.bilibili.com/video/BV15zNyeXEVP/]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/www.bilibili.com/28741d25.html" %})
 - [https://blog.csdn.net/v_JULY_v/article/details/136656918]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/blog.csdn.net/d3167ade.html" %})
-- [https://huggingface.co/docs/trl/main/en/grpo_trainer]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/huggingface.co/fe7b7c63.html" %})
 - [https://space.bilibili.com/288748846]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/space.bilibili.com/fe2c6382.html" %})
+- [https://huggingface.co/docs/trl/main/en/grpo_trainer]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/huggingface.co/fe7b7c63.html" %})
