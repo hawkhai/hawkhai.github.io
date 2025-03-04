@@ -68,7 +68,7 @@ def crop_white_borders(image_path, output_path):
     # 保存裁剪后的图片
     cv2.imwrite(output_path, cropped_image)
     print(f"裁剪完成，结果保存在: {output_path}")
-    
+
 def auto_crop(image_path, output_path):
     # 读取图片
     image = cv2.imread(image_path)
@@ -77,23 +77,23 @@ def auto_crop(image_path, output_path):
     # 进行二值化（白色背景通常高亮）
     _, binary = cv2.threshold(gray, 240, 255, cv2.THRESH_BINARY_INV)
     #cv2.imwrite("temp.png", binary)
-    
+
     top = find_top_white_line(binary)
     bottom = find_bottom_white_line(binary)
 
     # 进行裁剪
     cropped_image = image[top:bottom, :]
-    
+
     binary = binary[top:bottom, :]
     left = find_left_white_line(binary)
     right = find_right_white_line(binary)
-    
+
     cropped_image = image[top:bottom, left:right]
-    
+
     # 保存裁剪后的图片
     cv2.imwrite(output_path, cropped_image)
     print(f"裁剪完成，结果保存在: {output_path}")
-    
+
 # 示例调用
 #auto_crop("20250304003933.png", "20250304003933.png")
 #auto_crop("20250304003942.png", "20250304003942.png")

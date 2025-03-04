@@ -112,12 +112,12 @@ $$
 $$
 
 1. Ref 是原版冻结住的 LLM，存在的目的是：无论 Policy 怎么训练，都不能和 Ref 的 next token prob 偏离太夸张（KL 散度）
-2. 同一组答案 RL 会拿来 trainN 次，会把 train 之前 policy 的 next token prob 记下来作为基准。
+2. 同一组答案 RL 会拿来 train N 次，会把 train 之前 policy 的 next token prob 记下来作为基准。
     在每次 train 后 policy 会更新，下次出的 next token prob 除以基准，就形成了给 adv 加权效果，好的 adv 得到放大。
 
-* 单卡 20G 显存，复现 DeepSeek R1 顿悟时刻
-
 <https://huggingface.co/docs/trl/main/en/grpo_trainer>
+[DeepSeek-R1 GRPO 原理 .pptx {% include relref_github.html %}](https://github.com/owenliang/qwen2.5-0.5b-grpo)
+单卡 20G 显存，复现 DeepSeek R1 顿悟时刻
 
 
 
@@ -131,3 +131,4 @@ $$
 - [https://blog.csdn.net/v_JULY_v/article/details/136656918]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/blog.csdn.net/d3167ade.html" %})
 - [https://space.bilibili.com/288748846]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/space.bilibili.com/fe2c6382.html" %})
 - [https://huggingface.co/docs/trl/main/en/grpo_trainer]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/huggingface.co/fe7b7c63.html" %})
+- [https://github.com/owenliang/qwen2.5-0.5b-grpo]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/github.com/dfca6edc.html" %})
