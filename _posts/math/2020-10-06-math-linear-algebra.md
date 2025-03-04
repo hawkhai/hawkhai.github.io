@@ -94,6 +94,15 @@ $$
 这里用到了向量模型的基本概念：法向量，投影向量，内积，整个问题解决过程简洁明快。
 
 
+## 最小二乘法
+
+<https://www.bilibili.com/video/BV15zPBevERL/>
+
+* 几何角度：向量空间中的投影
+* 统计角度：参数估计与最优性
+* 分析角度：凸优化的极值问题
+
+
 ## 参考
 
 - [1] [线性代数的本质 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1ys411472E)
@@ -109,6 +118,7 @@ $$
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.bilibili.com/video/BV1ys411472E]({% include relrefx.html url="/backup/2020-10-06-math-linear-algebra.md/www.bilibili.com/c113c40a.html" %})
+- [https://www.bilibili.com/video/BV15zPBevERL/]({% include relrefx.html url="/backup/2020-10-06-math-linear-algebra.md/www.bilibili.com/bb2719d9.html" %})
 - [https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/637653/]({% include relrefx.html url="/backup/2020-10-06-math-linear-algebra.md/codertw.com/12bf289a.html" %})
 - [https://cloud.tencent.com/developer/news/319028]({% include relrefx.html url="/backup/2020-10-06-math-linear-algebra.md/cloud.tencent.com/a7a13242.html" %})
 - [https://www.eet-china.com/mp/a24399.html]({% include relrefx.html url="/backup/2020-10-06-math-linear-algebra.md/www.eet-china.com/98597c33.html" %})
