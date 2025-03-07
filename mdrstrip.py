@@ -251,13 +251,13 @@ title : %(title)s
             if not NETFAKE:
                 writefile(flocal, fdata, "utf8")
 
-    fmd5 = getFileSrcMd5z(flocal, mycache=MYCACHE) # 大文件，错误已经铸成，改不了了。
+    fmd5 = getFileSrcMd5z(flocal, mycache=MYCACHE, assertx=False) # 大文件，错误已经铸成，改不了了。
     invdir2 = isInvisibleDir(flocal) # invdir = isInvisibleDir(fpath)
     mdrstripBigfile = os.path.join("invisible" if invdir2 else ".", "config/mdrstrip_bigfiles.txt")
     igbigfiles = readfileIglist(mdrstripBigfile)
     if not fmd5 in igbigfiles and not flocal in igbigfiles:
         if len(fdata) >= 1024*1000*1 and not IGNOREERR:
-            print(getFileSrcMd5z(flocal, mycache=MYCACHE), "#", flocal, "#", "%.1f MB"%(len(fdata) / 1024 / 1024))
+            print(getFileSrcMd5z(flocal, mycache=MYCACHE, assertx=False), "#", flocal, "#", "%.1f MB"%(len(fdata) / 1024 / 1024))
             assert False, (len(fdata) / 1024.0 / 1000.0, url, flocal)
 
     remote = buildlocal(".html" if mdxfile else ttype).replace("\\", "/")
@@ -393,7 +393,7 @@ def tidyupImg(imglocal, fpath, line, imgthumb=True):
         # 小于 100K...
         img = img.convert("RGB") #.convert("L")
         img.save(thumbPath)
-        appendfile(thumbPath, getFileMd5(tpath, mycache=MYCACHE))
+        appendfile(thumbPath, getFileMd5(tpath, mycache=MYCACHE, assertx=False))
 
     # 3. 无法创建缩略图（矢量图）。
     elif not os.path.exists(thumbPath) and imgtype in ("svg",):
@@ -732,7 +732,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
         fdata = readfile(fpath)
         fdata = fdata.replace(b"\r\n", b"\n").replace(b"\r", b"\n").replace(b"\n", b"\r\n")
         writefile(fpath, fdata)
-    md5src = getFileMd5(fpath, mycache=MYCACHE) # mainfile
+    md5src = getFileMd5(fpath, mycache=MYCACHE, assertx=False) # mainfile
     try:
         lines = readfileLines(fpath, False, False, "utf8")
     except Exception as ex:
@@ -1160,13 +1160,13 @@ def checkfilesize(fpath, fname, ftype):
 
     invdir = isInvisibleDir(fpath)
     mdrstripBigfile = os.path.join("invisible" if invdir else ".", "config/mdrstrip_bigfiles.txt")
-    fmd5 = getFileSrcMd5z(fpath, mycache=MYCACHE) # checkfilesize
+    fmd5 = getFileSrcMd5z(fpath, mycache=MYCACHE, assertx=False) # checkfilesize
 
     igbigfiles = readfileIglist(mdrstripBigfile)
     if not (fmd5 in igbigfiles) and not (fpath in igbigfiles):
         size = os.path.getsize(fpath) / 1024.0 / 1000.0 # 1000 KB
         if size >= 1.0:
-            print(getFileSrcMd5z(fpath, mycache=MYCACHE), "#", fpath, "#", "%.1f MB"%size)
+            print(getFileSrcMd5z(fpath, mycache=MYCACHE, assertx=False), "#", fpath, "#", "%.1f MB"%size)
 
             if ftype in ("gif",) and IS_WINDOWS:
                 from pythonx import pygrab
