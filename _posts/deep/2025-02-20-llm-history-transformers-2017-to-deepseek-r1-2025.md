@@ -120,6 +120,11 @@ $$
 单卡 20G 显存，复现 DeepSeek R1 顿悟时刻
 
 
+## 生成模型综述
+
+[MIT 何恺明：生成模型综述 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1AW9QYoEoo/)
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md.js" %}'></script></p>
@@ -132,3 +137,4 @@ $$
 - [https://space.bilibili.com/288748846]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/space.bilibili.com/fe2c6382.html" %})
 - [https://huggingface.co/docs/trl/main/en/grpo_trainer]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/huggingface.co/fe7b7c63.html" %})
 - [https://github.com/owenliang/qwen2.5-0.5b-grpo]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/github.com/dfca6edc.html" %})
+- [https://www.bilibili.com/video/BV1AW9QYoEoo/]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/www.bilibili.com/d82bded4.html" %})
