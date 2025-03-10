@@ -644,6 +644,11 @@ cluster: "机器学习课程"
 27:41
 
 
+## AI Agent 的原理
+
+<https://www.bilibili.com/video/BV1BWRhYFE8y/>
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-10-15-ml-hylee-Machine-Learning.md.js" %}'></script></p>
@@ -652,3 +657,4 @@ cluster: "机器学习课程"
 - [https://www.bilibili.com/video/BV1JE411g7XF/]({% include relrefx.html url="/backup/2024-10-15-ml-hylee-Machine-Learning.md/www.bilibili.com/89cc4342.html" %})
 - [http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML20.html]({% include relrefx.html url="/backup/2024-10-15-ml-hylee-Machine-Learning.md/speech.ee.ntu.edu.tw/f319f059.html" %})
 - [https://www.bilibili.com/video/BV1Wv411h7kN/]({% include relrefx.html url="/backup/2024-10-15-ml-hylee-Machine-Learning.md/www.bilibili.com/1a7123c2.html" %})
+- [https://www.bilibili.com/video/BV1BWRhYFE8y/]({% include relrefx.html url="/backup/2024-10-15-ml-hylee-Machine-Learning.md/www.bilibili.com/6331c7f3.html" %})
