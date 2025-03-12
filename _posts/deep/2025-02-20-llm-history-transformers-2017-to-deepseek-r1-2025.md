@@ -125,6 +125,22 @@ $$
 [MIT 何恺明：生成模型综述 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1AW9QYoEoo/)
 
 
+## 马尔可夫链清楚解释
+
+<https://www.bilibili.com/video/BV1XYRJYWE6A>
+
+3. Markov Chains Clearly Explained! Part - 1
+4. Markov Chains： Recurrence, Irreducibility, Classes ｜ Part - 2
+5. Markov Chains： n-step Transition Matrix ｜ Part - 3
+
+1. [动画讲解马尔科夫链（一）：基本概念 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1ih4y1W7i7/)
+2. [动画讲解马尔科夫链（二）：马尔科夫链的属性 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1go4y1h7s8)
+3. [动画讲解马尔科夫链（三）：高阶转移矩阵与稳态的关系 {% include relref_bili.html %}](https://www.bilibili.com/video/BV14o4y1h7me)
+4. [动画讲解马尔科夫链（四）：生成福尔摩斯探案集 {% include relref_bili.html %}](https://www.bilibili.com/video/BV12m4y1C7qv)
+5. [动画讲解马尔科夫链（五）：隐马尔可夫模型 {% include relref_bili.html %}](https://www.bilibili.com/video/BV19a4y1P7Tc)
+6. [动画讲解马尔科夫链（六）：前向算法 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1yX4y127ub)
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md.js" %}'></script></p>
@@ -138,3 +154,10 @@ $$
 - [https://huggingface.co/docs/trl/main/en/grpo_trainer]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/huggingface.co/fe7b7c63.html" %})
 - [https://github.com/owenliang/qwen2.5-0.5b-grpo]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/github.com/dfca6edc.html" %})
 - [https://www.bilibili.com/video/BV1AW9QYoEoo/]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/www.bilibili.com/d82bded4.html" %})
+- [https://www.bilibili.com/video/BV1XYRJYWE6A]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/www.bilibili.com/28a8ff8d.html" %})
+- [https://www.bilibili.com/video/BV1ih4y1W7i7/]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/www.bilibili.com/bed2f5ad.html" %})
+- [https://www.bilibili.com/video/BV1go4y1h7s8]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/www.bilibili.com/bc7ee898.html" %})
+- [https://www.bilibili.com/video/BV14o4y1h7me]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/www.bilibili.com/e50a9769.html" %})
+- [https://www.bilibili.com/video/BV12m4y1C7qv]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/www.bilibili.com/3bb90de6.html" %})
+- [https://www.bilibili.com/video/BV19a4y1P7Tc]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/www.bilibili.com/4c625309.html" %})
+- [https://www.bilibili.com/video/BV1yX4y127ub]({% include relrefx.html url="/backup/2025-02-20-llm-history-transformers-2017-to-deepseek-r1-2025.md/www.bilibili.com/1cbcddd3.html" %})
