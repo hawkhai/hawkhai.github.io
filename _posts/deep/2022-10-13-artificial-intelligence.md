@@ -44,7 +44,7 @@ cluster: "机器学习课程"
     * 关联规则
     * PageRank 等
 * 强化学习：序列决策问题。
-    * 马尔科夫决策方法（扫地机器人寻路）
+    * 马尔可夫决策方法（扫地机器人寻路）
 
 [基本的机器学习算法 {% include relref_csdn.html %}](https://blog.csdn.net/qq_39783601/article/details/123365469)：
 1. 线性回归算法 Linear Regression

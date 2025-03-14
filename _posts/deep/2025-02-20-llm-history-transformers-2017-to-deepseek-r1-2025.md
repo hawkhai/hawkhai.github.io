@@ -16,7 +16,9 @@ codeprint:
 cluster: "机器学习课程"
 ---
 
-[大型语言模型简史：从 Transformers (2017) 到 DeepSeek-R1(2025)](https://medium.com/@lmpo/%E5%A4%A7%E5%9E%8B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E7%AE%80%E5%8F%B2-%E4%BB%8Etransformer-2017-%E5%88%B0deepseek-r1-2025-cc54d658fb43)
+> [大型语言模型简史：从 Transformers (2017) 到 DeepSeek-R1(2025)](https://medium.com/@lmpo/%E5%A4%A7%E5%9E%8B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E7%AE%80%E5%8F%B2-%E4%BB%8Etransformer-2017-%E5%88%B0deepseek-r1-2025-cc54d658fb43)
+> AI 发展太快了，以至于我们称：几个月前的技术为古代，2022 年 ChatGPT 诞生前是上古时代，BERT 之前是史前时代，Transformer 之前则是旧石器时代。
+> 系统化知识传授（监督学习），实践探索（强化学习），监督学习只能从冗余的信息里面学习到知识，强化学习才是人工智能的未来。
 
 {% include image.html url="/assets/images/250220-llm-history-transformer~a8/1_mtohu_WU9ykYZUztwmDTjg.webp" %}
 
@@ -25,6 +27,14 @@ cluster: "机器学习课程"
 > 每当深夜阅读这些文章，总会令人惊叹与震撼，感受那纯粹的美妙。高雅又优雅！
 > 不管什么奇奇怪怪的模型结构，不管多少维度的 Tensor 都能算梯度，并完成正向反向传播。
 > 这些极度聪明的人推动了人工智能的发展。而我，不够聪明，无法参与其中。
+
+> 低代码编程全军覆没。
+> 低代码的本意是想让不懂编程的人，像搭乐高积木那样建造自己的屋子。但现实中的楼房需要完备的设计图纸和专业的施工人员，只靠积木是搭不了几层的。实践证明，代码就是人机逻辑交互最好的语言。
+> 这个世界是为人类设计的，所以人形机器人才是现阶段的最优解；电脑也是为人类设计的，像人一样使用电脑，才是现阶段 AI 的最优解。
+
+> 端到端是大势所趋。
+> 早期的自动驾驶采用流水线式的 workflow（pipeline）架构，后来逐步演变为端到端。如今，Agent 也面临类似的问题，并将经历相同的演进，实现端到端的降维打击。人类预设的 workflow 对于模型而言，更像是一种束缚，只有让其自由发挥，才能展现更强大的能力。
+> 模型即应用，这一趋势愈发明显。
 
 
 ## 交叉熵、信息熵、相对熵、KL 散度
@@ -133,12 +143,14 @@ $$
 4. Markov Chains： Recurrence, Irreducibility, Classes ｜ Part - 2
 5. Markov Chains： n-step Transition Matrix ｜ Part - 3
 
-1. [动画讲解马尔科夫链（一）：基本概念 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1ih4y1W7i7/)
-2. [动画讲解马尔科夫链（二）：马尔科夫链的属性 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1go4y1h7s8)
-3. [动画讲解马尔科夫链（三）：高阶转移矩阵与稳态的关系 {% include relref_bili.html %}](https://www.bilibili.com/video/BV14o4y1h7me)
-4. [动画讲解马尔科夫链（四）：生成福尔摩斯探案集 {% include relref_bili.html %}](https://www.bilibili.com/video/BV12m4y1C7qv)
-5. [动画讲解马尔科夫链（五）：隐马尔可夫模型 {% include relref_bili.html %}](https://www.bilibili.com/video/BV19a4y1P7Tc)
-6. [动画讲解马尔科夫链（六）：前向算法 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1yX4y127ub)
+1. [动画讲解马尔可夫链（一）：基本概念 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1ih4y1W7i7/)
+2. [动画讲解马尔可夫链（二）：马尔可夫链的属性 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1go4y1h7s8)
+3. [动画讲解马尔可夫链（三）：高阶转移矩阵与稳态的关系 {% include relref_bili.html %}](https://www.bilibili.com/video/BV14o4y1h7me)
+4. [动画讲解马尔可夫链（四）：生成福尔摩斯探案集 {% include relref_bili.html %}](https://www.bilibili.com/video/BV12m4y1C7qv)
+5. [动画讲解马尔可夫链（五）：隐马尔可夫模型 {% include relref_bili.html %}](https://www.bilibili.com/video/BV19a4y1P7Tc)
+6. [动画讲解马尔可夫链（六）：前向算法 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1yX4y127ub)
+
+> 回收这块，SpaceX 也就一乐，真回收还得是转转。
 
 
 
