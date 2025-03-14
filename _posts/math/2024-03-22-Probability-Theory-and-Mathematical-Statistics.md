@@ -420,6 +420,9 @@ $$
 \end{array}
 $$
 
+协方差
+<https://www.bilibili.com/video/BV1Ap4y1n7Xm>
+
 
 ## 4.4.2 相关系数 40:32
 
@@ -675,3 +678,4 @@ $$
 
 - [https://www.bilibili.com/video/BV1ot411y7mU]({% include relrefx.html url="/backup/2024-03-22-Probability-Theory-and-Mathematical-Statistics.md/www.bilibili.com/af0e673b.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2024-03-22-Probability-Theory-and-Mathematical-Statistics.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.bilibili.com/video/BV1Ap4y1n7Xm]({% include relrefx.html url="/backup/2024-03-22-Probability-Theory-and-Mathematical-Statistics.md/www.bilibili.com/2b91bac2.html" %})

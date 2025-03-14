@@ -575,9 +575,14 @@ def removeRefs(fpath, lines):
 
     if headIndex != -1:
         assert lines[headIndex-1] == "" or refindall(REVIEW_REGEX, lines[headIndex-1]), "%r"%lines[headIndex-1]
-        assert lines[headIndex-2] in ("-----", REVIEW_LINE), "%r"%lines[headIndex-2]
-        assert lines[headIndex-3] == "", "%r"%lines[headIndex-3]
-        lines = lines[:headIndex-3]
+        if lines[headIndex-2] in ("-----", REVIEW_LINE): #, "%r"%lines[headIndex-2]
+            assert lines[headIndex-3] == "", "%r"%lines[headIndex-3]
+            lines = lines[:headIndex-3]
+        else: # 没有 REVIEW_REGEX 的情况。
+            if lines[headIndex-2] == "": #, "%r"%lines[headIndex-2]
+                lines = lines[:headIndex-2]
+            else:
+                lines = lines[:headIndex-1]
     else:
         while lines and (lines[-1] in ("", "-----", REVIEW_LINE) or
                 refindall(REVIEW_REGEX, lines[-1])):
