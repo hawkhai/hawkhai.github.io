@@ -2262,8 +2262,3 @@
 
 1. <img width="400" height="350" src="http://blog.rdev.kingsoft.net/wp-content/themes/market/images/dthumb.png" />
 [2008-11-24 2008 年金山-谷歌技术管理交流会](http://blog.rdev.kingsoft.net/?p=17)
-
-
-
-<hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/source/wechatdl/rdevblog.md.js" %}'></script></p>

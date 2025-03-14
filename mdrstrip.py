@@ -3,6 +3,7 @@ import re, os, sys
 sys.path.append("../")
 import datetime, time
 import traceback
+from urllib.parse import unquote
 from coderstrip import *
 from pythonx.funclib import *
 from pythonx.kangxi import TranslateKangXi
@@ -583,7 +584,7 @@ def removeRefs(fpath, lines):
             lines = lines[:-1]
     return lines
 
-def appendRefs(fpath, md5src, lines, imgthumb):
+def appendRefs(fpath, md5src, lines, imgthumb, mdconfig):
     reflist = []
 
     for index, line in enumerate(lines):
@@ -640,8 +641,9 @@ def appendRefs(fpath, md5src, lines, imgthumb):
     if reflist:
         lines.append("")
         lines.append("")
-        lines.append(REVIEW_LINE)
-        lines.append(review)
+        if mdconfig:
+            lines.append(REVIEW_LINE)
+            lines.append(review)
         lines.append(SNAPSHOT_HTML)
         lines.append("")
         lines.append("")
@@ -651,16 +653,19 @@ def appendRefs(fpath, md5src, lines, imgthumb):
             if url in urlset: continue
             urlset.add(url)
             count = count + 1
-            from urllib.parse import unquote
-            remote = "{% " + ("include relrefx.html url=\"/%s\"" % (remote,)) + " %}"
-            lines.append("- [{}]({})".format(url, remote)) # count
+            if mdconfig:
+                remote = "{% " + ("include relrefx.html url=\"/%s\"" % (remote,)) + " %}"
+                lines.append("- [{}]({})".format(url, remote)) # count
+            else:
+                lines.append("- [{}]({})".format(url, url)) # count
         lines.append("")
     else:
-        lines.append("")
-        lines.append("")
-        lines.append(REVIEW_LINE)
-        lines.append(review)
-        lines.append("")
+        if mdconfig:
+            lines.append("")
+            lines.append("")
+            lines.append(REVIEW_LINE)
+            lines.append(review)
+            lines.append("")
     return lines
 
 def mainfile(fpath, fname, ftype, fdepth=0):
@@ -696,6 +701,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
             G_TYPESET.add(ftype)
         return
 
+    mdconfig = {}
     if isMdFile:
         # 收集 Jekyll 头定义 key 集合。
         fdata = readfile(fpath, True).strip()
@@ -707,6 +713,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
                 key = key.strip()
                 value = value.strip()
                 G_MDKEYSET.add(key)
+                mdconfig[key] = value
 
     if fpath.find(os.sep+"_site"+os.sep) != -1: # _site 文件夹
         return
@@ -767,7 +774,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
                 return
 
         try:
-            lines = appendRefs(fpath, md5src, lines, imgthumb)
+            lines = appendRefs(fpath, md5src, lines, imgthumb, mdconfig)
         except AssertionError as ex:
             if fdepth >= 5:
                 raise ex
@@ -1115,6 +1122,10 @@ def viewchar(lichar, xfile, xmin, xmax):
     assert xmin <= minv and maxv <= xmax
 
 def mainfilew(fpath, fname, ftype):
+
+    #if fname not in ("layout.md", "README.md"):
+    #    return
+
     if not REBUILD and checklog(__file__, fpath):
         # print("cached", fpath)
         return 0

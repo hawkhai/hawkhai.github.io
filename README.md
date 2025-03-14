@@ -62,15 +62,11 @@ $ bundle exec jekyll serve --host 0.0.0.0 --port [port]
 
 - If build for ruby2.3.1 fails, refer to <https://github.com/rbenv/ruby-build/wiki>.
 
-
-
-<hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/README.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://github.com/gchauras/much-worse-jekyll-theme/]({% include relrefx.html url="/backup/README.md/github.com/14f1bec6.html" %})
-- [https://blog.hawkhai.com]({% include relrefx.html url="/backup/README.md/blog.hawkhai.com/051e312b.html" %})
-- [https://github.com/rbenv/rbenv.git]({% include relrefx.html url="/backup/README.md/github.com/309fee20.html" %})
-- [https://github.com/rbenv/ruby-build.git]({% include relrefx.html url="/backup/README.md/github.com/48bc0079.html" %})
-- [https://gems.ruby-china.com/]({% include relrefx.html url="/backup/README.md/gems.ruby-china.com/6d6c20fb.html" %})
-- [https://github.com/rbenv/ruby-build/wiki]({% include relrefx.html url="/backup/README.md/github.com/4c7e830d.html" %})
+- [https://github.com/gchauras/much-worse-jekyll-theme/](https://github.com/gchauras/much-worse-jekyll-theme/)
+- [https://blog.hawkhai.com](https://blog.hawkhai.com)
+- [https://github.com/rbenv/rbenv.git](https://github.com/rbenv/rbenv.git)
+- [https://github.com/rbenv/ruby-build.git](https://github.com/rbenv/ruby-build.git)
+- [https://gems.ruby-china.com/](https://gems.ruby-china.com/)
+- [https://github.com/rbenv/ruby-build/wiki](https://github.com/rbenv/ruby-build/wiki)

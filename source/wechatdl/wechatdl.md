@@ -551,8 +551,3 @@
 613. 2018-07-31 [终极指南：构建用于检测汽车损坏的 Mask R-CNN 模型（附 Python 演练） {% include relref_weixin.html %}](http://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247483677&idx=1&sn=1dda6f5992c24b182759ae2f297c4e48&chksm=fcbbf9e7cbcc70f12de2d5fd32ec80ef4bc437f7b042d8ab8cbf2217fd733d2e648d23d3c761&scene=27)
 614. 2018-07-17 [实时目标检测之 SSD（单步多框检测） {% include relref_weixin.html %}](http://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247483675&idx=1&sn=8bdb6cb5e79d4cbe23feafa0ba027ca2&chksm=fcbbf9e1cbcc70f7b2a77e7321e7b8a7a5978c8a2b36e5a0e3043fce4a0d3e2973da71b2254f&scene=27)
 615. 2018-04-11 [【重磅】Deepmind 出品-自动学习并生成图像 {% include relref_weixin.html %}](http://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247483654&idx=1&sn=ca6e843a12e0ca9d033b27ace6db9225&chksm=fcbbf9fccbcc70ea84a8d65d53f0d5903f7f831a251aadd6c16b5d56d651d0436a0638501f11&scene=27)
-
-
-
-<hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/source/wechatdl/wechatdl.md.js" %}'></script></p>
