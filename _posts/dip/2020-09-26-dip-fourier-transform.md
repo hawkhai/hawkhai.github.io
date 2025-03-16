@@ -83,7 +83,7 @@ Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
 [3D 动画详细解释傅里叶与拉普拉斯变换 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1MJ41147PH)
 
-最后这个“海螺图”还是有点没看懂。?
+最后这个“海螺图”还是有点没看懂。mark?
 
 {% include image.html url="/assets/images/200926-dip-fourier-transform/f116ae26859bdc80b28ea0f8f894ccc0_720w.jpg" %}
 

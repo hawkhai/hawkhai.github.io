@@ -274,7 +274,7 @@ $$
 超平面与最近的类点之间的距离称为边距。最优超平面具有最大的边界，可以对点进行分类，从而使最近的数据点与这两个类之间的距离最大化。
 
 [数学推导过程 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/77750026)
-没看懂。
+没看懂。mark
 
 {% include image.html url="/assets/images/221013-artificial-intelligence/6405.jpg" %}
 
