@@ -363,6 +363,13 @@ loader2.exe 多余的文件要重命名。
 <https://bitbucket.org/vinay.sajip/simple_launcher>
 
 
+## qfcy/pyc-zipper
+
+A tool for packing, unpacking, compressing and obfuscating Python bytecode files (.pyc).
+Python 字节码文件（.pyc）压缩、加壳、脱壳、混淆工具。
+<https://github.com/qfcy/pyc-zipper>
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-19-pyinstxtractor.md.js" %}'></script></p>
@@ -395,3 +402,4 @@ loader2.exe 多余的文件要重命名。
 - [https://www.cnblogs.com/MMLoveMeMM/articles/3811166.html]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/www.cnblogs.com/42e617ab.html" %})
 - [https://juejin.cn/s/python%20failed%20to%20execute%20script%20pyi_rth_win32comgenpy]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/juejin.cn/ca2bee42.html" %})
 - [https://bitbucket.org/vinay.sajip/simple_launcher]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/bitbucket.org/206b1896.html" %})
+- [https://github.com/qfcy/pyc-zipper]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/github.com/d273fcd9.html" %})
