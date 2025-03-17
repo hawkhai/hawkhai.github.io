@@ -102,7 +102,7 @@ Cross-Entropy（交叉熵）和 KL-Divergence（相对熵，Kullback-Leibler 散
 
 2. **公式关系** ：
     - **交叉熵** ：$ H(P, Q) = -\sum P(x) \log Q(x) $
-    - **KL 散度** ：$ D_{KL}(P || Q) = \sum P(x) \log \frac{P(x)}{Q(x)} $
+    - **KL 散度** ：$$ D_{KL}(P || Q) = \sum P(x) \log \frac{P(x)}{Q(x)} $$
     - KL 散度可由交叉熵和熵表示：
         $$
         D_{KL}(P || Q) = H(P, Q) - H(P)
