@@ -74,7 +74,7 @@ output = entroy(input, target) # 打印输出：1.3447
 
 为什么在很多的网络模型中，使用交叉熵做损失函数而不使用 KL 散度做损失函数呢？
 * 此时：KL 散度 = 交叉熵-信息熵 = 交叉熵 - 0 = 交叉熵
-* 因为有真实分布，所以用交叉熵。如果没有真实分布，请用 KL 散度。
+* **因为有真实分布，所以用交叉熵。如果没有真实分布，请用 KL 散度。**
 
 [香农熵，交叉熵和 KL 散度 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1JY411q72n/)
 
