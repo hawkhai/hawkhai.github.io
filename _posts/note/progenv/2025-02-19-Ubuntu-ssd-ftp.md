@@ -104,7 +104,7 @@ df -h
 
 ## 在 Ubuntu 上创建 FTP 服务并指定根目录为 `/mnt/ssd/ftp` ，同时支持开机自启动，可以使用 `vsftpd` （Very Secure FTP Daemon）
 
----
+
 
 
 ### 1. 安装 `vsftpd`
@@ -116,7 +116,7 @@ sudo apt update
 sudo apt install vsftpd
 ```
 
----
+
 
 
 ### 2. 配置 `vsftpd`
@@ -156,7 +156,7 @@ pasv_max_port=10100
 
 保存并退出编辑器（ `Ctrl+O` 保存， `Ctrl+X` 退出）。
 
----
+
 
 
 ### 3. 创建 FTP 根目录
@@ -169,7 +169,7 @@ sudo chown -R ftp:ftp /mnt/ssd/ftp
 sudo chmod 755 /mnt/ssd/ftp
 ```
 
----
+
 
 
 ### 4. 重启 `vsftpd` 服务
@@ -180,7 +180,7 @@ sudo chmod 755 /mnt/ssd/ftp
 sudo systemctl restart vsftpd
 ```
 
----
+
 
 
 ### 5. 设置开机自启动
@@ -191,7 +191,7 @@ sudo systemctl restart vsftpd
 sudo systemctl enable vsftpd
 ```
 
----
+
 
 
 ### 6. 配置防火墙（如果需要）
@@ -205,7 +205,7 @@ sudo ufw allow 10000:10100/tcp
 sudo ufw reload
 ```
 
----
+
 
 
 ### 7. 测试 FTP 服务
@@ -217,25 +217,6 @@ ftp localhost
 ```
 
 输入本地用户的用户名和密码，确认可以访问 `/mnt/ssd/ftp` 目录。
-
----
-
-
-### 8. 添加 FTP 用户（可选）
-
-如果需要为 FTP 创建专用用户：
-
-```bash
-sudo adduser ftpuser
-```
-
-将该用户的根目录设置为 `/mnt/ssd/ftp` ：
-
-```bash
-sudo usermod -d /mnt/ssd/ftp ftpuser
-```
-
----
 
 
 ### 总结
@@ -250,7 +231,7 @@ sudo usermod -d /mnt/ssd/ftp ftpuser
 
 ## 在 Ubuntu 上使用 `vsftpd` 创建两个 FTP 账号，一个只读账号，一个支持读写的账号，可以按照以下步骤操作：
 
----
+
 
 
 ### 1. 安装 `vsftpd`
@@ -262,7 +243,7 @@ sudo apt update
 sudo apt install vsftpd
 ```
 
----
+
 
 
 ### 2. 创建两个用户
@@ -276,7 +257,7 @@ sudo adduser ftp_readwrite # 54219863
 
 按照提示设置密码和其他信息。
 
----
+
 
 
 ### 3. 设置用户根目录
@@ -288,7 +269,7 @@ sudo usermod -d /mnt/ssd/ftp ftp_readonly
 sudo usermod -d /mnt/ssd/ftp ftp_readwrite
 ```
 
----
+
 
 
 ### 4. 配置 `vsftpd`
@@ -328,7 +309,7 @@ pasv_max_port=10100
 sudo cp '/home/yqh/ 桌面 /vsftpd.conf' /etc/vsftpd.conf
 ```
 
----
+
 
 
 ### 5. 配置用户权限
@@ -351,7 +332,7 @@ sudo chown ftp_readwrite:ftp_readwrite /mnt/ssd/ftp
 sudo chmod 755 /mnt/ssd/ftp
 ```
 
----
+
 
 
 ### 6. 限制只读用户的写权限
@@ -385,7 +366,7 @@ write_enable=NO
 
 保存并退出。
 
----
+
 
 
 ### 7. 重启 `vsftpd` 服务
@@ -396,7 +377,7 @@ write_enable=NO
 sudo systemctl restart vsftpd
 ```
 
----
+
 
 
 ### 8. 测试 FTP 服务
@@ -408,7 +389,7 @@ sudo systemctl restart vsftpd
 - **读写用户** ：`ftp_readwrite`
   - 应该可以读取、写入和删除文件。
 
----
+
 
 
 ### 9. 设置开机自启动
@@ -419,7 +400,7 @@ sudo systemctl restart vsftpd
 sudo systemctl enable vsftpd
 ```
 
----
+
 
 
 ### 总结
@@ -434,7 +415,7 @@ sudo systemctl enable vsftpd
 
 要查看当前 `vsftpd` 服务中有哪些 FTP 账户，以及是否屏蔽了匿名登录，可以按照以下步骤操作：
 
----
+
 
 
 ### 1. 查看当前 FTP 账户
@@ -463,7 +444,7 @@ awk -F: '$3 >= 1000 {print $1}' /etc/passwd
 cat /etc/vsftpd/user_list
 ```
 
----
+
 
 
 ### 2. 检查是否屏蔽了匿名登录
@@ -485,7 +466,7 @@ anonymous_enable=NO
 
 保存并退出编辑器。
 
----
+
 
 
 ### 3. 检查 `vsftpd` 的运行状态
@@ -496,7 +477,7 @@ anonymous_enable=NO
 sudo systemctl status vsftpd
 ```
 
----
+
 
 
 ### 4. 测试匿名登录（可选）
@@ -509,7 +490,7 @@ ftp localhost
 
 输入用户名 `anonymous` ，密码可以为空或任意邮箱地址。如果登录失败，说明匿名登录已被禁用。
 
----
+
 
 
 ### 总结
@@ -523,14 +504,14 @@ ftp localhost
 
 ## 要为 FTP 的读写账户分配文件创建权限，需要确保该账户对目标目录具有写权限
 
----
+
 
 
 ### 1. 确认读写账户
 
 假设读写账户为 `ftp_readwrite` ，目标目录为 `/mnt/ssd/ftp` 。
 
----
+
 
 
 ### 2. 检查目录权限
@@ -555,12 +536,12 @@ drwxr-xr-x 2 ftp_readwrite ftp_readwrite 4096 Oct 10 12:34 /mnt/ssd/ftp
 ```bash
 sudo chown ftp_readwrite:ftp_readwrite /mnt/ssd/ftp
 sudo chmod 755 /mnt/ssd/ftp
-```
 
 sudo chown ftp_readonly:ftp_readonly /mnt/ssd/ftp
 sudo chmod 755 /mnt/ssd/ftp
+```
 
----
+
 
 
 ### 3. 确保 `vsftpd` 配置允许写入
@@ -577,7 +558,7 @@ write_enable=YES
 sudo systemctl restart vsftpd
 ```
 
----
+
 
 
 ### 总结
@@ -592,7 +573,7 @@ sudo systemctl restart vsftpd
 
 ## 要为 `ftp_readonly` 用户分配文件夹列举权限，需要确保该用户对目标目录具有 **读取** 和 **执行** 权限
 
----
+
 
 
 ### 1. 检查目录权限
@@ -618,12 +599,12 @@ drwxr-xr-x 2 ftp_readwrite ftp_readwrite 4096 Oct 10 12:34 /mnt/ssd/ftp
 
 ```bash
 sudo chmod 755 /mnt/ssd/ftp
-```
 
 sudo chown ftp_readonly:ftp_readonly /mnt/ssd/ftp
 sudo chmod 755 /mnt/ssd/ftp
+```
 
----
+
 
 
 ### 2. 确保 `vsftpd` 配置允许读取
@@ -646,7 +627,7 @@ write_enable=YES
 sudo systemctl restart vsftpd
 ```
 
----
+
 
 
 ### 3. 配置只读用户的权限
@@ -689,7 +670,7 @@ sudo nano /etc/vsftpd.conf
 sudo systemctl restart vsftpd
 ```
 
----
+
 
 
 ### 总结
@@ -705,38 +686,11 @@ sudo systemctl restart vsftpd
 
 ## 要创建一个新 FTP 账号，使其具备 **除了创建文件和写入文件之外的所有权限** （包括文件夹列举、文件读取等），可以按照以下步骤操作：
 
----
-
-
-### 1. 创建新用户
-
-假设新用户名为 `ftp_readonly_user` ，运行以下命令创建用户：
-
-```bash
-sudo deluser ftp_readonly_user
-sudo adduser ftp_readonly_user
-```
-
-按照提示设置密码和其他信息。
-7123854796
-
----
-
-
-### 2. 设置用户根目录
-
-将新用户的根目录设置为 `/mnt/ssd/ftp` ：
-
-```bash
-sudo usermod -d /mnt/ssd/ftp ftp_readonly_user
-```
-
----
 
 
 ### 3. 检查目录权限
 
-确保 `/mnt/ssd/ftp` 目录的权限允许 `ftp_readonly_user` 读取和列举文件。
+确保 `/mnt/ssd/ftp` 目录的权限允许 `ftp_readonly` 读取和列举文件。
 
 运行以下命令检查目录权限：
 
@@ -758,7 +712,7 @@ drwxr-xr-x 2 ftp_readwrite ftp_readwrite 4096 Oct 10 12:34 /mnt/ssd/ftp
 sudo chmod 755 /mnt/ssd/ftp
 ```
 
----
+
 
 
 ### 4. 配置 `vsftpd`
@@ -779,19 +733,19 @@ allow_writeable_chroot=YES
 
 保存并退出编辑器。
 
----
+
 
 
 ### 5. 配置只读用户的权限
 
-为了确保 `ftp_readonly_user` 用户只能读取文件而不能写入，可以通过 `vsftpd` 的用户配置文件限制其权限。
+为了确保 `ftp_readonly` 用户只能读取文件而不能写入，可以通过 `vsftpd` 的用户配置文件限制其权限。
 
 #### 创建用户配置文件
 
-编辑 `ftp_readonly_user` 的用户配置文件：
+编辑 `ftp_readonly` 的用户配置文件：
 
 ```bash
-sudo nano /etc/vsftpd/user_conf/ftp_readonly_user
+sudo nano /etc/vsftpd/user_conf/ftp_readonly
 ```
 
 添加以下内容：
@@ -816,12 +770,12 @@ user_config_dir=/etc/vsftpd/user_conf
 sudo systemctl restart vsftpd
 ```
 
----
+
 
 
 ### 6. 测试只读权限
 
-使用 `ftp_readonly_user` 账户登录 FTP 服务器，测试其权限：
+使用 `ftp_readonly` 账户登录 FTP 服务器，测试其权限：
 
 #### 使用 FTP 客户端
 
@@ -837,7 +791,7 @@ sudo systemctl restart vsftpd
 ftp localhost
 ```
 
-输入用户名 `ftp_readonly_user` 和密码，然后尝试列举目录：
+输入用户名 `ftp_readonly` 和密码，然后尝试列举目录：
 
 ```bash
 ftp> ls
@@ -851,19 +805,19 @@ ftp> put testfile.txt
 
 如果文件上传失败并返回 `550 Permission denied` ，说明只读权限配置正确。
 
----
+
 
 
 ### 总结
 
-- **新用户** ：`ftp_readonly_user` ，可以读取和列举目录，但不能写入或创建文件。
+- **新用户** ：`ftp_readonly` ，可以读取和列举目录，但不能写入或创建文件。
 - **目录权限** ：确保 `/mnt/ssd/ftp` 的权限为 `755` 。
-- ** `vsftpd` 配置** ：通过用户配置文件限制 `ftp_readonly_user` 的写入权限。
+- ** `vsftpd` 配置** ：通过用户配置文件限制 `ftp_readonly` 的写入权限。
 - **测试** ：使用 FTP 客户端或命令行工具测试权限。
 - **SELinux/AppArmor** ：如果启用，确保策略允许 FTP 读取。
 
-完成以上步骤后， `ftp_readonly_user` 用户将具备除了创建文件和写入文件之外的所有权限。
-
+完成以上步骤后， `ftp_readonly` 用户将具备除了创建文件和写入文件之外的所有权限。
+```bash
 sudo chown ftp_readwrite:ftp_group /mnt/ssd/ftp/
 sudo chmod 755 /mnt/ssd/ftp/
 
@@ -872,23 +826,30 @@ sudo systemctl restart vsftpd
 sudo groupadd ftp_group
 sudo usermod -aG ftp_group ftp_readwrite
 sudo usermod -aG ftp_group ftp_readonly
-sudo usermod -aG ftp_group ftp_readonly_user
+sudo usermod -aG ftp_group ftp_readonly
 sudo chown -R :ftp_group /mnt/ssd/ftp
 sudo chmod -R 775 /mnt/ssd/ftp
 sudo chmod g+s /mnt/ssd/ftp
 ls -ld /mnt/ssd/ftp
+```
 
 (base) yqh@yqh-Z790-UD:~$ ls -ld /mnt/ssd/ftp
+```
 drwxrwsr-x 4 ftp_readonly ftp_group 4096  2 月 19 17:14 /mnt/ssd/ftp
 ```
+
+```bash
 ls -ld /mnt/ssd/ftp
 ls -ld /mnt/ssd/ftp/gitremote
 ls -ld /mnt/ssd/ftp/_md5dir
 ```
 
 在 /etc/vsftpd.conf 中，设置 local_umask 来为文件和目录设置默认权限：
+```bash
 sudo nano /etc/vsftpd.conf
+```
 确保 umask 设置合适，确保文件和目录的权限对于组成员是可读写的。
+```bash
 local_umask=022
 
 sudo chmod g+s /mnt/ssd/ftp
@@ -898,7 +859,7 @@ sudo setfacl -d -m g:ftp_group:rwx /mnt/ssd/ftp
 
 sudo chmod -R 775 /mnt/ssd/ftp
 sudo chown -R :ftp_group /mnt/ssd/ftp
-
+```
 
 
 <hr class='reviewline'/>
