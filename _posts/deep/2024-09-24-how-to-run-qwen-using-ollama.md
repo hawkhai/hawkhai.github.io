@@ -165,6 +165,76 @@ Only reply the result and nothing else. \
 
 
 
+以下是Ubuntu系统下Ollama无法被局域网访问的排查与解决方法：
+一、核心配置检查
+
+    ‌修改服务绑定地址‌
+    Ollama默认仅绑定本地回环地址(127.0.0.1)，需修改为0.0.0.0监听所有网络接口：
+
+    bashCopy Code
+    sudo systemctl edit ollama.service
+
+    在打开的文件中添加以下内容：
+
+    iniCopy Code
+    [Service]
+    Environment="OLLAMA_HOST=0.0.0.0:11434"
+
+    保存后执行：
+
+    bashCopy Code
+    sudo systemctl daemon-reload
+    sudo systemctl restart ollama
+
+    (操作依据：‌17)
+
+    ‌验证服务监听状态‌
+    执行命令检查端口是否成功监听：
+
+    bashCopy Code
+    netstat -tuln | grep 11434
+
+    若输出包含0.0.0.0:11434则配置生效，否则需重启服务‌4。
+
+二、防火墙设置
+
+    ‌开放端口访问权限‌
+    Ubuntu系统若启用ufw防火墙，需放行11434端口：
+
+    bashCopy Code
+    sudo ufw allow 11434/tcp
+    sudo ufw reload
+
+    若使用firewalld则执行：
+
+    bashCopy Code
+    sudo firewall-cmd --add-port=11434/tcp --permanent
+    sudo firewall-cmd --reload
+
+    (操作依据：‌25)
+
+三、网络环境排查
+
+    ‌检查局域网连通性‌
+    确保客户端与服务器处于同一子网，通过ping命令测试基础网络连通性。
+
+    ‌验证IP地址有效性‌
+    在Ubuntu服务器执行ip a查看实际局域网IP，确保客户端使用正确的IP地址访问‌1。
+
+四、特殊情况处理
+
+若服务器部署在云端（如阿里云/腾讯云），需额外检查：
+
+    云平台安全组规则是否放行11434端口‌8；
+    服务器内部是否启用SELinux等强制访问控制机制（建议临时禁用测试）‌4。
+
+    提示：完成上述配置后，其他设备可通过http://[服务器IP]:11434访问Ollama服务。若仍失败，建议检查Ollama日志：
+
+    bashCopy Code
+    journalctl -u ollama -f
+
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-09-24-how-to-run-qwen-using-ollama.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
