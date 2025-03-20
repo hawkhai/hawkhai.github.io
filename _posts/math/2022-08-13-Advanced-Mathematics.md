@@ -823,6 +823,9 @@ $y^{\prime \prime}+p y^{\prime}+q y=0$
 
 {% include image.html url="/assets/images/220813-advanced-mathematics/20230608225657.png" %}
 
+**解特征方程实际上是在寻找线性变换的“轴”。**
+[note {% include relref_bili.html %}](https://www.bilibili.com/video/BV1KMRJYrEBG)
+
 
 ## 【七-7】补充证明过程（可略）22:05
 
@@ -1304,6 +1307,7 @@ P
 - [https://zhuanlan.zhihu.com/p/142909054]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/2d5e86a1.html" %})
 - [https://www.zhihu.com/question/538493369/answer/2542853013]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/5dcb1b3b.html" %})
 - [https://zhuanlan.zhihu.com/p/466806302]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/f8c1c13f.html" %})
+- [https://www.bilibili.com/video/BV1KMRJYrEBG]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.bilibili.com/5e6c246d.html" %})
 - [https://www.oscaner.com/skill/others/mathjax-symbol.html]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.oscaner.com/adc25f5e.html" %})
 - [https://www.zhihu.com/zvideo/1385266955763380224]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/b5bcb59b.html" %})
 - [https://www.zhihu.com/question/22674439/answer/185939984]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/0f3fff3c.html" %})
