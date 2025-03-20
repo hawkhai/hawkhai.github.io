@@ -163,13 +163,11 @@ Only reply the result and nothing else. \
 
 还可以基于 vLLM 部署。
 
-
-
-以下是Ubuntu系统下Ollama无法被局域网访问的排查与解决方法：
+以下是 Ubuntu 系统下 Ollama 无法被局域网访问的排查与解决方法：
 一、核心配置检查
 
     ‌修改服务绑定地址‌
-    Ollama默认仅绑定本地回环地址(127.0.0.1)，需修改为0.0.0.0监听所有网络接口：
+    Ollama 默认仅绑定本地回环地址 (127.0.0.1)，需修改为 0.0.0.0 监听所有网络接口：
 
     bashCopy Code
     sudo systemctl edit ollama.service
@@ -186,7 +184,7 @@ Only reply the result and nothing else. \
     sudo systemctl daemon-reload
     sudo systemctl restart ollama
 
-    (操作依据：‌17)
+    ( 操作依据：‌17)
 
     ‌验证服务监听状态‌
     执行命令检查端口是否成功监听：
@@ -194,41 +192,41 @@ Only reply the result and nothing else. \
     bashCopy Code
     netstat -tuln | grep 11434
 
-    若输出包含0.0.0.0:11434则配置生效，否则需重启服务‌4。
+    若输出包含 0.0.0.0:11434 则配置生效，否则需重启服务‌4。
 
 二、防火墙设置
 
     ‌开放端口访问权限‌
-    Ubuntu系统若启用ufw防火墙，需放行11434端口：
+    Ubuntu 系统若启用 ufw 防火墙，需放行 11434 端口：
 
     bashCopy Code
     sudo ufw allow 11434/tcp
     sudo ufw reload
 
-    若使用firewalld则执行：
+    若使用 firewalld 则执行：
 
     bashCopy Code
     sudo firewall-cmd --add-port=11434/tcp --permanent
     sudo firewall-cmd --reload
 
-    (操作依据：‌25)
+    ( 操作依据：‌25)
 
 三、网络环境排查
 
     ‌检查局域网连通性‌
-    确保客户端与服务器处于同一子网，通过ping命令测试基础网络连通性。
+    确保客户端与服务器处于同一子网，通过 ping 命令测试基础网络连通性。
 
-    ‌验证IP地址有效性‌
-    在Ubuntu服务器执行ip a查看实际局域网IP，确保客户端使用正确的IP地址访问‌1。
+    ‌验证 IP 地址有效性‌
+    在 Ubuntu 服务器执行 ip a 查看实际局域网 IP，确保客户端使用正确的 IP 地址访问‌1。
 
 四、特殊情况处理
 
-若服务器部署在云端（如阿里云/腾讯云），需额外检查：
+若服务器部署在云端（如阿里云 / 腾讯云），需额外检查：
 
-    云平台安全组规则是否放行11434端口‌8；
-    服务器内部是否启用SELinux等强制访问控制机制（建议临时禁用测试）‌4。
+    云平台安全组规则是否放行 11434 端口‌8；
+    服务器内部是否启用 SELinux 等强制访问控制机制（建议临时禁用测试）‌4。
 
-    提示：完成上述配置后，其他设备可通过http://[服务器IP]:11434访问Ollama服务。若仍失败，建议检查Ollama日志：
+    提示：完成上述配置后，其他设备可通过 http://[服务器 IP]:11434 访问 Ollama 服务。若仍失败，建议检查 Ollama 日志：
 
     bashCopy Code
     journalctl -u ollama -f
