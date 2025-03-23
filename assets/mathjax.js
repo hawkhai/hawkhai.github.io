@@ -14,8 +14,8 @@ function MathJaxHubConfig() {
         showProcessingMessages: false,
         jax: ["input/TeX", "output/HTML-CSS"],
         tex2jax: {
-            inlineMath: [['$', '$'], ["\\(", "\\)"]],
-            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            inlineMath: [['$', '$'], ["\\(", "\\)"], ["\(", "\)"]],
+            displayMath: [['$$', '$$'], ['\\[', '\\]'], ['\[', '\]']],
             processEscapes: true,
             skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
         },
