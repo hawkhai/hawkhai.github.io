@@ -277,10 +277,10 @@ $$
 
 马尔可夫不等式（Markov's inequality）是概率论中的一个基本不等式，用于估计随机变量取较大值的概率。其数学表达式如下：
 
-设 \(X\) 是一个非负的随机变量，且其数学期望 \(E[X]\) 存在，则对于任意 \(a > 0\)，有：
-\[
+设 $X$ 是一个非负的随机变量，且其数学期望 $E[X]$ 存在，则对于任意 $a > 0$，有：
+$$
 P(X \geq a) \leq \frac{E[X]}{a}
-\]
+$$
 
 解释：
 - 该不等式表明：如果一个随机变量的期望较小，那么它取大值的概率也不会太高。
@@ -288,10 +288,68 @@ P(X \geq a) \leq \frac{E[X]}{a}
 - 这是切比雪夫不等式和其他概率界限推导的基础。
 
 
-## 7.12-切比雪夫不等式
+## 7.12-切比雪夫不等式 11:15
 
+**切比雪夫不等式（Chebyshev's Inequality）** 描述了随机变量偏离其数学期望的概率上界。具体来说，对于任意随机变量 $ X $ （不一定服从特定分布），如果它的数学期望 $ \mathbb{E}[X] $ 存在，且方差 $ \text{Var}(X) $ 有限，则对于任意 $ k > 0 $，有：
 
-## 11:15
+$$
+P(|X - \mathbb{E}[X]| \geq k\sigma) \leq \frac{1}{k^2}
+$$
+
+其中，$ \sigma $ 是随机变量的标准差，即 $ \sigma = \sqrt{\text{Var}(X)} $。
+
+**直观理解** ：
+切比雪夫不等式给出了随机变量偏离其均值一定倍数的标准差的概率上限。它适用于任何具有有限方差的分布，即使该分布不是正态分布。例如，当 $ k = 2 $ 时，不等式表明随机变量至少偏离均值 2 倍标准差的概率不会超过 $ 1/4 $，即最多 25%。
+
+**应用** ：
+- 证明大数定律
+- 估计概率分布的尾部行为
+- 处理不服从正态分布的数据分析
+
+{% include image.html url="/assets/images/200901-deep-learning-math-matr~e0/20250404154824.jpg" %}
+
+马尔科夫不等式
+
+$$
+\begin{aligned}
+& P(X \geqslant a) \\
+& =\int_a^{+\infty} f(x) d x \leqslant \int_a^{+\infty} \frac{X}{a} f(x) d x \\
+& \text { 由于 } \mathcal{\text { E }}\left(\frac{x}{a}\right)=\int_{-\infty}^{a} \frac{X}{a} f(x) d x+\int_a^{+\infty} \frac{X}{a} f(x) d x \\
+& \text { 所以 } P(x \geqslant a) \leqslant \int_a^{+\infty}-\frac{x}{a} f(x) d x \leqslant E\left(\frac{x}{a}\right) \\
+& \text { 即 } P(X \geqslant a) \leqslant E\left(\frac{X}{a}\right)=\frac{E(X)}{a}
+\end{aligned}
+$$
+
+切比雪夫不等式
+
+$$
+\begin{aligned}
+& P\{|X-E(x)| \geqslant \varepsilon\} \leqslant \frac{\delta^2}{\varepsilon^2} \\
+& P\{|X-E(x)|<\varepsilon\} \geqslant 1-\frac{\delta^2}{\varepsilon^2} \\
+& \text { 将 } \mid x-\mu \mid \text { 带入 } \text { 马尔科夫不等式 } \\
+& P(|x-\mu|>\alpha) \leqslant \frac{E(|x-\mu|)}{\alpha} \\
+& \text { 即 } P\left((x-\mu)^2 \geqslant a^2\right) \leqslant \frac{E\left((x-\mu)^2\right)}{a^2}=\frac{\sigma^2}{a^2}
+\end{aligned}
+$$
+
+<https://onlinestatbook.com/stat_sim/sampling_dist/index.html>
+**应用**
+在 n 重贝努里试验中，若已知每次试验事件 A 出现的概率为 0.75，试利用契比雪夫不等式估计 n，
+使 A 出现的频率在 0.74 至 0.76 之间的概率不小于 0.90。
+
+$$
+\begin{aligned}
+&\text { 设在 } n \text { 重贝努里试验中，事件 } A \text { 出现的次数为 } X \text { ，}\\
+&\begin{aligned}
+& \text { 则 } \mathrm{X} \sim b(n, 0.75), \\
+& E(X)=n p=0.75 n, D(X)=n p q=0.1875 n, \\
+& \begin{aligned}
+\text { 又 } f_n(A)=\frac{X}{n} \quad \text { 而 } P\left\{0.74<\frac{X}{n}<0.76\right\}=P\{|X-0.75 n|<0.01 n\} \geq 1-\frac{0.1875 n}{(0.01 n)^2} & =1-\frac{1875}{n} \geq 0.90 \\
+& \Rightarrow n \geq 18750
+\end{aligned}
+\end{aligned}
+\end{aligned}
+$$
 
 
 ## 7.13-后验概率估计
@@ -1024,3 +1082,4 @@ P(X \geq a) \leq \frac{E[X]}{a}
 - [https://wenku.baidu.com/view/095bebde2a4ac850ad02de80d4d8d15abf23004d.html]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/wenku.baidu.com/aca20332.html" %})
 - [https://www.bilibili.com/video/BV12Sc4e7Eat/]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/7840516e.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.atoolbox.net/ecf02067.php" %})
+- [https://onlinestatbook.com/stat_sim/sampling_dist/index.html]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/onlinestatbook.com/31773f1c.html" %})
