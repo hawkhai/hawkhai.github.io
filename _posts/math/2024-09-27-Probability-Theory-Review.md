@@ -21,6 +21,9 @@ cluster: "机器学习的数学基础"
 
 **因为有真实分布，所以用交叉熵。如果没有真实分布，请用 KL 散度。**
 
+信息熵就是某个随机事件的信息的期望值，同时也是最优编码的期望长度。
+通过计算，可以知道，Huffman 编码就是最优的前缀编码。
+
 
 ## 信息熵
 
@@ -114,6 +117,14 @@ Cross-Entropy（交叉熵）和 KL-Divergence（相对熵，Kullback-Leibler 散
 蒙特卡洛模拟可以有效解决一系列概率问题。尽管蒙特卡洛模拟可以帮助解决贝叶斯推理所需的许多难解积分，但即使这些方法在计算上也非常昂贵。包括变分自动编码器在内的变分贝叶斯方法使用 KL 散度来生成最佳近似分布，从而可以对非常困难的积分进行更有效的推断。
 
 
+## 交叉熵 (cross entropy) ，KL 散度的值，到底有什么含义？
+
+<https://mp.weixin.qq.com/s/T6FONoAFY2cMQGfbCHpFOQ>
+信息熵就是某个随机事件的信息的期望值，同时也是最优编码的期望长度。
+
+{% include image.html url="/assets/images/240927-probability-theory-review/640sss.png" caption="MLE 与 交叉熵" %}
+
+
 ## Refs
 
 * <https://blog.csdn.net/sdksdf/article/details/138322038>
@@ -128,5 +139,6 @@ Cross-Entropy（交叉熵）和 KL-Divergence（相对熵，Kullback-Leibler 散
 - [https://www.bilibili.com/video/BV1JY411q72n/]({% include relrefx.html url="/backup/2024-09-27-Probability-Theory-Review.md/www.bilibili.com/41ca4b25.html" %})
 - [https://zhuanlan.zhihu.com/p/100676922]({% include relrefx.html url="/backup/2024-09-27-Probability-Theory-Review.md/zhuanlan.zhihu.com/7d705530.html" %})
 - [https://www.countbayesie.com/blog/2017/5/9/kullback-leibler-divergence-explained]({% include relrefx.html url="/backup/2024-09-27-Probability-Theory-Review.md/www.countbayesie.com/d077bc2b.html" %})
+- [https://mp.weixin.qq.com/s/T6FONoAFY2cMQGfbCHpFOQ]({% include relrefx.html url="/backup/2024-09-27-Probability-Theory-Review.md/mp.weixin.qq.com/91be82a3.html" %})
 - [https://blog.csdn.net/sdksdf/article/details/138322038]({% include relrefx.html url="/backup/2024-09-27-Probability-Theory-Review.md/blog.csdn.net/bf4201a9.html" %})
 - [https://www.bilibili.com/video/BV1Hw4m117Ka/]({% include relrefx.html url="/backup/2024-09-27-Probability-Theory-Review.md/www.bilibili.com/9d6cf4b5.html" %})
