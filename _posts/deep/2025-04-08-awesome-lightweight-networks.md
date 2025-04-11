@@ -28,13 +28,13 @@ MobileNet (MobileNetV2 - 2018, MobileNetV3 - 2019) -- mobilenet_v3_large
 ShuffleNet (ShuffleNetV2 - 2018) -- shufflenet_v2_x1_0
 * ShuffleNetV2：极度轻量，非常适合低计算资源场景。
 
-
 0408-shufflenet_v2_x0_5-0.964 | 3MB | 0.964
 0408-shufflenet_v2_x1_0-0.986 | 10MB | 0.986
 0408-mobilenet_v3_small-0.987 | 12MB | 0.987
 0408-mobilenet_v2-0.995       | 18MB | 0.995
 0408-efficientnet_b0-0.995    | 32MB | 0.995
 0408-mobilenet_v3_large-0.994 | 33MB | 0.994
+
 
 
 <hr class='reviewline'/>
