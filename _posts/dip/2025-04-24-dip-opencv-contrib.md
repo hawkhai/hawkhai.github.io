@@ -48,22 +48,17 @@ set PKG_CONFIG_PATH=I:\opencv_work\vcpkg\installed\x64-windows\lib\pkgconfig
 cmake ^
  -G "Visual Studio 16 2019" -T v142 ^
  -A x64 ^
- -DCMAKE_INSTALL_PREFIX=%cd%/../install ^
- -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules ^
+ -DCMAKE_INSTALL_PREFIX=I:/opencv_work/install ^
+ -DOPENCV_EXTRA_MODULES_PATH=I:/opencv_work/opencv_contrib/modules ^
  -DWITH_FREETYPE=ON ^
  -DWITH_HARFBUZZ=ON ^
  -DWITH_TEXT=ON ^
- -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake ^
- -DPKG_CONFIG_EXECUTABLE=../vcpkg/packages/pkgconf_x64-windows/tools/pkgconf/pkgconf.exe ^
- -DPKG_CONFIG_PATH=../vcpkg/installed/x64-windows/lib/pkgconfig ^
+ -DCMAKE_TOOLCHAIN_FILE=I:/opencv_work/vcpkg/scripts/buildsystems/vcpkg.cmake ^
+ -DPKG_CONFIG_EXECUTABLE=I:/opencv_work/vcpkg/packages/pkgconf_x64-windows/tools/pkgconf/pkgconf.exe ^
+ -DPKG_CONFIG_PATH=I:/opencv_work/vcpkg/installed/x64-windows/lib/pkgconfig ^
  -DCMAKE_BUILD_TYPE=Release ^
- -DFREETYPE_INCLUDE_DIR_ft2build=../vcpkg/installed/x64-windows/include ^
- -DFREETYPE_INCLUDE_DIR_freetype2=../vcpkg/installed/x64-windows/include/freetype ^
- -DFREETYPE_LIBRARY_RELEASE=../vcpkg/installed/x64-windows/lib/freetype.lib ^
- -DFREETYPE_LIBRARY_DEBUG=../vcpkg/installed/x64-windows/debug/lib/freetyped.lib ^
- -DHARFBUZZ_INCLUDE_DIRS=../vcpkg/packages/harfbuzz_x64-windows/include/harfbuzz ^
- -DHARFBUZZ_LIBRARY=../vcpkg/installed/x64-windows/lib/harfbuzz.lib ^
- ../opencv
+ -DHARFBUZZ_INCLUDE_DIRS=I:/opencv_work/vcpkg/packages/harfbuzz_x64-windows/include/harfbuzz ^
+ I:/opencv_work/opencv
 
 cmake ^
  -G "Visual Studio 16 2019" -T v142 ^
@@ -79,10 +74,7 @@ cmake ^
  -DPKG_CONFIG_PATH=I:/opencv_work/vcpkg/installed/x64-windows/lib/pkgconfig ^
  -DFREETYPE_INCLUDE_DIR_ft2build=I:/opencv_work/vcpkg/packages/freetype_x64-windows/include ^
  -DFREETYPE_INCLUDE_DIR_freetype2=I:/opencv_work/vcpkg/packages/freetype_x64-windows/include/freetype ^
- -DFREETYPE_LIBRARY_RELEASE=I:/opencv_work/vcpkg/installed/x64-windows/lib/freetype.lib ^
- -DFREETYPE_LIBRARY_DEBUG=I:/opencv_work/vcpkg/installed/x64-windows/debug/lib/freetyped.lib ^
  -DHARFBUZZ_INCLUDE_DIRS=I:/opencv_work/vcpkg/packages/harfbuzz_x64-windows/include/harfbuzz ^
- -DHARFBUZZ_LIBRARY=I:/opencv_work/vcpkg/installed/x64-windows/lib/harfbuzz.lib ^
  I:/opencv_work/opencv
 
 cmake ^
@@ -99,10 +91,7 @@ cmake ^
  -DPKG_CONFIG_PATH=I:/opencv_work/vcpkg/installed/x64-windows/lib/pkgconfig ^
  -DFREETYPE_INCLUDE_DIR_ft2build=I:/opencv_work/vcpkg/packages/freetype_x64-windows/include ^
  -DFREETYPE_INCLUDE_DIR_freetype2=I:/opencv_work/vcpkg/packages/freetype_x64-windows/include/freetype ^
- -DFREETYPE_LIBRARY_RELEASE=I:/opencv_work/vcpkg/installed/x64-windows/lib/freetype.lib ^
- -DFREETYPE_LIBRARY_DEBUG=I:/opencv_work/vcpkg/installed/x64-windows/debug/lib/freetyped.lib ^
  -DHARFBUZZ_INCLUDE_DIRS=I:/opencv_work/vcpkg/packages/harfbuzz_x64-windows/include/harfbuzz ^
- -DHARFBUZZ_LIBRARY=I:/opencv_work/vcpkg/installed/x64-windows/lib/harfbuzz.lib ^
  I:/opencv_work/opencv
 ```
 
@@ -146,11 +135,7 @@ I:\opencv_work\vcpkg\packages\pkgconf_x64-windows\tools\pkgconf\pkgconf.exe
 # Manually specify the include and library directories for FreeType and HarfBuzz
 set(FREETYPE_INCLUDE_DIR_ft2build "I:/opencv_work/vcpkg/packages/freetype_x64-windows/include")
 set(FREETYPE_INCLUDE_DIR_freetype2 "I:/opencv_work/vcpkg/packages/freetype_x64-windows/include/freetype")
-set(FREETYPE_LIBRARY_RELEASE "I:/opencv_work/vcpkg/installed/x64-windows/lib/freetype.lib")
-set(FREETYPE_LIBRARY_DEBUG "I:/opencv_work/vcpkg/installed/x64-windows/debug/lib/freetyped.lib")
-
 set(HARFBUZZ_INCLUDE_DIRS "I:/opencv_work/vcpkg/packages/harfbuzz_x64-windows/include/harfbuzz")
-set(HARFBUZZ_LIBRARY "I:/opencv_work/vcpkg/installed/x64-windows/lib/harfbuzz.lib")
 
 set(FREETYPE_FOUND 1)
 set(HARFBUZZ_FOUND 1)
@@ -181,11 +166,6 @@ else()
     set(HARFBUZZ_LIBRARY "I:/opencv_work/vcpkg/packages/harfbuzz_x64-windows/lib/harfbuzz.lib")
 endif()
 
-# 确保你仍然为所有目标设置相关的 include 和 lib 路径
-#set(FREETYPE_INCLUDE_DIR_ft2build "I:/opencv_work/vcpkg/installed/x64-windows/include")
-#set(FREETYPE_INCLUDE_DIR_freetype2 "I:/opencv_work/vcpkg/installed/x64-windows/include/freetype")
-#set(HARFBUZZ_INCLUDE_DIRS "I:/opencv_work/vcpkg/installed/x64-windows/include")
-
 if (FREETYPE_FOUND AND HARFBUZZ_FOUND)
   ocv_define_module(freetype opencv_core opencv_imgproc WRAP python)
   ocv_target_link_libraries(${the_module} ${FREETYPE_LIBRARIES} ${HARFBUZZ_LIBRARIES}
@@ -201,6 +181,15 @@ endif()
 ```
 
 编译时确保链接了 opencv_freetype470.lib 以及 opencv_world470.lib 或其他相关模块。
+
+* /vcpkg/packages/freetype_x64-windows/debug/lib/freetyped.lib
+* /vcpkg/packages/freetype_x64-windows/lib/freetype.lib
+* /vcpkg/packages/freetype_x64-windows/include
+* /vcpkg/packages/freetype_x64-windows/include/freetype
+
+* /vcpkg/packages/harfbuzz_x64-windows/debug/lib/harfbuzz.lib
+* /vcpkg/packages/harfbuzz_x64-windows/lib/harfbuzz.lib
+* /vcpkg/packages/harfbuzz_x64-windows/include/harfbuzz
 
 
 
