@@ -15,6 +15,14 @@ glslcanvas:
 codeprint:
 ---
 
+mkdir build && cd build
+cmake -G "Visual Studio 16 2019" -T v142 ..
+cmake --build . --config Release
+
+cmake -S . -G "Visual Studio 16 2019" -T v142 -B build
+cmake --build build --config Release
+cmake .. -G "Visual Studio 16 2019" -T v142
+
 
 ## 安装 freetype 和 harfbuzz（通过 vcpkg）
 
