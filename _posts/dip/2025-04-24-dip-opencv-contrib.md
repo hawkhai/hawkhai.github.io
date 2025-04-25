@@ -15,8 +15,8 @@ glslcanvas:
 codeprint:
 ---
 
-## 安装 freetype 和 harfbuzz（通过 vcpkg）
 
+## 安装 freetype 和 harfbuzz（通过 vcpkg）
 
 ```
 git clone https://github.com/microsoft/vcpkg.git
@@ -27,7 +27,6 @@ vcpkg install pkgconf:x64-windows
 ```
 
 
-
 ## 克隆 OpenCV 和 opencv_contrib
 
 ```
@@ -36,7 +35,6 @@ git clone https://github.com/opencv/opencv_contrib.git
 ```
 
 cmake -S . -G "Visual Studio 16 2019" -T v142 -B build
-
 
 mkdir opencv_build
 cd opencv_build
@@ -66,7 +64,7 @@ cmake ^
  -DHARFBUZZ_INCLUDE_DIRS=../vcpkg/packages/harfbuzz_x64-windows/include/harfbuzz ^
  -DHARFBUZZ_LIBRARY=../vcpkg/installed/x64-windows/lib/harfbuzz.lib ^
  ../opencv
- 
+
 cmake ^
  -G "Visual Studio 16 2019" -T v142 ^
  -A x64 ^
@@ -108,7 +106,6 @@ cmake ^
  I:/opencv_work/opencv
 ```
 
-
 ```
 cmake --build . --config Release --target INSTALL
 cmake --build . --config Debug --target INSTALL
@@ -128,15 +125,22 @@ cd opencv_build
 配置完后，查看终端输出中是否有：
 ```
 --   freetype:                 YES (ver ...)
---     harfbuzz:              YES (ver ...)
+--     harfbuzz:               YES (ver ...)
 --     Module opencv_freetype will be built
+
+-- FREETYPE_INCLUDE_DIRS:
+-- FREETYPE_LIBRARIES:
+-- HARFBUZZ_INCLUDE_DIRS: I:/opencv_work/vcpkg/packages/harfbuzz_x64-windows/include/harfbuzz
+-- HARFBUZZ_LIBRARIES:
+-- freetype2:   YES (ver )
+-- harfbuzz:    YES (ver )
 ```
 
-## 直接修改 
+
+## 直接修改
 
 freetype\CMakeLists.txt
 I:\opencv_work\vcpkg\packages\pkgconf_x64-windows\tools\pkgconf\pkgconf.exe
-
 
 ```
 # Manually specify the include and library directories for FreeType and HarfBuzz
@@ -151,11 +155,11 @@ set(HARFBUZZ_LIBRARY "I:/opencv_work/vcpkg/installed/x64-windows/lib/harfbuzz.li
 set(FREETYPE_FOUND 1)
 set(HARFBUZZ_FOUND 1)
 
-if(NOT FREETYPE_FOUND)
+if (NOT FREETYPE_FOUND)
   message(FATAL_ERROR "FREETYPE not found. Make sure freetype2.pc is available via pkg-config or set manually.")
 endif()
 
-if(NOT HARFBUZZ_FOUND)
+if (NOT HARFBUZZ_FOUND)
   message(FATAL_ERROR "HARFBUZZ not found. Make sure harfbuzz.pc is available via pkg-config or set manually.")
 endif()
 
@@ -167,7 +171,7 @@ message(STATUS "HARFBUZZ_LIBRARIES: ${HARFBUZZ_LIBRARIES}")
 
 ```
 # 根据 CMAKE_BUILD_TYPE 变量设置库路径
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     # Debug 构建时使用 debug 库
     set(FREETYPE_LIBRARY_RELEASE "I:/opencv_work/vcpkg/packages/freetype_x64-windows/debug/lib/freetyped.lib")
     set(HARFBUZZ_LIBRARY "I:/opencv_work/vcpkg/packages/harfbuzz_x64-windows/debug/lib/harfbuzz.lib")
@@ -182,12 +186,12 @@ endif()
 #set(FREETYPE_INCLUDE_DIR_freetype2 "I:/opencv_work/vcpkg/installed/x64-windows/include/freetype")
 #set(HARFBUZZ_INCLUDE_DIRS "I:/opencv_work/vcpkg/installed/x64-windows/include")
 
-if(FREETYPE_FOUND AND HARFBUZZ_FOUND)
+if (FREETYPE_FOUND AND HARFBUZZ_FOUND)
   ocv_define_module(freetype opencv_core opencv_imgproc WRAP python)
   ocv_target_link_libraries(${the_module} ${FREETYPE_LIBRARIES} ${HARFBUZZ_LIBRARIES}
     ${FREETYPE_LIBRARY_RELEASE} ${HARFBUZZ_LIBRARY}
   )
-  ocv_include_directories( ${FREETYPE_INCLUDE_DIRS} ${HARFBUZZ_INCLUDE_DIRS} 
+  ocv_include_directories( ${FREETYPE_INCLUDE_DIRS} ${HARFBUZZ_INCLUDE_DIRS}
     "I:/opencv_work/vcpkg/packages/freetype_x64-windows/include"
     "I:/opencv_work/vcpkg/packages/freetype_x64-windows/include/freetype"
   )
@@ -196,5 +200,14 @@ else()
 endif()
 ```
 
-
 编译时确保链接了 opencv_freetype470.lib 以及 opencv_world470.lib 或其他相关模块。
+
+
+
+<hr class='reviewline'/>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2025-04-24-dip-opencv-contrib.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://github.com/microsoft/vcpkg.git]({% include relrefx.html url="/backup/2025-04-24-dip-opencv-contrib.md/github.com/9cce1220.html" %})
+- [https://github.com/opencv/opencv.git]({% include relrefx.html url="/backup/2025-04-24-dip-opencv-contrib.md/github.com/59192dea.html" %})
+- [https://github.com/opencv/opencv_contrib.git]({% include relrefx.html url="/backup/2025-04-24-dip-opencv-contrib.md/github.com/d443124b.html" %})
