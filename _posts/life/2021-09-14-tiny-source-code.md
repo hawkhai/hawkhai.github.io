@@ -27,11 +27,23 @@ CW2A(L"中文字符", CP_UTF8);
 [USES_CONVERSION 或 USES_CONVERSION_EX 在将 UNICODE 转化到 UTF-8 过程中，可能导致失败。 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/515098548)
 **W2A_CP 不靠谱，Unicode 转 UTF-8 可能失败。**
 
-```
+```cpp
 // warning C4715: 不是所有的控件路径都返回值
 /we4715 /we4013 /we4431 /we4133 /we4716 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047
 // vcruntime140_1.dll -- x64 test.exe
 // x64 test.exe -- __CxxFrameHandler4 VCRUNTIME140_1
+
+void OcrLite::Logger(const char *format, ...) {
+    if (!(isOutputConsole || isOutputResultTxt)) return;
+    char *buffer = (char *) malloc(8192);
+    va_list args;
+    va_start(args, format);
+    vsprintf(buffer, format, args);
+    va_end(args);
+    if (isOutputConsole) printf("%s", buffer);
+    if (isOutputResultTxt) fprintf(resultTxt, "%s", buffer);
+    free(buffer);
+}
 ```
 
 
