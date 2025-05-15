@@ -23,6 +23,8 @@ cmake -S . -G "Visual Studio 16 2019" -T v142 -B build
 cmake --build build --config Release
 cmake .. -G "Visual Studio 16 2019" -T v142
 
+cmake -G "Visual Studio 16 2019" -T v142 -DCMAKE_INSTALL_PREFIX="install_x86" -A "Win32" ..
+
 
 ## 安装 freetype 和 harfbuzz（通过 vcpkg）
 
@@ -33,6 +35,9 @@ bootstrap-vcpkg.bat
 vcpkg install freetype:x64-windows harfbuzz:x64-windows
 vcpkg install pkgconf:x64-windows
 ```
+
+vcpkg install freetype:x86-windows harfbuzz:x86-windows
+vcpkg install pkgconf:x86-windows
 
 
 ## 克隆 OpenCV 和 opencv_contrib
@@ -47,10 +52,21 @@ cmake -S . -G "Visual Studio 16 2019" -T v142 -B build
 mkdir opencv_build
 cd opencv_build
 
+同目录：
+* /opencv_build
+* /opencv
+* /opencv_contrib
+* /vcpkg
+* /install
+
 set PKG_CONFIG_EXECUTABLE=I:\opencv_work\vcpkg\packages\pkgconf_x64-windows\tools\pkgconf\pkgconf.exe
 set PKG_CONFIG_PATH=I:\opencv_work\vcpkg\installed\x64-windows\lib\pkgconfig
 
 "I:\opencv_work\vcpkg\packages\pkgconf_x64-windows\tools\pkgconf\pkgconf.exe" --modversion freetype2
+
+set PKG_CONFIG_EXECUTABLE=I:\opencv_work\vcpkg\packages\pkgconf_x86-windows\tools\pkgconf\pkgconf.exe
+set PKG_CONFIG_PATH=I:\opencv_work\vcpkg\installed\x86-windows\lib\pkgconfig
+"I:\opencv_work\vcpkg\packages\pkgconf_x86-windows\tools\pkgconf\pkgconf.exe" --modversion freetype2
 
 ```
 cmake ^
@@ -100,6 +116,43 @@ cmake ^
  -DFREETYPE_INCLUDE_DIR_ft2build=I:/opencv_work/vcpkg/packages/freetype_x64-windows/include ^
  -DFREETYPE_INCLUDE_DIR_freetype2=I:/opencv_work/vcpkg/packages/freetype_x64-windows/include/freetype ^
  -DHARFBUZZ_INCLUDE_DIRS=I:/opencv_work/vcpkg/packages/harfbuzz_x64-windows/include/harfbuzz ^
+ I:/opencv_work/opencv
+```
+
+Win32 / x86 版本：
+```
+cmake ^
+ -G "Visual Studio 16 2019" -T v142 ^
+ -A Win32 ^
+ -DCMAKE_INSTALL_PREFIX=I:/opencv_work/install ^
+ -DOPENCV_EXTRA_MODULES_PATH=I:/opencv_work/opencv_contrib/modules ^
+ -DWITH_FREETYPE=ON ^
+ -DWITH_HARFBUZZ=ON ^
+ -DWITH_TEXT=ON ^
+ -DCMAKE_TOOLCHAIN_FILE=I:/opencv_work/vcpkg/scripts/buildsystems/vcpkg.cmake ^
+ -DCMAKE_BUILD_TYPE=Release ^
+ -DPKG_CONFIG_EXECUTABLE=I:/opencv_work/vcpkg/packages/pkgconf_x86-windows/tools/pkgconf/pkgconf.exe ^
+ -DPKG_CONFIG_PATH=I:/opencv_work/vcpkg/installed/x86-windows/lib/pkgconfig ^
+ -DFREETYPE_INCLUDE_DIR_ft2build=I:/opencv_work/vcpkg/packages/freetype_x86-windows/include ^
+ -DFREETYPE_INCLUDE_DIR_freetype2=I:/opencv_work/vcpkg/packages/freetype_x86-windows/include/freetype ^
+ -DHARFBUZZ_INCLUDE_DIRS=I:/opencv_work/vcpkg/packages/harfbuzz_x86-windows/include/harfbuzz ^
+ I:/opencv_work/opencv
+
+cmake ^
+ -G "Visual Studio 16 2019" -T v142 ^
+ -A Win32 ^
+ -DCMAKE_INSTALL_PREFIX=I:/opencv_work/install ^
+ -DOPENCV_EXTRA_MODULES_PATH=I:/opencv_work/opencv_contrib/modules ^
+ -DWITH_FREETYPE=ON ^
+ -DWITH_HARFBUZZ=ON ^
+ -DWITH_TEXT=ON ^
+ -DCMAKE_TOOLCHAIN_FILE=I:/opencv_work/vcpkg/scripts/buildsystems/vcpkg.cmake ^
+ -DCMAKE_BUILD_TYPE=Debug ^
+ -DPKG_CONFIG_EXECUTABLE=I:/opencv_work/vcpkg/packages/pkgconf_x86-windows/tools/pkgconf/pkgconf.exe ^
+ -DPKG_CONFIG_PATH=I:/opencv_work/vcpkg/installed/x86-windows/lib/pkgconfig ^
+ -DFREETYPE_INCLUDE_DIR_ft2build=I:/opencv_work/vcpkg/packages/freetype_x86-windows/include ^
+ -DFREETYPE_INCLUDE_DIR_freetype2=I:/opencv_work/vcpkg/packages/freetype_x86-windows/include/freetype ^
+ -DHARFBUZZ_INCLUDE_DIRS=I:/opencv_work/vcpkg/packages/harfbuzz_x86-windows/include/harfbuzz ^
  I:/opencv_work/opencv
 ```
 
