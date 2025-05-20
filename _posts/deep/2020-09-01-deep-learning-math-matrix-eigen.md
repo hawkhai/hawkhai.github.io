@@ -76,8 +76,17 @@ $$|\lambda|=\min _{1 \leq i \leq n}\left|\lambda_{i}\right|$$
 - [2] [求二范数 C++ 代码 {% include relref_csdn.html %}](https://blog.csdn.net/tianya_team/article/details/53310617)
 - [3] **[计算方法之计算矩阵的特征值和特征量](https://wenku.baidu.com/view/095bebde2a4ac850ad02de80d4d8d15abf23004d.html)**
 
+[机器学习基础 \| 人工智能数学 \| 线性代数 \| 微积分 \| 概率论与统计学 {% include relref_bili.html %}](https://space.bilibili.com/3546736784050628)
 [note {% include relref_bili.html %}](https://www.bilibili.com/video/BV12Sc4e7Eat/)
 by [atoolbox](http://www.atoolbox.net/Tool.php?Id=715)
+
+唐宇迪
+人工智能-数学基础
+129 讲全！微积分、概率论、线性代数、机器学习数学基础
+* <https://www.bilibili.com/video/BV1FP411L7t1/?129>
+* <https://www.bilibili.com/video/BV1gQ4y1E7iy/?129>
+* <https://www.bilibili.com/video/BV1iS4y1W7FP/?129>
+* <https://www.bilibili.com/video/BV1ah411x76z/?129>
 
 
 ## 3.3-阶数的作用 08:08
@@ -1077,6 +1086,11 @@ $$
 - [http://zh.gluon.ai/]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/zh.gluon.ai/b73bb84d.html" %})
 - [https://blog.csdn.net/tianya_team/article/details/53310617]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/blog.csdn.net/ab76a7bc.html" %})
 - [https://wenku.baidu.com/view/095bebde2a4ac850ad02de80d4d8d15abf23004d.html]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/wenku.baidu.com/aca20332.html" %})
+- [https://space.bilibili.com/3546736784050628]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/space.bilibili.com/a7afe6a0.html" %})
 - [https://www.bilibili.com/video/BV12Sc4e7Eat/]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/7840516e.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.bilibili.com/video/BV1FP411L7t1/?129]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/eabd2b2e.html" %})
+- [https://www.bilibili.com/video/BV1gQ4y1E7iy/?129]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/6aba709f.html" %})
+- [https://www.bilibili.com/video/BV1iS4y1W7FP/?129]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/b42fb279.html" %})
+- [https://www.bilibili.com/video/BV1ah411x76z/?129]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/336d5e09.html" %})
 - [https://onlinestatbook.com/stat_sim/sampling_dist/index.html]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/onlinestatbook.com/31773f1c.html" %})
