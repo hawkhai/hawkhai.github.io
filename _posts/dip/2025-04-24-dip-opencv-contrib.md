@@ -77,21 +77,14 @@ cmake ^
  -DWITH_FREETYPE=ON ^
  -DWITH_HARFBUZZ=ON ^
  -DWITH_TEXT=ON ^
- -DCMAKE_TOOLCHAIN_FILE=I:/opencv_work/vcpkg/scripts/buildsystems/vcpkg.cmake ^
- -DPKG_CONFIG_EXECUTABLE=I:/opencv_work/vcpkg/packages/pkgconf_x64-windows/tools/pkgconf/pkgconf.exe ^
- -DPKG_CONFIG_PATH=I:/opencv_work/vcpkg/installed/x64-windows/lib/pkgconfig ^
- -DCMAKE_BUILD_TYPE=Release ^
- -DHARFBUZZ_INCLUDE_DIRS=I:/opencv_work/vcpkg/packages/harfbuzz_x64-windows/include/harfbuzz ^
- I:/opencv_work/opencv
-
-cmake ^
- -G "Visual Studio 16 2019" -T v142 ^
- -A x64 ^
- -DCMAKE_INSTALL_PREFIX=I:/opencv_work/install ^
- -DOPENCV_EXTRA_MODULES_PATH=I:/opencv_work/opencv_contrib/modules ^
- -DWITH_FREETYPE=ON ^
- -DWITH_HARFBUZZ=ON ^
- -DWITH_TEXT=ON ^
+ -DWITH_AVX2=ON ^
+ -DENABLE_AVX=ON ^
+ -DENABLE_SSE=ON ^
+ -DENABLE_SSE2=ON ^
+ -DENABLE_SSE3=ON ^
+ -DENABLE_SSSE3=ON ^
+ -DENABLE_SSE41=ON ^
+ -DENABLE_SSE42=ON ^
  -DCMAKE_TOOLCHAIN_FILE=I:/opencv_work/vcpkg/scripts/buildsystems/vcpkg.cmake ^
  -DCMAKE_BUILD_TYPE=Release ^
  -DPKG_CONFIG_EXECUTABLE=I:/opencv_work/vcpkg/packages/pkgconf_x64-windows/tools/pkgconf/pkgconf.exe ^
