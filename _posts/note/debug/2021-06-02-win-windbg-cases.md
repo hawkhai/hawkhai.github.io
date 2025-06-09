@@ -17,6 +17,97 @@ cluster: "WinDBG"
 ---
 
 
+## 线程跑飞 悬垂引用
+
+使用 `[this]` 而非 `[&]` 避免悬垂引用问题，特别是当线程仍在运行但 LocalOcrScheduler 对象已被销毁的情况。
+
+```cpp
+class LocalOcrScheduler : public QObject {
+public:
+    LocalOcrScheduler();
+    ~LocalOcrScheduler();
+
+private:
+    std::shared_ptr<MyOCR::KPdfOcrSdkWrap> m_pOcrSdk = nullptr;
+    bool m_bOcrSdkInited = false;
+};
+```
+
+```cpp
+void LocalOcrScheduler::initOcrSdk()
+{
+    static bool bInit = false;
+    if (bInit) {
+        return;
+    }
+    bInit = true;
+    QtConcurrent::run([&] {
+        CfgDataReader reader;
+        reader.LoadConfig();
+        m_bOcrHelpEnabled = reader.enableOcrHelp();
+        MyOCR::PdfOcrConfig2 config("fastocr");
+        m_pOcrSdk = std::make_shared<MyOCR::KPdfOcrSdkWrap>();
+        m_bOcrSdkInited = m_pOcrSdk->OcrInit(config);
+        if (!m_bOcrSdkInited) {
+            m_pOcrSdk.reset();
+            return;
+        }
+        unsigned __int64 sign = 0;
+        if (m_pOcrSdk->OcrSign(sign)) {
+            versionSign = QString::number(sign);
+        }
+    });
+}
+```
+
+假如进程退出，主线程已经释放 m_pOcrSdk 了，但是这里的线程还在跑。
+
+
+## AVX2 指令集 CPU 不支持
+
+```
+CONTEXT:  (.ecxr)
+rax=0000000000000000 rbx=0000000000000002 rcx=0000000000000000
+rdx=000001f9dde1f4e0 rsi=0000000000000000 rdi=000001f9dde1f4e0
+rip=00007ffc46949e23 rsp=0000003bc10fe6f0 rbp=0000003bc10fe770
+ r8=0000003bc10fe770  r9=0000000000000001 r10=0000000000000000
+r11=0000003bc10fe7e8 r12=0000000000000000 r13=0000000000000000
+r14=0000000000000000 r15=00000000ffffffff
+iopl=0         nv up ei ng nz ac pe cy
+cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010293
+mnn!std::_Fill_vbool+0x27 [inlined in mnn!std::vector<bool,std::allocator<bool> >::_Insert_n+0xe3]:
+00007ffc`46949e23 c44279f7cf      shlx    r9d,r15d,eax
+Resetting default scope
+
+EXCEPTION_RECORD:  (.exr -1)
+ExceptionAddress: 00007ffc46949e23 (mnn!std::_Fill_vbool+0x0000000000000027)
+   ExceptionCode: c000001d (Illegal instruction)
+  ExceptionFlags: 00000000
+NumberParameters: 0
+
+==================== 异常线程堆栈 ====================
+rax=0000000000000000 rbx=0000000000000002 rcx=0000000000000000
+rdx=000001b2838a1d90 rsi=0000000000000000 rdi=000001b2838a1d90
+rip=00007ffc818e9e23 rsp=0000009238efe460 rbp=0000009238efe4e0
+ r8=0000009238efe4e0  r9=0000000000000001 r10=0000000000000000
+r11=0000009238efe558 r12=0000000000000000 r13=0000000000000000
+r14=0000000000000000 r15=00000000ffffffff
+iopl=0         nv up ei ng nz ac pe cy
+cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010293
+mnn!std::_Fill_vbool+0x27 [inlined in mnn!std::vector<bool,std::allocator<bool> >::_Insert_n+0xe3]:
+00007ffc`818e9e23 c44279f7cf      shlx    r9d,r15d,eax
+Child-SP          RetAddr               : Args to Child                                                           : Call Site
+(Inline Function) -------- `--------     : --------` -------- -------- `-------- --------` -------- -------- `-------- : mnn!std::_Fill_vboo (Inline Function @ 00007ffc` 818e9e23) [C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vector @ 3107]
+(Inline Function) -------- `--------     : --------` -------- -------- `-------- --------` -------- -------- `-------- : mnn!std::fill+0x3d (Inline Function @ 00007ffc` 818e9e23) [C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xutility @ 4464]
+00000092 `38efe460 000001b2` 00000000     : 000001b2 `8387a2a8 00000000` 00000002 00007ffc `81ac4013 000001b2` 838a1d90 : mnn!std::vector<bool,std::allocator<bool> >::_Insert_n+0xe3 [C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vector @ 2971]
+00000092`38efe468 000001b2`8387a2a8     : 00000000`00000002 00007ffc`81ac4013 000001b2`838a1d90 00000000`00000000 : 0x000001b2`00000000
+00000092`38efe470 00000000`00000002     : 00007ffc`81ac4013 000001b2`838a1d90 00000000`00000000 000001b2`8387a290 : 0x000001b2`8387a2a8
+00000092 `38efe478 00007ffc` 81ac4013     : 000001b2 `838a1d90 00000000` 00000000 000001b2 `8387a290 00000000` 00000002 : 0x2
+00000092 `38efe480 000001b2` 838a1d90     : 00000000 `00000000 000001b2` 8387a290 00000000 `00000002 00000000` 00000004 : mnn!operator new+0x1f [D:\a\_work\1\s\src\vctools\crt\vcstartup\src\heap\new_scalar.cpp @ 35]
+00000092`38efe488 00000000`00000000     : 000001b2`8387a290 00000000`00000002 00000000`00000004 00007ffc`819d0e4b : 0x000001b2`838a1d90
+```
+
+
 ## QT QImage.convertToFormat() 卡死问题
 
 ```
