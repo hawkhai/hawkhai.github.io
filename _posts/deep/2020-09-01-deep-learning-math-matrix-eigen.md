@@ -84,7 +84,7 @@ by [atoolbox](http://www.atoolbox.net/Tool.php?Id=715)
 人工智能-数学基础
 129 讲全！微积分、概率论、线性代数、机器学习数学基础
 * <https://www.bilibili.com/video/BV1FP411L7t1/?129> 5.4w
-* <https://www.bilibili.com/video/BV1gQ4y1E7iy/?129> 5.7w
+* <https://www.bilibili.com/video/BV1gQ4y1E7iy/?129> 5.7w ---
 * <https://www.bilibili.com/video/BV1iS4y1W7FP/?129> 2.4w
 * <https://www.bilibili.com/video/BV1ah411x76z/?129> 5978
 
@@ -378,23 +378,12 @@ $$
 那么，这些可能的模型之中到底哪个是最靠谱的呢？
 **奥卡姆剃刀：越是高阶的多项式越是不常见。**
 
-
-## 8-1-正太分布 19:23
-
-
-## 8-2-二项式分布 11:03
-
-
-## 8-3-泊松分布 15:56
-
-
-## 8-4-均匀分布 03:23
-
-
-## 8-5-卡方分布 05:36
-
-
-## 8-6-beta 分布 14:55
+* 8-1-正太分布 19:23
+* 8-2-二项式分布 11:03
+* 8-3-泊松分布 15:56
+* 8-4-均匀分布 03:23
+* 8-5-卡方分布 05:36
+* 8-6-beta 分布 14:55
 
 
 ## 9-1-核函数的目的
