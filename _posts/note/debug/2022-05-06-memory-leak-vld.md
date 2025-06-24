@@ -127,6 +127,14 @@ C++ 内存检查 (Valgrind VS Asan)
 {% include image.html url="/assets/images/220506-memory-leak-vld/8.png" relocate="13" %}
 
 
+## VMMap 内存分析工具
+
+<https://www.cnblogs.com/kekec/p/17983324>
+
+VMMap 是一个运行在 windows 上的内存 Profier 工具。按 F5 刷新数据。
+{% include image.html url="/assets/images/220506-memory-leak-vld/78946-20240127185543932-569061844.png" %}
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-05-06-memory-leak-vld.md.js" %}'></script></p>
@@ -140,3 +148,4 @@ C++ 内存检查 (Valgrind VS Asan)
 - [https://github.com/LouisBrunner/valgrind-macos]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/github.com/5b960da5.html" %})
 - [https://zhuanlan.zhihu.com/p/508470880]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/zhuanlan.zhihu.com/947157ba.html" %})
 - [http://ftpmirror.your.org/pub/misc/ftp.microsoft.com/PSS/Tools/Developer%20Support%20Tools/LDGrapher/]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/ftpmirror.your.org/070ecfdd.html" %})
+- [https://www.cnblogs.com/kekec/p/17983324]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/www.cnblogs.com/8c9a74c6.html" %})
