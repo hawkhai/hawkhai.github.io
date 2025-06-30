@@ -117,6 +117,13 @@ Demystifying attention, the key mechanism inside transformers and LLMs.
 * ViT
 
 
+## Towards End-to-End Generative Modeling（走向端到端生成建模）
+
+{% include image.html url="/assets/images/240629-artificial-intelligence~82/20250630154012.png" %}
+
+Flow Matching
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-06-29-artificial-intelligence-3Blue1Brown.md.js" %}'></script></p>
