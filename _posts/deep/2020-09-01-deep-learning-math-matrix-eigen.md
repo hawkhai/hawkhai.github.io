@@ -391,10 +391,65 @@ $$
 {% include image.html url="/assets/images/200901-deep-learning-math-matr~e0/20250705191535.png" %}
 
 
-## 11-5-回归方程求解小例子
+## 11-5-回归方程求解小例子 06:33
 
+<https://scikit-learn.org.cn/lists/2.html>
 
-## 06:33
+1. 有监督学习
+    1.1 线性模型
+    1.2 线性和二次判别分析
+    1.3 内核岭回归
+    1.4 支持向量机
+    1.5 随机梯度下降
+    1.6 最近邻
+    1.7 高斯过程
+    1.8 交叉分解
+    1.9 朴素贝叶斯
+    1.10 决策树
+    1.11 集成算法
+    1.12 多类和多标签算法
+    1.13 特征选择
+    1.14 半监督学习
+    1.15 Isotonic 回归
+    1.16 概率校准
+    1.17 神经网络模型（有监督）
+2. 无监督学习
+    2.1. 高斯混合模型
+    2.2. 流形学习
+    2.3. 聚类
+    2.4. 双聚类
+    2.5. 分解成分中的信号（矩阵分解问题）
+    2.6. 协方差估计
+    2.7. 奇异值和异常值检测
+    2.8. 密度估计
+    2.9. 神经网络模型（无监督）
+3. 模型选择与评估
+    3.1 交叉验证：评估模型表现
+    3.2 调整估计器的超参数
+    3.3 指标和评分：量化预测的质量
+    3.4 模型持久性
+    3.5 验证曲线：绘制分数以评估模型
+4. 检验
+    4.1 部分依赖图
+    4.2 基于排列的特征重要性
+5. 可视化
+    5.1 提供的绘图工具
+6. 数据集转换
+    6.1 管道和复合估算器
+    6.2 特征提取
+    6.3 数据预处理
+    6.4 缺失值插补
+    6.5 无监督降维
+    6.6 随机投影
+    6.7 内核近似
+    6.8 成对度量，近似关系和内核
+    6.9 转换预测目标（y）
+7. 数据集加载实用程序
+    7 数据集加载工具
+8. 使用 scikit-learn 计算
+    8.1. 大数据的计算策略
+    8.2. 计算性能
+    8.3. 并行，资源管理和配置
 
 
 ## 11-6-回归直线拟合优度
@@ -989,3 +1044,4 @@ $$
 - [https://www.bilibili.com/video/BV1iS4y1W7FP/?129]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/b42fb279.html" %})
 - [https://www.bilibili.com/video/BV1ah411x76z/?129]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/336d5e09.html" %})
 - [https://onlinestatbook.com/stat_sim/sampling_dist/index.html]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/onlinestatbook.com/31773f1c.html" %})
+- [https://scikit-learn.org.cn/lists/2.html]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/scikit-learn.org.cn/10f956af.html" %})
