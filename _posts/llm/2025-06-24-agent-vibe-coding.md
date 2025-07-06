@@ -161,6 +161,17 @@ DeepSearch 属于单线程，Manus <https://manus.im/> 属于压缩中继类型�
 就像 AlphaZero 一样，对吧？最后大家发现人类的棋谱对它来说其实根本没有用。
 
 
+## Context Engineering for Agents
+
+<https://rlancemartin.github.io/2025/06/23/context_engineering/>
+
+上下文工程正在替代提示工程。“上下文工程“实际上是构建智能体的工程师的首要工作。LLMs就像是一种新型操作系统。LLM就像是CPU，它的上下文窗口就像是RAM，代表着模型的“工作内存”。如操作系统管理 CPU 的 RAM 空间，进行“上下文工程”，这是填充上下文窗口所需信息的艺术和科学执行任务。文件是存储内容的一种简单方式，最简单的方法就是将所有的记忆都拉进智能智能体的上下文窗口。
+
+{% include image.html url="/assets/images/250624-agent-vibe-coding/context_eng_overview.png" %}
+
+决定 Agent 成功还是失败的主要因素是你给它的上下文的质量。大多数智能体故障不再是模型故障，而是上下文故障。
+
+
 ## References
 
 * [史诗级预言！Karpathy 演讲刷屏：软件 3.0，人人皆「代码之神」 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/yfjm23XhFwQQOPcOkbJDMQ)
@@ -179,4 +190,5 @@ DeepSearch 属于单线程，Manus <https://manus.im/> 属于压缩中继类型�
 - [https://www.youtube.com/watch?v=qhnJDDX2hhU]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/www.youtube.com/f7b54f15.html" %})
 - [https://mp.weixin.qq.com/s/Pp7-ZY63PkktnKs2CGigGg]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/mp.weixin.qq.com/6dd775db.html" %})
 - [https://www.anthropic.com/engineering/built-multi-agent-research-system]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/www.anthropic.com/4deb2178.html" %})
+- [https://rlancemartin.github.io/2025/06/23/context_engineering/]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/rlancemartin.github.io/812fb9b6.html" %})
 - [https://mp.weixin.qq.com/s/yfjm23XhFwQQOPcOkbJDMQ]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/mp.weixin.qq.com/93a2c705.html" %})
