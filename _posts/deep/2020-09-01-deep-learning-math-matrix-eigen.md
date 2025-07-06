@@ -394,6 +394,37 @@ $$
 ## 11-5-回归方程求解小例子 06:33
 
 <https://scikit-learn.org.cn/lists/2.html>
+<https://scikit-learn.cn/stable/>
+
+**分类**
+标识对象所属的类别。
+应用范围：垃圾邮件检测，图像识别。
+算法：SVM 最近邻 随机森林 更多 ...
+
+**回归**
+预测与对象关联的连续值属性。
+应用范围：药物反应，股票价格。
+算法：SVR 最近邻 随机森林 更多 ...
+
+**聚类**
+自动将相似对象归为一组。
+应用：客户细分，分组实验成果。
+算法：K-均值 谱聚类 MeanShift 更多 ...
+
+**降维**
+减少要考虑的随机变量的数量。
+应用：可视化，提高效率。
+算法：K-均值 特征选择 非负矩阵分解 更多 ...
+
+**模型选择**
+比较，验证和选择参数和模型。
+应用：通过参数调整改进精度。
+算法：网格搜索 交叉验证 指标 更多 ...
+
+**预处理**
+特征提取和归一化。
+应用程序：转换输入数据，例如文本，以供机器学习算法使用。
+算法：预处理 特征提取 更多 ...
 
 1. 有监督学习
     1.1 线性模型
@@ -451,65 +482,8 @@ $$
     8.2. 计算性能
     8.3. 并行，资源管理和配置
 
-
-## 11-6-回归直线拟合优度
-
-
-## 11:09
-
-
-## 11-7-多元与曲线回归问题
-
-
-## 08:26
-
-
-## 11-8-Python 工具包介绍
-
-
-## 05:02
-
-
-## 11-9-statsmodels 回归分析
-
-
-## 09:38
-
-
-## 11-10-高阶与分类变量实例
-
-
-## 12:07
-
-
-## 11-11-案例：汽车价格预测任务概述
-
-
-## 09:20
-
-
-## 11-12-案例：缺失值填充
-
-
-## 13:37
-
-
-## 11-13-案例：特征相关性
-
-
-## 13:48
-
-
-## 11-14-案例：预处理问题
-
-
-## 07:06
-
-
-## 11-15-案例：回归求解
-
-
-## 13:24
+Missing data visualization module for Python.
+<https://github.com/ResidentMario/missingno>
 
 
 ## 12-1-假设检验基本思想
@@ -1045,3 +1019,5 @@ $$
 - [https://www.bilibili.com/video/BV1ah411x76z/?129]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/336d5e09.html" %})
 - [https://onlinestatbook.com/stat_sim/sampling_dist/index.html]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/onlinestatbook.com/31773f1c.html" %})
 - [https://scikit-learn.org.cn/lists/2.html]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/scikit-learn.org.cn/10f956af.html" %})
+- [https://scikit-learn.cn/stable/]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/scikit-learn.cn/10f57596.html" %})
+- [https://github.com/ResidentMario/missingno]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/github.com/0d887675.html" %})
