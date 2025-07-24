@@ -369,10 +369,13 @@ A tool for packing, unpacking, compressing and obfuscating Python bytecode files
 Python 字节码文件（.pyc）压缩、加壳、脱壳、混淆工具。
 <https://github.com/qfcy/pyc-zipper>
 
+
 ## PortableApps.com Launcher
 
 <https://github.com/kichik/nsis>
 <https://github.com/kichik/nsis/tree/691211035c2aaaebe8fbca48ee02d4de93594a52/Source/exehead>
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-19-pyinstxtractor.md.js" %}'></script></p>
@@ -406,3 +409,5 @@ Python 字节码文件（.pyc）压缩、加壳、脱壳、混淆工具。
 - [https://juejin.cn/s/python%20failed%20to%20execute%20script%20pyi_rth_win32comgenpy]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/juejin.cn/ca2bee42.html" %})
 - [https://bitbucket.org/vinay.sajip/simple_launcher]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/bitbucket.org/206b1896.html" %})
 - [https://github.com/qfcy/pyc-zipper]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/github.com/d273fcd9.html" %})
+- [https://github.com/kichik/nsis]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/github.com/47c9d77a.html" %})
+- [https://github.com/kichik/nsis/tree/691211035c2aaaebe8fbca48ee02d4de93594a52/Source/exehead]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/github.com/ec2e4a1c.html" %})
