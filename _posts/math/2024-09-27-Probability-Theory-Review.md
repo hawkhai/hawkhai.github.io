@@ -124,6 +124,9 @@ Cross-Entropy（交叉熵）和 KL-Divergence（相对熵，Kullback-Leibler 散
 
 {% include image.html url="/assets/images/240927-probability-theory-review/640sss.png" caption="MLE 与 交叉熵" %}
 
+什么是信息量、信息熵、交叉熵与 KL 散度，及其相互之间的关系
+<https://www.bilibili.com/video/BV1mkgwzZEN9/>
+
 
 ## Refs
 
@@ -140,5 +143,6 @@ Cross-Entropy（交叉熵）和 KL-Divergence（相对熵，Kullback-Leibler 散
 - [https://zhuanlan.zhihu.com/p/100676922]({% include relrefx.html url="/backup/2024-09-27-Probability-Theory-Review.md/zhuanlan.zhihu.com/7d705530.html" %})
 - [https://www.countbayesie.com/blog/2017/5/9/kullback-leibler-divergence-explained]({% include relrefx.html url="/backup/2024-09-27-Probability-Theory-Review.md/www.countbayesie.com/d077bc2b.html" %})
 - [https://mp.weixin.qq.com/s/T6FONoAFY2cMQGfbCHpFOQ]({% include relrefx.html url="/backup/2024-09-27-Probability-Theory-Review.md/mp.weixin.qq.com/91be82a3.html" %})
+- [https://www.bilibili.com/video/BV1mkgwzZEN9/]({% include relrefx.html url="/backup/2024-09-27-Probability-Theory-Review.md/www.bilibili.com/320612d8.html" %})
 - [https://blog.csdn.net/sdksdf/article/details/138322038]({% include relrefx.html url="/backup/2024-09-27-Probability-Theory-Review.md/blog.csdn.net/bf4201a9.html" %})
 - [https://www.bilibili.com/video/BV1Hw4m117Ka/]({% include relrefx.html url="/backup/2024-09-27-Probability-Theory-Review.md/www.bilibili.com/9d6cf4b5.html" %})

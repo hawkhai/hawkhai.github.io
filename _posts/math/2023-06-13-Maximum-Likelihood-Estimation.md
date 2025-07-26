@@ -96,6 +96,11 @@ $$
 常用概率分布均是指数分布族，指数分布族可以保证似然是凹函数。
 并且是全局严格凹函数（global strictly concave），所以极值点一定是极大值点。
 
+动量法 Momentum、AdaGrad、RMSProp 以及 Adam
+
+什么是最大似然估计，及其对损失函数的推导过程
+<https://www.bilibili.com/video/BV1JAgDzSEWj>
+
 
 ## refs
 
@@ -111,6 +116,7 @@ $$
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2023-06-13-Maximum-Likelihood-Estimation.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.bilibili.com/video/BV1JAgDzSEWj]({% include relrefx.html url="/backup/2023-06-13-Maximum-Likelihood-Estimation.md/www.bilibili.com/3367fa8f.html" %})
 - [https://www.cnblogs.com/eilearn/p/9433911.html]({% include relrefx.html url="/backup/2023-06-13-Maximum-Likelihood-Estimation.md/www.cnblogs.com/e0fff013.html" %})
 - [https://www.cnblogs.com/eilearn/p/9203186.html]({% include relrefx.html url="/backup/2023-06-13-Maximum-Likelihood-Estimation.md/www.cnblogs.com/0ee17131.html" %})
 - [https://www.cnblogs.com/eilearn/p/9071440.html]({% include relrefx.html url="/backup/2023-06-13-Maximum-Likelihood-Estimation.md/www.cnblogs.com/74c44cb9.html" %})
