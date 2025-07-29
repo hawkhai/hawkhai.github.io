@@ -32,6 +32,14 @@ What is Color?
 - 颜色空间（sRGB、CIE XYZ、HSV、CIELAB（互补色））
 - 减色系统（CMYK）
 
+无意中看了 颜色几何学，讲了每个颜色空间的历史由来，多年的疑问全部烟消云散。第一代色环居然是牛顿定义的。
+多年前对 OpenGL 函数也费解，设计的非常奇怪，后来也是无意中看了显卡的整个发展历史，才恍然大悟。
+CIE XYZ（1931）：开始尝试以数学方式拟合人眼视觉感知。
+Lab（1976）：追求“感知上均匀”的颜色距离。
+OKLab（2020s）：在新时代以更好的感知线性化，适应现代数字设计需求。
+[颜色的 "几何学 "是什么？ {% include relref_bili.html %}](https://www.bilibili.com/video/BV172gNzXEEx/)
+[色彩空间为什么那么空？色度系统、色度图、色域、伽马、白点… {% include relref_bili.html %}](https://www.bilibili.com/video/BV19e4y1y7Mo)
+
 
 ## 颜色的物理基础（Physical Basis of Color）
 
@@ -388,3 +396,7 @@ LAB 空间认为任何一个轴上两端都是 **互补色** （比如可以理�
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-10-02-games101-Color-and-Perception.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://www.bilibili.com/video/BV172gNzXEEx/]({% include relrefx.html url="/backup/2021-10-02-games101-Color-and-Perception.md/www.bilibili.com/9e36100d.html" %})
+- [https://www.bilibili.com/video/BV19e4y1y7Mo]({% include relrefx.html url="/backup/2021-10-02-games101-Color-and-Perception.md/www.bilibili.com/e3f5dfbd.html" %})

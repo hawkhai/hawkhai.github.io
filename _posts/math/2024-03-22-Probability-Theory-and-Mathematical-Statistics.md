@@ -40,6 +40,11 @@ cluster: "机器学习的数学基础"
 * 微积分与最优化是机器学习模型中最终解决方案的落地手段。
 * 概率图和随机过程是构成机器学习中的核心思想和大量核心应用。
 
+* [自由度到底在算什么？🤔 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1cHKiziEMi/)
+    * The rank of the projecton matrix inside the quadratic form in the definition of a statistic.
+        * 二次型中投影矩阵的秩
+* [样本方差为何除以 n-1？自由度 🤔 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1jUgNzHEYh/)
+
 
 ## 1.1.1 随机试验与随机事件【板书】 24:17
 
@@ -678,4 +683,6 @@ $$
 
 - [https://www.bilibili.com/video/BV1ot411y7mU]({% include relrefx.html url="/backup/2024-03-22-Probability-Theory-and-Mathematical-Statistics.md/www.bilibili.com/af0e673b.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2024-03-22-Probability-Theory-and-Mathematical-Statistics.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.bilibili.com/video/BV1cHKiziEMi/]({% include relrefx.html url="/backup/2024-03-22-Probability-Theory-and-Mathematical-Statistics.md/www.bilibili.com/e0ef9f25.html" %})
+- [https://www.bilibili.com/video/BV1jUgNzHEYh/]({% include relrefx.html url="/backup/2024-03-22-Probability-Theory-and-Mathematical-Statistics.md/www.bilibili.com/8f24fe3e.html" %})
 - [https://www.bilibili.com/video/BV1Ap4y1n7Xm]({% include relrefx.html url="/backup/2024-03-22-Probability-Theory-and-Mathematical-Statistics.md/www.bilibili.com/2b91bac2.html" %})
