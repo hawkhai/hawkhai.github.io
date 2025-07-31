@@ -332,7 +332,7 @@ def tidyupImg(imglocal, fpath, line, imgthumb=True):
     while not os.path.exists(imglocal):
         if os.path.exists(imgnocopy):
             return line
-        print("文件不存在", imglocal)
+        print("文件不存在", imglocal, os.path.abspath(imglocal))
         if not imgthumb: # 特殊图片，不用检测。
             return line
         count = count + 1
