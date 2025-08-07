@@ -18,6 +18,8 @@ cluster: "机器学习的数学基础"
 
 [机器学习资源 {% include relref_github.html %}](https://github.com/wangyuGithub01/Machine_Learning_Resources)
 
+[人工智能所需数学 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/v3N9RgCylVyZqqR3fcV7tg)
+
 
 ## 一、特征工程
 
@@ -202,6 +204,7 @@ cluster: "机器学习的数学基础"
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://github.com/wangyuGithub01/Machine_Learning_Resources]({% include relrefx.html url="/backup/2025-07-26-deep-learning-resources.md/github.com/946e7a98.html" %})
+- [https://mp.weixin.qq.com/s/v3N9RgCylVyZqqR3fcV7tg]({% include relrefx.html url="/backup/2025-07-26-deep-learning-resources.md/mp.weixin.qq.com/3200e037.html" %})
 - [https://www.cnblogs.com/pinard/p/9093890.html]({% include relrefx.html url="/backup/2025-07-26-deep-learning-resources.md/www.cnblogs.com/5af2c785.html" %})
 - [https://blog.csdn.net/zhang15953709913/article/details/84635540]({% include relrefx.html url="/backup/2025-07-26-deep-learning-resources.md/blog.csdn.net/007d73f8.html" %})
 - [https://www.cnblogs.com/pinard/p/9061549.html]({% include relrefx.html url="/backup/2025-07-26-deep-learning-resources.md/www.cnblogs.com/ad16de54.html" %})
