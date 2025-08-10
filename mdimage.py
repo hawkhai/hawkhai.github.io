@@ -77,7 +77,7 @@ def main():
         "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
         "Debug", "Release", ".vs", "openglcpp", "opengl-3rd", "opengles3-book", "opengles-book-samples",
         "UserDataSpider", "docs.gl", "ml-notes", "table-transformer", "pdfdata", "imgclassify", "ksample",
-        "node_modules",
+        "node_modules", "pdftools",
         ), reverse=True)
 
 if __name__ == "__main__":
