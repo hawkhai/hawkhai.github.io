@@ -615,6 +615,11 @@ Missing data visualization module for Python.
 
 ## 15-3-2-DBSCAN 工作流程 15:04
 
+劣势
+* 高维数据有些困难（可以做降维）
+* 参数难以选择（参数对结果的影响非常大）
+* Sklearn 中效率很慢（数据削减策略）
+
 
 ## 15-3-3-DBSCAN 可视化展示 08:53
 
@@ -624,6 +629,8 @@ Missing data visualization module for Python.
 
 ## 15-4-2-聚类案例实战 17:20
 
+聚类评估：轮廓系数
+Silhouette Coefficient
 
 ## 16-1-贝叶斯分析概述 07:22
 
