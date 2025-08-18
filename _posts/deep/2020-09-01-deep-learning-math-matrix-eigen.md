@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "机器学习笔记 -- 线性代数 & 微积分 & 概率论与统计学（进行中）"
+title: "机器学习笔记 -- 线性代数 & 微积分 & 概率论与统计学（进行中）唐宇迪"
 author:
 location: "珠海"
 categories: ["机器学习"]
@@ -632,6 +632,7 @@ Missing data visualization module for Python.
 聚类评估：轮廓系数
 Silhouette Coefficient
 
+
 ## 16-1-贝叶斯分析概述 07:22
 
 
@@ -642,6 +643,29 @@ Silhouette Coefficient
 
 
 ## 16-4-贝叶斯算法概述 06:59
+
+正向概率 vs 逆向概率。
+
+**“最大似然 vs 最大后验 (MAP)”** 模型比较的基本理论
+
+1. **最大似然 (Maximum Likelihood, ML)**
+
+   * 核心思想：选择**最符合观测数据**的模型，即使观测数据出现的概率 $P(D|h)$ 最大的假设 $h$。
+   * 例子：
+
+     * 掷一次硬币，观测结果是“正”。
+     * 根据最大似然估计，最能解释这个观测数据的模型是“这枚硬币正面朝上的概率 = 1”。
+     * 因为在 $p=1$ 的情况下，观测结果“正”的概率最大化。
+
+2. **奥卡姆剃刀 (Occam's Razor)**
+
+   * 核心思想：在解释数据时，**更简单或先验概率 $P(h)$ 较大的模型更有优势**。
+   * 含义：即使某个复杂模型能更好地拟合当前数据，也不一定比简单模型更优，因为过度复杂的模型可能缺乏泛化能力。
+
+⚖️ **对比总结**
+
+* **最大似然**：只看数据解释力 → 选能最大化 $P(D|h)$ 的模型。
+* **奥卡姆剃刀**：考虑模型复杂度与先验概率 → 倾向于选取 $P(h)$ 较大且能合理解释数据的模型。
 
 
 ## 16-5-贝叶斯推导实例 07:38
@@ -672,6 +696,9 @@ Silhouette Coefficient
 
 
 ## 0-0. 课程简介 06:05
+
+21.7w <https://www.bilibili.com/video/BV1LsmPYFENP/>
+4.3w <https://www.bilibili.com/video/BV1ZT411k75n/>
 
 
 ## 1-1-回归问题概述 07:12
@@ -909,3 +936,5 @@ Silhouette Coefficient
 - [https://scikit-learn.org.cn/lists/2.html]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/scikit-learn.org.cn/10f956af.html" %})
 - [https://scikit-learn.cn/stable/]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/scikit-learn.cn/10f57596.html" %})
 - [https://github.com/ResidentMario/missingno]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/github.com/0d887675.html" %})
+- [https://www.bilibili.com/video/BV1LsmPYFENP/]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/14ca6192.html" %})
+- [https://www.bilibili.com/video/BV1ZT411k75n/]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/a5b858fd.html" %})
