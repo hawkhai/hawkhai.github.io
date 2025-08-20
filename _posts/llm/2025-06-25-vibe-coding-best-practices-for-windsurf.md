@@ -55,7 +55,7 @@ Karpathy 观察到，目前最有效和 AI 协作模式是“AI 负责生成，�
 除此之外，模糊的提示会导致 AI 偏离预期，进而增加验证失败的机率。所以花点时间撰写具体明确的 prompt，可以大幅提高验证成功率。
 Karpathy 在演讲中推荐这篇文章，可以如何和 AI 更好协作，像是提供更多背景资讯、拆解问题，当问题越具体，AI 表现得越好，以及可以建立详细的文件，这件事透过 LLM 来做会变得更轻松。
 
-{% include image.html url="/assets/images/250625-vibe-coding-best-practi~79/640llm.png" %}
+{% include image.html url="/assets/images/250625-vibe-coding-best-practi~79/ppt_rectified.png" %}
 {% include image.html url="/assets/images/250625-vibe-coding-best-practi~79/GuEizCpWcAALy0Q.jfif" %}
 
 
