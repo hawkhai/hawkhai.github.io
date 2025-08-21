@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "机器学习笔记 -- 线性代数 & 微积分 & 概率论与统计学（进行中）唐宇迪"
+title: "机器学习笔记 -- 线性代数 & 微积分 & 概率论与统计学（唐宇迪）"
 author:
 location: "珠海"
 categories: ["机器学习"]
@@ -67,26 +67,6 @@ $$|\lambda|=\min _{1 \leq i \leq n}\left|\lambda_{i}\right|$$
 ### 雅可比法（Jacobi）
 
 求实对称矩阵所有特征值和特征向量。
-
-
-## 参考
-
-<div id="refer-anchor-1"></div>
-- [1] [《动手学深度学习》 {% include relref_gluon.html %}](http://zh.gluon.ai/)
-- [2] [求二范数 C++ 代码 {% include relref_csdn.html %}](https://blog.csdn.net/tianya_team/article/details/53310617)
-- [3] **[计算方法之计算矩阵的特征值和特征量](https://wenku.baidu.com/view/095bebde2a4ac850ad02de80d4d8d15abf23004d.html)**
-
-[机器学习基础 \| 人工智能数学 \| 线性代数 \| 微积分 \| 概率论与统计学 {% include relref_bili.html %}](https://space.bilibili.com/3546736784050628)
-[note {% include relref_bili.html %}](https://www.bilibili.com/video/BV12Sc4e7Eat/)
-by [atoolbox](http://www.atoolbox.net/Tool.php?Id=715)
-
-唐宇迪
-人工智能-数学基础
-129 讲全！微积分、概率论、线性代数、机器学习数学基础
-* <https://www.bilibili.com/video/BV1FP411L7t1/?129> 5.4w
-* <https://www.bilibili.com/video/BV1gQ4y1E7iy/?129> 5.7w ---
-* <https://www.bilibili.com/video/BV1iS4y1W7FP/?129> 2.4w
-* <https://www.bilibili.com/video/BV1ah411x76z/?129> 5978
 
 
 ## 3.3-阶数的作用 08:08
@@ -650,7 +630,7 @@ Silhouette Coefficient
 
 1. **最大似然 (Maximum Likelihood, ML)**
 
-    * 核心思想：选择 **最符合观测数据** 的模型，即使观测数据出现的概率 $P(D|h)$ 最大的假设 $h$。
+    * 核心思想：选择 **最符合观测数据** 的模型，即使观测数据出现的概率 $P(D\|h)$ 最大的假设 $h$。
     * 例子：
 
         * 掷一次硬币，观测结果是“正”。
@@ -664,7 +644,7 @@ Silhouette Coefficient
 
 ⚖️ **对比总结**
 
-* **最大似然** ：只看数据解释力 → 选能最大化 $P(D|h)$ 的模型。
+* **最大似然** ：只看数据解释力 → 选能最大化 $P(D\|h)$ 的模型。
 * **奥卡姆剃刀** ：考虑模型复杂度与先验概率 → 倾向于选取 $P(h)$ 较大且能合理解释数据的模型。
 
 
@@ -711,226 +691,28 @@ PyMC3 是一个基于 Python 的 概率编程框架（Probabilistic Programming 
 ## 16-13-模型决策 10:49
 
 
-## 0-0. 课程简介 06:05
-
-21.7w <https://www.bilibili.com/video/BV1LsmPYFENP/>
-4.3w <https://www.bilibili.com/video/BV1ZT411k75n/>
-
-
-## 1-1-回归问题概述 07:12
-
-
-## 1-2-误差项定义 09:42
-
-
-## 1-3-独立同分布的意义
-
-
-## 07:33
-
-
-## 1-4-似然函数的作用
-
-
-## 10:51
-
-
-## 1-5-参数求解
-
-
-## 11:12
-
-
-## 1-6-梯度下降通俗解释
-
-
-## 08:35
-
-
-## 1-7 参数更新方 1-法
-
-
-## 08:18
-
-
-## 1-8-优化参数设置
-
-
-## 08:52
-
-
-## 2-1-线性回归整体模块概述
-
-
-## 05:17
-
-
-## 2-2-初始化步骤
-
-
-## 07:12
-
-
-## 2-3-实现梯度下降优化模块
-
-
-## 10:11
-
-
-## 2-4-损失与预测模块
-
-
-## 11:41
-
-
-## 2-5-数据与标签定义
-
-
-## 10:01
-
-
-## 2-6-训练线性回归模型
-
-
-## 10:44
-
-
-## 2-7-得到线性回归方程
-
-
-## 06:59
-
-
-## 2-8-整体流程 debug 解读
-
-
-## 08:17
-
-
-## 2-9-多特征回归模型
-
-
-## 09:47
-
-
-## 2-10-非线性回归
-
-
-## 11:23
-
-
-## 3-1-Sklearn 工具包简介
-
-
-## 04:57
-
-
-## 3-2-数据集切分
-
-
-## 07:16
-
-
-## 3-3-交叉验证的作用
-
-
-## 11:04
-
-
-## 3-4-交叉验证实验分析
-
-
-## 14:52
-
-
-## 3-5-混淆矩阵
-
-
-## 07:53
-
-
-## 3-6-评估指标对比分析
-
-
-## 12:14
-
-
-## 3-7-阈值对结果的影响
-
-
-## 08:27
-
-
-## 3-8-ROC 曲线
-
-
-## 08:59
-
-
-## 4-1-实验目标分析
-
-
-## 08:10
-
-
-## 4-2-参数直接求解方法
-
-
-## 08:48
-
-
-## 4-3-预处理对结果的影响
-
-
-## 12:40
-
-
-## 4-4-梯度下降模块
-
-
-## 06:37
-
-
-## 4-5-学习率对结果的影响
-
-
-## 10:36
-
-
-## 4-6-随机梯度下降得到的效果
-
-
-## 13:16
-
-
-## 4-7-MiniBatch 方法
-
-
-## 08:43
-
-
-## 4-8-不同策略效果对比
-
-
-## 08:37
-
-
-## 4-9-多项式回归
-
-
-## 11:17
-
-
-## 4-10-模型复杂度
-
-
-## 16:03
-
-
-## 4-11-样本数量对结果的影响
-
-
-## 15:56
+## 参考
+
+<div id="refer-anchor-1"></div>
+- [1] [《动手学深度学习》 {% include relref_gluon.html %}](http://zh.gluon.ai/)
+- [2] [求二范数 C++ 代码 {% include relref_csdn.html %}](https://blog.csdn.net/tianya_team/article/details/53310617)
+- [3] **[计算方法之计算矩阵的特征值和特征量](https://wenku.baidu.com/view/095bebde2a4ac850ad02de80d4d8d15abf23004d.html)**
+
+[机器学习基础 \| 人工智能数学 \| 线性代数 \| 微积分 \| 概率论与统计学 {% include relref_bili.html %}](https://space.bilibili.com/3546736784050628)
+[note {% include relref_bili.html %}](https://www.bilibili.com/video/BV12Sc4e7Eat/)
+by [atoolbox](http://www.atoolbox.net/Tool.php?Id=715)
+
+唐宇迪
+人工智能-数学基础
+129 讲全！微积分、概率论、线性代数、机器学习数学基础
+* <https://www.bilibili.com/video/BV1FP411L7t1/?129> 5.4w
+* <https://www.bilibili.com/video/BV1gQ4y1E7iy/?129> 5.7w
+* <https://www.bilibili.com/video/BV1iS4y1W7FP/?129> 2.4w
+* <https://www.bilibili.com/video/BV1ah411x76z/?129> 5978
+
+重温 Python 机器学习
+* <https://www.bilibili.com/video/BV1LsmPYFENP/> 21.7w
+* <https://www.bilibili.com/video/BV1ZT411k75n/> 4.3w
 
 
 
@@ -938,6 +720,10 @@ PyMC3 是一个基于 Python 的 概率编程框架（Probabilistic Programming 
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-09-01-deep-learning-math-matrix-eigen.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://onlinestatbook.com/stat_sim/sampling_dist/index.html]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/onlinestatbook.com/31773f1c.html" %})
+- [https://scikit-learn.org.cn/lists/2.html]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/scikit-learn.org.cn/10f956af.html" %})
+- [https://scikit-learn.cn/stable/]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/scikit-learn.cn/10f57596.html" %})
+- [https://github.com/ResidentMario/missingno]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/github.com/0d887675.html" %})
 - [http://zh.gluon.ai/]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/zh.gluon.ai/b73bb84d.html" %})
 - [https://blog.csdn.net/tianya_team/article/details/53310617]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/blog.csdn.net/ab76a7bc.html" %})
 - [https://wenku.baidu.com/view/095bebde2a4ac850ad02de80d4d8d15abf23004d.html]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/wenku.baidu.com/aca20332.html" %})
@@ -948,9 +734,5 @@ PyMC3 是一个基于 Python 的 概率编程框架（Probabilistic Programming 
 - [https://www.bilibili.com/video/BV1gQ4y1E7iy/?129]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/6aba709f.html" %})
 - [https://www.bilibili.com/video/BV1iS4y1W7FP/?129]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/b42fb279.html" %})
 - [https://www.bilibili.com/video/BV1ah411x76z/?129]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/336d5e09.html" %})
-- [https://onlinestatbook.com/stat_sim/sampling_dist/index.html]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/onlinestatbook.com/31773f1c.html" %})
-- [https://scikit-learn.org.cn/lists/2.html]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/scikit-learn.org.cn/10f956af.html" %})
-- [https://scikit-learn.cn/stable/]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/scikit-learn.cn/10f57596.html" %})
-- [https://github.com/ResidentMario/missingno]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/github.com/0d887675.html" %})
 - [https://www.bilibili.com/video/BV1LsmPYFENP/]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/14ca6192.html" %})
 - [https://www.bilibili.com/video/BV1ZT411k75n/]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/a5b858fd.html" %})
