@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "工作笔记 -- 氛围编程 Windsurf 最佳实践"
-author: ahai
+author: quanhai
 location: "twiki"
 categories: ["工作笔记"]
 tags: ["编程", "工作笔记"]
