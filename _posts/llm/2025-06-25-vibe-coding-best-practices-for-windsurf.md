@@ -215,6 +215,12 @@ OSError: exception: access violation reading 0x000000000000000D
 {% include image.html url="/assets/images/250625-vibe-coding-best-practi~79/2025-08-20_153041_021.png" %}
 
 
+### 源码文件拆分
+
+源码文件拆分，每个源码大概维持在五百行左右不超过一千行。
+每个函数大概维持在五十行左右不超过一百行。
+
+
 ### 命名！命名！命名！
 
 因为底层是大语言模型，有歧义的文件名或者变量名会严重误导模型。
