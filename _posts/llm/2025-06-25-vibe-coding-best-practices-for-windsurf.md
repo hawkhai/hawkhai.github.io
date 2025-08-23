@@ -272,6 +272,103 @@ model:
 ```
 
 
+### 分步骤验收，避免一次性大改动
+
+遵循 Karpathy 的建议，避免让 AI 一次性进行大幅度的代码修改。
+- 每次只让 AI 修改一个功能点或一个文件
+- 立即验证每个小改动是否正确
+- 确认无误后再进行下一步
+
+这样可以避免出现大量错误时难以回溯和修复的问题。
+
+
+### 善用 Windsurf 的多模态能力
+
+Windsurf 不仅能处理代码，还能分析：
+- 截图和界面设计图
+- 错误信息的截图
+- 架构图和流程图
+- 数据表格和配置文件
+
+直接粘贴或拖拽这些内容，比纯文字描述更准确。
+
+
+### 保持工程的"干净状态"
+
+定期清理项目：
+- 删除注释掉的废弃代码
+- 移除未使用的导入语句
+- 清理调试用的 print 语句
+- 整理文件夹结构
+
+干净的代码库有助于 AI 更准确地理解项目结构。
+
+
+### 建立项目的"上下文锚点"
+
+在项目根目录创建关键文件：
+- `README.md` - 项目概述和架构说明
+- `ARCHITECTURE.md` - 详细的技术架构文档
+- `TODO.md` - 当前任务和已知问题列表
+
+这些文件充当"上下文锚点"，帮助 AI 快速理解项目全貌。
+
+
+### 利用代码注释引导 AI
+
+在关键位置添加详细注释：
+```python
+# IMPORTANT: This function handles user authentication
+# Input: username (str), password (str)
+# Output: JWT token (str) or raises AuthenticationError
+# Dependencies: requires valid database connection
+def authenticate_user(username, password):
+    # Implementation here
+```
+
+清晰的注释可以显著提高 AI 理解代码意图的准确性。
+
+
+### 错误处理要具体化
+
+不要使用通用的 `try-except`，而要：
+```python
+try:
+    result = api_call()
+except ConnectionError as e:
+    logger.error(f"网络连接失败: {e}")
+    raise
+except ValidationError as e:
+    logger.error(f"数据验证失败: {e}")
+    raise
+```
+
+具体的异常类型有助于 AI 更准确地定位和解决问题。
+
+
+### 版本控制配合 AI 开发
+
+充分利用 Git：
+- 每个 AI 建议的修改都单独提交
+- 提交信息要描述 AI 协助完成的具体任务
+- 使用分支隔离不同的 AI 实验
+- 定期创建备份分支
+
+这样可以轻松回滚有问题的 AI 修改。
+
+
+### 建立个人的 AI 协作模板
+
+为常见任务创建标准化的提示模板：
+```
+任务类型：[功能开发/Bug修复/代码重构]
+相关文件：[文件路径列表]
+预期结果：[具体描述期望的输出]
+限制条件：[不能修改的部分或必须遵守的规则]
+```
+
+模板化可以提高沟通效率和结果一致性。
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2025-06-25-vibe-coding-best-practices-for-windsurf.md.js" %}'></script></p>
