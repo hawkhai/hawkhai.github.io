@@ -176,7 +176,7 @@ ktitle kaliyun imgthumb zhconv codeformat
             break
 
         if not key in igkeylist:
-            assert key in mdkeylist, line
+            assert key in mdkeylist, [line, fpath]
         else:
             mdkeylist.append(key)
         kvmap[key] = value

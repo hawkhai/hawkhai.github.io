@@ -13,7 +13,6 @@ mathjax:
 mermaid:
 glslcanvas:
 codeprint:
-permalink:
 archived:
 date: 2025-06-24 09:52:22 +0800
 layoutclear: false
