@@ -83,63 +83,55 @@ Karpathy 在演讲中提到，与 AI 更好协作的方法包括：提供更多�
 6. CEL (cel.dev) - Google 开源的通用表达语言（Common Expression Language），用于表达式求值引擎
 
 这个系统通过语法解析 → 上下文理解 → AI 推理 → 意图分类 → 动作建议的完整管道，实现了高度智能和个性化的用户意图分析。
-<div class="mermaid">
-graph TD
-    A[用户输入] --> B{输入类型判断}
-    B -->|代码补全| C[Tree-sitter 语法解析]
-    B -->|对话交互| D[RAG 上下文检索]
-    C --> E[本地代码分析]
-    D --> F[项目上下文整合]
-    E --> G[Codeium AI 推理]
-    F --> G
-    G --> H{需要工具调用?}
-    H -->|是| I[MCP 工具执行]
-    H -->|否| J[直接响应生成]
-    I --> K[工具结果整合]
-    K --> L[最终响应]
-    J --> L
-    L --> M[编辑器展示]
-</div>
 
-**Windsurf 完整交互流程**
+**Windsurf 完整交互流程架构**
 <div class="mermaid">
 graph TD
-    A1[用户输入] --> B1[Windsurf 前端]
-    B1 --> C1[AI 语言服务器 Go]
-    C1 --> D1{判断输入类型}
+    A[用户输入] --> B[Windsurf 前端接收]
+    B --> C[AI 语言服务器 Go]
+    C --> D{输入类型判断}
     
-    D1 -->|代码补全模式| E1[Tree-sitter 语法分析]
-    D1 -->|对话交互模式| E2[RAG 上下文检索]
+    D -->|代码补全模式| E[Tree-sitter 语法解析]
+    D -->|对话交互模式| F[RAG 上下文检索]
     
-    E1 --> F1[本地代码理解]
-    E2 --> F2[项目文件索引查询]
+    E --> G[本地代码分析<br/>+ 语法树生成]
+    F --> H[项目文件索引查询<br/>+ 上下文整合]
     
-    F1 --> G1[统一推理层]
-    F2 --> G1
+    G --> I[统一推理层]
+    H --> I
     
-    G1 --> H1[Codeium AI 推理]
-    H1 --> I1{是否需要工具调用?}
+    I --> J[Codeium AI 推理服务]
+    J --> K{是否需要工具调用?}
     
-    I1 -->|是| J1[MCP 工具调用]
-    I1 -->|否| J2[直接生成响应]
+    K -->|是| L[MCP 工具调用<br/>文件操作/命令执行等]
+    K -->|否| M[直接生成响应]
     
-    J1 --> K1[工具结果整合]
-    K1 --> L1[AI 语言服务器最终整合]
-    J2 --> L1
+    L --> N[工具结果整合]
+    N --> O[AI 语言服务器最终整合]
+    M --> O
     
-    L1 --> M1[Windsurf 前端显示结果]
+    O --> P[Windsurf 前端显示结果]
+    
+    style A fill:#e1f5fe
+    style J fill:#fff3e0
+    style P fill:#e8f5e8
+    style L fill:#fce4ec
 </div>
 
 
 ## 头脑风暴
 
-这个例子很多。
+与 AI 进行头脑风暴是氛围编程的重要环节，可以充分利用 AI 的知识广度和快速思维能力。
+
 
 让大模型根据工程提供优化方法。
 大模型一口气说了十个正确的大道理，关键时刻，可能还是依赖人的判断。
 提供数据，询问怎么优化，他可以说十条建议，看起来都好有道理，能提供大量灵感：
+
 {% include image.html url="/assets/images/250625-vibe-coding-best-practi~79/20250601184500.png" %}
 {% include image.html url="/assets/images/250625-vibe-coding-best-practi~79/20250601184756.png" %}
+
+**AI 提供灵感和分析，人类负责决策和执行**，这是最有效的协作模式。
 
 
 ## 最佳实践
@@ -275,7 +267,7 @@ model:
 
 ### 分步骤验收，避免一次性大改动
 
-遵循 Karpathy 的建议，避免让 AI 一次性进行大幅度的代码修改。
+避免让 AI 一次性进行大幅度的代码修改。
 - 每次只让 AI 修改一个功能点或一个文件
 - 立即验证每个小改动是否正确
 - 确认无误后再进行下一步
@@ -371,5 +363,29 @@ except ValidationError as e:
 模板化可以提高沟通效率和结果一致性。
 
 
+## 总结
+
+氛围编程不是替代传统编程，而是对传统编程的增强和进化。
+**工具会进化，但工程思维和问题解决能力永远是程序员的核心竞争力。**
+
+
+## References
+
+* [史诗级预言！Karpathy 演讲刷屏：软件 3.0，人人皆「代码之神」 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/yfjm23XhFwQQOPcOkbJDMQ)
+* [Anthropic 实践发现：Multi-Agent 系统的核心仍然是 Prompt 设计！ {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/Pp7-ZY63PkktnKs2CGigGg)
+* [Don't Build Multi-Agents](https://cognition.ai/blog/dont-build-multi-agents)
+* [Context Engineering for Agents](https://rlancemartin.github.io/2025/06/23/context_engineering/)
+* [Anthropic Multi-Agent Research System](https://www.anthropic.com/engineering/built-multi-agent-research-system)
+* [Codeium 官方文档](https://codeium.com/windsurf)
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2025-06-25-vibe-coding-best-practices-for-windsurf.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://mp.weixin.qq.com/s/yfjm23XhFwQQOPcOkbJDMQ]({% include relrefx.html url="/backup/2025-06-25-vibe-coding-best-practices-for-windsurf.md/mp.weixin.qq.com/93a2c705.html" %})
+- [https://mp.weixin.qq.com/s/Pp7-ZY63PkktnKs2CGigGg]({% include relrefx.html url="/backup/2025-06-25-vibe-coding-best-practices-for-windsurf.md/mp.weixin.qq.com/6dd775db.html" %})
+- [https://cognition.ai/blog/dont-build-multi-agents]({% include relrefx.html url="/backup/2025-06-25-vibe-coding-best-practices-for-windsurf.md/cognition.ai/69fb3afd.html" %})
+- [https://rlancemartin.github.io/2025/06/23/context_engineering/]({% include relrefx.html url="/backup/2025-06-25-vibe-coding-best-practices-for-windsurf.md/rlancemartin.github.io/812fb9b6.html" %})
+- [https://www.anthropic.com/engineering/built-multi-agent-research-system]({% include relrefx.html url="/backup/2025-06-25-vibe-coding-best-practices-for-windsurf.md/www.anthropic.com/4deb2178.html" %})
+- [https://codeium.com/windsurf]({% include relrefx.html url="/backup/2025-06-25-vibe-coding-best-practices-for-windsurf.md/codeium.com/8f2a1c4e.html" %})

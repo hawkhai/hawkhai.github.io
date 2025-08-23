@@ -172,6 +172,10 @@ DeepSearch 属于单线程，Manus <https://manus.im/> 属于压缩中继类型�
 决定 Agent 成功还是失败的主要因素是你给它的上下文的质量。大多数智能体故障不再是模型故障，而是上下文故障。
 
 
+2025 年是 AI Agent 商业化的转折点，掌握氛围编程不仅是技术选择，更是生存必需。
+未来的软件开发者，将是那些能够熟练驾驭 AI 协作的"代码指挥家"。
+
+
 ## References
 
 * [史诗级预言！Karpathy 演讲刷屏：软件 3.0，人人皆「代码之神」 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/yfjm23XhFwQQOPcOkbJDMQ)
