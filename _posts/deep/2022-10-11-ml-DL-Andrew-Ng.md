@@ -9,7 +9,7 @@ toc: true
 toclistyle:
 comments:
 visibility:
-mathjax: true
+mathjax:
 mermaid:
 glslcanvas:
 codeprint:
@@ -585,6 +585,3 @@ cluster: "机器学习课程"
 - [https://www.bilibili.com/video/BV1FT4y1E74V/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/821695be.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.atoolbox.net/ecf02067.php" %})
 - [https://www.bilibili.com/video/BV164411b7dx/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/816eb90a.html" %})
-- [https://www.nvidia.cn/glossary/data-science/xgboost/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.nvidia.cn/a13b000a.html" %})
-- [https://mp.weixin.qq.com/s/BJozV5rPJLrynuT1mvbFGQ]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/mp.weixin.qq.com/911df19b.html" %})
-- [https://mp.weixin.qq.com/s/Rf2uczXi2JG43Y-utH7YZg]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/mp.weixin.qq.com/0a09e136.html" %})

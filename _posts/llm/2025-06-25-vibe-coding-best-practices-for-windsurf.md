@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "工作笔记 -- 氛围编程 Windsurf 最佳实践"
+title: "工作笔记 -- 氛围编程 Windsurf 最佳实践 v2"
 author: quanhai
 location: "twiki"
 categories: ["工作笔记"]
@@ -18,7 +18,7 @@ archived:
 layoutclear: true
 ---
 
-得益于大模型的发展，相比复杂的提示词工程，**上下文工程** 变得更加重要。只要把问题描述清楚，提供准确的上下文，就能获得更好的结果。
+得益于大模型的发展，相比复杂的提示词工程， **上下文工程** 变得更加重要。只要把问题描述清楚，提供准确的上下文，就能获得更好的结果。
 
 1. 头脑风暴，和 AI 讨论问题。
 2. 编码实践，给 AI 下达明确的编码任务。
@@ -73,7 +73,8 @@ Karpathy 在演讲中提到，与 AI 更好协作的方法包括：提供更多�
     * language_server_windows_x64.exe
     * GO 语言编写并直接打包的，逻辑都在里面。
 
-#### 框架简述
+
+### 框架简述
 
 1. AI 服务：Codeium 自研推理平台（具体架构未公开）
 2. Tree-sitter (tree-sitter) - 增量解析库，用于语法高亮和代码分析
@@ -90,28 +91,28 @@ graph TD
     A[用户输入] --> B[Windsurf 前端接收]
     B --> C[AI 语言服务器 Go]
     C --> D{输入类型判断}
-    
+
     D -->|代码补全模式| E[Tree-sitter 语法解析]
     D -->|对话交互模式| F[RAG 上下文检索]
-    
+
     E --> G[本地代码分析<br/>+ 语法树生成]
     F --> H[项目文件索引查询<br/>+ 上下文整合]
-    
+
     G --> I[统一推理层]
     H --> I
-    
+
     I --> J[Codeium AI 推理服务]
     J --> K{是否需要工具调用?}
-    
+
     K -->|是| L[MCP 工具调用<br/>文件操作/命令执行等]
     K -->|否| M[直接生成响应]
-    
+
     L --> N[工具结果整合]
     N --> O[AI 语言服务器最终整合]
     M --> O
-    
+
     O --> P[Windsurf 前端显示结果]
-    
+
     style A fill:#e1f5fe
     style J fill:#fff3e0
     style P fill:#e8f5e8
@@ -123,7 +124,6 @@ graph TD
 
 与 AI 进行头脑风暴是氛围编程的重要环节，可以充分利用 AI 的知识广度和快速思维能力。
 
-
 让大模型根据工程提供优化方法。
 大模型一口气说了十个正确的大道理，关键时刻，可能还是依赖人的判断。
 提供数据，询问怎么优化，他可以说十条建议，看起来都好有道理，能提供大量灵感：
@@ -131,7 +131,7 @@ graph TD
 {% include image.html url="/assets/images/250625-vibe-coding-best-practi~79/20250601184500.png" %}
 {% include image.html url="/assets/images/250625-vibe-coding-best-practi~79/20250601184756.png" %}
 
-**AI 提供灵感和分析，人类负责决策和执行**，这是最有效的协作模式。
+**AI 提供灵感和分析，人类负责决策和执行** ，这是最有效的协作模式。
 
 
 ## 最佳实践
@@ -286,7 +286,7 @@ Windsurf 不仅能处理代码，还能分析：
 直接粘贴或拖拽这些内容，比纯文字描述更准确。
 
 
-### 保持工程的"干净状态"
+### 保持工程的 "干净状态"
 
 定期清理项目：
 - 删除注释掉的废弃代码
@@ -297,14 +297,14 @@ Windsurf 不仅能处理代码，还能分析：
 干净的代码库有助于 AI 更准确地理解项目结构。
 
 
-### 建立项目的"上下文锚点"
+### 建立项目的 "上下文锚点"
 
 在项目根目录创建关键文件：
 - `README.md` - 项目概述和架构说明
 - `ARCHITECTURE.md` - 详细的技术架构文档
 - `TODO.md` - 当前任务和已知问题列表
 
-这些文件充当"上下文锚点"，帮助 AI 快速理解项目全貌。
+这些文件充当 "上下文锚点 "，帮助 AI 快速理解项目全貌。
 
 
 ### 利用代码注释引导 AI
@@ -324,7 +324,7 @@ def authenticate_user(username, password):
 
 ### 错误处理要具体化
 
-不要使用通用的 `try-except`，而要：
+不要使用通用的 `try-except` ，而要：
 ```python
 try:
     result = api_call()
@@ -354,7 +354,7 @@ except ValidationError as e:
 
 为常见任务创建标准化的提示模板：
 ```
-任务类型：[功能开发/Bug修复/代码重构]
+任务类型：[功能开发 /Bug 修复 / 代码重构]
 相关文件：[文件路径列表]
 预期结果：[具体描述期望的输出]
 限制条件：[不能修改的部分或必须遵守的规则]
@@ -374,9 +374,10 @@ except ValidationError as e:
 * [史诗级预言！Karpathy 演讲刷屏：软件 3.0，人人皆「代码之神」 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/yfjm23XhFwQQOPcOkbJDMQ)
 * [Anthropic 实践发现：Multi-Agent 系统的核心仍然是 Prompt 设计！ {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/Pp7-ZY63PkktnKs2CGigGg)
 * [Don't Build Multi-Agents](https://cognition.ai/blog/dont-build-multi-agents)
-* [Context Engineering for Agents](https://rlancemartin.github.io/2025/06/23/context_engineering/)
+* [Context Engineering for Agents {% include relref_github.html %}](https://rlancemartin.github.io/2025/06/23/context_engineering/)
 * [Anthropic Multi-Agent Research System](https://www.anthropic.com/engineering/built-multi-agent-research-system)
 * [Codeium 官方文档](https://codeium.com/windsurf)
+
 
 
 <hr class='reviewline'/>
@@ -388,4 +389,4 @@ except ValidationError as e:
 - [https://cognition.ai/blog/dont-build-multi-agents]({% include relrefx.html url="/backup/2025-06-25-vibe-coding-best-practices-for-windsurf.md/cognition.ai/69fb3afd.html" %})
 - [https://rlancemartin.github.io/2025/06/23/context_engineering/]({% include relrefx.html url="/backup/2025-06-25-vibe-coding-best-practices-for-windsurf.md/rlancemartin.github.io/812fb9b6.html" %})
 - [https://www.anthropic.com/engineering/built-multi-agent-research-system]({% include relrefx.html url="/backup/2025-06-25-vibe-coding-best-practices-for-windsurf.md/www.anthropic.com/4deb2178.html" %})
-- [https://codeium.com/windsurf]({% include relrefx.html url="/backup/2025-06-25-vibe-coding-best-practices-for-windsurf.md/codeium.com/8f2a1c4e.html" %})
+- [https://codeium.com/windsurf]({% include relrefx.html url="/backup/2025-06-25-vibe-coding-best-practices-for-windsurf.md/codeium.com/e7b71bb5.html" %})
