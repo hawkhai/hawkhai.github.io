@@ -144,6 +144,8 @@ graph TD
 这些看似无关紧要的操作，对 Windsurf 非常关键。
 能让它的上下文收集逻辑工作得更好。
 
+{% include image.html url="/assets/images/250625-vibe-coding-best-practi~79/20250824102208.png" %}
+
 
 ### 跑不动了，尝试重启 Windsurf
 
