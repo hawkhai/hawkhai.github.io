@@ -99,10 +99,12 @@ cluster: "机器学习课程"
 ## 21 21.2.15 Python 中的广播 11:07
 
 
-## 22 22.2.16 关于 python \_ numpy 向量的说明 06:50 22.2.16 关于 python _ numpy 向量的说明
+## 22 22.2.16 关于 python \_ numpy 向量的说明 06:50
+
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/20250825232801.png" %}
 
 
-## 23 23.2.17 Jupyter \_ ipython 笔记本的快速指南 03:44 23.2.17 Jupyter _ ipython 笔记本的快速指南
+## 23 23.2.17 Jupyter \_ ipython 笔记本的快速指南 03:44
 
 
 ## 24 24.2.18 （选修）logistic 损失函数的解释 07:16
