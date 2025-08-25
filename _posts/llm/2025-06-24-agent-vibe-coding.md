@@ -174,6 +174,11 @@ DeepSearch 属于单线程，Manus <https://manus.im/> 属于压缩中继类型�
 未来的软件开发者，将是那些能够熟练驾驭 AI 协作的 "代码指挥家 "。
 
 
+## Claude Code 最佳实践
+
+- [CC 最佳实践](https://www.anthropic.com/engineering/claude-code-best-practices)
+
+
 ## References
 
 * [史诗级预言！Karpathy 演讲刷屏：软件 3.0，人人皆「代码之神」 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/yfjm23XhFwQQOPcOkbJDMQ)
@@ -193,4 +198,5 @@ DeepSearch 属于单线程，Manus <https://manus.im/> 属于压缩中继类型�
 - [https://mp.weixin.qq.com/s/Pp7-ZY63PkktnKs2CGigGg]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/mp.weixin.qq.com/6dd775db.html" %})
 - [https://www.anthropic.com/engineering/built-multi-agent-research-system]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/www.anthropic.com/4deb2178.html" %})
 - [https://rlancemartin.github.io/2025/06/23/context_engineering/]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/rlancemartin.github.io/812fb9b6.html" %})
+- [https://www.anthropic.com/engineering/claude-code-best-practices]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/www.anthropic.com/4570f318.html" %})
 - [https://mp.weixin.qq.com/s/yfjm23XhFwQQOPcOkbJDMQ]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/mp.weixin.qq.com/93a2c705.html" %})

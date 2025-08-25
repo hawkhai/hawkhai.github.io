@@ -15,6 +15,8 @@ glslcanvas:
 codeprint:
 ---
 
+[15 分钟彻底搞懂！Anaconda Miniconda conda-forge miniforge Mamba {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Fm4ZzDEeY/)
+
 ```
 conda install anaconda-clean
 anaconda-clean --yes
@@ -77,6 +79,7 @@ cp anaconda3/envs/* miniforge3/envs/
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2025-05-12-miniforge.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.bilibili.com/video/BV1Fm4ZzDEeY/]({% include relrefx.html url="/backup/2025-05-12-miniforge.md/www.bilibili.com/019ea07b.html" %})
 - [https://docs.conda.io/en/latest/miniconda.html]({% include relrefx.html url="/backup/2025-05-12-miniforge.md/docs.conda.io/29df5080.html" %})
 - [https://virtualenv.pypa.io/en/latest/]({% include relrefx.html url="/backup/2025-05-12-miniforge.md/virtualenv.pypa.io/9fd88051.html" %})
 - [https://pipenv.pypa.io/en/latest/]({% include relrefx.html url="/backup/2025-05-12-miniforge.md/pipenv.pypa.io/c1f95479.html" %})
