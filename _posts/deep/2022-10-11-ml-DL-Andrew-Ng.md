@@ -86,6 +86,15 @@ cluster: "机器学习课程"
 
 ## 20 20.2.14 向量化 logistic 回归的梯度输出 09:39
 
+[Synthetic-data-with-text-and-image {% include relref_cnblogs.html %}](https://www.cnblogs.com/shouhuxianjian/p/9962016.html)
+
+本文是之前为了解决如何将文字贴到图片上而编写的代码，默认是如发票一类的，所以并未考虑透视变换等。
+且采用的是 pygame 粘贴方式，之前也尝试过 opencv 的 seamlessClone 粘贴。
+
+值得注意的是，通过修改参数，增加各种干扰操作（羽化，噪音等等），生成的数据集看似丰富，其实因为内在的数据分布还是十分单一，也就是用该数据集去作为 ocr 的模型训练集，得到的模型仍然无法在现实生活场景上使用。
+因为在现实世界中，你光照角度，拍摄角度，打印机用墨等等都是一种变量，而这些变量都会让现实世界的票据呈现的文字内在数据分布是十分丰富的。
+而通过简单的代码生成的数据分布却并不能覆盖，或者说重叠其中一部分。故而，通过代码生成数据集的方式是无法解决 ocr 现实数据集不够的问题的。
+
 
 ## 21 21.2.15 Python 中的广播 11:07
 
@@ -585,3 +594,4 @@ cluster: "机器学习课程"
 - [https://www.bilibili.com/video/BV1FT4y1E74V/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/821695be.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.atoolbox.net/ecf02067.php" %})
 - [https://www.bilibili.com/video/BV164411b7dx/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/816eb90a.html" %})
+- [https://www.cnblogs.com/shouhuxianjian/p/9962016.html]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.cnblogs.com/4a79bd4d.html" %})
