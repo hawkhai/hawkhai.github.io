@@ -106,6 +106,8 @@ cluster: "机器学习课程"
 
 ## 23 23.2.17 Jupyter \_ ipython 笔记本的快速指南 03:44
 
+https://huggingface.co/spaces/mteb/leaderboard
+https://huggingface.co/spaces/mteb/leaderboard_legacy
 
 ## 24 24.2.18 （选修）logistic 损失函数的解释 07:16
 
