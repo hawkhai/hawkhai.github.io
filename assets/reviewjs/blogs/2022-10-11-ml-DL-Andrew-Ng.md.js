@@ -1,1 +1,1 @@
-document.write("2025-08-25: review"); // md5src=bf867446bc96ca9b7bc75692beb3ca67
+document.write("2025-08-27: review"); // md5src=1ca3acd164eda2781be5281382d0e30e

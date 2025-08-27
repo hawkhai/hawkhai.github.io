@@ -106,8 +106,9 @@ cluster: "机器学习课程"
 
 ## 23 23.2.17 Jupyter \_ ipython 笔记本的快速指南 03:44
 
-https://huggingface.co/spaces/mteb/leaderboard
-https://huggingface.co/spaces/mteb/leaderboard_legacy
+<https://huggingface.co/spaces/mteb/leaderboard>
+<https://huggingface.co/spaces/mteb/leaderboard_legacy>
+
 
 ## 24 24.2.18 （选修）logistic 损失函数的解释 07:16
 
@@ -599,3 +600,5 @@ https://huggingface.co/spaces/mteb/leaderboard_legacy
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.atoolbox.net/ecf02067.php" %})
 - [https://www.bilibili.com/video/BV164411b7dx/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/816eb90a.html" %})
 - [https://www.cnblogs.com/shouhuxianjian/p/9962016.html]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.cnblogs.com/4a79bd4d.html" %})
+- [https://huggingface.co/spaces/mteb/leaderboard]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/huggingface.co/8cd97355.html" %})
+- [https://huggingface.co/spaces/mteb/leaderboard_legacy]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/huggingface.co/9e731ed2.html" %})
