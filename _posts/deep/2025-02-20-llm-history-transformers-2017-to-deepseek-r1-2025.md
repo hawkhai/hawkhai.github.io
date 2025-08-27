@@ -37,6 +37,11 @@ cluster: "机器学习课程"
 > 算法会围绕用户的反馈建模，有没有点赞、看到了第几秒、写了什么评论、是否点开了作者主页……等等，
 > 这些互动都会让算法对一个用户的了解逐渐加深，最终越来越准确的「预测」他会感兴趣的下一条视频。
 
+* GPT-1 的论文题目是 Improving Language Understanding by Generative Pre-Training，旨在论证语言模型的发展应该朝着生成式预训练这个方向发展；
+* GPT-2 的论文题目是 Language models are unsupervised multitask learners，旨在论证语言模型的学习应该仅依赖于无监督的学习过程；
+* GPT-3 的论文题目是 Language models are few-shot learners，旨在论证语言模型可以像人一样通过简单的样例来学习每个下游任务的行为模式，而这也是我们人类解决问题的方式；
+* InstructGPT 的论文题目是 Training language models to follow instructions with human feedback，旨在论证整个语言模型的训练流程范式。
+
 
 ## 交叉熵、信息熵、相对熵、KL 散度
 
