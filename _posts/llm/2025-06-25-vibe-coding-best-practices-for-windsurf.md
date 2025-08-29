@@ -149,6 +149,7 @@ graph TD
 
 ### 跑不动了，尝试重启 Windsurf
 
+Windsurf.exe 是一个 64 位程序，占了非常大的内存，出现过内存不足崩溃。
 language_server_windows_x64.exe 也会得到重启。
 这玩意貌似有点问题，久了内存会越来越大。
 
