@@ -19,6 +19,7 @@ cluster: "机器学习课程"
 
 * 吴恩达机器学习 19:37:16 142 <https://www.bilibili.com/video/BV1Bq421A74G/>
 * 吴恩达深度学习 27:44:07 183 <https://www.bilibili.com/video/BV1FT4y1E74V/>
+    * <https://www.bilibili.com/video/BV1D1QqYtExP>
 * [html2text](http://www.atoolbox.net/Tool.php?Id=715)
 
 机器学习早期版本（岁月觞）：[吴恩达机器学习系列课程 {% include relref_bili.html %}](https://www.bilibili.com/video/BV164411b7dx/)
@@ -142,6 +143,21 @@ cluster: "机器学习课程"
 
 ## 34 34.3.10 （选修）直观理解反向传播 15:49
 
+潜在空间可视化：PCA、t-SNE、UMAP
+<https://www.bilibili.com/video/BV1oH4y1c7ZR/>
+
+群论的本质
+<https://www.bilibili.com/video/BV1UKuwzbEqt/>
+群论：一个超前于时代的强大理论
+<https://www.bilibili.com/video/BV1XMhgz1EXm/>
+
+大型语言模型中的注意力机制图解（中文配音）
+<https://www.bilibili.com/video/BV1ki4y1871e/>
+【中文配音】3Blue1Brown 线性代数的本质全 16 章｜动画拆解矩阵 / 向量 / 特征值，数学直觉大升级！
+<https://www.bilibili.com/video/BV19TNLzhEeW/>
+【中文配音】MIT18.06 线性代数 最新翻译
+<https://www.bilibili.com/video/BV163sqetEyJ/>
+
 
 ## 35 35.3.11 随机初始化 07:58
 
@@ -179,10 +195,10 @@ cluster: "机器学习课程"
 ## 46 46.3. 吴恩达采访 Ian Goodfellow 14:56
 
 
-## 47 47.1.1 训练 \_ 开发 \_ 测试集 12:05 47.1.1 训练 _ 开发 _ 测试集
+## 47 47.1.1 训练 \_ 开发 \_ 测试集 12:05
 
 
-## 48 48.1.2 偏差 \_ 方差 08:47 48.1.2 偏差 _ 方差
+## 48 48.1.2 偏差 \_ 方差 08:47
 
 
 ## 49 49.1.3 机器学习基础 06:22
@@ -597,8 +613,15 @@ cluster: "机器学习课程"
 
 - [https://www.bilibili.com/video/BV1Bq421A74G/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/738a77eb.html" %})
 - [https://www.bilibili.com/video/BV1FT4y1E74V/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/821695be.html" %})
+- [https://www.bilibili.com/video/BV1D1QqYtExP]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/7fb10648.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.atoolbox.net/ecf02067.php" %})
 - [https://www.bilibili.com/video/BV164411b7dx/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/816eb90a.html" %})
 - [https://www.cnblogs.com/shouhuxianjian/p/9962016.html]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.cnblogs.com/4a79bd4d.html" %})
 - [https://huggingface.co/spaces/mteb/leaderboard]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/huggingface.co/8cd97355.html" %})
 - [https://huggingface.co/spaces/mteb/leaderboard_legacy]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/huggingface.co/9e731ed2.html" %})
+- [https://www.bilibili.com/video/BV1oH4y1c7ZR/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/9c9b3856.html" %})
+- [https://www.bilibili.com/video/BV1UKuwzbEqt/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/23fbb52c.html" %})
+- [https://www.bilibili.com/video/BV1XMhgz1EXm/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/23a8fb16.html" %})
+- [https://www.bilibili.com/video/BV1ki4y1871e/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/7704a269.html" %})
+- [https://www.bilibili.com/video/BV19TNLzhEeW/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/1d4fe86e.html" %})
+- [https://www.bilibili.com/video/BV163sqetEyJ/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/ba6412a4.html" %})
