@@ -20,6 +20,8 @@ Enjoy!
 
 [MathJax 总结](https://www.zybuluo.com/yangfch3/note/267947)
 
+[论文中常见基础数学符号 {% include relref_bili.html %}](https://www.bilibili.com/video/BV14y421B78j/)
+
 
 ## Test MathJax $\require{mediawiki-texvc}$
 
@@ -219,6 +221,7 @@ sequenceDiagram
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.zybuluo.com/yangfch3/note/267947]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.zybuluo.com/b3ceed04.html" %})
+- [https://www.bilibili.com/video/BV14y421B78j/]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.bilibili.com/334da3e7.html" %})
 - [https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/math.meta.stackexchange.com/77111110.html" %})
 - [https://blog.csdn.net/ethmery/article/details/50670297]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/blog.csdn.net/30eba2a7.html" %})
 - [https://zh.wikipedia.org/wiki/%E9%A6%AC%E5%85%8B%E5%A3%AB%E5%A8%81%E6%96%B9%E7%A8%8B%E7%B5%84]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/zh.wikipedia.org/07dc9777.html" %})

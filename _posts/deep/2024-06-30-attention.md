@@ -266,6 +266,12 @@ bert
 假设更一般，对数据信息的抓取能力更差，所以需要更多数据更大的模型才能训练出来。
 
 
+## 大型语言模型中的注意力机制图解
+
+<https://www.bilibili.com/video/BV1ki4y1871e/>
+这段文字是关于注意力机制的讲解，作者是塞拉诺学院的路易斯 · 塞拉诺。视频主要介绍了注意力机制在大型语言模型中的作用，以及如何使用注意力来解决词义歧义问题。作者首先解释了嵌入的概念，然后详细介绍了自我注意力和多头注意力的原理和应用。
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2024-06-30-attention.md.js" %}'></script></p>
@@ -279,3 +285,4 @@ bert
 - [https://www.youtube.com/watch?v=lOrTlKrdmkQ]({% include relrefx.html url="/backup/2024-06-30-attention.md/www.youtube.com/49f0d0af.html" %})
 - [https://www.bilibili.com/video/BV1Dw4m1e74b/]({% include relrefx.html url="/backup/2024-06-30-attention.md/www.bilibili.com/4ff97324.html" %})
 - [https://www.bilibili.com/video/BV1pu411o7BE/]({% include relrefx.html url="/backup/2024-06-30-attention.md/www.bilibili.com/d4534f87.html" %})
+- [https://www.bilibili.com/video/BV1ki4y1871e/]({% include relrefx.html url="/backup/2024-06-30-attention.md/www.bilibili.com/7704a269.html" %})

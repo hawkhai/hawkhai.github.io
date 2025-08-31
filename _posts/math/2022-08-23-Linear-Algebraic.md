@@ -51,6 +51,21 @@ cluster: "机器学习的数学基础"
 * 微积分与最优化是机器学习模型中最终解决方案的落地手段。
 * 概率图和随机过程是构成机器学习中的核心思想和大量核心应用。
 
+【中文配音】3Blue1Brown 线性代数的本质全 16 章
+动画拆解矩阵 / 向量 / 特征值，数学直觉大升级！
+<https://www.bilibili.com/video/BV19TNLzhEeW/>
+用动画彻底理解线性代数核心思想！
+16 章完整覆盖：
+* 矩阵乘法本质：变换的复合运算
+* 行列式：测量空间缩放的神奇标尺
+* 特征值与特征向量：AI 算法的数学基石
+* 抽象向量空间：从几何到泛函分析的桥梁
+
+【中文配音】MIT18.06 线性代数 最新翻译
+<https://www.bilibili.com/video/BV163sqetEyJ/>
+这绝对是最好的线性代数课程，没用老的翻译主要原因是国内的老师翻译的时候有点先入为主的味道了，没达到循循渐进的。
+斯特朗教授的课程是学习线性代数的最佳选择，他将复杂的数学概念解释得通俗易懂，并将其与现实世界联系起来。
+
 
 ## 1.1 二阶三阶行列式 38:52
 
@@ -435,6 +450,8 @@ n 阶实对称矩阵 A 的每个特征值 $\lambda_i$ 的重数 ki 等于对应�
 - [https://zuotu.91maths.com/]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/zuotu.91maths.com/7f1a51d4.html" %})
 - [https://weibo.com/6122278407/K9Ggaa2Vl]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/weibo.com/037bbcae.html" %})
 - [https://www.xiaohongshu.com/explore/6062a48a000000000102411f]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.xiaohongshu.com/ade04cfe.html" %})
+- [https://www.bilibili.com/video/BV19TNLzhEeW/]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.bilibili.com/1d4fe86e.html" %})
+- [https://www.bilibili.com/video/BV163sqetEyJ/]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.bilibili.com/ba6412a4.html" %})
 - [https://zhuanlan.zhihu.com/p/416717502]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/zhuanlan.zhihu.com/9094b2cf.html" %})
 - [https://www.zhihu.com/people/bing-wu-76-42]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.zhihu.com/aae3ae36.html" %})
 - [https://www.bilibili.com/video/BV1e54y1b7CA/]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.bilibili.com/cb763e78.html" %})
