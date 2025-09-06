@@ -164,6 +164,47 @@ cluster: "机器学习课程"
 
 ## 40 40.4.5 为什么使用深层表示 10:34
 
+**Circuit theory and deep learning**
+Informally: There are functions you can compute with a
+small’L-layer deep neural network that shallower networks
+require exponentially more hidden units to compute.
+
+> **深度神经网络能够高效表示某些函数，而浅层网络虽然也能表示，但需要指数级的神经元数目。**
+> 这正是“深度”真正带来的理论优势。
+
+**深度的优势 (depth efficiency)** ，它和电路复杂性理论（circuit theory）紧密相关。
+在电路复杂性理论里，研究的是用逻辑门电路（AND/OR/NOT）去计算布尔函数的“代价”。这里代价主要包括：
+
+* **深度 (depth)** ：电路层数
+* **大小 (size)** ：电路门的数量
+
+结论之一是：
+有些函数可以用 **较深的电路** （多层）用很少的门去实现，但如果你强行用 **浅电路** （层数小），就必须用指数级多的门。
+
+于是，理论上可以证明：
+
+* 存在某些函数（比如多项式展开、乘法、阶乘、对称函数等），如果用 **深层网络** 表达，可以做到参数量很小；
+* 但如果你限制成 **浅层网络** ，则需要指数多的神经元才能近似同样的函数。
+
+
+### 直观理解
+
+1. **层表示组合结构**
+
+   * 很多函数是“分层组合”的，比如 $f(x_1, x_2, ..., x_n) = (x_1x_2)(x_3x_4)...$。
+   * 深层网络能逐层复用前面计算好的中间结果。
+   * 浅层网络只能“展开所有组合”，需要指数级参数。
+
+2. **递归 vs. 扁平化**
+
+   * 递归（深度网络）能重复使用相同的子结构。
+   * 扁平（浅层网络）只能暴力枚举所有可能性。
+
+3. **几何直觉**
+
+   * 深层网络能逐层构造越来越复杂的非线性边界。
+   * 浅层网络虽然也能表达，但需要指数级神经元去拼出相同复杂度的边界。
+
 
 ## 41 41.4.6 搭建深层神经网络块 08:34
 
@@ -593,6 +634,12 @@ cluster: "机器学习课程"
 
 ## 183 183.3.11 结论和致谢 02:45
 
+用 LangGraph 搭建智能体 \| AI Agents in LangGraph
+<https://www.bilibili.com/video/BV1HM4m1S76R/>
+
+使用 LangGraph 进行长期代理记忆 \ 丨 Long-Term Agentic Memory With LangGraph
+<https://www.bilibili.com/video/BV1f4QqY6EeR/>
+
 
 
 <hr class='reviewline'/>
@@ -608,3 +655,5 @@ cluster: "机器学习课程"
 - [https://huggingface.co/spaces/mteb/leaderboard]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/huggingface.co/8cd97355.html" %})
 - [https://huggingface.co/spaces/mteb/leaderboard_legacy]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/huggingface.co/9e731ed2.html" %})
 - [https://www.bilibili.com/video/BV1oH4y1c7ZR/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/9c9b3856.html" %})
+- [https://www.bilibili.com/video/BV1HM4m1S76R/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/e067754a.html" %})
+- [https://www.bilibili.com/video/BV1f4QqY6EeR/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/c6c51a35.html" %})
