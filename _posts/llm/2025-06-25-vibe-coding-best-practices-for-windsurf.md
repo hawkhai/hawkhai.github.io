@@ -80,7 +80,9 @@ Karpathy 在演讲中提到，与 AI 更好协作的方法包括：提供更多�
 3. 编辑器请求 → Go LSP 服务 → 语言分析 → 意图识别
 4. 语法树 + 上下文 → AI 推理服务 → 意图分类 → 动作建议
 5. Chardet (github.com/saintfish/chardet) 字符编码检测库
-6. CEL (cel.dev) - Google 开源的通用表达语言（Common Expression Language），用于表达式求值引擎
+6. CEL (cel.dev) - Google 开源的通用表达语言（Common Expression Language），用于表达式求值引擎。
+
+{% include image.html url="/assets/images/250625-vibe-coding-best-practi~79/2025-09-13_010102_951.png" %}
 
 这个系统通过语法解析 → 上下文理解 → AI 推理 → 意图分类 → 动作建议的完整管道，实现了高度智能和个性化的用户意图分析。
 
