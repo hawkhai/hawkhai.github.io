@@ -20,6 +20,7 @@ cluster: "机器学习的数学基础"
 
 * 矩阵分解动画讲解，其实也很简单！ <https://www.bilibili.com/video/BV1zqYpzwEaQ/>
 * 代数明珠--奇异值分解（SVD）生动动画演示！ <https://www.bilibili.com/video/BV1n5YyztEVk/>
+* 用可视化看懂 SVD 奇异值分解 <https://www.bilibili.com/video/BV1Rrp3zYE3i/>
 
 
 ## 特征值分解
@@ -90,3 +91,4 @@ A 是将要分解的大小为 m×n 的矩阵。U 是 m 维的方阵。V 是 n �
 
 - [https://www.bilibili.com/video/BV1zqYpzwEaQ/]({% include relrefx.html url="/backup/2024-04-04-Linear-Algebraic-SVD.md/www.bilibili.com/a9e69139.html" %})
 - [https://www.bilibili.com/video/BV1n5YyztEVk/]({% include relrefx.html url="/backup/2024-04-04-Linear-Algebraic-SVD.md/www.bilibili.com/ca14073b.html" %})
+- [https://www.bilibili.com/video/BV1Rrp3zYE3i/]({% include relrefx.html url="/backup/2024-04-04-Linear-Algebraic-SVD.md/www.bilibili.com/4d60b7c9.html" %})

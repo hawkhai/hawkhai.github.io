@@ -379,9 +379,16 @@ except ValidationError as e:
 
 {% include image.html url="/assets/images/250625-vibe-coding-best-practi~79/2025-09-14_222131_816.jpg" %}
 
+* 开发前和 AI 讨论需求的实现方案、细节等，制定出完善的 prompt。
+* 「叶子节点」直接让 AI 去完成，它的代码质量即使低一点也不影响整个系统。底层核心代码 AI 完成后进行详细 review，确保代码质量。
+* 精心设计压力测试保证系统的稳定性。
+* 系统关键点设计易读的输入输出，做到不看代码就能知道系统是否正常。
+
 
 ## 总结
 
+AI 编程真正的考验，并非 AI 的能力上限，是我们定义问题和拆解任务的工程能力。
+好的答案来源于好的提问，好的提问来源于使用者自身能力不断的积累，AI 时代对人的要求会越来越高。
 氛围编程不是替代传统编程，而是对传统编程的增强和进化。
 **工具会进化，但工程思维和问题解决能力永远是程序员的核心竞争力。**
 
@@ -399,6 +406,7 @@ except ValidationError as e:
 * [Context Engineering for Agents {% include relref_github.html %}](https://rlancemartin.github.io/2025/06/23/context_engineering/)
 * [Anthropic Multi-Agent Research System](https://www.anthropic.com/engineering/built-multi-agent-research-system)
 * [Codeium 官方文档](https://codeium.com/windsurf)
+* [Anthropic 官方演讲：Vibe Coding 如何用到线上正式项目中 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/eVJtcqXrivivfOwWN_Y0_w)
 
 
 
@@ -412,3 +420,4 @@ except ValidationError as e:
 - [https://rlancemartin.github.io/2025/06/23/context_engineering/]({% include relrefx.html url="/backup/2025-06-25-vibe-coding-best-practices-for-windsurf.md/rlancemartin.github.io/812fb9b6.html" %})
 - [https://www.anthropic.com/engineering/built-multi-agent-research-system]({% include relrefx.html url="/backup/2025-06-25-vibe-coding-best-practices-for-windsurf.md/www.anthropic.com/4deb2178.html" %})
 - [https://codeium.com/windsurf]({% include relrefx.html url="/backup/2025-06-25-vibe-coding-best-practices-for-windsurf.md/codeium.com/e7b71bb5.html" %})
+- [https://mp.weixin.qq.com/s/eVJtcqXrivivfOwWN_Y0_w]({% include relrefx.html url="/backup/2025-06-25-vibe-coding-best-practices-for-windsurf.md/mp.weixin.qq.com/482c19e3.html" %})
