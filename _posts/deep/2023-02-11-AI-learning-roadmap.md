@@ -94,9 +94,41 @@ cluster: "机器学习课程"
 第十周 17.1 - 19.1
 
 
+## 朱明瑞
+
+一个别人写的科研经验总结：https://github.com/pengsida/learning_research 。
+
+科研基础
+1. 基础课程：重点掌握《高等数学》《线性代数》《概率论与数理统计》《矩阵论》《凸优化》课程，这里的掌握是要理解它们的本质、作用及物理几何意义，而非应付考试。建议搜索国内外优秀书籍、公开课、视频进行学习。例如，《线性代数》推荐《线性代数的本质》系列视频 https://www.bilibili.com/video/BV1ys411472E ，以及 Gilbert Strang 的麻省理工大学公开课视频 https://www.bilibili.com/video/BV1zx411g7gq 。
+
+快速了解机器学习所需要的数学知识，建议学习《Mathematics for Machine Learning》一书。
+
+2. 机器学习：推荐国立台湾大学李宏毅机器学习课程 https://www.bilibili.com/video/BV1Wv411h7kN?spm_id_from=333.337.search-card.all.click ，清华大学大佬白板推导系列 https://www.bilibili.com/video/BV1aE411o7qd?spm_id_from=333.337.search-card.all.click 。
+
+3. 深度学习：推荐 Google 研究科学家 Ian Goodfellow（Generative Adversarial Nets 提出者）的花书《Deep Learning》（有中文译本 人民邮电出版社），斯坦福大学李飞飞（ImageNet 的提出者）老师的 cs231n 计算机视觉课程 https://www.bilibili.com/video/BV1nJ411z7fe 。
+
+Jakub Tomczak《深度生成建模》讲座报告与视频：https://www.bilibili.com/video/BV1pb4y1s7hS/?spm_id_from=333.337.search-card.all.click&vd_source=cd39e17f789bd6d503b915533f2c2237
+
+电子书 Deep Generative Modeling：https://link.springer.com/book/10.1007/978-3-030-93158-2
+
+这些深度生成模型中，重点掌握：
+
+GAN（Generative Adversarial Networks，生成对抗网络）
+
+1. 学习 GAN 的原理，可以看 CS231n、李宏毅机器学习相关视频，或者搜一些博客等。
+
+2. 跑通 DCGAN 的代码，https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html
+
+3. 读 pix2pix 跟 CycleGAN 这两篇论文，弄清楚原理
+
+4. 跑通 pix2pix 跟 CycleGAN 代码, https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix
+
+5. 学习 StyleGAN 与 GAN Inversion、GAN Prior 技术原理
+
+
 ## Review
 
-* code\Programming Exercise( 代码作业 ).pdf
+* code\Programming Exercise（代码作业）.pdf
 * code\ex2-logistic regression\ex2.pdf
 * code\ex2-logistic regression\ex2data1.txt
 * code\ex2-logistic regression\ex2data2.txt
@@ -253,3 +285,13 @@ def normalEqn(X, y):
 - [https://scruel.github.io/Notes-ML-AndrewNg/]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/scruel.github.io/3e8a18b1.html" %})
 - [https://liumin.blog.csdn.net/article/details/125546056]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/liumin.blog.csdn.net/5ec1cfbb.html" %})
 - [https://www.jianshu.com/p/71804c97123d]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.jianshu.com/919146b3.html" %})
+- [https://github.com/pengsida/learning_research]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/github.com/c48d5a48.html" %})
+- [https://www.bilibili.com/video/BV1ys411472E]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.bilibili.com/c113c40a.html" %})
+- [https://www.bilibili.com/video/BV1zx411g7gq]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.bilibili.com/8b3f96c6.html" %})
+- [https://www.bilibili.com/video/BV1Wv411h7kN?spm_id_from=333.337.search-card.all.click]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.bilibili.com/96a7dab2.html" %})
+- [https://www.bilibili.com/video/BV1aE411o7qd?spm_id_from=333.337.search-card.all.click]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.bilibili.com/04d00cb5.html" %})
+- [https://www.bilibili.com/video/BV1nJ411z7fe]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.bilibili.com/68b545e6.html" %})
+- [https://www.bilibili.com/video/BV1pb4y1s7hS/?spm_id_from=333.337.search-card.all.click&vd_source=cd39e17f789bd6d503b915533f2c2237]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.bilibili.com/dfc59a47.html" %})
+- [https://link.springer.com/book/10.1007/978-3-030-93158-2]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/link.springer.com/476a4236.html" %})
+- [https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/pytorch.org/38b870c2.html" %})
+- [https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/github.com/296023d2.html" %})
