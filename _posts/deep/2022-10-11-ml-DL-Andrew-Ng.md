@@ -20,7 +20,7 @@ cluster: "机器学习课程"
 * 吴恩达机器学习 19:37:16 142 <https://www.bilibili.com/video/BV1Bq421A74G/>
 * 吴恩达深度学习 27:44:07 183 <https://www.bilibili.com/video/BV1FT4y1E74V/>
     * <https://www.bilibili.com/video/BV1D1QqYtExP>
-* [html2text](http://www.atoolbox.net/Tool.php?Id=715)
+* [html2text](https://www.a.tools/Tool.php?Id=469)
 
 机器学习早期版本（岁月觞）：[吴恩达机器学习系列课程 {% include relref_bili.html %}](https://www.bilibili.com/video/BV164411b7dx/)
 
@@ -634,11 +634,8 @@ require exponentially more hidden units to compute.
 
 ## 183 183.3.11 结论和致谢 02:45
 
-用 LangGraph 搭建智能体 \| AI Agents in LangGraph
-<https://www.bilibili.com/video/BV1HM4m1S76R/>
-
-使用 LangGraph 进行长期代理记忆 \ 丨 Long-Term Agentic Memory With LangGraph
-<https://www.bilibili.com/video/BV1f4QqY6EeR/>
+吴恩达深度学习 2021 版 补完
+<https://www.bilibili.com/video/BV1XL411E745>
 
 
 
@@ -649,11 +646,10 @@ require exponentially more hidden units to compute.
 - [https://www.bilibili.com/video/BV1Bq421A74G/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/738a77eb.html" %})
 - [https://www.bilibili.com/video/BV1FT4y1E74V/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/821695be.html" %})
 - [https://www.bilibili.com/video/BV1D1QqYtExP]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/7fb10648.html" %})
-- [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.a.tools/Tool.php?Id=469]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.a.tools/efc82c34.php" %})
 - [https://www.bilibili.com/video/BV164411b7dx/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/816eb90a.html" %})
 - [https://www.cnblogs.com/shouhuxianjian/p/9962016.html]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.cnblogs.com/4a79bd4d.html" %})
 - [https://huggingface.co/spaces/mteb/leaderboard]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/huggingface.co/8cd97355.html" %})
 - [https://huggingface.co/spaces/mteb/leaderboard_legacy]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/huggingface.co/9e731ed2.html" %})
 - [https://www.bilibili.com/video/BV1oH4y1c7ZR/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/9c9b3856.html" %})
-- [https://www.bilibili.com/video/BV1HM4m1S76R/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/e067754a.html" %})
-- [https://www.bilibili.com/video/BV1f4QqY6EeR/]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/c6c51a35.html" %})
+- [https://www.bilibili.com/video/BV1XL411E745]({% include relrefx.html url="/backup/2022-10-11-ml-DL-Andrew-Ng.md/www.bilibili.com/240b065a.html" %})

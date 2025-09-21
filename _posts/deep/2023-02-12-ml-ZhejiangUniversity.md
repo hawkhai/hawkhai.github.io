@@ -1102,7 +1102,7 @@ DNN-HMM 与 GMM-HMM 对比：
 
 ### P113 人工智能中的哲学未来展望 04:58
 
-[toolbox](http://www.atoolbox.net/Tool.php?Id=715)
+[toolbox](https://www.a.tools/Tool.php?Id=469)
 
 
 
@@ -1151,4 +1151,4 @@ DNN-HMM 与 GMM-HMM 对比：
 - [http://htk.eng.cam.ac.uk/]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/htk.eng.cam.ac.uk/3ebfde78.html" %})
 - [https://cmusphinx.github.io/]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cmusphinx.github.io/91b0dad9.html" %})
 - [https://github.com/kaldi-asr/kaldi.git]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/github.com/ffdac6a2.html" %})
-- [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.a.tools/Tool.php?Id=469]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.a.tools/efc82c34.php" %})

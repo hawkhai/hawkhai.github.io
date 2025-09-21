@@ -17,7 +17,7 @@ cluster: "机器学习的数学基础"
 ---
 
 [《概率论与数理统计》教学视频全集（宋浩） {% include relref_bili.html %}](https://www.bilibili.com/video/BV1ot411y7mU)
-[html2text](http://www.atoolbox.net/Tool.php?Id=715)
+[html2text](https://www.a.tools/Tool.php?Id=469)
 
 机器学习的数学基础 三部曲的最后一个：高等数学、线性代数、概率论与数理统计，加油。
 
@@ -682,7 +682,7 @@ $$
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.bilibili.com/video/BV1ot411y7mU]({% include relrefx.html url="/backup/2024-03-22-Probability-Theory-and-Mathematical-Statistics.md/www.bilibili.com/af0e673b.html" %})
-- [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2024-03-22-Probability-Theory-and-Mathematical-Statistics.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.a.tools/Tool.php?Id=469]({% include relrefx.html url="/backup/2024-03-22-Probability-Theory-and-Mathematical-Statistics.md/www.a.tools/efc82c34.php" %})
 - [https://www.bilibili.com/video/BV1cHKiziEMi/]({% include relrefx.html url="/backup/2024-03-22-Probability-Theory-and-Mathematical-Statistics.md/www.bilibili.com/e0ef9f25.html" %})
 - [https://www.bilibili.com/video/BV1jUgNzHEYh/]({% include relrefx.html url="/backup/2024-03-22-Probability-Theory-and-Mathematical-Statistics.md/www.bilibili.com/8f24fe3e.html" %})
 - [https://www.bilibili.com/video/BV1Ap4y1n7Xm]({% include relrefx.html url="/backup/2024-03-22-Probability-Theory-and-Mathematical-Statistics.md/www.bilibili.com/2b91bac2.html" %})

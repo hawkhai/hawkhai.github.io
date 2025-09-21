@@ -700,7 +700,7 @@ PyMC3 是一个基于 Python 的 概率编程框架（Probabilistic Programming 
 
 [机器学习基础 \| 人工智能数学 \| 线性代数 \| 微积分 \| 概率论与统计学 {% include relref_bili.html %}](https://space.bilibili.com/3546736784050628)
 [note {% include relref_bili.html %}](https://www.bilibili.com/video/BV12Sc4e7Eat/)
-by [atoolbox](http://www.atoolbox.net/Tool.php?Id=715)
+by [atoolbox](https://www.a.tools/Tool.php?Id=469)
 
 唐宇迪
 人工智能-数学基础
@@ -729,7 +729,7 @@ by [atoolbox](http://www.atoolbox.net/Tool.php?Id=715)
 - [https://wenku.baidu.com/view/095bebde2a4ac850ad02de80d4d8d15abf23004d.html]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/wenku.baidu.com/aca20332.html" %})
 - [https://space.bilibili.com/3546736784050628]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/space.bilibili.com/a7afe6a0.html" %})
 - [https://www.bilibili.com/video/BV12Sc4e7Eat/]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/7840516e.html" %})
-- [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.a.tools/Tool.php?Id=469]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.a.tools/efc82c34.php" %})
 - [https://www.bilibili.com/video/BV1FP411L7t1/?129]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/eabd2b2e.html" %})
 - [https://www.bilibili.com/video/BV1gQ4y1E7iy/?129]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/6aba709f.html" %})
 - [https://www.bilibili.com/video/BV1iS4y1W7FP/?129]({% include relrefx.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/www.bilibili.com/b42fb279.html" %})

@@ -381,7 +381,7 @@ Preprocessing
 
 ### P60 实验平台搭建设置 07:51
 
-[toolbox](http://www.atoolbox.net/Tool.php?Id=715)
+[toolbox](https://www.a.tools/Tool.php?Id=469)
 
 
 
@@ -398,4 +398,4 @@ Preprocessing
 - [http://caffe.berkeleyvision.org/]({% include relrefx.html url="/backup/2022-12-03-ml-dip-beijiao.md/caffe.berkeleyvision.org/199cc1bf.html" %})
 - [https://www.tensorflow.org/]({% include relrefx.html url="/backup/2022-12-03-ml-dip-beijiao.md/www.tensorflow.org/c8c2399b.html" %})
 - [https://www.kdnuggets.com/2015/07/deep-learning-adversarial-examples-misconceptions.html]({% include relrefx.html url="/backup/2022-12-03-ml-dip-beijiao.md/www.kdnuggets.com/69c72ced.html" %})
-- [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-12-03-ml-dip-beijiao.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.a.tools/Tool.php?Id=469]({% include relrefx.html url="/backup/2022-12-03-ml-dip-beijiao.md/www.a.tools/efc82c34.php" %})

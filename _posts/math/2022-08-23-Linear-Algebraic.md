@@ -26,7 +26,7 @@ cluster: "机器学习的数学基础"
 
 **从新学习，并用 mathjax 做笔记。**
 [mathjax {% include relref_cnblogs.html %}](https://www.cnblogs.com/linxd/p/4955530.html)
-[html2text](http://www.atoolbox.net/Tool.php?Id=715)
+[html2text](https://www.a.tools/Tool.php?Id=469)
 [公式及时编辑](https://spaces.ac.cn/latex.html/comment-page-1)
 [在线函数图像](https://zuotu.91maths.com/)
 
@@ -445,7 +445,7 @@ n 阶实对称矩阵 A 的每个特征值 $\lambda_i$ 的重数 ki 等于对应�
 - [https://www.bilibili.com/video/BV1aW411Q7x1]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.bilibili.com/43361190.html" %})
 - [https://www.bilibili.com/video/BV1Eb411u7Fw]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.bilibili.com/f90a16e2.html" %})
 - [https://www.cnblogs.com/linxd/p/4955530.html]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.cnblogs.com/f5a952ec.html" %})
-- [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.a.tools/Tool.php?Id=469]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.a.tools/efc82c34.php" %})
 - [https://spaces.ac.cn/latex.html/comment-page-1]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/spaces.ac.cn/363c9e5d.html" %})
 - [https://zuotu.91maths.com/]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/zuotu.91maths.com/7f1a51d4.html" %})
 - [https://weibo.com/6122278407/K9Ggaa2Vl]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/weibo.com/037bbcae.html" %})

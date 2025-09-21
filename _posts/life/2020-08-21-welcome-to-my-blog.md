@@ -211,7 +211,7 @@ sequenceDiagram
 
 * **HTML 转 MarkDown** <http://domchristie.github.io/turndown/>
 * [Html 转 MarkDown](http://www.fly63.com/tool/htmarkdown/)
-* **[Html 转 Markdown](http://www.atoolbox.net/Tool.php?Id=715)**
+* **[Html 转 Markdown](https://www.a.tools/Tool.php?Id=469)**
 * [Html 转换为 MarkDown 工具](https://www.bejson.com/convert/html2markdown/)
 
 
@@ -239,5 +239,5 @@ sequenceDiagram
 - [https://mathpix.com/]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/mathpix.com/6a3d6789.html" %})
 - [http://domchristie.github.io/turndown/]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/domchristie.github.io/9cfffeb1.html" %})
 - [http://www.fly63.com/tool/htmarkdown/]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.fly63.com/488480ab.html" %})
-- [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.a.tools/Tool.php?Id=469]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.a.tools/efc82c34.php" %})
 - [https://www.bejson.com/convert/html2markdown/]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.bejson.com/0f492a91.html" %})

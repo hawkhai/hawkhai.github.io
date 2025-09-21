@@ -19,7 +19,7 @@ cluster: "机器学习课程"
 
 * 吴恩达机器学习 19:37:16 142 <https://www.bilibili.com/video/BV1Bq421A74G/>
 * 吴恩达深度学习 27:44:07 183 <https://www.bilibili.com/video/BV1FT4y1E74V/>
-* [html2text](http://www.atoolbox.net/Tool.php?Id=715)
+* [html2text](https://www.a.tools/Tool.php?Id=469)
 
 机器学习早期版本（岁月觞）：[吴恩达机器学习系列课程 {% include relref_bili.html %}](https://www.bilibili.com/video/BV164411b7dx/)
 
@@ -721,7 +721,7 @@ $$
 
 - [https://www.bilibili.com/video/BV1Bq421A74G/]({% include relrefx.html url="/backup/2022-10-11-ml-ML-Andrew-Ng-Review.md/www.bilibili.com/738a77eb.html" %})
 - [https://www.bilibili.com/video/BV1FT4y1E74V/]({% include relrefx.html url="/backup/2022-10-11-ml-ML-Andrew-Ng-Review.md/www.bilibili.com/821695be.html" %})
-- [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-10-11-ml-ML-Andrew-Ng-Review.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.a.tools/Tool.php?Id=469]({% include relrefx.html url="/backup/2022-10-11-ml-ML-Andrew-Ng-Review.md/www.a.tools/efc82c34.php" %})
 - [https://www.bilibili.com/video/BV164411b7dx/]({% include relrefx.html url="/backup/2022-10-11-ml-ML-Andrew-Ng-Review.md/www.bilibili.com/816eb90a.html" %})
 - [https://www.nvidia.cn/glossary/data-science/xgboost/]({% include relrefx.html url="/backup/2022-10-11-ml-ML-Andrew-Ng-Review.md/www.nvidia.cn/a13b000a.html" %})
 - [https://mp.weixin.qq.com/s/BJozV5rPJLrynuT1mvbFGQ]({% include relrefx.html url="/backup/2022-10-11-ml-ML-Andrew-Ng-Review.md/mp.weixin.qq.com/911df19b.html" %})

@@ -190,7 +190,7 @@ Thanks to Tim Roberts for his help in reviewing this paper.
 References
 ----------
 
-[tool](http://www.atoolbox.net/Tool.php?Id=715)
+[tool](https://www.a.tools/Tool.php?Id=469)
 [note](https://www.virusbulletin.com/virusbulletin/2018/09/through-looking-glass-webcam-interception-and-protection-kernel-mode/)
 [from {% include relref_github.html %}](https://github.com/ReasonSoftware/webcam-interception-driver)
 
@@ -200,6 +200,6 @@ References
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-01-11-webcam-interception-and-protection-kernel-mode.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-01-11-webcam-interception-and-protection-kernel-mode.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.a.tools/Tool.php?Id=469]({% include relrefx.html url="/backup/2022-01-11-webcam-interception-and-protection-kernel-mode.md/www.a.tools/efc82c34.php" %})
 - [https://www.virusbulletin.com/virusbulletin/2018/09/through-looking-glass-webcam-interception-and-protection-kernel-mode/]({% include relrefx.html url="/backup/2022-01-11-webcam-interception-and-protection-kernel-mode.md/www.virusbulletin.com/00030afb.html" %})
 - [https://github.com/ReasonSoftware/webcam-interception-driver]({% include relrefx.html url="/backup/2022-01-11-webcam-interception-and-protection-kernel-mode.md/github.com/ecdec53f.html" %})
