@@ -179,6 +179,14 @@ DeepSearch 属于单线程，Manus <https://manus.im/> 属于压缩中继类型�
 - [CC 最佳实践](https://www.anthropic.com/engineering/claude-code-best-practices)
 
 
+## Claude Code 究竟牛在哪里？
+
+<https://baoyu.io/translations/decoding-claude-code>
+
+<https://tumeicoding.github.io/tumei_study_materials/claude_code_decode.html>
+<https://tumeicoding.github.io/tumei_study_materials/claude-code-slides2_zh.html>
+
+
 ## References
 
 * [史诗级预言！Karpathy 演讲刷屏：软件 3.0，人人皆「代码之神」 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/yfjm23XhFwQQOPcOkbJDMQ)
@@ -199,4 +207,7 @@ DeepSearch 属于单线程，Manus <https://manus.im/> 属于压缩中继类型�
 - [https://www.anthropic.com/engineering/built-multi-agent-research-system]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/www.anthropic.com/4deb2178.html" %})
 - [https://rlancemartin.github.io/2025/06/23/context_engineering/]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/rlancemartin.github.io/812fb9b6.html" %})
 - [https://www.anthropic.com/engineering/claude-code-best-practices]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/www.anthropic.com/4570f318.html" %})
+- [https://baoyu.io/translations/decoding-claude-code]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/baoyu.io/ec41130f.html" %})
+- [https://tumeicoding.github.io/tumei_study_materials/claude_code_decode.html]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/tumeicoding.github.io/711b84d0.html" %})
+- [https://tumeicoding.github.io/tumei_study_materials/claude-code-slides2_zh.html]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/tumeicoding.github.io/e01f49d3.html" %})
 - [https://mp.weixin.qq.com/s/yfjm23XhFwQQOPcOkbJDMQ]({% include relrefx.html url="/backup/2025-06-24-agent-vibe-coding.md/mp.weixin.qq.com/93a2c705.html" %})

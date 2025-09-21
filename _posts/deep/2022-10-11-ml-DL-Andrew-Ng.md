@@ -220,6 +220,8 @@ require exponentially more hidden units to compute.
 
 ## 45 45.2. 吴恩达采访 Pieter Abbeel 16:04
 
+🍊
+
 
 ## 46 46.3. 吴恩达采访 Ian Goodfellow 14:56
 
