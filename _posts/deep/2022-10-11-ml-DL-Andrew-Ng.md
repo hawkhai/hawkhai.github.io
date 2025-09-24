@@ -240,6 +240,8 @@ require exponentially more hidden units to compute.
 
 ## 51 51.1.5 为什么正则化可以减少过拟合？ 07:10
 
+{% include image.html url="/assets/images/221011-ml-dl-andrew-ng/5093c47e731206009d22b264a108ebe2.jpeg" %}
+
 
 ## 52 52.1.6 Dropout 正则化 09:26
 
