@@ -1,0 +1,1564 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width initial-scale=1'>
+    <title>音标学习</title>
+    <!-- <link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /> -->
+    <style type='text/css'>
+    html {
+        overflow-x: initial !important;
+    }
+
+    :root {
+        --bg-color: #ffffff;
+        --text-color: #333333;
+        --select-text-bg-color: #B5D6FC;
+        --select-text-font-color: auto;
+        --monospace: "Lucida Console", Consolas, "Courier", monospace;
+    }
+
+    html {
+        font-size: 14px;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+        margin: 0px;
+        padding: 0px;
+        height: auto;
+        bottom: 0px;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        font-size: 1rem;
+        line-height: 1.42857143;
+        overflow-x: hidden;
+        background-image: inherit;
+        background-size: inherit;
+        background-attachment: inherit;
+        background-origin: inherit;
+        background-clip: inherit;
+        background-color: inherit;
+        tab-size: 4;
+        background-position: inherit inherit;
+        background-repeat: inherit inherit;
+    }
+
+    iframe {
+        margin: auto;
+    }
+
+    a.url {
+        word-break: break-all;
+    }
+
+    a:active,
+    a:hover {
+        outline: 0px;
+    }
+
+    .in-text-selection,
+    ::selection {
+        text-shadow: none;
+        background: var(--select-text-bg-color);
+        color: var(--select-text-font-color);
+    }
+
+    #write {
+        margin: 0px auto;
+        height: auto;
+        width: inherit;
+        word-break: normal;
+        word-wrap: break-word;
+        position: relative;
+        white-space: normal;
+        overflow-x: visible;
+        padding-top: 40px;
+    }
+
+    #write.first-line-indent p {
+        text-indent: 2em;
+    }
+
+    #write.first-line-indent li p,
+    #write.first-line-indent p * {
+        text-indent: 0px;
+    }
+
+    #write.first-line-indent li {
+        margin-left: 2em;
+    }
+
+    .for-image #write {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    body.typora-export {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .typora-export .footnote-line,
+    .typora-export li,
+    .typora-export p {
+        white-space: pre-wrap;
+    }
+
+    @media screen and (max-width: 500px) {
+        body.typora-export {
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+
+        #write {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .CodeMirror-sizer {
+            margin-left: 0px !important;
+        }
+
+        .CodeMirror-gutters {
+            display: none !important;
+        }
+    }
+
+    #write li>figure:last-child {
+        margin-bottom: 0.5rem;
+    }
+
+    #write ol,
+    #write ul {
+        position: relative;
+    }
+
+    img {
+        max-width: 100%;
+        vertical-align: middle;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+        color: inherit;
+        font-family: inherit;
+        font-size: inherit;
+        font-style: inherit;
+        font-variant-caps: inherit;
+        font-weight: inherit;
+        font-stretch: inherit;
+        line-height: inherit;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+        line-height: normal;
+        padding: 0px;
+    }
+
+    *,
+    ::after,
+    ::before {
+        box-sizing: border-box;
+    }
+
+    #write h1,
+    #write h2,
+    #write h3,
+    #write h4,
+    #write h5,
+    #write h6,
+    #write p,
+    #write pre {
+        width: inherit;
+    }
+
+    #write h1,
+    #write h2,
+    #write h3,
+    #write h4,
+    #write h5,
+    #write h6,
+    #write p {
+        position: relative;
+    }
+
+    p {
+        line-height: inherit;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        break-after: avoid-page;
+        break-inside: avoid;
+        orphans: 4;
+    }
+
+    p {
+        orphans: 4;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    h3 {
+        font-size: 1.6rem;
+    }
+
+    h4 {
+        font-size: 1.4rem;
+    }
+
+    h5 {
+        font-size: 1.2rem;
+    }
+
+    h6 {
+        font-size: 1rem;
+    }
+
+    .md-math-block,
+    .md-rawblock,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .md-blockmeta {
+        color: rgb(204, 204, 204);
+        font-weight: 700;
+        font-style: italic;
+    }
+
+    a {
+        cursor: pointer;
+    }
+
+    sup.md-footnote {
+        padding: 2px 4px;
+        background-color: rgba(238, 238, 238, 0.701961);
+        color: rgb(85, 85, 85);
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+        border-bottom-left-radius: 4px;
+        cursor: pointer;
+    }
+
+    sup.md-footnote a,
+    sup.md-footnote a:hover {
+        color: inherit;
+        text-transform: inherit;
+        text-decoration: inherit;
+    }
+
+    #write input[type="checkbox"] {
+        cursor: pointer;
+        width: inherit;
+        height: inherit;
+    }
+
+    figure {
+        overflow-x: auto;
+        margin: 1.2em 0px;
+        max-width: calc(100% + 16px);
+        padding: 0px;
+    }
+
+    figure>table {
+        margin: 0px !important;
+    }
+
+    tr {
+        break-inside: avoid;
+        break-after: auto;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0px;
+        width: 100%;
+        overflow: auto;
+        break-inside: auto;
+        text-align: left;
+    }
+
+    table.md-table td {
+        min-width: 32px;
+    }
+
+    .CodeMirror-gutters {
+        border-right-width: 0px;
+        background-color: inherit;
+    }
+
+    .CodeMirror-linenumber {}
+
+    .CodeMirror {
+        text-align: left;
+    }
+
+    .CodeMirror-placeholder {
+        opacity: 0.3;
+    }
+
+    .CodeMirror pre {
+        padding: 0px 4px;
+    }
+
+    .CodeMirror-lines {
+        padding: 0px;
+    }
+
+    div.hr:focus {
+        cursor: none;
+    }
+
+    #write pre {
+        white-space: pre-wrap;
+    }
+
+    #write.fences-no-line-wrapping pre {
+        white-space: pre;
+    }
+
+    #write pre.ty-contain-cm {
+        white-space: normal;
+    }
+
+    .CodeMirror-gutters {
+        margin-right: 4px;
+    }
+
+    .md-fences {
+        font-size: 0.9rem;
+        display: block;
+        break-inside: avoid;
+        text-align: left;
+        overflow: visible;
+        white-space: pre;
+        background-image: inherit;
+        background-size: inherit;
+        background-attachment: inherit;
+        background-origin: inherit;
+        background-clip: inherit;
+        background-color: inherit;
+        position: relative !important;
+        background-position: inherit inherit;
+        background-repeat: inherit inherit;
+    }
+
+    .md-diagram-panel {
+        width: 100%;
+        margin-top: 10px;
+        text-align: center;
+        padding-top: 0px;
+        padding-bottom: 8px;
+        overflow-x: auto;
+    }
+
+    #write .md-fences.mock-cm {
+        white-space: pre-wrap;
+    }
+
+    .md-fences.md-fences-with-lineno {
+        padding-left: 0px;
+    }
+
+    #write.fences-no-line-wrapping .md-fences.mock-cm {
+        white-space: pre;
+        overflow-x: auto;
+    }
+
+    .md-fences.mock-cm.md-fences-with-lineno {
+        padding-left: 8px;
+    }
+
+    .CodeMirror-line,
+    twitterwidget {
+        break-inside: avoid;
+    }
+
+    .footnotes {
+        opacity: 0.8;
+        font-size: 0.9rem;
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+
+    .footnotes+.footnotes {
+        margin-top: 0px;
+    }
+
+    .md-reset {
+        margin: 0px;
+        padding: 0px;
+        border: 0px;
+        outline: 0px;
+        vertical-align: top;
+        text-decoration: none;
+        text-shadow: none;
+        float: none;
+        position: static;
+        width: auto;
+        height: auto;
+        white-space: nowrap;
+        cursor: inherit;
+        line-height: normal;
+        font-weight: 400;
+        text-align: left;
+        box-sizing: content-box;
+        direction: ltr;
+        background-position: 0px 0px;
+        background-repeat: initial initial;
+    }
+
+    li div {
+        padding-top: 0px;
+    }
+
+    blockquote {
+        margin: 1rem 0px;
+    }
+
+    li .mathjax-block,
+    li p {
+        margin: 0.5rem 0px;
+    }
+
+    li {
+        margin: 0px;
+        position: relative;
+    }
+
+    blockquote> :last-child {
+        margin-bottom: 0px;
+    }
+
+    blockquote> :first-child,
+    li> :first-child {
+        margin-top: 0px;
+    }
+
+    .footnotes-area {
+        color: rgb(136, 136, 136);
+        margin-top: 0.714rem;
+        padding-bottom: 0.143rem;
+        white-space: normal;
+    }
+
+    #write .footnote-line {
+        white-space: pre-wrap;
+    }
+
+    @media print {
+
+        body,
+        html {
+            border: 1px solid transparent;
+            height: 99%;
+            break-after: avoid-page;
+            break-before: avoid-page;
+            font-variant-ligatures: no-common-ligatures;
+        }
+
+        #write {
+            margin-top: 0px;
+            padding-top: 0px;
+            border-color: transparent !important;
+        }
+
+        .typora-export * {
+            -webkit-print-color-adjust: exact;
+        }
+
+        html.blink-to-pdf {
+            font-size: 13px;
+        }
+
+        .typora-export #write {
+            padding-left: 32px;
+            padding-right: 32px;
+            padding-bottom: 0px;
+            break-after: avoid-page;
+        }
+
+        .typora-export #write::after {
+            height: 0px;
+        }
+    }
+
+    .footnote-line {
+        margin-top: 0.714em;
+        font-size: 0.7em;
+    }
+
+    a img,
+    img a {
+        cursor: pointer;
+    }
+
+    pre.md-meta-block {
+        font-size: 0.8rem;
+        min-height: 0.8rem;
+        white-space: pre-wrap;
+        background-color: rgb(204, 204, 204);
+        display: block;
+        overflow-x: hidden;
+        background-position: initial initial;
+        background-repeat: initial initial;
+    }
+
+    p>.md-image:only-child:not(.md-img-error) img,
+    p>img:only-child {
+        display: block;
+        margin: auto;
+    }
+
+    #write.first-line-indent p>.md-image:only-child:not(.md-img-error) img {
+        left: -2em;
+        position: relative;
+    }
+
+    p>.md-image:only-child {
+        display: inline-block;
+        width: 100%;
+    }
+
+    #write .MathJax_Display {
+        margin: 0.8em 0px 0px;
+    }
+
+    .md-math-block {
+        width: 100%;
+    }
+
+    .md-math-block:not(:empty)::after {
+        display: none;
+    }
+
+    [contenteditable="true"]:active,
+    [contenteditable="true"]:focus,
+    [contenteditable="false"]:active,
+    [contenteditable="false"]:focus {
+        outline: 0px;
+        box-shadow: none;
+    }
+
+    .md-task-list-item {
+        position: relative;
+        list-style-type: none;
+    }
+
+    .task-list-item.md-task-list-item {
+        padding-left: 0px;
+    }
+
+    .md-task-list-item>input {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        margin-left: -1.2em;
+        margin-top: calc(1em - 10px);
+        border: none;
+    }
+
+    .math {
+        font-size: 1rem;
+    }
+
+    .md-toc {
+        min-height: 3.58rem;
+        position: relative;
+        font-size: 0.9rem;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    .md-toc-content {
+        position: relative;
+        margin-left: 0px;
+    }
+
+    .md-toc-content::after,
+    .md-toc::after {
+        display: none;
+    }
+
+    .md-toc-item {
+        display: block;
+        color: rgb(65, 131, 196);
+    }
+
+    .md-toc-item a {
+        text-decoration: none;
+    }
+
+    .md-toc-inner:hover {
+        text-decoration: underline;
+    }
+
+    .md-toc-inner {
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .md-toc-h1 .md-toc-inner {
+        margin-left: 0px;
+        font-weight: 700;
+    }
+
+    .md-toc-h2 .md-toc-inner {
+        margin-left: 2em;
+    }
+
+    .md-toc-h3 .md-toc-inner {
+        margin-left: 4em;
+    }
+
+    .md-toc-h4 .md-toc-inner {
+        margin-left: 6em;
+    }
+
+    .md-toc-h5 .md-toc-inner {
+        margin-left: 8em;
+    }
+
+    .md-toc-h6 .md-toc-inner {
+        margin-left: 10em;
+    }
+
+    @media screen and (max-width: 48em) {
+        .md-toc-h3 .md-toc-inner {
+            margin-left: 3.5em;
+        }
+
+        .md-toc-h4 .md-toc-inner {
+            margin-left: 5em;
+        }
+
+        .md-toc-h5 .md-toc-inner {
+            margin-left: 6.5em;
+        }
+
+        .md-toc-h6 .md-toc-inner {
+            margin-left: 8em;
+        }
+    }
+
+    a.md-toc-inner {
+        font-size: inherit;
+        font-style: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+    }
+
+    .footnote-line a:not(.reversefootnote) {
+        color: inherit;
+    }
+
+    .md-attr {
+        display: none;
+    }
+
+    .md-fn-count::after {
+        content: ".";
+    }
+
+    code,
+    pre,
+    samp,
+    tt {
+        font-family: var(--monospace);
+    }
+
+    kbd {
+        margin: 0px 0.1em;
+        padding: 0.1em 0.6em;
+        font-size: 0.8em;
+        color: rgb(36, 39, 41);
+        background-color: rgb(255, 255, 255);
+        border: 1px solid rgb(173, 179, 185);
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+        box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset;
+        white-space: nowrap;
+        vertical-align: middle;
+        background-position: initial initial;
+        background-repeat: initial initial;
+    }
+
+    .md-comment {
+        color: rgb(162, 127, 3);
+        opacity: 0.8;
+        font-family: var(--monospace);
+    }
+
+    code {
+        text-align: left;
+    }
+
+    a.md-print-anchor {
+        white-space: pre !important;
+        border: none !important;
+        display: inline-block !important;
+        position: absolute !important;
+        width: 1px !important;
+        right: 0px !important;
+        outline: 0px !important;
+        text-shadow: initial !important;
+        background-position: 0px 0px !important;
+        background-repeat: initial initial !important;
+    }
+
+    .md-inline-math .MathJax_SVG .noError {
+        display: none !important;
+    }
+
+    .html-for-mac .inline-math-svg .MathJax_SVG {
+        vertical-align: 0.2px;
+    }
+
+    .md-math-block .MathJax_SVG_Display {
+        text-align: center;
+        margin: 0px;
+        position: relative;
+        text-indent: 0px;
+        max-width: none;
+        max-height: none;
+        min-height: 0px;
+        min-width: 100%;
+        width: auto;
+        overflow-y: hidden;
+        display: block !important;
+    }
+
+    .MathJax_SVG_Display,
+    .md-inline-math .MathJax_SVG_Display {
+        width: auto;
+        margin: inherit;
+        display: inline-block !important;
+    }
+
+    .MathJax_SVG .MJX-monospace {
+        font-family: var(--monospace);
+    }
+
+    .MathJax_SVG .MJX-sans-serif {
+        font-family: sans-serif;
+    }
+
+    .MathJax_SVG {
+        display: inline;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        zoom: 90%;
+        text-indent: 0px;
+        text-align: left;
+        text-transform: none;
+        letter-spacing: normal;
+        word-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        float: none;
+        direction: ltr;
+        max-width: none;
+        max-height: none;
+        min-width: 0px;
+        min-height: 0px;
+        border: 0px;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .MathJax_SVG * {
+        transition: none;
+    }
+
+    .MathJax_SVG_Display svg {
+        vertical-align: middle !important;
+        margin-bottom: 0px !important;
+        margin-top: 0px !important;
+    }
+
+    .os-windows.monocolor-emoji .md-emoji {
+        font-family: "Segoe UI Symbol", sans-serif;
+    }
+
+    .md-diagram-panel>svg {
+        max-width: 100%;
+    }
+
+    [lang="flow"] svg,
+    [lang="mermaid"] svg {
+        max-width: 100%;
+        height: auto;
+    }
+
+    [lang="mermaid"] .node text {
+        font-size: 1rem;
+    }
+
+    table tr th {
+        border-bottom-width: 0px;
+    }
+
+    video {
+        max-width: 100%;
+        display: block;
+        margin: 0px auto;
+    }
+
+    iframe {
+        max-width: 100%;
+        width: 100%;
+        border: none;
+    }
+
+    .highlight td,
+    .highlight tr {
+        border: 0px;
+    }
+
+    svg[id^="mermaidChart"] {
+        line-height: 1em;
+    }
+
+    mark {
+        background-color: rgb(255, 255, 0);
+        color: rgb(0, 0, 0);
+        background-position: initial initial;
+        background-repeat: initial initial;
+    }
+
+    .md-html-inline .md-plain,
+    .md-html-inline strong,
+    mark .md-inline-math,
+    mark strong {
+        color: inherit;
+    }
+
+    mark .md-meta {
+        color: rgb(0, 0, 0);
+        opacity: 0.3 !important;
+    }
+
+
+    :root {
+        --side-bar-bg-color: #fafafa;
+        --control-text-color: #777;
+    }
+
+    @include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+    html {
+        font-size: 16px;
+    }
+
+    body {
+        font-family: "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color: rgb(51, 51, 51);
+        line-height: 1.6;
+    }
+
+    #write {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 30px;
+        padding-bottom: 100px;
+    }
+
+    @media only screen and (min-width: 1400px) {
+        #write {
+            max-width: 1024px;
+        }
+    }
+
+    @media only screen and (min-width: 1800px) {
+        #write {
+            max-width: 1200px;
+        }
+    }
+
+    #write>ul:first-child,
+    #write>ol:first-child {
+        margin-top: 30px;
+    }
+
+    a {
+        color: #4183C4;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        position: relative;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+        line-height: 1.4;
+        cursor: text;
+    }
+
+    h1:hover a.anchor,
+    h2:hover a.anchor,
+    h3:hover a.anchor,
+    h4:hover a.anchor,
+    h5:hover a.anchor,
+    h6:hover a.anchor {
+        text-decoration: none;
+    }
+
+    h1 tt,
+    h1 code {
+        font-size: inherit;
+    }
+
+    h2 tt,
+    h2 code {
+        font-size: inherit;
+    }
+
+    h3 tt,
+    h3 code {
+        font-size: inherit;
+    }
+
+    h4 tt,
+    h4 code {
+        font-size: inherit;
+    }
+
+    h5 tt,
+    h5 code {
+        font-size: inherit;
+    }
+
+    h6 tt,
+    h6 code {
+        font-size: inherit;
+    }
+
+    h1 {
+        padding-bottom: .3em;
+        font-size: 2.25em;
+        line-height: 1.2;
+        border-bottom: 1px solid #eee;
+    }
+
+    h2 {
+        padding-bottom: .3em;
+        font-size: 1.75em;
+        line-height: 1.225;
+        border-bottom: 1px solid #eee;
+    }
+
+    h3 {
+        font-size: 1.5em;
+        line-height: 1.43;
+    }
+
+    h4 {
+        font-size: 1.25em;
+    }
+
+    h5 {
+        font-size: 1em;
+    }
+
+    h6 {
+        font-size: 1em;
+        color: #777;
+    }
+
+    p,
+    blockquote,
+    ul,
+    ol,
+    dl,
+    table {
+        margin: 0.8em 0;
+    }
+
+    li>ol,
+    li>ul {
+        margin: 0 0;
+    }
+
+    hr {
+        height: 2px;
+        padding: 0;
+        margin: 16px 0;
+        background-color: #e7e7e7;
+        border: 0 none;
+        overflow: hidden;
+        box-sizing: content-box;
+    }
+
+    li p.first {
+        display: inline-block;
+    }
+
+    ul,
+    ol {
+        padding-left: 30px;
+    }
+
+    ul:first-child,
+    ol:first-child {
+        margin-top: 0;
+    }
+
+    ul:last-child,
+    ol:last-child {
+        margin-bottom: 0;
+    }
+
+    blockquote {
+        border-left: 4px solid #dfe2e5;
+        padding: 0 15px;
+        color: #777777;
+    }
+
+    blockquote blockquote {
+        padding-right: 0;
+    }
+
+    table {
+        padding: 0;
+        word-break: initial;
+    }
+
+    table tr {
+        border-top: 1px solid #dfe2e5;
+        margin: 0;
+        padding: 0;
+    }
+
+    table tr:nth-child(2n),
+    thead {
+        background-color: #f8f8f8;
+    }
+
+    table tr th {
+        font-weight: bold;
+        border: 1px solid #dfe2e5;
+        border-bottom: 0;
+        margin: 0;
+        padding: 6px 13px;
+    }
+
+    table tr td {
+        border: 1px solid #dfe2e5;
+        margin: 0;
+        padding: 6px 13px;
+    }
+
+    table tr th:first-child,
+    table tr td:first-child {
+        margin-top: 0;
+    }
+
+    table tr th:last-child,
+    table tr td:last-child {
+        margin-bottom: 0;
+    }
+
+    .CodeMirror-lines {
+        padding-left: 4px;
+    }
+
+    .code-tooltip {
+        box-shadow: 0 1px 1px 0 rgba(0, 28, 36, .3);
+        border-top: 1px solid #eef2f2;
+    }
+
+    .md-fences,
+    code,
+    tt {
+        border: 1px solid #e7eaed;
+        background-color: #f8f8f8;
+        border-radius: 3px;
+        padding: 0;
+        padding: 2px 4px 0px 4px;
+        font-size: 0.9em;
+    }
+
+    code {
+        background-color: #f3f4f4;
+        padding: 0 2px 0 2px;
+    }
+
+    .md-fences {
+        margin-bottom: 15px;
+        margin-top: 15px;
+        padding-top: 8px;
+        padding-bottom: 6px;
+    }
+
+
+    .md-task-list-item>input {
+        margin-left: -1.3em;
+    }
+
+    @media print {
+        html {
+            font-size: 13px;
+        }
+
+        table,
+        pre {
+            page-break-inside: avoid;
+        }
+
+        pre {
+            word-wrap: break-word;
+        }
+    }
+
+    .md-fences {
+        background-color: #f8f8f8;
+    }
+
+    #write pre.md-meta-block {
+        padding: 1rem;
+        font-size: 85%;
+        line-height: 1.45;
+        background-color: #f7f7f7;
+        border: 0;
+        border-radius: 3px;
+        color: #777777;
+        margin-top: 0 !important;
+    }
+
+    .mathjax-block>.code-tooltip {
+        bottom: .375rem;
+    }
+
+    .md-mathjax-midline {
+        background: #fafafa;
+    }
+
+    #write>h3.md-focus:before {
+        left: -1.5625rem;
+        top: .375rem;
+    }
+
+    #write>h4.md-focus:before {
+        left: -1.5625rem;
+        top: .285714286rem;
+    }
+
+    #write>h5.md-focus:before {
+        left: -1.5625rem;
+        top: .285714286rem;
+    }
+
+    #write>h6.md-focus:before {
+        left: -1.5625rem;
+        top: .285714286rem;
+    }
+
+    .md-image>.md-meta {
+        /*border: 1px solid #ddd;*/
+        border-radius: 3px;
+        padding: 2px 0px 0px 4px;
+        font-size: 0.9em;
+        color: inherit;
+    }
+
+    .md-tag {
+        color: #a7a7a7;
+        opacity: 1;
+    }
+
+    .md-toc {
+        margin-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .sidebar-tabs {
+        border-bottom: none;
+    }
+
+    #typora-quick-open {
+        border: 1px solid #ddd;
+        background-color: #f8f8f8;
+    }
+
+    #typora-quick-open-item {
+        background-color: #FAFAFA;
+        border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+        border-style: solid;
+        border-width: 1px;
+    }
+
+    /** focus mode */
+    .on-focus-mode blockquote {
+        border-left-color: rgba(85, 85, 85, 0.12);
+    }
+
+    header,
+    .context-menu,
+    .megamenu-content,
+    footer {
+        font-family: "Segoe UI", "Arial", sans-serif;
+    }
+
+    .file-node-content:hover .file-node-icon,
+    .file-node-content:hover .file-node-open-state {
+        visibility: visible;
+    }
+
+    .mac-seamless-mode #typora-sidebar {
+        background-color: #fafafa;
+        background-color: var(--side-bar-bg-color);
+    }
+
+    .md-lang {
+        color: #b4654d;
+    }
+
+    .html-for-mac .context-menu {
+        --item-hover-bg-color: #E6F0FE;
+    }
+
+    #md-notification .btn {
+        border: 0;
+    }
+
+    .dropdown-menu .divider {
+        border-color: #e5e5e5;
+    }
+
+    .ty-preferences .window-content {
+        background-color: #fafafa;
+    }
+
+    .ty-preferences .nav-group-item.active {
+        color: white;
+        background: #999;
+    }
+    ipa{
+        color: #35c776;
+        cursor: pointer;
+    }
+    </style>
+</head>
+
+<body class='typora-export'>
+    <div id='write' class='is-mac'>
+        <h1><a name="音标学习" class="md-header-anchor"></a><span>音标学习</span></h1>
+        <p><a name="yUh5c"></a></p>
+        <h2><a name="48个国际音标" class="md-header-anchor"></a><span>48个国际音标</span></h2>
+        <p>&nbsp;</p>
+        <figure>
+            <table>
+                <thead>
+                    <tr>
+                        <th><strong><span>元 音</span></strong></th>
+                        <th><span>单元音</span></th>
+                        <th><span>前元音</span></th>
+                        <th><span>[i:]</span></th>
+                        <th><span>[i]</span></th>
+                        <th><span>[e]</span></th>
+                        <th><span>[æ]</span></th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td><span>中元音</span></td>
+                        <td><span>[ʌ]</span></td>
+                        <td><span>[ə:]</span></td>
+                        <td><span>[ə]</span></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td><span>后元音</span></td>
+                        <td><span>[u:]</span></td>
+                        <td><span>[u]</span></td>
+                        <td><span>[ɔ:]</span></td>
+                        <td><span>[ɔ]</span></td>
+                        <td><span>[a:]</span></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><span>双元音</span></td>
+                        <td><span>开合双元音</span></td>
+                        <td><span>[ei]</span></td>
+                        <td><span>[ai]</span></td>
+                        <td><span>[ɔi]</span></td>
+                        <td><span>[əu]</span></td>
+                        <td><span>[au]</span></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td><span>集中双元音</span></td>
+                        <td><span>[iə]</span></td>
+                        <td><span>[εə]</span></td>
+                        <td><span>[uə]</span></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><strong><span>辅 音</span></strong></td>
+                        <td><span>爆破音</span></td>
+                        <td><span>清辅音</span></td>
+                        <td><span>[p]</span></td>
+                        <td><span>[t]</span></td>
+                        <td><span>[k]</span></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td><span>浊辅音</span></td>
+                        <td><span>[b]</span></td>
+                        <td><span>[d]</span></td>
+                        <td><span>[g]</span></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><span>摩擦音</span></td>
+                        <td><span>清辅音</span></td>
+                        <td><span>[f]</span></td>
+                        <td><span>[s]</span></td>
+                        <td><span>[ʃ]</span></td>
+                        <td><span>[θ]</span></td>
+                        <td><span>[h]</span></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td><span>浊辅音</span></td>
+                        <td><span>[v]</span></td>
+                        <td><span>[z]</span></td>
+                        <td><span>[ʒ]</span></td>
+                        <td><span>[ð]</span></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><span>破擦音</span></td>
+                        <td><span>清辅音</span></td>
+                        <td><span>[tʃ]</span></td>
+                        <td><span>[tr]</span></td>
+                        <td><span>[ts]</span></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td><span>浊辅音</span></td>
+                        <td><span>[dʒ]</span></td>
+                        <td><span>[dr]</span></td>
+                        <td><span>[dz]</span></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><span>鼻音</span></td>
+                        <td><span>（浊辅音）</span></td>
+                        <td><span>[m]</span></td>
+                        <td><span>[n]</span></td>
+                        <td><span>[ŋ]</span></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><span>舌则音</span></td>
+                        <td><span>（浊辅音）</span></td>
+                        <td><span>[l] [l]</span></td>
+                        <td><span>[r]</span></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><span>半元音</span></td>
+                        <td><span>（浊辅音）</span></td>
+                        <td><span>[w]</span></td>
+                        <td><span>[j]</span></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        </figure><br>
+        <br>
+        <br>
+        <p><a name="pOIev"></a></p>
+        <h3><a name="字母和音标关系" class="md-header-anchor"></a><span>字母和音标关系</span></h3>
+        <p><br>
+            <a name="Wz582"></a></p>
+        <h4><a name="什么是字母的名称音和发音" class="md-header-anchor"></a><span>什么是字母的名称音和发音</span></h4>
+        <p><span>字母名称音是在字母表里的读音，发音是在单词中的读音，它可能是不一样的，但是一般辅音只有一种</span><br></p>
+        <p><a name="mHyZM"></a></p>
+        <h4><a name="音标里什么是元音什么是辅音" class="md-header-anchor"></a><span>音标里什么是元音，什么是辅音</span></h4>
+        <p><span>大部分元音哑巴都能说：啊，咦，哎，哦，喔，元音是响音，主要作用是让人听得见。比如用元音叫爸爸，只能叫啊啊，叫妈妈，也是啊啊，因为b和m他都发不出来。b和m是什么，辅音。所以听得清靠什么？辅音。辅音虽然不发音，但能把你的元音切成一段段的。这一段段就构成了音节。元音可以无限延长的。一首歌，可以前面先啊好几个小节，后面也可以啊好几小节。如果用b切一小段下来，就变成「爸」，用m来切，就变成「妈」。</span><br>
+            <br><span>Q：字母X的音标写出来是怎么样的</span><br><span>A：/ks/</span><br>
+            <br><span>Q：字母a的发音有几种</span><br><span>A：/æ/、</span>
+            <a name="cvTR5"></a></p>
+        <h4><a name="字母音发音-示例" class="md-header-anchor"></a><span>字母音:发音 示例</span></h4>
+        <p><span>a:[æ]</span><br>
+            <br>
+            <br></p>
+        <p><a name="PNpAg"></a></p>
+        <h3><a name="音标内容" class="md-header-anchor"></a><span>音标内容</span></h3>
+        <p><span>用各种的标识工具，快速学习音标</span></p>
+        <blockquote>
+            <p><span>排版</span>
+                <span>掐头去尾法：上面字母、下面音标</span>
+                <span>短元音及之后：音标: (相关字母组合举例)：说明</span></p>
+        </blockquote><br>
+        <p><a name="u7vWb"></a></p>
+        
+        <h4><a name="辅音掐头法" class="md-header-anchor"></a><span>辅音掐头法</span></h4>
+        <p><span style="color: #d66467">本文以下 [音标] 的文字，👆点击即可播放声音</span><br><span>去掉头的元音[e]，然后读出来：</span><br><span>F、L、M、N、S、X</span><br><span><ipa class="ipa_f">[f]</ipa>、<ipa class="ipa_l">[l]</ipa>、<ipa class="ipa_m">[m]</ipa>、<ipa class="ipa_n">[n]</ipa>、<ipa class="ipa_s">[s]</ipa>、<ipa class="ipa_ks">[ks]</ipa></span><br></p>
+        <p><a name="JFKXn"></a></p>
+        <h4><a name="辅音去尾法" class="md-header-anchor"></a><span>辅音去尾法</span></h4>
+        <p><span>去掉尾的元音[e]</span><br><span>B、C、D、J、K、P、T、V、Z</span><br><span><ipa class="ipa_b">[b]</ipa>、<ipa class="ipa_s">[s]</ipa> <ipa class="ipa_k">[k]</ipa> 、<ipa class="ipa_d">[d]</ipa>、<ipa class="ipa_dʒ">[dʒ]</ipa>、<ipa class="ipa_k">[k]</ipa>、<ipa class="ipa_p">[p]</ipa> 、<ipa class="ipa_t">[t]</ipa>、<ipa class="ipa_v">[v]</ipa>、<ipa class="ipa_z">[z]</ipa> </span></p>
+        <p><a name="u7Fq2"></a></p>
+        
+        <h4><a name="短元音" class="md-header-anchor"></a><span>短元音</span></h4>
+        <p><span>读类似汉语拼音：ai、ei、y，嘴巴张开高度不同</span></p>
+        <blockquote>
+            <p>&nbsp;</p>
+        </blockquote>
+        <p><span><ipa class="ipa_æ">[æ]</ipa>: (a)三个手指宽度</span><br><span><ipa class="ipa_e">[e]</ipa>: (e) 两个手指宽度</span><br><span><ipa class="ipa_ɪ">[i]</ipa>: (i)一个手指宽度</span><br></p>
+        <blockquote>
+            <p><span>以下和汉语拼音联系起来，略有不同</span></p>
+        </blockquote>
+
+        <p><span><ipa class="ipa_ɒ">[ɔ]</ipa>: (o) : 类似拼音的 </span><strong><span>o </span></strong><span>但只读 </span><strong><span>前半 </span></strong><span>部分</span><br><span><ipa class="ipa_ʌ">[ʌ]</ipa>: (u) : 类似拼音的 </span><strong><span>a </span></strong><span>发音</span><br><span><ipa class="ipa_ʊ">[u]</ipa>: (oo)：类似于拼音 </span><strong><span>u </span></strong><span>的发音</span><br><span><ipa class="ipa_ə">[ə]</ipa>: (ure、er、or)：类似于拼音 </span><strong><span>e </span></strong><span>的发音</span></p>
+        <p><a name="qNs89"></a></p>
+        
+        <h4><a name="辅音对比法" class="md-header-anchor"></a><span>辅音对比法</span></h4>
+        <p><span>和汉语拼音联系起来，略有不同</span></p>
+        <blockquote>
+            <p><span>清辅音声带不震动，浊辅音声带振动</span></p>
+        </blockquote>
+        <p><span><ipa class="ipa_g">[g]</ipa>: (g)：类似拼音的 </span><strong><span>g </span></strong><span>但只读 </span><strong><span>前半 </span></strong><span>部分（文字不太准确描述：哥、鹅 只读哥）</span><br><span><ipa class="ipa_h">[h]</ipa>: (h)：类似拼音的 </span><strong><span>h </span></strong><span>但只读 </span><strong><span>前半 </span></strong><span>部分，但是它是一个清辅音，所以它声带 </span><strong><span>不震动 </span></strong><span>只呵出气体一样</span><br><span><ipa class="ipa_j">[j]</ipa>: (y)：类似于拼音的 </span><strong><span>y </span></strong><span>再加 </span><strong><span>e </span></strong><span>并且用0.5秒的速度 </span><strong><span>快速 </span></strong><span>读出来把他们合在一起</span><br><span><ipa class="ipa_w">[w]</ipa>: (w)：类似于拼音的 </span><strong><span>w </span></strong><span>再加 </span><strong><span>e </span></strong><span>并且用0.5秒的速度 </span><strong><span>快速 </span></strong><span>读出来把他们合在一起</span><br><span><ipa class="ipa_r">[r]</ipa>: (r): 类似于拼音的 </span><strong><span>r </span></strong><span>再加 </span><strong><span>e </span></strong><span>并且用0.5秒的速度 </span><strong><span>快速 </span></strong><span>读出来把他们合在一起</span></p>
+
+        <p><strong><span>长元音延长法</span></strong><br><span>结合短元音进行延长</span></p>
+        <blockquote>
+            <p><span>如果短元音读出来的时间是0.5秒，长元音就是1秒</span></p>
+        </blockquote>
+        <p><span><ipa class="ipa_iː">[i:]</ipa>: (ee、ea、e)：</span><a href='#u7Fq2'><span>短元音</span></a><span> [i] 进行延长读出来</span><br><span><ipa class="ipa_ɔː">[ɔ:]</ipa>: (a、aw、al、or)：短元音 </span>[<span>ɔ</span>][ ]<span>(#u7Fq2)进行延长读出来</span><br><span><ipa class="ipa_ɑː">[a:]</ipa>: (a、ar、au、ear)：短元音 [ʌ] 进行延长读出来</span><br><span><ipa class="ipa_uː">[u:]</ipa>: (o、oo、ui、u)：短元音 </span>[<span>u</span>]<span>进行延长读出来</span><br><span><ipa class="ipa_ɜː">[ə:]</ipa>: (er、ir、ur、ear、or)：短元音 [ə]:</span><a href='#u7Fq2'><span> </span></a><span>进行延长读出来</span></p>
+        <p><a name="k45Sg"></a></p>
+        
+        <h4><a name="双元音拼接法" class="md-header-anchor"></a><span>双元音拼接法</span></h4>
+        <p><span>使用长元音和短元音拼接把双元音读出来，个别略有不同</span></p>
+        <blockquote>
+            <p><span>当短元音和长元音学好之后，用长元音短元音拼接双元音就很简单啦</span></p>
+        </blockquote>
+        <p><span><ipa class="ipa_aɪ">[ai]</ipa>: (i、y、ie、uy)：</span><a href='#u7Fq2'><span>短元音</span></a><span>[ʌ] + [i] 合在一起拼接读出来 (文字不太准确描述，读出来类似：阿 衣，阿(长一点) 衣(短一点))</span><br><span><ipa class="ipa_aʊ">[au]</ipa>: (ou、ow)：短元音[ʌ] + [u] 合在一起拼接读出来</span><br><span><ipa class="ipa_eɪ">[ei]</ipa>: (a、ai、ay)：短元音[e] + [i] 合在一起拼接读出来</span><br><span><ipa class="ipa_eə">[εə]</ipa>: (air、ear)：短元音[e] + [ə] 合在一起拼接读出来</span><br><span><ipa class="ipa_ɪə">[iə]</ipa>: (ear、eer、ere)：短元音[i] + [ə] 合在一起拼接读出来</span><br><span><ipa class="ipa_ʊə">[uə]</ipa>: (oor、our、ure)：短元音[u] + [ə] 合在一起拼接读出来</span><br><span><ipa class="ipa_ɔɪ">[ɔi]</ipa>: (oi、oy)：短元音[ɔ] + 类似汉语拼音ei 合在一起拼接读出来</span><br><span><ipa class="ipa_əʊ">[əu]</ipa>: (o、oa、ow)：短元音[ə] + [u] 合在一起拼接读出来</span></p>
+        <p><a name="1n2fO"></a></p>
+        <!-- <ipa class="ipa_">[]</ipa> -->
+        <h4><a name="辅音联想法" class="md-header-anchor"></a><span>辅音联想法</span></h4>
+        <blockquote>
+            <p><span>通过汉语拼音联想这些辅音的发音</span><br></p>
+        </blockquote>
+        <p><span><ipa class="ipa_dʒ">[dʒ]</ipa>: (g、j、dge)：如果你知道拼音 zh 怎么读，那么他就是 </span><strong><span>jh</span></strong><span> (自创的，但应该都懂，j卷舌)读出来</span><br><span><ipa class="ipa_t∫">[tʃ]</ipa>: (ch、tch)：如果你知道拼音 ch 怎么读，他是一个清辅音，用声带 </span><strong><span>不震动</span></strong><span> 的方式把 </span><strong><span>ch</span></strong><span> 读出来</span><br><span><ipa class="ipa_∫">[ʃ]</ipa>: (s、sh)：如果你知道拼音 sh 怎么读，他是一个清辅音，用声带 </span><strong><span>不震动</span></strong><span> 的方式把 </span><strong><span>sh</span></strong><span> 读出来</span><br><span><ipa class="ipa_dz">[dz]</ipa>: (ds、des)：如果你知道拼音 z 怎么读，他是一个清辅音，用声带 </span><strong><span>不震动</span></strong><span> 的方式把 </span><strong><span>z</span></strong><span> 读出来</span><br><span><ipa class="ipa_ts">[ts]</ipa>: (ts、tes)：如果你知道拼音 c 怎么读，他是一个清辅音，用声带 </span><strong><span>不震动</span></strong><span> 的方式把 </span><strong><span>c</span></strong><span> 读出来</span><br><span><ipa class="ipa_ʒ">[ʒ]</ipa>:(s)：如果你知道拼音 r 怎么读，再短促点0.5秒读出来</span></p>
+        <blockquote>
+            <p><span>通过其他辅音联想这些辅音的发音</span></p>
+        </blockquote>
+        <p><span><ipa class="ipa_θ">[θ]</ipa>:(th)：</span><a href='#JFKXn'><span>辅音</span></a><span> [s] 的发音，清辅音声带 </span><strong><span>不震动 </span></strong><span>然后稍微咬住你的舌头读出来</span><br><span><ipa class="ipa_ð">[ð]</ipa>:(th)：辅音 [z] 的发音，然后稍微咬住你的舌头读出来</span><br><span><ipa class="ipa_ŋ">[ŋ]</ipa>:(n、ng)：辅音 [n] 的发音是前鼻音，用 [n]后鼻音读出来即可</span></p>
+    </div>
+
+
+
+    <script src="jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+
+            var ipa_list = ["ɪ","e","ʌ","ə","ɒ","ʊ","æ","iː","ɜː","ɔː","uː","ɑː","eɪ","aɪ","ɔɪ","aʊ","əʊ","ɪə","eə","ʊə","p","t","k","f","θ","s","ts","tr","∫","t∫","b","d","g","v","ð","z","dz","dr","ʒ","dʒ","m","n","ŋ","h","l","r","j","w", "ks"];
+
+            for (var i = 0; i < ipa_list.length; i++) {
+                var ipa = ipa_list[i];
+                var classz = ".ipa_"+ipa;
+                var file = "mp3/"+ ipa +".mp3"
+
+                const obj = {ipa, classz, file, }
+                console.log("注册点击事件" ,obj)
+                $(obj.classz).click(function(){
+                    console.log(obj)
+                    var audio = new Audio(obj.file);
+                    audio.play();//播放
+                    showToast("当前播放的音标为："+obj.ipa);
+                });
+            }
+
+            function showToast(text){
+                var div_str = `<div style="position: fixed; top:10px; right: 10px; width: 200px; height: 50px; background: rgba(0,0,0,0.7); border-radius: 10px; color: #ffffff; display: flex; justify-content: center; align-items: center;">
+                        ${text}
+                    </div>`
+                var div = $(div_str);
+                $('body').append(div);
+                setTimeout(()=>{
+                    div.remove() 
+                }, 1500);
+            }
+        })
+
+
+    </script>
+
+</body>
+
+
+</html>
