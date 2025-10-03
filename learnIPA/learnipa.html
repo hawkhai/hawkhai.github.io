@@ -641,6 +641,22 @@
     </div>
 
     <script>
+        // 全局变量用于管理音频播放
+        let currentAudioSequence = [];
+        let isPlaying = false;
+
+        // 停止所有正在播放的音频
+        function stopAllAudio() {
+            currentAudioSequence.forEach(audio => {
+                if (audio && !audio.paused) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
+            currentAudioSequence = [];
+            isPlaying = false;
+        }
+
         // 音标发音功能
         document.addEventListener('DOMContentLoaded', function() {
             const cards = document.querySelectorAll('.phonetic-card');
@@ -649,6 +665,9 @@
                 card.addEventListener('click', function() {
                     const sound = this.getAttribute('data-sound');
                     const symbol = this.querySelector('.phonetic-symbol').textContent;
+                    
+                    // 强制停止之前的播放
+                    stopAllAudio();
                     
                     // 播放音频
                     playSound(sound, symbol);
@@ -664,6 +683,9 @@
 
         function playSound(soundFile, symbol) {
             try {
+                // 设置播放状态
+                isPlaying = true;
+                
                 // 播放序列：yp版本 -> mp3版本 -> yp版本 -> mp3版本（总共4遍）
                 const audioSequence = [
                     `./yp/${soundFile}.mp3`,
@@ -678,16 +700,26 @@
             } catch (error) {
                 console.log('音频加载失败:', error);
                 showToast(`❌ 音频加载失败: ${symbol}`);
+                isPlaying = false;
             }
         }
 
         function playAudioSequence(audioFiles, index, symbol) {
+            // 检查是否被中断
+            if (!isPlaying) {
+                return;
+            }
+            
             if (index >= audioFiles.length) {
                 showToast(`✅ ${symbol} 播放完成 (共4遍)`);
+                isPlaying = false;
                 return;
             }
 
             const audio = new Audio(audioFiles[index]);
+            
+            // 将音频添加到当前播放序列中
+            currentAudioSequence.push(audio);
             
             audio.play().then(() => {
                 console.log(`播放第${index + 1}遍: ${audioFiles[index]}`);
@@ -697,6 +729,12 @@
 
             // 音频播放结束后播放下一个
             audio.addEventListener('ended', () => {
+                // 从当前播放序列中移除已完成的音频
+                const audioIndex = currentAudioSequence.indexOf(audio);
+                if (audioIndex > -1) {
+                    currentAudioSequence.splice(audioIndex, 1);
+                }
+                
                 setTimeout(() => {
                     playAudioSequence(audioFiles, index + 1, symbol);
                 }, 300); // 间隔300ms
@@ -705,6 +743,13 @@
             // 如果音频加载失败，尝试播放下一个
             audio.addEventListener('error', () => {
                 console.log(`音频文件不存在: ${audioFiles[index]}`);
+                
+                // 从当前播放序列中移除失败的音频
+                const audioIndex = currentAudioSequence.indexOf(audio);
+                if (audioIndex > -1) {
+                    currentAudioSequence.splice(audioIndex, 1);
+                }
+                
                 setTimeout(() => {
                     playAudioSequence(audioFiles, index + 1, symbol);
                 }, 300);

@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英语音标自动学习 - 开车专用版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .main-display {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .phonetic-symbol {
+            font-size: 8rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-family: "Times New Roman", serif;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .phonetic-info {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .progress-info {
+            font-size: 1.2rem;
+            opacity: 0.7;
+            margin-bottom: 10px;
+        }
+
+        .repeat-counter {
+            font-size: 2rem;
+            color: #3498db;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            min-width: 120px;
+        }
+
+        .control-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+        }
+
+        .control-btn.active {
+            background: #3498db;
+            border-color: #3498db;
+        }
+
+        .status-bar {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .category-indicator {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #ecf0f1;
+        }
+
+        .speed-control {
+            margin-top: 20px;
+        }
+
+        .speed-control label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .speed-slider {
+            width: 200px;
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .speed-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #3498db;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .speed-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #3498db;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .main-display {
+                padding: 40px 20px;
+                min-height: 250px;
+            }
+
+            .phonetic-symbol {
+                font-size: 6rem;
+            }
+
+            .phonetic-info {
+                font-size: 1.2rem;
+            }
+
+            .progress-info {
+                font-size: 1rem;
+            }
+
+            .repeat-counter {
+                font-size: 1.5rem;
+            }
+
+            .controls {
+                gap: 15px;
+            }
+
+            .control-btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+                min-width: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .phonetic-symbol {
+                font-size: 5rem;
+            }
+
+            .main-display {
+                padding: 30px 15px;
+            }
+
+            .control-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+                min-width: 80px;
+            }
+
+            .speed-slider {
+                width: 150px;
+            }
+        }
+
+        /* 横屏模式优化 */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .header {
+                margin-bottom: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.3rem;
+            }
+
+            .main-display {
+                padding: 30px 20px;
+                min-height: 200px;
+            }
+
+            .phonetic-symbol {
+                font-size: 4rem;
+            }
+
+            .controls {
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚗 英语音标自动学习</h1>
+            <p>开车专用版 • 自动播放 • 大字体显示</p>
+        </div>
+
+        <div class="status-bar">
+            <div class="category-indicator" id="categoryIndicator">自动播放模式</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-info" id="progressInfo">页面加载完成后自动开始播放</div>
+        </div>
+
+        <div class="main-display">
+            <div class="phonetic-symbol" id="phoneticSymbol">🎵</div>
+            <div class="phonetic-info" id="phoneticInfo">即将自动开始学习...</div>
+            <div class="repeat-counter" id="repeatCounter">准备中</div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn" id="startBtn" onclick="startAutoPlay()">▶️ 开始</button>
+            <button class="control-btn" id="pauseBtn" onclick="pauseAutoPlay()">⏸️ 暂停</button>
+            <button class="control-btn" id="stopBtn" onclick="stopAutoPlay()">⏹️ 停止</button>
+            <button class="control-btn" id="nextBtn" onclick="nextPhonetic()">⏭️ 下一个</button>
+        </div>
+
+        <div class="speed-control">
+            <label for="speedSlider">播放速度: <span id="speedValue">正常</span></label>
+            <input type="range" id="speedSlider" class="speed-slider" min="0.5" max="2" step="0.1" value="1" onchange="updateSpeed()">
+        </div>
+    </div>
+
+    <script>
+        // 音标数据
+        const phoneticData = [
+            // 长元音
+            { symbol: 'iː', example: 'see', category: '长元音', type: 'vowel' },
+            { symbol: 'ɜː', example: 'bird', category: '长元音', type: 'vowel' },
+            { symbol: 'ɑː', example: 'car', category: '长元音', type: 'vowel' },
+            { symbol: 'ɔː', example: 'door', category: '长元音', type: 'vowel' },
+            { symbol: 'uː', example: 'food', category: '长元音', type: 'vowel' },
+            
+            // 短元音
+            { symbol: 'ɪ', example: 'sit', category: '短元音', type: 'vowel' },
+            { symbol: 'e', example: 'bed', category: '短元音', type: 'vowel' },
+            { symbol: 'æ', example: 'cat', category: '短元音', type: 'vowel' },
+            { symbol: 'ə', example: 'about', category: '短元音', type: 'vowel' },
+            { symbol: 'ʌ', example: 'cup', category: '短元音', type: 'vowel' },
+            { symbol: 'ɒ', example: 'hot', category: '短元音', type: 'vowel' },
+            { symbol: 'ʊ', example: 'book', category: '短元音', type: 'vowel' },
+            
+            // 双元音
+            { symbol: 'eɪ', example: 'day', category: '双元音', type: 'vowel' },
+            { symbol: 'aɪ', example: 'my', category: '双元音', type: 'vowel' },
+            { symbol: 'ɔɪ', example: 'boy', category: '双元音', type: 'vowel' },
+            { symbol: 'əʊ', example: 'go', category: '双元音', type: 'vowel' },
+            { symbol: 'aʊ', example: 'now', category: '双元音', type: 'vowel' },
+            { symbol: 'ɪə', example: 'ear', category: '双元音', type: 'vowel' },
+            { symbol: 'eə', example: 'air', category: '双元音', type: 'vowel' },
+            { symbol: 'ʊə', example: 'tour', category: '双元音', type: 'vowel' },
+            
+            // 清辅音
+            { symbol: 'p', example: 'pen', category: '清辅音', type: 'consonant' },
+            { symbol: 't', example: 'tea', category: '清辅音', type: 'consonant' },
+            { symbol: 'k', example: 'key', category: '清辅音', type: 'consonant' },
+            { symbol: 'f', example: 'fish', category: '清辅音', type: 'consonant' },
+            { symbol: 'θ', example: 'think', category: '清辅音', type: 'consonant' },
+            { symbol: 's', example: 'sun', category: '清辅音', type: 'consonant' },
+            { symbol: '∫', example: 'ship', category: '清辅音', type: 'consonant' },
+            { symbol: 'h', example: 'hat', category: '清辅音', type: 'consonant' },
+            { symbol: 't∫', example: 'chair', category: '清辅音', type: 'consonant' },
+            { symbol: 'ts', example: 'cats', category: '清辅音', type: 'consonant' },
+            { symbol: 'tr', example: 'tree', category: '清辅音', type: 'consonant' },
+            
+            // 浊辅音
+            { symbol: 'b', example: 'book', category: '浊辅音', type: 'consonant' },
+            { symbol: 'd', example: 'dog', category: '浊辅音', type: 'consonant' },
+            { symbol: 'g', example: 'go', category: '浊辅音', type: 'consonant' },
+            { symbol: 'v', example: 'very', category: '浊辅音', type: 'consonant' },
+            { symbol: 'ð', example: 'this', category: '浊辅音', type: 'consonant' },
+            { symbol: 'z', example: 'zoo', category: '浊辅音', type: 'consonant' },
+            { symbol: 'ʒ', example: 'vision', category: '浊辅音', type: 'consonant' },
+            { symbol: 'r', example: 'red', category: '浊辅音', type: 'consonant' },
+            { symbol: 'dʒ', example: 'jump', category: '浊辅音', type: 'consonant' },
+            { symbol: 'dz', example: 'beds', category: '浊辅音', type: 'consonant' },
+            { symbol: 'dr', example: 'dream', category: '浊辅音', type: 'consonant' },
+            { symbol: 'm', example: 'man', category: '浊辅音', type: 'consonant' },
+            { symbol: 'n', example: 'no', category: '浊辅音', type: 'consonant' },
+            { symbol: 'ŋ', example: 'sing', category: '浊辅音', type: 'consonant' },
+            { symbol: 'l', example: 'love', category: '浊辅音', type: 'consonant' },
+            { symbol: 'j', example: 'yes', category: '浊辅音', type: 'consonant' },
+            { symbol: 'w', example: 'water', category: '浊辅音', type: 'consonant' },
+            
+            // 字母发音
+            { symbol: 'ks', example: '字母X', category: '字母发音', type: 'letter' }
+        ];
+
+        // 全局变量
+        let currentIndex = 0;
+        let currentRepeat = 0;
+        let isPlaying = false;
+        let isPaused = false;
+        let playSpeed = 1;
+        let autoPlayTimer = null;
+        let audioQueue = [];
+        let currentAudio = null;
+
+        // DOM 元素
+        const phoneticSymbol = document.getElementById('phoneticSymbol');
+        const phoneticInfo = document.getElementById('phoneticInfo');
+        const repeatCounter = document.getElementById('repeatCounter');
+        const progressInfo = document.getElementById('progressInfo');
+        const progressFill = document.getElementById('progressFill');
+        const categoryIndicator = document.getElementById('categoryIndicator');
+        const startBtn = document.getElementById('startBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // 更新显示
+        function updateDisplay() {
+            const current = phoneticData[currentIndex];
+            phoneticSymbol.textContent = current.symbol;
+            phoneticInfo.textContent = `${current.example} (${current.category})`;
+            repeatCounter.textContent = `${currentRepeat + 1}/6`;
+            
+            const totalProgress = ((currentIndex * 6 + currentRepeat) / (phoneticData.length * 6)) * 100;
+            progressFill.style.width = totalProgress + '%';
+            
+            progressInfo.textContent = `第 ${currentIndex + 1}/${phoneticData.length} 个音标 • 第 ${currentRepeat + 1}/6 遍`;
+            categoryIndicator.textContent = `${current.category} • ${current.type === 'vowel' ? '元音' : current.type === 'consonant' ? '辅音' : '字母'}`;
+        }
+
+        // 播放音频
+        function playCurrentPhonetic() {
+            if (!isPlaying || isPaused) return;
+
+            const current = phoneticData[currentIndex];
+            const audioFiles = [
+                `./yp/${current.symbol}.mp3`,
+                `./mp3/${current.symbol}.mp3`
+            ];
+
+            let audioIndex = 0;
+            
+            function playNextAudio() {
+                if (!isPlaying || isPaused) return;
+                
+                if (audioIndex >= audioFiles.length) {
+                    // 当前重复完成，准备下一次重复或下一个音标
+                    setTimeout(() => {
+                        if (!isPlaying || isPaused) return;
+                        
+                        currentRepeat++;
+                        if (currentRepeat >= 6) {
+                            // 当前音标的6遍播放完成，切换到下一个音标
+                            currentRepeat = 0;
+                            currentIndex++;
+                            
+                            if (currentIndex >= phoneticData.length) {
+                                // 所有音标播放完成
+                                stopAutoPlay();
+                                showCompletionMessage();
+                                return;
+                            }
+                        }
+                        
+                        updateDisplay();
+                        playCurrentPhonetic();
+                    }, Math.max(300, 800 / playSpeed)); // 间隔时间根据播放速度调整，最小300ms
+                    return;
+                }
+
+                const audio = new Audio(audioFiles[audioIndex]);
+                currentAudio = audio;
+                
+                // 设置播放速度
+                audio.playbackRate = playSpeed;
+                
+                // 播放音频
+                const playPromise = audio.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        console.log(`播放: ${audioFiles[audioIndex]} (速度: ${playSpeed}x)`);
+                    }).catch(error => {
+                        console.log('音频播放失败:', error);
+                        // 播放失败时跳到下一个
+                        audioIndex++;
+                        setTimeout(() => {
+                            playNextAudio();
+                        }, Math.max(100, 200 / playSpeed));
+                    });
+                }
+
+                // 音频播放结束事件
+                audio.addEventListener('ended', () => {
+                    if (!isPlaying || isPaused) return;
+                    audioIndex++;
+                    setTimeout(() => {
+                        playNextAudio();
+                    }, Math.max(100, 200 / playSpeed)); // 音频间隔，最小100ms
+                });
+
+                // 音频加载错误事件
+                audio.addEventListener('error', () => {
+                    console.log(`音频文件不存在: ${audioFiles[audioIndex]}`);
+                    if (!isPlaying || isPaused) return;
+                    audioIndex++;
+                    setTimeout(() => {
+                        playNextAudio();
+                    }, Math.max(100, 200 / playSpeed));
+                });
+            }
+
+            playNextAudio();
+        }
+
+        // 开始自动播放
+        function startAutoPlay() {
+            if (isPaused) {
+                isPaused = false;
+                startBtn.textContent = '▶️ 开始';
+                pauseBtn.classList.add('active');
+                startBtn.classList.remove('active');
+                playCurrentPhonetic();
+                return;
+            }
+
+            isPlaying = true;
+            isPaused = false;
+            currentIndex = 0;
+            currentRepeat = 0;
+            
+            startBtn.classList.add('active');
+            pauseBtn.classList.remove('active');
+            
+            updateDisplay();
+            playCurrentPhonetic();
+        }
+
+        // 暂停播放
+        function pauseAutoPlay() {
+            if (!isPlaying) return;
+            
+            isPaused = !isPaused;
+            
+            if (isPaused) {
+                pauseBtn.classList.add('active');
+                startBtn.classList.remove('active');
+                startBtn.textContent = '▶️ 继续';
+                
+                if (currentAudio) {
+                    currentAudio.pause();
+                }
+            } else {
+                pauseBtn.classList.remove('active');
+                startBtn.classList.add('active');
+                startBtn.textContent = '▶️ 开始';
+                playCurrentPhonetic();
+            }
+        }
+
+        // 停止播放
+        function stopAutoPlay() {
+            isPlaying = false;
+            isPaused = false;
+            currentIndex = 0;
+            currentRepeat = 0;
+            
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            
+            startBtn.classList.remove('active');
+            pauseBtn.classList.remove('active');
+            startBtn.textContent = '▶️ 开始';
+            
+            phoneticSymbol.textContent = '🎵';
+            phoneticInfo.textContent = '自动播放已停止';
+            repeatCounter.textContent = '已停止';
+            progressInfo.textContent = '点击开始按钮重新播放';
+            progressFill.style.width = '0%';
+            categoryIndicator.textContent = '播放已停止';
+        }
+
+        // 下一个音标
+        function nextPhonetic() {
+            if (!isPlaying) return;
+            
+            if (currentAudio) {
+                currentAudio.pause();
+            }
+            
+            currentRepeat = 0;
+            currentIndex++;
+            
+            if (currentIndex >= phoneticData.length) {
+                stopAutoPlay();
+                showCompletionMessage();
+                return;
+            }
+            
+            updateDisplay();
+            if (!isPaused) {
+                playCurrentPhonetic();
+            }
+        }
+
+        // 更新播放速度
+        function updateSpeed() {
+            const slider = document.getElementById('speedSlider');
+            const speedValue = document.getElementById('speedValue');
+            
+            playSpeed = parseFloat(slider.value);
+            
+            const speedText = {
+                0.5: '很慢',
+                0.6: '慢',
+                0.7: '较慢',
+                0.8: '稍慢',
+                0.9: '略慢',
+                1.0: '正常',
+                1.1: '略快',
+                1.2: '稍快',
+                1.3: '较快',
+                1.4: '快',
+                1.5: '很快',
+                1.6: '超快',
+                1.7: '极快',
+                1.8: '飞快',
+                1.9: '闪电',
+                2.0: '光速'
+            };
+            
+            speedValue.textContent = speedText[playSpeed.toFixed(1)] || `${playSpeed.toFixed(1)}x`;
+            
+            if (currentAudio) {
+                currentAudio.playbackRate = playSpeed;
+            }
+        }
+
+        // 显示完成消息
+        function showCompletionMessage() {
+            phoneticSymbol.textContent = '🎉';
+            phoneticInfo.textContent = '恭喜！所有音标学习完成';
+            repeatCounter.textContent = '完成';
+            progressInfo.textContent = '所有48个音标已学习完成，每个重复6遍';
+            categoryIndicator.textContent = '学习完成 • 可以重新开始';
+        }
+
+        // 键盘快捷键
+        document.addEventListener('keydown', function(event) {
+            switch(event.code) {
+                case 'Space':
+                    event.preventDefault();
+                    if (isPlaying && !isPaused) {
+                        pauseAutoPlay();
+                    } else {
+                        startAutoPlay();
+                    }
+                    break;
+                case 'Escape':
+                    stopAutoPlay();
+                    break;
+                case 'ArrowRight':
+                    nextPhonetic();
+                    break;
+            }
+        });
+
+        // 防止屏幕休眠（尝试保持活跃状态）
+        let wakeLock = null;
+        
+        async function requestWakeLock() {
+            try {
+                if ('wakeLock' in navigator) {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                    console.log('屏幕保持唤醒');
+                }
+            } catch (err) {
+                console.log('无法保持屏幕唤醒:', err);
+            }
+        }
+
+        // 页面可见性变化处理
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                // 页面失去焦点，停止播放
+                stopAutoPlay();
+            } else if (document.visibilityState === 'visible') {
+                // 页面获得焦点，自动开始播放和请求唤醒锁
+                if (!isPlaying) {
+                    setTimeout(() => {
+                        startAutoPlay();
+                    }, 500); // 延迟500ms开始播放
+                }
+                if (wakeLock !== null) {
+                    requestWakeLock();
+                }
+            }
+        });
+
+        // 页面卸载时停止播放
+        window.addEventListener('beforeunload', () => {
+            stopAutoPlay();
+        });
+
+        // 窗口失去焦点时停止播放
+        window.addEventListener('blur', () => {
+            stopAutoPlay();
+        });
+
+        // 窗口获得焦点时开始播放
+        window.addEventListener('focus', () => {
+            if (!isPlaying && document.visibilityState === 'visible') {
+                setTimeout(() => {
+                    startAutoPlay();
+                }, 300);
+            }
+        });
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSpeed();
+            requestWakeLock();
+            
+            // 页面加载完成后自动开始播放
+            setTimeout(() => {
+                startAutoPlay();
+            }, 1000); // 延迟1秒开始播放，确保页面完全加载
+        });
+    </script>
+</body>
+</html>
