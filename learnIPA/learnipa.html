@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英语音标学习 - 48个国际音标</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .phonetic-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .subsection {
+            margin-bottom: 25px;
+        }
+
+        .subsection-title {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+        }
+
+        .phonetic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            padding: 0 10px;
+        }
+
+        .phonetic-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phonetic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border-color: #667eea;
+            background: rgba(255,255,255,1);
+        }
+
+        .phonetic-card:active {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .phonetic-symbol {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            font-family: "Times New Roman", serif;
+        }
+
+        .phonetic-example {
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .play-indicator {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .phonetic-card:hover .play-indicator {
+            opacity: 1;
+        }
+
+        .play-indicator::after {
+            content: '▶';
+            color: white;
+            font-size: 10px;
+            margin-left: 1px;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer a:hover {
+            opacity: 1;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .phonetic-grid {
+                grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+                gap: 12px;
+            }
+
+            .phonetic-card {
+                padding: 15px;
+            }
+
+            .phonetic-symbol {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+                padding: 12px 15px;
+            }
+
+            .subsection-title {
+                font-size: 1rem;
+                padding: 8px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .phonetic-grid {
+                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+                gap: 10px;
+            }
+
+            .phonetic-card {
+                padding: 12px;
+            }
+
+            .phonetic-symbol {
+                font-size: 1.8rem;
+            }
+
+            .phonetic-example {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎵 英语音标学习</h1>
+            <p>点击音标卡片即可听发音 • 48个国际音标</p>
+        </div>
+
+        <!-- 元音部分 -->
+        <div class="phonetic-section">
+            <div class="section-title">🔤 元音 (Vowels)</div>
+            
+            <!-- 长元音 -->
+            <div class="subsection">
+                <div class="subsection-title">长元音 (Long Vowels)</div>
+                <div class="phonetic-grid">
+                    <div class="phonetic-card" data-sound="iː">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">iː</div>
+                        <div class="phonetic-example">see</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="ɜː">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ɜː</div>
+                        <div class="phonetic-example">bird</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="ɑː">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ɑː</div>
+                        <div class="phonetic-example">car</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="ɔː">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ɔː</div>
+                        <div class="phonetic-example">door</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="uː">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">uː</div>
+                        <div class="phonetic-example">food</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 短元音 -->
+            <div class="subsection">
+                <div class="subsection-title">短元音 (Short Vowels)</div>
+                <div class="phonetic-grid">
+                    <div class="phonetic-card" data-sound="ɪ">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ɪ</div>
+                        <div class="phonetic-example">sit</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="e">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">e</div>
+                        <div class="phonetic-example">bed</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="æ">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">æ</div>
+                        <div class="phonetic-example">cat</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="ə">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ə</div>
+                        <div class="phonetic-example">about</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="ʌ">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ʌ</div>
+                        <div class="phonetic-example">cup</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="ɒ">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ɒ</div>
+                        <div class="phonetic-example">hot</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="ʊ">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ʊ</div>
+                        <div class="phonetic-example">book</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 双元音 -->
+            <div class="subsection">
+                <div class="subsection-title">双元音 (Diphthongs)</div>
+                <div class="phonetic-grid">
+                    <div class="phonetic-card" data-sound="eɪ">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">eɪ</div>
+                        <div class="phonetic-example">day</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="aɪ">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">aɪ</div>
+                        <div class="phonetic-example">my</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="ɔɪ">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ɔɪ</div>
+                        <div class="phonetic-example">boy</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="əʊ">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">əʊ</div>
+                        <div class="phonetic-example">go</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="aʊ">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">aʊ</div>
+                        <div class="phonetic-example">now</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="ɪə">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ɪə</div>
+                        <div class="phonetic-example">ear</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="eə">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">eə</div>
+                        <div class="phonetic-example">air</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="ʊə">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ʊə</div>
+                        <div class="phonetic-example">tour</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 辅音部分 -->
+        <div class="phonetic-section">
+            <div class="section-title">🔊 辅音 (Consonants)</div>
+            
+            <!-- 清辅音 -->
+            <div class="subsection">
+                <div class="subsection-title">清辅音 (Voiceless Consonants)</div>
+                <div class="phonetic-grid">
+                    <div class="phonetic-card" data-sound="p">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">p</div>
+                        <div class="phonetic-example">pen</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="t">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">t</div>
+                        <div class="phonetic-example">tea</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="k">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">k</div>
+                        <div class="phonetic-example">key</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="f">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">f</div>
+                        <div class="phonetic-example">fish</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="θ">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">θ</div>
+                        <div class="phonetic-example">think</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="s">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">s</div>
+                        <div class="phonetic-example">sun</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="∫">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ʃ</div>
+                        <div class="phonetic-example">ship</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="h">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">h</div>
+                        <div class="phonetic-example">hat</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="t∫">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">tʃ</div>
+                        <div class="phonetic-example">chair</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="ts">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ts</div>
+                        <div class="phonetic-example">cats</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="tr">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">tr</div>
+                        <div class="phonetic-example">tree</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 浊辅音 -->
+            <div class="subsection">
+                <div class="subsection-title">浊辅音 (Voiced Consonants)</div>
+                <div class="phonetic-grid">
+                    <div class="phonetic-card" data-sound="b">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">b</div>
+                        <div class="phonetic-example">book</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="d">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">d</div>
+                        <div class="phonetic-example">dog</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="g">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ɡ</div>
+                        <div class="phonetic-example">go</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="v">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">v</div>
+                        <div class="phonetic-example">very</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="ð">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ð</div>
+                        <div class="phonetic-example">this</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="z">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">z</div>
+                        <div class="phonetic-example">zoo</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="ʒ">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ʒ</div>
+                        <div class="phonetic-example">vision</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="r">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">r</div>
+                        <div class="phonetic-example">red</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="dʒ">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">dʒ</div>
+                        <div class="phonetic-example">jump</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="dz">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">dz</div>
+                        <div class="phonetic-example">beds</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="dr">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">dr</div>
+                        <div class="phonetic-example">dream</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="m">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">m</div>
+                        <div class="phonetic-example">man</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="n">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">n</div>
+                        <div class="phonetic-example">no</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="ŋ">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ŋ</div>
+                        <div class="phonetic-example">sing</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="l">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">l</div>
+                        <div class="phonetic-example">love</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="j">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">j</div>
+                        <div class="phonetic-example">yes</div>
+                    </div>
+                    <div class="phonetic-card" data-sound="w">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">w</div>
+                        <div class="phonetic-example">water</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="https://www.bilibili.com/video/BV1iV411z7Nj?p=3" target="_blank">
+                🎬 发音截取自B站英语兔
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 音标发音功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.phonetic-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const sound = this.getAttribute('data-sound');
+                    const symbol = this.querySelector('.phonetic-symbol').textContent;
+                    
+                    // 播放音频
+                    playSound(sound, symbol);
+                    
+                    // 添加点击动画效果
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+        });
+
+        function playSound(soundFile, symbol) {
+            try {
+                // 根据现有的音频文件路径播放
+                const audio = new Audio(`./mp3/${soundFile}.mp3`);
+                
+                audio.play().then(() => {
+                    showToast(`🔊 ${symbol}`);
+                }).catch(error => {
+                    console.log('音频播放失败:', error);
+                    showToast(`❌ 音频文件未找到: ${symbol}`);
+                });
+            } catch (error) {
+                console.log('音频加载失败:', error);
+                showToast(`❌ 音频加载失败: ${symbol}`);
+            }
+        }
+
+        function showToast(message) {
+            // 移除现有的toast
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            // 创建新的toast
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            // 显示toast
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+
+            // 3秒后隐藏toast
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, 2000);
+        }
+
+        // 添加触摸反馈（移动端）
+        if ('ontouchstart' in window) {
+            document.querySelectorAll('.phonetic-card').forEach(card => {
+                card.addEventListener('touchstart', function() {
+                    this.style.backgroundColor = 'rgba(102, 126, 234, 0.1)';
+                });
+                
+                card.addEventListener('touchend', function() {
+                    setTimeout(() => {
+                        this.style.backgroundColor = '';
+                    }, 200);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
