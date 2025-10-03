@@ -182,6 +182,46 @@
             opacity: 1;
         }
 
+        /* 学习方法提示样式 */
+        .learning-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 0 10px;
+        }
+
+        .tip-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .tip-card h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .tip-card p {
+            margin: 8px 0;
+            color: #666;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        .tip-card strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+
         /* 移动端优化 */
         @media (max-width: 768px) {
             body {
@@ -214,6 +254,23 @@
                 font-size: 1rem;
                 padding: 8px 12px;
             }
+
+            .learning-tips {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .tip-card {
+                padding: 15px;
+            }
+
+            .tip-card h3 {
+                font-size: 1rem;
+            }
+
+            .tip-card p {
+                font-size: 0.85rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -240,7 +297,7 @@
     <div class="container">
         <div class="header">
             <h1>🎵 英语音标学习</h1>
-            <p>点击音标卡片即可听发音 • 48个国际音标</p>
+            <p>点击音标卡片即可听发音 • 48个国际音标 + 字母X发音</p>
         </div>
 
         <!-- 元音部分 -->
@@ -528,6 +585,54 @@
             </div>
         </div>
 
+        <!-- 字母发音部分 -->
+        <div class="phonetic-section">
+            <div class="section-title">🔤 字母发音 (Letter Sounds)</div>
+            
+            <div class="subsection">
+                <div class="subsection-title">特殊字母发音</div>
+                <div class="phonetic-grid">
+                    <div class="phonetic-card" data-sound="ks">
+                        <div class="play-indicator"></div>
+                        <div class="phonetic-symbol">ks</div>
+                        <div class="phonetic-example">字母X</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 学习方法提示 -->
+        <div class="phonetic-section">
+            <div class="section-title">📚 学习方法</div>
+            
+            <div class="learning-tips">
+                <div class="tip-card">
+                    <h3>🎯 掐头去尾法</h3>
+                    <p><strong>掐头法：</strong>F、L、M、N、S、X → 去掉头的元音[e]</p>
+                    <p><strong>去尾法：</strong>B、C、D、J、K、P、T、V、Z → 去掉尾的元音[e]</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h3>📏 嘴巴张开程度</h3>
+                    <p><strong>[æ]：</strong>三个手指宽度</p>
+                    <p><strong>[e]：</strong>两个手指宽度</p>
+                    <p><strong>[ɪ]：</strong>一个手指宽度</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h3>⏱️ 长元音延长法</h3>
+                    <p>短元音0.5秒 → 长元音1秒</p>
+                    <p>如：[ɪ] → [iː]，[ʌ] → [ɑː]</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h3>🔗 双元音拼接法</h3>
+                    <p>两个音快速连读</p>
+                    <p>如：[aɪ] = [ʌ] + [ɪ]</p>
+                </div>
+            </div>
+        </div>
+
         <div class="footer">
             <a href="https://www.bilibili.com/video/BV1iV411z7Nj?p=3" target="_blank">
                 🎬 发音截取自B站英语兔
@@ -559,7 +664,7 @@
 
         function playSound(soundFile, symbol) {
             try {
-                // 播放序列：yp版本 -> mp3版本 -> yp版本（总共3遍）
+                // 播放序列：yp版本 -> mp3版本 -> yp版本 -> mp3版本（总共4遍）
                 const audioSequence = [
                     `./yp/${soundFile}.mp3`,
                     `./mp3/${soundFile}.mp3`,
@@ -567,7 +672,7 @@
                     `./mp3/${soundFile}.mp3`,
                 ];
                 
-                showToast(`🔊 ${symbol} (播放3遍)`);
+                showToast(`🔊 ${symbol} (播放4遍)`);
                 playAudioSequence(audioSequence, 0, symbol);
                 
             } catch (error) {
@@ -578,7 +683,7 @@
 
         function playAudioSequence(audioFiles, index, symbol) {
             if (index >= audioFiles.length) {
-                showToast(`✅ ${symbol} 播放完成`);
+                showToast(`✅ ${symbol} 播放完成 (共4遍)`);
                 return;
             }
 
