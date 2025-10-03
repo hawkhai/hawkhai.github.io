@@ -559,19 +559,50 @@
 
         function playSound(soundFile, symbol) {
             try {
-                // 根据现有的音频文件路径播放
-                const audio = new Audio(`./mp3/${soundFile}.mp3`);
+                // 播放序列：yp版本 -> mp3版本 -> yp版本（总共3遍）
+                const audioSequence = [
+                    `./yp/${soundFile}.mp3`,
+                    `./mp3/${soundFile}.mp3`,
+                    `./yp/${soundFile}.mp3`
+                ];
                 
-                audio.play().then(() => {
-                    showToast(`🔊 ${symbol}`);
-                }).catch(error => {
-                    console.log('音频播放失败:', error);
-                    showToast(`❌ 音频文件未找到: ${symbol}`);
-                });
+                showToast(`🔊 ${symbol} (播放3遍)`);
+                playAudioSequence(audioSequence, 0, symbol);
+                
             } catch (error) {
                 console.log('音频加载失败:', error);
                 showToast(`❌ 音频加载失败: ${symbol}`);
             }
+        }
+
+        function playAudioSequence(audioFiles, index, symbol) {
+            if (index >= audioFiles.length) {
+                showToast(`✅ ${symbol} 播放完成`);
+                return;
+            }
+
+            const audio = new Audio(audioFiles[index]);
+            
+            audio.play().then(() => {
+                console.log(`播放第${index + 1}遍: ${audioFiles[index]}`);
+            }).catch(error => {
+                console.log(`音频播放失败 (第${index + 1}遍):`, error);
+            });
+
+            // 音频播放结束后播放下一个
+            audio.addEventListener('ended', () => {
+                setTimeout(() => {
+                    playAudioSequence(audioFiles, index + 1, symbol);
+                }, 300); // 间隔300ms
+            });
+
+            // 如果音频加载失败，尝试播放下一个
+            audio.addEventListener('error', () => {
+                console.log(`音频文件不存在: ${audioFiles[index]}`);
+                setTimeout(() => {
+                    playAudioSequence(audioFiles, index + 1, symbol);
+                }, 300);
+            });
         }
 
         function showToast(message) {
