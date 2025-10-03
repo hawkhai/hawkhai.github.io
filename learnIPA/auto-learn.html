@@ -410,6 +410,20 @@
         // 本地存储键名
         const STORAGE_KEY = 'phonetic_learning_progress';
 
+        // 音标到数字ID的映射表
+        const PHONETIC_TO_ID = {
+            'iː': '001', 'ɜː': '002', 'ɑː': '003', 'ɔː': '004', 'uː': '005',
+            'ɪ': '006', 'e': '007', 'æ': '008', 'ə': '009', 'ʌ': '010',
+            'ɒ': '011', 'ʊ': '012', 'eɪ': '013', 'aɪ': '014', 'ɔɪ': '015',
+            'əʊ': '016', 'aʊ': '017', 'ɪə': '018', 'eə': '019', 'ʊə': '020',
+            'p': '021', 't': '022', 'k': '023', 'f': '024', 'θ': '025',
+            's': '026', '∫': '027', 'h': '028', 't∫': '029', 'ts': '030',
+            'tr': '031', 'b': '032', 'd': '033', 'g': '034', 'v': '035',
+            'ð': '036', 'z': '037', 'ʒ': '038', 'r': '039', 'dʒ': '040',
+            'dz': '041', 'dr': '042', 'm': '043', 'n': '044', 'ŋ': '045',
+            'l': '046', 'j': '047', 'w': '048', 'ks': '049', 'tʃ': '050', 'ʃ': '051'
+        };
+
         // 保存学习进度到本地存储
         function saveProgress() {
             const progress = {
@@ -470,9 +484,16 @@
             if (!isPlaying || isPaused) return;
 
             const current = phoneticData[currentIndex];
+            const numericId = PHONETIC_TO_ID[current.symbol];
+            
+            if (!numericId) {
+                console.error(`未找到音标 ${current.symbol} 的数字ID映射`);
+                return;
+            }
+            
             const audioFiles = [
-                `./yp/${current.symbol}.mp3`,
-                `./mp3/${current.symbol}.mp3`
+                `./yp/${numericId}.mp3`,
+                `./mp3/${numericId}.mp3`
             ];
 
             let audioIndex = 0;
