@@ -301,7 +301,7 @@
 
         <div class="main-display">
             <div class="phonetic-symbol" id="phoneticSymbol">🎵</div>
-            <div class="phonetic-info" id="phoneticInfo">即将自动开始学习...</div>
+            <div class="phonetic-info" id="phoneticInfo">即将自动开始学习 ...</div>
             <div class="repeat-counter" id="repeatCounter">准备中</div>
         </div>
 
@@ -310,10 +310,11 @@
             <button class="control-btn" id="pauseBtn" onclick="pauseAutoPlay()">⏸️ 暂停</button>
             <button class="control-btn" id="stopBtn" onclick="stopAutoPlay()">⏹️ 停止</button>
             <button class="control-btn" id="nextBtn" onclick="nextPhonetic()">⏭️ 下一个</button>
+            <button class="control-btn" id="resetBtn" onclick="resetProgress()">🔄 重置</button>
         </div>
 
         <div class="speed-control">
-            <label for="speedSlider">播放速度: <span id="speedValue">正常</span></label>
+            <label for="speedSlider">播放速度 : <span id="speedValue">正常</span></label>
             <input type="range" id="speedSlider" class="speed-slider" min="0.5" max="2" step="0.1" value="1" onchange="updateSpeed()">
         </div>
     </div>
@@ -322,65 +323,65 @@
         // 音标数据
         const phoneticData = [
             // 长元音
-            { symbol: 'iː', example: 'see', category: '长元音', type: 'vowel' },
-            { symbol: 'ɜː', example: 'bird', category: '长元音', type: 'vowel' },
-            { symbol: 'ɑː', example: 'car', category: '长元音', type: 'vowel' },
-            { symbol: 'ɔː', example: 'door', category: '长元音', type: 'vowel' },
-            { symbol: 'uː', example: 'food', category: '长元音', type: 'vowel' },
-            
+            { symbol: 'iː', example: 'see', category: ' 长元音 ', type: 'vowel' },
+            { symbol: 'ɜː', example: 'bird', category: ' 长元音 ', type: 'vowel' },
+            { symbol: 'ɑː', example: 'car', category: ' 长元音 ', type: 'vowel' },
+            { symbol: 'ɔː', example: 'door', category: ' 长元音 ', type: 'vowel' },
+            { symbol: 'uː', example: 'food', category: ' 长元音 ', type: 'vowel' },
+
             // 短元音
-            { symbol: 'ɪ', example: 'sit', category: '短元音', type: 'vowel' },
-            { symbol: 'e', example: 'bed', category: '短元音', type: 'vowel' },
-            { symbol: 'æ', example: 'cat', category: '短元音', type: 'vowel' },
-            { symbol: 'ə', example: 'about', category: '短元音', type: 'vowel' },
-            { symbol: 'ʌ', example: 'cup', category: '短元音', type: 'vowel' },
-            { symbol: 'ɒ', example: 'hot', category: '短元音', type: 'vowel' },
-            { symbol: 'ʊ', example: 'book', category: '短元音', type: 'vowel' },
-            
+            { symbol: 'ɪ', example: 'sit', category: ' 短元音 ', type: 'vowel' },
+            { symbol: 'e', example: 'bed', category: ' 短元音 ', type: 'vowel' },
+            { symbol: 'æ', example: 'cat', category: ' 短元音 ', type: 'vowel' },
+            { symbol: 'ə', example: 'about', category: ' 短元音 ', type: 'vowel' },
+            { symbol: 'ʌ', example: 'cup', category: ' 短元音 ', type: 'vowel' },
+            { symbol: 'ɒ', example: 'hot', category: ' 短元音 ', type: 'vowel' },
+            { symbol: 'ʊ', example: 'book', category: ' 短元音 ', type: 'vowel' },
+
             // 双元音
-            { symbol: 'eɪ', example: 'day', category: '双元音', type: 'vowel' },
-            { symbol: 'aɪ', example: 'my', category: '双元音', type: 'vowel' },
-            { symbol: 'ɔɪ', example: 'boy', category: '双元音', type: 'vowel' },
-            { symbol: 'əʊ', example: 'go', category: '双元音', type: 'vowel' },
-            { symbol: 'aʊ', example: 'now', category: '双元音', type: 'vowel' },
-            { symbol: 'ɪə', example: 'ear', category: '双元音', type: 'vowel' },
-            { symbol: 'eə', example: 'air', category: '双元音', type: 'vowel' },
-            { symbol: 'ʊə', example: 'tour', category: '双元音', type: 'vowel' },
-            
+            { symbol: 'eɪ', example: 'day', category: ' 双元音 ', type: 'vowel' },
+            { symbol: 'aɪ', example: 'my', category: ' 双元音 ', type: 'vowel' },
+            { symbol: 'ɔɪ', example: 'boy', category: ' 双元音 ', type: 'vowel' },
+            { symbol: 'əʊ', example: 'go', category: ' 双元音 ', type: 'vowel' },
+            { symbol: 'aʊ', example: 'now', category: ' 双元音 ', type: 'vowel' },
+            { symbol: 'ɪə', example: 'ear', category: ' 双元音 ', type: 'vowel' },
+            { symbol: 'eə', example: 'air', category: ' 双元音 ', type: 'vowel' },
+            { symbol: 'ʊə', example: 'tour', category: ' 双元音 ', type: 'vowel' },
+
             // 清辅音
-            { symbol: 'p', example: 'pen', category: '清辅音', type: 'consonant' },
-            { symbol: 't', example: 'tea', category: '清辅音', type: 'consonant' },
-            { symbol: 'k', example: 'key', category: '清辅音', type: 'consonant' },
-            { symbol: 'f', example: 'fish', category: '清辅音', type: 'consonant' },
-            { symbol: 'θ', example: 'think', category: '清辅音', type: 'consonant' },
-            { symbol: 's', example: 'sun', category: '清辅音', type: 'consonant' },
-            { symbol: '∫', example: 'ship', category: '清辅音', type: 'consonant' },
-            { symbol: 'h', example: 'hat', category: '清辅音', type: 'consonant' },
-            { symbol: 't∫', example: 'chair', category: '清辅音', type: 'consonant' },
-            { symbol: 'ts', example: 'cats', category: '清辅音', type: 'consonant' },
-            { symbol: 'tr', example: 'tree', category: '清辅音', type: 'consonant' },
-            
+            { symbol: 'p', example: 'pen', category: ' 清辅音 ', type: 'consonant' },
+            { symbol: 't', example: 'tea', category: ' 清辅音 ', type: 'consonant' },
+            { symbol: 'k', example: 'key', category: ' 清辅音 ', type: 'consonant' },
+            { symbol: 'f', example: 'fish', category: ' 清辅音 ', type: 'consonant' },
+            { symbol: 'θ', example: 'think', category: ' 清辅音 ', type: 'consonant' },
+            { symbol: 's', example: 'sun', category: ' 清辅音 ', type: 'consonant' },
+            { symbol: '∫', example: 'ship', category: ' 清辅音 ', type: 'consonant' },
+            { symbol: 'h', example: 'hat', category: ' 清辅音 ', type: 'consonant' },
+            { symbol: 't∫', example: 'chair', category: ' 清辅音 ', type: 'consonant' },
+            { symbol: 'ts', example: 'cats', category: ' 清辅音 ', type: 'consonant' },
+            { symbol: 'tr', example: 'tree', category: ' 清辅音 ', type: 'consonant' },
+
             // 浊辅音
-            { symbol: 'b', example: 'book', category: '浊辅音', type: 'consonant' },
-            { symbol: 'd', example: 'dog', category: '浊辅音', type: 'consonant' },
-            { symbol: 'g', example: 'go', category: '浊辅音', type: 'consonant' },
-            { symbol: 'v', example: 'very', category: '浊辅音', type: 'consonant' },
-            { symbol: 'ð', example: 'this', category: '浊辅音', type: 'consonant' },
-            { symbol: 'z', example: 'zoo', category: '浊辅音', type: 'consonant' },
-            { symbol: 'ʒ', example: 'vision', category: '浊辅音', type: 'consonant' },
-            { symbol: 'r', example: 'red', category: '浊辅音', type: 'consonant' },
-            { symbol: 'dʒ', example: 'jump', category: '浊辅音', type: 'consonant' },
-            { symbol: 'dz', example: 'beds', category: '浊辅音', type: 'consonant' },
-            { symbol: 'dr', example: 'dream', category: '浊辅音', type: 'consonant' },
-            { symbol: 'm', example: 'man', category: '浊辅音', type: 'consonant' },
-            { symbol: 'n', example: 'no', category: '浊辅音', type: 'consonant' },
-            { symbol: 'ŋ', example: 'sing', category: '浊辅音', type: 'consonant' },
-            { symbol: 'l', example: 'love', category: '浊辅音', type: 'consonant' },
-            { symbol: 'j', example: 'yes', category: '浊辅音', type: 'consonant' },
-            { symbol: 'w', example: 'water', category: '浊辅音', type: 'consonant' },
-            
+            { symbol: 'b', example: 'book', category: ' 浊辅音 ', type: 'consonant' },
+            { symbol: 'd', example: 'dog', category: ' 浊辅音 ', type: 'consonant' },
+            { symbol: 'g', example: 'go', category: ' 浊辅音 ', type: 'consonant' },
+            { symbol: 'v', example: 'very', category: ' 浊辅音 ', type: 'consonant' },
+            { symbol: 'ð', example: 'this', category: ' 浊辅音 ', type: 'consonant' },
+            { symbol: 'z', example: 'zoo', category: ' 浊辅音 ', type: 'consonant' },
+            { symbol: 'ʒ', example: 'vision', category: ' 浊辅音 ', type: 'consonant' },
+            { symbol: 'r', example: 'red', category: ' 浊辅音 ', type: 'consonant' },
+            { symbol: 'dʒ', example: 'jump', category: ' 浊辅音 ', type: 'consonant' },
+            { symbol: 'dz', example: 'beds', category: ' 浊辅音 ', type: 'consonant' },
+            { symbol: 'dr', example: 'dream', category: ' 浊辅音 ', type: 'consonant' },
+            { symbol: 'm', example: 'man', category: ' 浊辅音 ', type: 'consonant' },
+            { symbol: 'n', example: 'no', category: ' 浊辅音 ', type: 'consonant' },
+            { symbol: 'ŋ', example: 'sing', category: ' 浊辅音 ', type: 'consonant' },
+            { symbol: 'l', example: 'love', category: ' 浊辅音 ', type: 'consonant' },
+            { symbol: 'j', example: 'yes', category: ' 浊辅音 ', type: 'consonant' },
+            { symbol: 'w', example: 'water', category: ' 浊辅音 ', type: 'consonant' },
+
             // 字母发音
-            { symbol: 'ks', example: '字母X', category: '字母发音', type: 'letter' }
+            { symbol: 'ks', example: ' 字母 X', category: ' 字母发音 ', type: 'letter' }
         ];
 
         // 全局变量
@@ -392,6 +393,7 @@
         let autoPlayTimer = null;
         let audioQueue = [];
         let currentAudio = null;
+        let hasRestoredProgress = false;
 
         // DOM 元素
         const phoneticSymbol = document.getElementById('phoneticSymbol');
@@ -405,17 +407,61 @@
         const stopBtn = document.getElementById('stopBtn');
         const nextBtn = document.getElementById('nextBtn');
 
+        // 本地存储键名
+        const STORAGE_KEY = 'phonetic_learning_progress';
+
+        // 保存学习进度到本地存储
+        function saveProgress() {
+            const progress = {
+                currentIndex: currentIndex,
+                currentRepeat: currentRepeat,
+                timestamp: new Date().toISOString(),
+                totalPhonetics: phoneticData.length
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+            console.log('进度已保存:', progress);
+        }
+
+        // 从本地存储加载学习进度
+        function loadProgress() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const progress = JSON.parse(saved);
+                    // 验证数据有效性
+                    if (progress.currentIndex >= 0 && progress.currentIndex < phoneticData.length &&
+                        progress.currentRepeat >= 0 && progress.currentRepeat < 6) {
+                        currentIndex = progress.currentIndex;
+                        currentRepeat = progress.currentRepeat;
+                        hasRestoredProgress = true;
+                        console.log('进度已恢复:', progress);
+                        return true;
+                    }
+                }
+            } catch (error) {
+                console.log('加载进度失败:', error);
+            }
+            return false;
+        }
+
+        // 清除保存的进度
+        function clearProgress() {
+            localStorage.removeItem(STORAGE_KEY);
+            console.log('进度已清除');
+        }
+
         // 更新显示
         function updateDisplay() {
             const current = phoneticData[currentIndex];
             phoneticSymbol.textContent = current.symbol;
             phoneticInfo.textContent = `${current.example} (${current.category})`;
             repeatCounter.textContent = `${currentRepeat + 1}/6`;
-            
+
             const totalProgress = ((currentIndex * 6 + currentRepeat) / (phoneticData.length * 6)) * 100;
             progressFill.style.width = totalProgress + '%';
-            
-            progressInfo.textContent = `第 ${currentIndex + 1}/${phoneticData.length} 个音标 • 第 ${currentRepeat + 1}/6 遍`;
+
+            const resumeText = hasRestoredProgress ? ' (从上次断点继续)' : '';
+            progressInfo.textContent = `第 ${currentIndex + 1}/${phoneticData.length} 个音标 • 第 ${currentRepeat + 1}/6 遍${resumeText}`;
             categoryIndicator.textContent = `${current.category} • ${current.type === 'vowel' ? '元音' : current.type === 'consonant' ? '辅音' : '字母'}`;
         }
 
@@ -430,49 +476,52 @@
             ];
 
             let audioIndex = 0;
-            
+
             function playNextAudio() {
                 if (!isPlaying || isPaused) return;
-                
+
                 if (audioIndex >= audioFiles.length) {
                     // 当前重复完成，准备下一次重复或下一个音标
                     setTimeout(() => {
                         if (!isPlaying || isPaused) return;
-                        
+
                         currentRepeat++;
                         if (currentRepeat >= 6) {
-                            // 当前音标的6遍播放完成，切换到下一个音标
+                            // 当前音标的 6 遍播放完成，切换到下一个音标
                             currentRepeat = 0;
                             currentIndex++;
-                            
+
                             if (currentIndex >= phoneticData.length) {
                                 // 所有音标播放完成
+                                clearProgress(); // 完成后清除进度
                                 stopAutoPlay();
                                 showCompletionMessage();
                                 return;
                             }
                         }
-                        
+
+                        // 保存当前进度
+                        saveProgress();
                         updateDisplay();
                         playCurrentPhonetic();
-                    }, Math.max(300, 800 / playSpeed)); // 间隔时间根据播放速度调整，最小300ms
+                    }, Math.max(300, 800 / playSpeed)); // 间隔时间根据播放速度调整，最小 300ms
                     return;
                 }
 
                 const audio = new Audio(audioFiles[audioIndex]);
                 currentAudio = audio;
-                
+
                 // 设置播放速度
                 audio.playbackRate = playSpeed;
-                
+
                 // 播放音频
                 const playPromise = audio.play();
-                
+
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
                         console.log(`播放: ${audioFiles[audioIndex]} (速度: ${playSpeed}x)`);
                     }).catch(error => {
-                        console.log('音频播放失败:', error);
+                        console.log(' 音频播放失败 :', error);
                         // 播放失败时跳到下一个
                         audioIndex++;
                         setTimeout(() => {
@@ -487,7 +536,7 @@
                     audioIndex++;
                     setTimeout(() => {
                         playNextAudio();
-                    }, Math.max(100, 200 / playSpeed)); // 音频间隔，最小100ms
+                    }, Math.max(100, 200 / playSpeed)); // 音频间隔，最小 100ms
                 });
 
                 // 音频加载错误事件
@@ -508,7 +557,7 @@
         function startAutoPlay() {
             if (isPaused) {
                 isPaused = false;
-                startBtn.textContent = '▶️ 开始';
+                startBtn.textContent = '▶️ 开始 ';
                 pauseBtn.classList.add('active');
                 startBtn.classList.remove('active');
                 playCurrentPhonetic();
@@ -517,12 +566,19 @@
 
             isPlaying = true;
             isPaused = false;
-            currentIndex = 0;
-            currentRepeat = 0;
             
+            // 如果不是从暂停恢复，尝试加载保存的进度
+            if (!hasRestoredProgress) {
+                const progressLoaded = loadProgress();
+                if (!progressLoaded) {
+                    currentIndex = 0;
+                    currentRepeat = 0;
+                }
+            }
+
             startBtn.classList.add('active');
             pauseBtn.classList.remove('active');
-            
+
             updateDisplay();
             playCurrentPhonetic();
         }
@@ -530,100 +586,132 @@
         // 暂停播放
         function pauseAutoPlay() {
             if (!isPlaying) return;
-            
+
             isPaused = !isPaused;
-            
+
             if (isPaused) {
                 pauseBtn.classList.add('active');
                 startBtn.classList.remove('active');
-                startBtn.textContent = '▶️ 继续';
-                
+                startBtn.textContent = '▶️ 继续 ';
+
                 if (currentAudio) {
                     currentAudio.pause();
                 }
+                
+                // 暂停时保存进度
+                saveProgress();
             } else {
                 pauseBtn.classList.remove('active');
                 startBtn.classList.add('active');
-                startBtn.textContent = '▶️ 开始';
+                startBtn.textContent = '▶️ 开始 ';
                 playCurrentPhonetic();
             }
         }
 
         // 停止播放
         function stopAutoPlay() {
+            // 停止前保存当前进度
+            if (isPlaying) {
+                saveProgress();
+            }
+            
             isPlaying = false;
             isPaused = false;
-            currentIndex = 0;
-            currentRepeat = 0;
-            
+
             if (currentAudio) {
                 currentAudio.pause();
                 currentAudio = null;
             }
-            
+
             startBtn.classList.remove('active');
             pauseBtn.classList.remove('active');
-            startBtn.textContent = '▶️ 开始';
-            
+            startBtn.textContent = '▶️ 开始 ';
+
             phoneticSymbol.textContent = '🎵';
-            phoneticInfo.textContent = '自动播放已停止';
-            repeatCounter.textContent = '已停止';
-            progressInfo.textContent = '点击开始按钮重新播放';
+            phoneticInfo.textContent = ' 自动播放已停止 ';
+            repeatCounter.textContent = ' 已停止 ';
+            progressInfo.textContent = ' 点击开始按钮从上次断点继续播放 ';
             progressFill.style.width = '0%';
-            categoryIndicator.textContent = '播放已停止';
+            categoryIndicator.textContent = ' 播放已停止 ';
         }
 
         // 下一个音标
         function nextPhonetic() {
             if (!isPlaying) return;
-            
+
             if (currentAudio) {
                 currentAudio.pause();
             }
-            
+
             currentRepeat = 0;
             currentIndex++;
-            
+
             if (currentIndex >= phoneticData.length) {
                 stopAutoPlay();
                 showCompletionMessage();
                 return;
             }
-            
+
             updateDisplay();
             if (!isPaused) {
                 playCurrentPhonetic();
             }
         }
 
+        // 重置进度
+        function resetProgress() {
+            // 停止当前播放
+            if (isPlaying) {
+                stopAutoPlay();
+            }
+            
+            // 清除保存的进度
+            clearProgress();
+            
+            // 重置所有状态
+            currentIndex = 0;
+            currentRepeat = 0;
+            hasRestoredProgress = false;
+            
+            // 更新显示
+            phoneticSymbol.textContent = '🎵';
+            phoneticInfo.textContent = ' 进度已重置，将从第一个音标开始 ';
+            repeatCounter.textContent = ' 已重置 ';
+            progressInfo.textContent = ' 点击开始按钮从头开始播放 ';
+            progressFill.style.width = '0%';
+            categoryIndicator.textContent = ' 进度已重置 ';
+            
+            console.log('学习进度已重置');
+        }
+
         // 更新播放速度
         function updateSpeed() {
             const slider = document.getElementById('speedSlider');
             const speedValue = document.getElementById('speedValue');
-            
+
             playSpeed = parseFloat(slider.value);
-            
+
             const speedText = {
-                0.5: '很慢',
-                0.6: '慢',
-                0.7: '较慢',
-                0.8: '稍慢',
-                0.9: '略慢',
-                1.0: '正常',
-                1.1: '略快',
-                1.2: '稍快',
-                1.3: '较快',
-                1.4: '快',
-                1.5: '很快',
-                1.6: '超快',
-                1.7: '极快',
-                1.8: '飞快',
-                1.9: '闪电',
-                2.0: '光速'
+                0.5: ' 很慢 ',
+                0.6: ' 慢 ',
+                0.7: ' 较慢 ',
+                0.8: ' 稍慢 ',
+                0.9: ' 略慢 ',
+                1.0: ' 正常 ',
+                1.1: ' 略快 ',
+                1.2: ' 稍快 ',
+                1.3: ' 较快 ',
+                1.4: ' 快 ',
+                1.5: ' 很快 ',
+                1.6: ' 超快 ',
+                1.7: ' 极快 ',
+                1.8: ' 飞快 ',
+                1.9: ' 闪电 ',
+                2.0: ' 光速 '
             };
-            
+
             speedValue.textContent = speedText[playSpeed.toFixed(1)] || `${playSpeed.toFixed(1)}x`;
-            
+
             if (currentAudio) {
                 currentAudio.playbackRate = playSpeed;
             }
@@ -632,10 +720,10 @@
         // 显示完成消息
         function showCompletionMessage() {
             phoneticSymbol.textContent = '🎉';
-            phoneticInfo.textContent = '恭喜！所有音标学习完成';
-            repeatCounter.textContent = '完成';
-            progressInfo.textContent = '所有48个音标已学习完成，每个重复6遍';
-            categoryIndicator.textContent = '学习完成 • 可以重新开始';
+            phoneticInfo.textContent = ' 恭喜！所有音标学习完成 ';
+            repeatCounter.textContent = ' 完成 ';
+            progressInfo.textContent = ' 所有 48 个音标已学习完成，每个重复 6 遍 ';
+            categoryIndicator.textContent = ' 学习完成 • 可以重新开始 ';
         }
 
         // 键盘快捷键
@@ -655,20 +743,26 @@
                 case 'ArrowRight':
                     nextPhonetic();
                     break;
+                case 'KeyR':
+                    if (event.ctrlKey || event.metaKey) {
+                        event.preventDefault();
+                        resetProgress();
+                    }
+                    break;
             }
         });
 
         // 防止屏幕休眠（尝试保持活跃状态）
         let wakeLock = null;
-        
+
         async function requestWakeLock() {
             try {
                 if ('wakeLock' in navigator) {
                     wakeLock = await navigator.wakeLock.request('screen');
-                    console.log('屏幕保持唤醒');
+                    console.log(' 屏幕保持唤醒 ');
                 }
             } catch (err) {
-                console.log('无法保持屏幕唤醒:', err);
+                console.log(' 无法保持屏幕唤醒 :', err);
             }
         }
 
@@ -682,7 +776,7 @@
                 if (!isPlaying) {
                     setTimeout(() => {
                         startAutoPlay();
-                    }, 500); // 延迟500ms开始播放
+                    }, 500); // 延迟 500ms 开始播放
                 }
                 if (wakeLock !== null) {
                     requestWakeLock();
@@ -714,10 +808,19 @@
             updateSpeed();
             requestWakeLock();
             
+            // 尝试加载保存的进度
+            const progressLoaded = loadProgress();
+            if (progressLoaded) {
+                updateDisplay();
+                phoneticInfo.textContent = ' 检测到上次学习进度，点击开始继续学习 ';
+                progressInfo.textContent = ' 将从上次断点继续播放 ';
+                categoryIndicator.textContent = ' 已恢复上次进度 ';
+            }
+
             // 页面加载完成后自动开始播放
             setTimeout(() => {
                 startAutoPlay();
-            }, 1000); // 延迟1秒开始播放，确保页面完全加载
+            }, 1000); // 延迟 1 秒开始播放，确保页面完全加载
         });
     </script>
 </body>
