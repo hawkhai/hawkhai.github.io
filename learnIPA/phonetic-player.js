@@ -212,7 +212,7 @@ class PhoneticPlayer {
         const folders = [
             { name: 'yp', ext: '.mp3' },
             { name: 'xdf', ext: '.mp3' },
-            { name: 'tingclass', ext: '.mp4' },
+            { name: 'tingclass', ext: '.mp3' },
             { name: 'mp3', ext: '.mp3' }
         ];
         
