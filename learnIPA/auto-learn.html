@@ -444,7 +444,7 @@
                     const progress = JSON.parse(saved);
                     // 验证数据有效性
                     if (progress.currentIndex >= 0 && progress.currentIndex < phoneticData.length &&
-                        progress.currentRepeat >= 0 && progress.currentRepeat < 6) {
+                        progress.currentRepeat >= 0 && progress.currentRepeat < 4) {
                         currentIndex = progress.currentIndex;
                         currentRepeat = progress.currentRepeat;
                         hasRestoredProgress = true;
@@ -469,13 +469,13 @@
             const current = phoneticData[currentIndex];
             phoneticSymbol.textContent = current.symbol;
             phoneticInfo.textContent = `${current.example} (${current.category})`;
-            repeatCounter.textContent = `${currentRepeat + 1}/6`;
+            repeatCounter.textContent = `${currentRepeat + 1}/4`;
 
-            const totalProgress = ((currentIndex * 6 + currentRepeat) / (phoneticData.length * 6)) * 100;
+            const totalProgress = ((currentIndex * 4 + currentRepeat) / (phoneticData.length * 4)) * 100;
             progressFill.style.width = totalProgress + '%';
 
             const resumeText = hasRestoredProgress ? ' (从上次断点继续)' : '';
-            progressInfo.textContent = `第 ${currentIndex + 1}/${phoneticData.length} 个音标 • 第 ${currentRepeat + 1}/6 遍${resumeText}`;
+            progressInfo.textContent = `第 ${currentIndex + 1}/${phoneticData.length} 个音标 • 第 ${currentRepeat + 1}/4 遍${resumeText}`;
             categoryIndicator.textContent = `${current.category} • ${current.type === 'vowel' ? '元音' : current.type === 'consonant' ? '辅音' : '字母'}`;
         }
 
@@ -507,8 +507,8 @@
                         if (!isPlaying || isPaused) return;
 
                         currentRepeat++;
-                        if (currentRepeat >= 6) {
-                            // 当前音标的 6 遍播放完成，切换到下一个音标
+                        if (currentRepeat >= 4) {
+                            // 当前音标的 4 遍播放完成，切换到下一个音标
                             currentRepeat = 0;
                             currentIndex++;
 
@@ -743,7 +743,7 @@
             phoneticSymbol.textContent = '🎉';
             phoneticInfo.textContent = ' 恭喜！所有音标学习完成 ';
             repeatCounter.textContent = ' 完成 ';
-            progressInfo.textContent = ' 所有 48 个音标已学习完成，每个重复 6 遍 ';
+            progressInfo.textContent = ' 所有 48 个音标已学习完成，每个重复 4 遍 ';
             categoryIndicator.textContent = ' 学习完成 • 可以重新开始 ';
         }
 
