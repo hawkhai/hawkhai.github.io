@@ -1520,19 +1520,7 @@
 
     <script src="jquery.min.js"></script>
     <script type="text/javascript">
-        // 音标到数字ID的映射表
-        const PHONETIC_TO_ID = {
-            'iː': '001', 'ɜː': '002', 'ɑː': '003', 'ɔː': '004', 'uː': '005',
-            'ɪ': '006', 'e': '007', 'æ': '008', 'ə': '009', 'ʌ': '010',
-            'ɒ': '011', 'ʊ': '012', 'eɪ': '013', 'aɪ': '014', 'ɔɪ': '015',
-            'əʊ': '016', 'aʊ': '017', 'ɪə': '018', 'eə': '019', 'ʊə': '020',
-            'p': '021', 't': '022', 'k': '023', 'f': '024', 'θ': '025',
-            's': '026', '∫': '027', 'h': '028', 't∫': '029', 'ts': '030',
-            'tr': '031', 'b': '032', 'd': '033', 'g': '034', 'v': '035',
-            'ð': '036', 'z': '037', 'ʒ': '038', 'r': '039', 'dʒ': '040',
-            'dz': '041', 'dr': '042', 'm': '043', 'n': '044', 'ŋ': '045',
-            'l': '046', 'j': '047', 'w': '048', 'ks': '049', 'tʃ': '050', 'ʃ': '051'
-        };
+        
 
         $(function(){
 
@@ -1541,8 +1529,12 @@
             for (var i = 0; i < ipa_list.length; i++) {
                 var ipa = ipa_list[i];
                 var classz = ".ipa_"+ipa;
-                var numericId = PHONETIC_TO_ID[ipa];
-                var file = numericId ? "mp3/"+ numericId +".mp3" : "mp3/"+ ipa +".mp3"
+                // 使用新的音标播放器
+                if (window.phoneticPlayer) {
+                    window.phoneticPlayer.playPhonetic(ipa, ipa);
+                    return; // 跳过旧的播放逻辑
+                }
+                var file = "mp3/"+ ipa +".mp3"
 
                 const obj = {ipa, classz, file, }
                 console.log(" 注册点击事件" ,obj)
