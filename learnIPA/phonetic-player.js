@@ -14,6 +14,9 @@ class PhoneticPlayer {
             ...config
         };
 
+        // 播放完成回调
+        this.onPlayComplete = null;
+
         // 播放状态
         this.currentAudio = null;  // 当前播放的音频对象
         this.isPlaying = false;
@@ -194,6 +197,9 @@ class PhoneticPlayer {
             clearTimeout(timeoutId);
         });
         this.playTimeouts = [];
+        
+        // 清理回调
+        this.onPlayComplete = null;
     }
 
     /**
@@ -220,13 +226,14 @@ class PhoneticPlayer {
     /**
      * 播放音标发音
      */
-    playPhonetic(soundFile, symbol) {
+    playPhonetic(soundFile, symbol, onComplete = null) {
         try {
             // 强制停止之前的播放
             this.stopAllAudio();
             
             // 设置播放状态
             this.isPlaying = true;
+            this.onPlayComplete = onComplete;
 
             // 获取数字ID
             const numericId = this.phoneticToId[soundFile];
@@ -234,6 +241,7 @@ class PhoneticPlayer {
                 console.error(`未找到音标 ${soundFile} 的数字ID映射`);
                 this.showToast(`❌ 未找到映射: ${symbol}`);
                 this.isPlaying = false;
+                if (onComplete) onComplete();
                 return;
             }
 
@@ -244,6 +252,7 @@ class PhoneticPlayer {
                 console.error(`未找到音标 ${soundFile} 的音频文件`);
                 this.showToast(`❌ 未找到音频: ${symbol}`);
                 this.isPlaying = false;
+                if (onComplete) onComplete();
                 return;
             }
 
@@ -254,6 +263,7 @@ class PhoneticPlayer {
             console.log('音频加载失败:', error);
             this.showToast(`❌ 音频加载失败: ${symbol}`);
             this.isPlaying = false;
+            if (onComplete) onComplete();
         }
     }
 
@@ -270,6 +280,12 @@ class PhoneticPlayer {
             this.showToast(`✅ ${symbol} 播放完成 (共${this.config.playCount}遍)`);
             this.isPlaying = false;
             this.currentAudio = null;
+            
+            // 调用完成回调
+            if (this.onPlayComplete) {
+                this.onPlayComplete();
+                this.onPlayComplete = null;
+            }
             return;
         }
 
@@ -401,8 +417,8 @@ class PhoneticPlayer {
 window.phoneticPlayer = new PhoneticPlayer();
 
 // 兼容性函数 - 保持向后兼容
-window.playSound = function(soundFile, symbol) {
-    window.phoneticPlayer.playPhonetic(soundFile, symbol);
+window.playSound = function(soundFile, symbol, onComplete) {
+    window.phoneticPlayer.playPhonetic(soundFile, symbol, onComplete);
 };
 
 window.stopAllAudio = function() {

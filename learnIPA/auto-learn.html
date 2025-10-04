@@ -475,97 +475,26 @@
             
             // 使用新的音标播放器
             if (window.phoneticPlayer) {
-                window.phoneticPlayer.playPhonetic(current.symbol, current.symbol);
-                
-                // 模拟播放完成后的逻辑
-                setTimeout(() => {
+                window.phoneticPlayer.playPhonetic(current.symbol, current.symbol, () => {
+                    // 播放完成后的回调
                     if (!isPlaying || isPaused) return;
+                    
                     currentRepeat++;
                     if (currentRepeat >= 4) {
                         nextPhonetic();
                     } else {
-                        setTimeout(playCurrentPhonetic, 2000);
+                        // 0.3秒间隔后播放下一遍
+                        setTimeout(() => {
+                            if (!isPlaying || isPaused) return;
+                            playCurrentPhonetic();
+                        }, 300);
                     }
-                }, 8000); // 假设4个版本播放需要8秒
+                });
                 return;
             }
 
-            let audioIndex = 0;
-
-            function playNextAudio() {
-                if (!isPlaying || isPaused) return;
-
-                if (audioIndex >= audioFiles.length) {
-                    // 当前重复完成，准备下一次重复或下一个音标
-                    setTimeout(() => {
-                        if (!isPlaying || isPaused) return;
-
-                        currentRepeat++;
-                        if (currentRepeat >= 4) {
-                            // 当前音标的 4 遍播放完成，切换到下一个音标
-                            currentRepeat = 0;
-                            currentIndex++;
-
-                            if (currentIndex >= phoneticData.length) {
-                                // 所有音标播放完成
-                                clearProgress(); // 完成后清除进度
-                                stopAutoPlay();
-                                showCompletionMessage();
-                                return;
-                            }
-                        }
-
-                        // 保存当前进度
-                        saveProgress();
-                        updateDisplay();
-                        playCurrentPhonetic();
-                    }, Math.max(300, 800 / playSpeed)); // 间隔时间根据播放速度调整，最小 300ms
-                    return;
-                }
-
-                const audio = new Audio(audioFiles[audioIndex]);
-                currentAudio = audio;
-
-                // 设置播放速度
-                audio.playbackRate = playSpeed;
-
-                // 播放音频
-                const playPromise = audio.play();
-
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        console.log(`播放: ${audioFiles[audioIndex]} (速度: ${playSpeed}x)`);
-                    }).catch(error => {
-                        console.log(' 音频播放失败 :', error);
-                        // 播放失败时跳到下一个
-                        audioIndex++;
-                        setTimeout(() => {
-                            playNextAudio();
-                        }, Math.max(100, 200 / playSpeed));
-                    });
-                }
-
-                // 音频播放结束事件
-                audio.addEventListener('ended', () => {
-                    if (!isPlaying || isPaused) return;
-                    audioIndex++;
-                    setTimeout(() => {
-                        playNextAudio();
-                    }, Math.max(100, 200 / playSpeed)); // 音频间隔，最小 100ms
-                });
-
-                // 音频加载错误事件
-                audio.addEventListener('error', () => {
-                    console.log(`音频文件不存在: ${audioFiles[audioIndex]}`);
-                    if (!isPlaying || isPaused) return;
-                    audioIndex++;
-                    setTimeout(() => {
-                        playNextAudio();
-                    }, Math.max(100, 200 / playSpeed));
-                });
-            }
-
-            playNextAudio();
+            // 备用播放方式（如果 phoneticPlayer 不可用）
+            console.warn('phoneticPlayer 不可用，请确保 phonetic-player.js 已正确加载');
         }
 
         // 开始自动播放
@@ -609,6 +538,11 @@
                 startBtn.classList.remove('active');
                 startBtn.textContent = '▶️ 继续 ';
 
+                // 停止音标播放器
+                if (window.phoneticPlayer) {
+                    window.phoneticPlayer.stopAllAudio();
+                }
+                
                 if (currentAudio) {
                     currentAudio.pause();
                 }
@@ -633,6 +567,11 @@
             isPlaying = false;
             isPaused = false;
 
+            // 停止音标播放器
+            if (window.phoneticPlayer) {
+                window.phoneticPlayer.stopAllAudio();
+            }
+
             if (currentAudio) {
                 currentAudio.pause();
                 currentAudio = null;
@@ -654,6 +593,11 @@
         function nextPhonetic() {
             if (!isPlaying) return;
 
+            // 停止当前播放
+            if (window.phoneticPlayer) {
+                window.phoneticPlayer.stopAllAudio();
+            }
+
             if (currentAudio) {
                 currentAudio.pause();
             }
@@ -662,14 +606,23 @@
             currentIndex++;
 
             if (currentIndex >= phoneticData.length) {
+                // 所有音标播放完成
+                clearProgress(); // 完成后清除进度
                 stopAutoPlay();
                 showCompletionMessage();
                 return;
             }
 
+            // 保存当前进度
+            saveProgress();
             updateDisplay();
+            
             if (!isPaused) {
-                playCurrentPhonetic();
+                // 0.3秒间隔后播放下一个音标
+                setTimeout(() => {
+                    if (!isPlaying || isPaused) return;
+                    playCurrentPhonetic();
+                }, 300);
             }
         }
 
