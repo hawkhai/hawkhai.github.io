@@ -410,8 +410,6 @@
         // 本地存储键名
         const STORAGE_KEY = 'phonetic_learning_progress';
 
-        
-
         // 保存学习进度到本地存储
         function saveProgress() {
             const progress = {
@@ -421,7 +419,7 @@
                 totalPhonetics: phoneticData.length
             };
             localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-            console.log('进度已保存:', progress);
+            console.log(' 进度已保存 :', progress);
         }
 
         // 从本地存储加载学习进度
@@ -436,12 +434,12 @@
                         currentIndex = progress.currentIndex;
                         currentRepeat = progress.currentRepeat;
                         hasRestoredProgress = true;
-                        console.log('进度已恢复:', progress);
+                        console.log(' 进度已恢复 :', progress);
                         return true;
                     }
                 }
             } catch (error) {
-                console.log('加载进度失败:', error);
+                console.log(' 加载进度失败 :', error);
             }
             return false;
         }
@@ -449,7 +447,7 @@
         // 清除保存的进度
         function clearProgress() {
             localStorage.removeItem(STORAGE_KEY);
-            console.log('进度已清除');
+            console.log(' 进度已清除 ');
         }
 
         // 更新显示
@@ -462,7 +460,7 @@
             const totalProgress = ((currentIndex * 4 + currentRepeat) / (phoneticData.length * 4)) * 100;
             progressFill.style.width = totalProgress + '%';
 
-            const resumeText = hasRestoredProgress ? ' (从上次断点继续)' : '';
+            const resumeText = hasRestoredProgress ? ' ( 从上次断点继续 )' : '';
             progressInfo.textContent = `第 ${currentIndex + 1}/${phoneticData.length} 个音标 • 第 ${currentRepeat + 1}/4 遍${resumeText}`;
             categoryIndicator.textContent = `${current.category} • ${current.type === 'vowel' ? '元音' : current.type === 'consonant' ? '辅音' : '字母'}`;
         }
@@ -472,18 +470,18 @@
             if (!isPlaying || isPaused) return;
 
             const current = phoneticData[currentIndex];
-            
+
             // 使用新的音标播放器
             if (window.phoneticPlayer) {
                 window.phoneticPlayer.playPhonetic(current.symbol, current.symbol, () => {
                     // 播放完成后的回调
                     if (!isPlaying || isPaused) return;
-                    
+
                     currentRepeat++;
                     if (currentRepeat >= 4) {
                         nextPhonetic();
                     } else {
-                        // 0.3秒间隔后播放下一遍
+                        // 0.3 秒间隔后播放下一遍
                         setTimeout(() => {
                             if (!isPlaying || isPaused) return;
                             playCurrentPhonetic();
@@ -494,7 +492,7 @@
             }
 
             // 备用播放方式（如果 phoneticPlayer 不可用）
-            console.warn('phoneticPlayer 不可用，请确保 phonetic-player.js 已正确加载');
+            console.warn('phoneticPlayer 不可用，请确保 phonetic-player.js 已正确加载 ');
         }
 
         // 开始自动播放
@@ -510,7 +508,7 @@
 
             isPlaying = true;
             isPaused = false;
-            
+
             // 如果不是从暂停恢复，尝试加载保存的进度
             if (!hasRestoredProgress) {
                 const progressLoaded = loadProgress();
@@ -542,11 +540,11 @@
                 if (window.phoneticPlayer) {
                     window.phoneticPlayer.stopAllAudio();
                 }
-                
+
                 if (currentAudio) {
                     currentAudio.pause();
                 }
-                
+
                 // 暂停时保存进度
                 saveProgress();
             } else {
@@ -563,7 +561,7 @@
             if (isPlaying) {
                 saveProgress();
             }
-            
+
             isPlaying = false;
             isPaused = false;
 
@@ -616,9 +614,9 @@
             // 保存当前进度
             saveProgress();
             updateDisplay();
-            
+
             if (!isPaused) {
-                // 0.3秒间隔后播放下一个音标
+                // 0.3 秒间隔后播放下一个音标
                 setTimeout(() => {
                     if (!isPlaying || isPaused) return;
                     playCurrentPhonetic();
@@ -632,15 +630,15 @@
             if (isPlaying) {
                 stopAutoPlay();
             }
-            
+
             // 清除保存的进度
             clearProgress();
-            
+
             // 重置所有状态
             currentIndex = 0;
             currentRepeat = 0;
             hasRestoredProgress = false;
-            
+
             // 更新显示
             phoneticSymbol.textContent = '🎵';
             phoneticInfo.textContent = ' 进度已重置，将从第一个音标开始 ';
@@ -648,8 +646,8 @@
             progressInfo.textContent = ' 点击开始按钮从头开始播放 ';
             progressFill.style.width = '0%';
             categoryIndicator.textContent = ' 进度已重置 ';
-            
-            console.log('学习进度已重置');
+
+            console.log(' 学习进度已重置 ');
         }
 
         // 更新播放速度
@@ -775,7 +773,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             updateSpeed();
             requestWakeLock();
-            
+
             // 尝试加载保存的进度
             const progressLoaded = loadProgress();
             if (progressLoaded) {

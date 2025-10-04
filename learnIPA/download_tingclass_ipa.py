@@ -53,7 +53,6 @@ IDENTICALS = set([
 SESSION = requests.Session()
 SESSION.headers.update(HEADERS)
 
-
 def ensure_dir(path: Path):
     try:
         path.mkdir(parents=True, exist_ok=True)
@@ -61,13 +60,11 @@ def ensure_dir(path: Path):
         if e.errno != errno.EEXIST:
             raise
 
-
 def load_mapping(mapping_path: str):
     with open(mapping_path, "r", encoding="utf-8") as f:
         data = json.load(f)
     phonetic_to_numeric = data.get("phonetic_to_numeric", {})
     return phonetic_to_numeric
-
 
 def normalize_site_symbol(raw: str) -> str:
     s = raw.strip()
@@ -89,14 +86,12 @@ def normalize_site_symbol(raw: str) -> str:
     s = s.replace("t∫", "tʃ")
     return s
 
-
 def fetch(url: str) -> str:
     resp = SESSION.get(url, timeout=20)
     resp.raise_for_status()
     resp.encoding = resp.apparent_encoding or resp.encoding
 
     return resp.text
-
 
 def find_tingclass_links(html: str):
     # Capture: href to tingclass detail + inner text like [i:], [tʃ]
@@ -107,7 +102,7 @@ def find_tingclass_links(html: str):
         href = m.group(1)
         label = m.group(2)  # Already includes brackets like [i:]
         links.append((label, href))
-    
+
     # De-duplicate by href
     dedup = {}
     for label, href in links:
@@ -123,12 +118,11 @@ def extract_mp4_url(detail_html: str, base_url: str) -> Optional[str]:
     m = re.search(r"<source[^>]+src=['\"]([^'\"]+?\.mp4)['\"]", detail_html, re.I)
     if m:
         return urljoin(base_url, m.group(1))
-    # Generic: any .mp4 in the HTML
+    # Generic: any.mp4 in the HTML
     m = re.search(r"https?://[^\s'\"]+?\.mp4", detail_html, re.I)
     if m:
         return m.group(0)
     return None
-
 
 def download_file(url: str, dest_path: Path, retries: int = 3):
     for attempt in range(1, retries + 1):
@@ -144,7 +138,6 @@ def download_file(url: str, dest_path: Path, retries: int = 3):
             if attempt == retries:
                 raise
             time.sleep(1.5 * attempt)
-
 
 def main():
     ensure_dir(OUTPUT_DIR)
@@ -248,20 +241,19 @@ def main():
     print(f"Successfully downloaded: {success}")
     print(f"Skipped/Failed: {skipped}")
     print(f"Files saved to: {OUTPUT_DIR}")
-    
+
     if skipped_details:
         print(f"\n=== SKIPPED FILES ({len(skipped_details)}) ===")
         for raw_label, norm, href, reason in skipped_details:
             print(f"  {raw_label} -> {norm}: {reason}")
-    
+
     if failed_details:
         print(f"\n=== FAILED FILES ({len(failed_details)}) ===")
         for raw_label, norm, href, reason in failed_details:
             print(f"  {raw_label} -> {norm}: {reason}")
-    
+
     print(f"\n=== SUCCESS RATE ===")
     print(f"{success}/{len(pairs)} = {success/len(pairs)*100:.1f}%")
-
 
 if __name__ == "__main__":
     main()

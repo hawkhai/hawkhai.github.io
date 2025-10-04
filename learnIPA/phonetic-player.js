@@ -21,7 +21,7 @@ class PhoneticPlayer {
         this.currentAudio = null;  // 当前播放的音频对象
         this.isPlaying = false;
         this.playTimeouts = [];    // 存储所有setTimeout ID
-        
+
         // 音频对象池 - 防止创建过多Audio对象
         this.audioPool = new Map();
         this.audioPoolSize = 0;
@@ -50,10 +50,10 @@ class PhoneticPlayer {
     init() {
         // 绑定音标卡片点击事件
         this.bindCardEvents();
-        
+
         // 添加移动端触摸反馈
         this.addTouchFeedback();
-        
+
         // 页面卸载时清理资源
         window.addEventListener('beforeunload', () => {
             this.cleanup();
@@ -66,13 +66,13 @@ class PhoneticPlayer {
     cleanup() {
         // 停止当前播放
         this.stopAllAudio();
-        
+
         // 清理所有定时器
         this.playTimeouts.forEach(timeoutId => {
             clearTimeout(timeoutId);
         });
         this.playTimeouts = [];
-        
+
         // 清理音频对象池
         this.audioPool.forEach(audio => {
             if (audio) {
@@ -95,7 +95,7 @@ class PhoneticPlayer {
             audio.currentTime = 0; // 重置播放位置
             return audio;
         }
-        
+
         // 控制音频对象池大小，防止内存泄露
         if (this.audioPoolSize >= this.config.maxConcurrentAudio) {
             // 清理最旧的音频对象
@@ -109,20 +109,20 @@ class PhoneticPlayer {
             this.audioPool.delete(firstKey);
             this.audioPoolSize--;
         }
-        
+
         // 创建新的音频对象
         const audio = new Audio();
         audio.preload = 'none'; // 不预加载，节省内存
         audio.src = url;
-        
+
         // 添加错误处理
         audio.addEventListener('error', (e) => {
             console.warn(`音频加载失败: ${url}`, e);
         });
-        
+
         this.audioPool.set(url, audio);
         this.audioPoolSize++;
-        
+
         return audio;
     }
 
@@ -132,14 +132,14 @@ class PhoneticPlayer {
     bindCardEvents() {
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.phonetic-card');
-            
+
             cards.forEach(card => {
                 card.addEventListener('click', (e) => {
                     const sound = card.getAttribute('data-sound');
                     const symbol = card.querySelector('.phonetic-symbol')?.textContent || sound;
-                    
+
                     this.playPhonetic(sound, symbol);
-                    
+
                     // 添加点击动画效果
                     this.addClickAnimation(card);
                 });
@@ -191,13 +191,13 @@ class PhoneticPlayer {
         }
         this.currentAudio = null;
         this.isPlaying = false;
-        
+
         // 清理所有播放相关的定时器
         this.playTimeouts.forEach(timeoutId => {
             clearTimeout(timeoutId);
         });
         this.playTimeouts = [];
-        
+
         // 清理回调
         this.onPlayComplete = null;
     }
@@ -207,19 +207,19 @@ class PhoneticPlayer {
      */
     getAudioSequence(numericId) {
         const sequences = [];
-        
+
         // 按优先级添加可用的音频文件
         const folders = [
             { name: 'yp', ext: '.mp3' },
             { name: 'xdf', ext: '.mp3' },
-            { name: 'tingclass', ext: '.mp3' },
+            //{ name: 'tingclass', ext: '.mp3' },
             { name: 'mp3', ext: '.mp3' }
         ];
-        
+
         folders.forEach(folder => {
             sequences.push(`./${folder.name}/${numericId}${folder.ext}`);
         });
-        
+
         return sequences;
     }
 
@@ -230,7 +230,7 @@ class PhoneticPlayer {
         try {
             // 强制停止之前的播放
             this.stopAllAudio();
-            
+
             // 设置播放状态
             this.isPlaying = true;
             this.onPlayComplete = onComplete;
@@ -247,7 +247,7 @@ class PhoneticPlayer {
 
             // 获取音频序列
             const audioSequence = this.getAudioSequence(numericId);
-            
+
             if (audioSequence.length === 0) {
                 console.error(`未找到音标 ${soundFile} 的音频文件`);
                 this.showToast(`❌ 未找到音频: ${symbol}`);
@@ -280,7 +280,7 @@ class PhoneticPlayer {
             this.showToast(`✅ ${symbol} 播放完成 (共${this.config.playCount}遍)`);
             this.isPlaying = false;
             this.currentAudio = null;
-            
+
             // 调用完成回调
             if (this.onPlayComplete) {
                 this.onPlayComplete();
@@ -297,7 +297,7 @@ class PhoneticPlayer {
         const onEnded = () => {
             audio.removeEventListener('ended', onEnded);
             audio.removeEventListener('error', onError);
-            
+
             if (this.isPlaying) {
                 const timeoutId = setTimeout(() => {
                     this.playAudioSequence(audioFiles, index + 1, symbol);
@@ -309,9 +309,9 @@ class PhoneticPlayer {
         const onError = () => {
             audio.removeEventListener('ended', onEnded);
             audio.removeEventListener('error', onError);
-            
+
             console.log(`音频文件不存在: ${audioUrl}`);
-            
+
             if (this.isPlaying) {
                 const timeoutId = setTimeout(() => {
                     this.playAudioSequence(audioFiles, index + 1, symbol);
@@ -380,7 +380,7 @@ class PhoneticPlayer {
         };
 
         let currentIndex = 0;
-        
+
         const playNext = () => {
             if (currentIndex >= phoneticList.length) {
                 if (config.onComplete) {
@@ -390,7 +390,7 @@ class PhoneticPlayer {
             }
 
             const phonetic = phoneticList[currentIndex];
-            
+
             if (config.onProgress) {
                 config.onProgress(currentIndex, phonetic, phoneticList.length);
             }
