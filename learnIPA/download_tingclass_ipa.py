@@ -164,6 +164,8 @@ def main():
 
     success = 0
     skipped = 0
+    failed_details = []
+    skipped_details = []
 
     for raw_label, href in pairs:
         ipa = normalize_site_symbol(raw_label)
@@ -197,7 +199,9 @@ def main():
             if alt and mapping.get(alt):
                 code = mapping[alt]
         if code is None:
-            print(f"[SKIP] No mapping code for '{raw_label}' -> '{norm}'")
+            reason = f"No mapping code for '{raw_label}' -> '{norm}'"
+            print(f"[SKIP] {reason}")
+            skipped_details.append((raw_label, norm, href, reason))
             skipped += 1
             continue
 
@@ -205,19 +209,22 @@ def main():
         try:
             detail_html = fetch(href)
         except Exception as e:
-            print(f"[ERROR] Fetch detail failed for {href}: {e}")
+            reason = f"Fetch detail failed: {e}"
+            print(f"[ERROR] {reason}")
+            failed_details.append((raw_label, norm, href, reason))
             skipped += 1
             continue
 
         mp4_url = extract_mp4_url(detail_html, href)
         if not mp4_url:
-            print(f"[SKIP] No mp4 found in {href}")
+            reason = "No mp4 found in page"
+            print(f"[SKIP] {reason} - {href}")
+            skipped_details.append((raw_label, norm, href, reason))
             skipped += 1
             continue
 
-        # Build filename
-        safe_ipa = norm.replace("/", "_")
-        filename = f"{code}_{safe_ipa}.mp4"
+        # Build filename - only use numeric code to avoid encoding issues
+        filename = f"{code}.mp4"
         dest = OUTPUT_DIR / filename
         if dest.exists() and dest.stat().st_size > 0:
             print(f"[EXIST] {dest.name}")
@@ -230,10 +237,30 @@ def main():
             print(f"[SAVE] {dest}")
             success += 1
         except Exception as e:
+            reason = f"Download failed: {e}"
             print(f"[FAIL] {raw_label} -> {norm} ({code}) from {mp4_url}: {e}")
+            failed_details.append((raw_label, norm, href, reason))
             skipped += 1
 
-    print(f"Done. Success: {success}, Skipped: {skipped}. Files at: {OUTPUT_DIR}")
+    # Print detailed report
+    print(f"\n=== DOWNLOAD REPORT ===")
+    print(f"Total links found: {len(pairs)}")
+    print(f"Successfully downloaded: {success}")
+    print(f"Skipped/Failed: {skipped}")
+    print(f"Files saved to: {OUTPUT_DIR}")
+    
+    if skipped_details:
+        print(f"\n=== SKIPPED FILES ({len(skipped_details)}) ===")
+        for raw_label, norm, href, reason in skipped_details:
+            print(f"  {raw_label} -> {norm}: {reason}")
+    
+    if failed_details:
+        print(f"\n=== FAILED FILES ({len(failed_details)}) ===")
+        for raw_label, norm, href, reason in failed_details:
+            print(f"  {raw_label} -> {norm}: {reason}")
+    
+    print(f"\n=== SUCCESS RATE ===")
+    print(f"{success}/{len(pairs)} = {success/len(pairs)*100:.1f}%")
 
 
 if __name__ == "__main__":
