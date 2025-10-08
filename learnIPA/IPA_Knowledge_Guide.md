@@ -17,11 +17,11 @@ permalink:
 l2dwidget: true
 ---
 
-* http://sunocean.life/blog/learnIPA/learnipa.html
-* http://sunocean.life/blog/learnIPA/auto-learn.html
+* <http://sunocean.life/blog/learnIPA/learnipa.html>
+* <http://sunocean.life/blog/learnIPA/auto-learn.html>
 
-* http://blog.hawkhai.com/blog/learnIPA/learnipa.html
-* http://blog.hawkhai.com/blog/learnIPA/auto-learn.html
+* <http://blog.hawkhai.com/blog/learnIPA/learnipa.html>
+* <http://blog.hawkhai.com/blog/learnIPA/auto-learn.html>
 
 
 ## 概述
@@ -222,8 +222,8 @@ KK 音标，也就是我们通常说的美式音标，由美国两位语言学�
 
 #### 官方资源
 
-- https://www.internationalphoneticalphabet.org/
-- https://www.internationalphoneticassociation.org/
+- <https://www.internationalphoneticalphabet.org/>
+- <https://www.internationalphoneticassociation.org/>
 
 
 ## 音标发音技巧
