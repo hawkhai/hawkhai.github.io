@@ -324,6 +324,12 @@ Enjoy!
 {% endhighlight %}
 
 
+## finally
+
+I know a thing is that if you delay to do something, it's doesn't beacuse you don't have time, it's because that thing is not important. Right? Trully important thing you will first do it.
+我明白的一个道理是，如果你一直拖延着去做某事，不是因为你没有时间，只是因为那件事不重要。 真正重要的事你一定会优先做。
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/about.md.js" %}'></script></p>
