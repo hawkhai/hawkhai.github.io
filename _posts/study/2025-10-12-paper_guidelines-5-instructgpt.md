@@ -19,11 +19,11 @@ archived: true
 layoutclear: true
 ---
 
-
 > * 案例 5：“Training language models to follow instructions with human feedback” (arXiv 2022) [5]（AI 辅助）
 > * 问题：用人类反馈强化学习（RLHF）验证“对齐”可行性。
 > * 方法：3 步 RLHF，13k SFT + 33k RM 提示 + 人工排序，1.3B 参数。
 > * 结论：InstructGPT 相比 GPT-3 偏好率达 85±3%，后续成为 GPT-4 标准流程。
+
 
 ## 提出的问题
 
@@ -40,15 +40,16 @@ layoutclear: true
 
 换句话说： **模型很聪明，但不听话、不懂人意。**
 
+
 ## 关键英文原文 - 问题定义
 
-> **核心问题描述**：
+> **核心问题描述** ：
 > "Large language models (LMs) can be 'prompted' to perform a range of natural language processing (NLP) tasks, given some examples of the task as input. However, these models often express unintended behaviors such as making up facts, generating biased or toxic text, or simply not following user instructions."
 
-> **问题根源**：
+> **问题根源** ：
 > "This is because the language modeling objective used for many recent large LMs—predicting the next token on a webpage from the internet—is different from the objective 'follow the user's instructions helpfully and safely'. Thus, we say that the language modeling objective is misaligned."
 
-> **解决目标**：
+> **解决目标** ：
 > "We make progress on aligning language models by training them to act in accordance with the user's intention. This encompasses both explicit intentions such as following instructions and implicit intentions such as staying truthful, and not being biased, toxic, or otherwise harmful."
 
 
@@ -90,7 +91,7 @@ layoutclear: true
 1. **效果显著提升** ：
 
    * InstructGPT 比 GPT-3 更受人类偏好（175B InstructGPT 相比 175B GPT-3 优胜率达 85±3%）。
-   * 1.3B参数的InstructGPT模型表现优于175B的GPT-3，说明对齐训练比单纯增大模型更重要。
+   * 1.3B 参数的 InstructGPT 模型表现优于 175B 的 GPT-3，说明对齐训练比单纯增大模型更重要。
 
 2. **模型更安全、更有用** ：
 
@@ -107,3 +108,6 @@ layoutclear: true
 提出并验证了 **InstructGPT** ，即通过人类反馈优化语言模型（Human Feedback, HF），使模型更符合人类期望。
 
 
+
+<hr class='reviewline'/>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2025-10-12-paper_guidelines-5-instructgpt.md.js" %}'></script></p>

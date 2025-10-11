@@ -19,17 +19,15 @@ archived: true
 layoutclear: true
 ---
 
-
-
 > * 案例 8：图神经网络表达能力理论（ICLR 2019） [8]（AI 辅助）
 > * 问题：证明 GNN 等价于 Weisfeiler-Lehman 测试，给出表达上界（纯理论）。
-> * 方法：数学推导 + 构造性证明，提出GIN模型并实验验证。
+> * 方法：数学推导 + 构造性证明，提出 GIN 模型并实验验证。
 > * 结论：为后续 GNN 架构设计提供理论基石，被引 5000+ 次。
 
 
 ## 提出的问题
 
-当时（2018 年前后），已有多种 GNN 结构：GCN、GraphSAGE等等（注：GAT是2018年发表，与此论文同期）。
+当时（2018 年前后），已有多种 GNN 结构：GCN、GraphSAGE 等等（注：GAT 是 2018 年发表，与此论文同期）。
 它们在节点分类、图分类任务上表现不错，但 ——
 **没人知道这些模型的表达能力到底有多强？**
 
@@ -42,15 +40,16 @@ layoutclear: true
 
 **本文要搞清楚：GNN 的表达能力（即区分不同图的能力）到底有多强，以及如何做到最强。**
 
+
 ## 关键英文原文 - 问题定义
 
-> **理论理解的缺失**：
+> **理论理解的缺失** ：
 > "However, despite GNNs revolutionizing graph representation learning, there is limited understanding of their representational properties and limitations."
 
-> **设计缺乏理论指导**：
+> **设计缺乏理论指导** ：
 > "The design of new GNNs is mostly based on empirical intuition, heuristics, and experimental trial-and-error. There is little theoretical understanding of the properties and limitations of GNNs, and formal analysis of GNNs' representational capacity is limited."
 
-> **核心研究问题**：
+> **核心研究问题** ：
 > "Here, we present a theoretical framework for analyzing the expressive power of GNNs to capture different graph structures. Our results characterize the discriminative power of popular GNN variants, such as Graph Convolutional Networks and GraphSAGE, and show that they cannot learn to distinguish certain simple graph structures."
 
 
@@ -105,3 +104,6 @@ $$
 它系统回答了“ **GNN 到底能表达多复杂的结构？** ”这个核心问题。
 
 
+
+<hr class='reviewline'/>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2025-10-12-paper_guidelines-8-gnnpower.md.js" %}'></script></p>

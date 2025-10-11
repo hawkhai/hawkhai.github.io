@@ -19,12 +19,10 @@ archived: true
 layoutclear: true
 ---
 
-
-
 > * 案例 7：DenseNet (CVPR 2017) [7]（AI 辅助）
 > * 问题：综合改进已有残差与级联思想，提出密集连接新范式。
 > * 方法：保留 ResNet 恒等映射，融合 Highway 级联思想，引入“增长率”超参抑制参数爆炸。
-> * 结论：参数比 ResNet 少约 2/3（仅需 1/3 参数），在ImageNet等数据集上达到相当性能，成为主流骨架。
+> * 结论：参数比 ResNet 少约 2/3（仅需 1/3 参数），在 ImageNet 等数据集上达到相当性能，成为主流骨架。
 
 
 ## 提出的问题
@@ -43,15 +41,16 @@ layoutclear: true
 研究问题一句话总结：
 **如何构建一种网络，让特征能在层与层之间高效传递和复用，从而提升信息流动性与参数利用率？**
 
+
 ## 关键英文原文 - 问题定义
 
-> **深度网络的核心问题**：
+> **深度网络的核心问题** ：
 > "As CNNs become increasingly deep, a new research problem emerges: as information about the input or gradient passes through many layers, it can vanish and 'wash out' by the time it reaches the end (or beginning) of the network."
 
-> **现有方法的局限**：
+> **现有方法的局限** ：
 > "ResNets and Highway Networks bypass signal from one layer to the next via identity connections. Stochastic depth shortens ResNets by randomly dropping layers during training to allow better information and gradient flow."
 
-> **DenseNet的创新思路**：
+> **DenseNet 的创新思路** ：
 > "Recent work has shown that convolutional networks can be substantially deeper, more accurate, and efficient to train if they contain shorter connections between layers close to the input and those close to the output."
 
 
@@ -107,7 +106,7 @@ DenseNet 由多个 **Dense Block** 和 **Transition Layer** 组成：
 作者在多个基准数据集上（CIFAR-10, CIFAR-100, ImageNet）进行了实验：
 
 * 使用较浅的网络（例如 DenseNet-121, DenseNet-169, DenseNet-201）；
-* 每层的 **growth rate k=32**（ImageNet）或 **k=12**（CIFAR）；
+* 每层的 **growth rate k=32** （ImageNet）或 **k=12** （CIFAR）；
 * 与 ResNet 对比参数量更小，但准确率更高。
 
 
@@ -115,10 +114,13 @@ DenseNet 由多个 **Dense Block** 和 **Transition Layer** 组成：
 
 1. **DenseNet 有效缓解了梯度消失问题** ；
 2. **特征复用显著提高了参数效率** ；
-3. **在多个数据集上精度相当、参数更少**（如DenseNet-201仅20M参数，性能匹敌ResNet-101的40M+参数）；
+3. **在多个数据集上精度相当、参数更少** （如 DenseNet-201 仅 20M 参数，性能匹敌 ResNet-101 的 40M+ 参数）；
 4. **网络更容易训练，泛化能力更强** ；
 5. DenseNet 的思想启发了后续 EfficientNet、HRNet 等架构。
 
 **DenseNet 通过层间密集连接，让特征复用和梯度流动最大化，在减少参数的同时显著提升了性能。**
 
 
+
+<hr class='reviewline'/>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2025-10-12-paper_guidelines-7-densenet.md.js" %}'></script></p>

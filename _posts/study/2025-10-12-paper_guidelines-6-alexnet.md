@@ -19,12 +19,10 @@ archived: true
 layoutclear: true
 ---
 
-
-
 > * 案例 6：AlexNet（ImageNet) [6]（AI 辅助）
 > * 问题：首次公布深度卷积 +ReLU+Dropout 整套范式。
 > * 方法：8 层深度 CNN； GPU 并行训练； ReLU 加速收敛； Dropout 防过拟合。
-> * 结论：ImageNet Top-5 错误率从 26.2%（传统方法）→ 18.2%（单个CNN）→ 15.3%（集成），引爆深度学习热潮。
+> * 结论：ImageNet Top-5 错误率从 26.2%（传统方法）→ 18.2%（单个 CNN）→ 15.3%（集成），引爆深度学习热潮。
 
 
 ## 提出的问题
@@ -36,7 +34,7 @@ layoutclear: true
 
 但这些传统方法在大规模数据集（如 ImageNet）上表现极差。
 当时的核心难题是：
-**如何在大规模数据集（ImageNet，约120万张训练图片、1000个类别）上有效地训练深度神经网络，使其泛化性能足够好？**
+**如何在大规模数据集（ImageNet，约 120 万张训练图片、1000 个类别）上有效地训练深度神经网络，使其泛化性能足够好？**
 
 主要难点包括：
 
@@ -44,15 +42,16 @@ layoutclear: true
 2. 计算量巨大，CPU 无法承受；
 3. 缺乏有效的正则化手段和优化技巧。
 
+
 ## 关键英文原文 - 问题定义
 
-> **核心挑战**：
+> **核心挑战** ：
 > "To learn about thousands of objects from millions of images, we need a model with a large learning capacity. However, the immense complexity of the object recognition task means that this problem cannot be specified even by a dataset as large as ImageNet, so our model should also have lots of prior knowledge to compensate for all the data we don't have."
 
-> **计算瓶颈**：
+> **计算瓶颈** ：
 > "Despite the attractive qualities of CNNs, and despite the relative efficiency of their local architecture, they have still been prohibitively expensive to apply in large scale to high-resolution images."
 
-> **解决契机**：
+> **解决契机** ：
 > "Luckily, current GPUs, paired with a highly-optimized implementation of 2D convolution, are powerful enough to facilitate the training of interestingly-large CNNs, and recent datasets such as ImageNet contain enough labeled examples to train such models without severe overfitting."
 
 
@@ -95,7 +94,7 @@ layoutclear: true
 
 ## 解决方案
 
-1. **在 ImageNet ILSVRC-2012 数据集上训练** ：包含 1.2 million（120万）张训练图片、1000 类别。
+1. **在 ImageNet ILSVRC-2012 数据集上训练** ：包含 1.2 million（120 万）张训练图片、1000 类别。
 2. **使用 GPU + ReLU + Dropout + 数据增强** 实现高效训练。
 3. **使用 SGD + 动量优化器** （momentum=0.9, learning rate=0.01）。
 4. 模型大小约 **60M 参数** 。
@@ -104,8 +103,8 @@ layoutclear: true
 ## 主要结论
 
 结果：
-* 单个CNN在 ILSVRC-2012 上的 **Top-5 错误率为 18.2%** ；
-* 通过集成7个CNN模型，最终达到 **15.3%** 的Top-5错误率；
+* 单个 CNN 在 ILSVRC-2012 上的 **Top-5 错误率为 18.2%** ；
+* 通过集成 7 个 CNN 模型，最终达到 **15.3%** 的 Top-5 错误率；
 * 比当时第二名（传统方法）的 **26.2%** 低了整整 **10.9 个百分点！**
 
 这几乎是一场“降维打击”。
@@ -125,3 +124,7 @@ layoutclear: true
 **AlexNet 论文提出了深度卷积神经网络（CNN）在大规模图像分类中的革命性应用，凭借 GPU 加速、ReLU、Dropout 和数据增强，首次证明了深度学习的巨大潜力。**
 这篇论文正式掀起了深度学习在计算机视觉领域的浪潮。
 
+
+
+<hr class='reviewline'/>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2025-10-12-paper_guidelines-6-alexnet.md.js" %}'></script></p>
