@@ -43,6 +43,17 @@ layoutclear: true
 研究问题一句话总结：
 **如何构建一种网络，让特征能在层与层之间高效传递和复用，从而提升信息流动性与参数利用率？**
 
+## 关键英文原文 - 问题定义
+
+> **深度网络的核心问题**：
+> "As CNNs become increasingly deep, a new research problem emerges: as information about the input or gradient passes through many layers, it can vanish and 'wash out' by the time it reaches the end (or beginning) of the network."
+
+> **现有方法的局限**：
+> "ResNets and Highway Networks bypass signal from one layer to the next via identity connections. Stochastic depth shortens ResNets by randomly dropping layers during training to allow better information and gradient flow."
+
+> **DenseNet的创新思路**：
+> "Recent work has shown that convolutional networks can be substantially deeper, more accurate, and efficient to train if they contain shorter connections between layers close to the input and those close to the output."
+
 
 ## 采用的方法
 

@@ -44,6 +44,17 @@ layoutclear: true
 2. 计算量巨大，CPU 无法承受；
 3. 缺乏有效的正则化手段和优化技巧。
 
+## 关键英文原文 - 问题定义
+
+> **核心挑战**：
+> "To learn about thousands of objects from millions of images, we need a model with a large learning capacity. However, the immense complexity of the object recognition task means that this problem cannot be specified even by a dataset as large as ImageNet, so our model should also have lots of prior knowledge to compensate for all the data we don't have."
+
+> **计算瓶颈**：
+> "Despite the attractive qualities of CNNs, and despite the relative efficiency of their local architecture, they have still been prohibitively expensive to apply in large scale to high-resolution images."
+
+> **解决契机**：
+> "Luckily, current GPUs, paired with a highly-optimized implementation of 2D convolution, are powerful enough to facilitate the training of interestingly-large CNNs, and recent datasets such as ImageNet contain enough labeled examples to train such models without severe overfitting."
+
 
 ## 采用的方法
 

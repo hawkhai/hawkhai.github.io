@@ -40,6 +40,17 @@ layoutclear: true
 
 换句话说： **模型很聪明，但不听话、不懂人意。**
 
+## 关键英文原文 - 问题定义
+
+> **核心问题描述**：
+> "Large language models (LMs) can be 'prompted' to perform a range of natural language processing (NLP) tasks, given some examples of the task as input. However, these models often express unintended behaviors such as making up facts, generating biased or toxic text, or simply not following user instructions."
+
+> **问题根源**：
+> "This is because the language modeling objective used for many recent large LMs—predicting the next token on a webpage from the internet—is different from the objective 'follow the user's instructions helpfully and safely'. Thus, we say that the language modeling objective is misaligned."
+
+> **解决目标**：
+> "We make progress on aligning language models by training them to act in accordance with the user's intention. This encompasses both explicit intentions such as following instructions and implicit intentions such as staying truthful, and not being biased, toxic, or otherwise harmful."
+
 
 ## 采用的方法
 

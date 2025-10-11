@@ -35,7 +35,18 @@ layoutclear: true
 * **能否通过数字代理指标** （如公共交通刷卡、移动数据、交易数据等）捕捉人群的 “物理混合 / 接触强度” 变化，并将其整合进模型，从而缩短滞后期、提供更及时的传染性估计和预测？
 
 简而言之，论文要解决的问题是：
-**如何借助数字化的、近实时的人口流动 / 接触代理指标，来“提前”估计传播强度 Rₜ，并对未来疫情进行短期预测？**
+**如何借助数字化的、近实时的人口流动 / 接触代理指标，来"提前"估计传播强度 Rₜ，并对未来疫情进行短期预测？**
+
+## 关键英文原文 - 问题定义
+
+> **实时追踪的挑战**：
+> "Tracking the spread of COVID-19 infection in real time has been an elusive goal, given the necessary delay between infection and reporting. This delay consists of the incubation period (around 6 days), time between symptom onset and diagnosis (around 3 days), and the duration between confirmation and reporting (around half day). Therefore, there is around 9 days of delay even with instantaneous updating of case reports."
+
+> **迫切需求**：
+> "Taken together, it remains an urgent priority to develop new analytics that would allow truly real-time monitoring of transmissibility, thus the application of timely public health interventions in mitigation."
+
+> **解决方案思路**：
+> "Digital proxies of human mobility and physical mixing have been shown to provide useful insights into disease transmission. Here, using COVID-19 in Hong Kong as an example, we describe a framework that integrates such digital proxies into conventional epidemic models to (i) track transmissibility in near real time; and (ii) generate nowcast and short-term forecast of the pandemic."
 
 
 ## 采用的方法
