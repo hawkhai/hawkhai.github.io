@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "论文写作 -- 问题应该怎么描述 / 实验性研究"
+title: "论文写作 -- 问题应该怎么描述 / 实验性研究 instructgpt"
 author: qhai
 location: "珠海"
 categories: ["论文写作"]
@@ -14,18 +14,17 @@ mermaid:
 glslcanvas:
 codeprint:
 permalink:
-date: 2025-09-28 01:50:53 +0800
+date: 2025-10-12 01:50:53 +0800
 archived: true
 layoutclear: true
 ---
 
 # 实验性研究
 
-> * 案例 5：“ChatGPT RLHF 大规模实验 (NeurIPS 2023） [5]（AI 辅助）
+> * 案例 5：“Training language models to follow instructions with human feedback” (arXiv 2022) [5]（AI 辅助）
 > * 问题：用人类反馈强化学习（RLHF）验证“对齐”可行性。
-> * 方法：3 轮 RLHF，4 万提示 + 人工排序，13.5 B 参数。
-> * 结论：人类偏好得分提升 33%，后续成为 GPT-4 标准流程。
-
+> * 方法：3 步 RLHF，13k SFT + 33k RM 提示 + 人工排序，1.3B 参数。
+> * 结论：InstructGPT 相比 GPT-3 偏好率达 85±3%，后续成为 GPT-4 标准流程。
 
 ## 提出的问题
 
@@ -80,7 +79,7 @@ layoutclear: true
 
 1. **效果显著提升** ：
 
-   * InstructGPT 比 GPT-3 更受人类偏好（多数测试中优胜率达 70%+）。
+   * InstructGPT 比 GPT-3 更受人类偏好（175B InstructGPT 相比 175B GPT-3 优胜率达 85±3%）。
    * 虽然参数量仅为 **1.3B（13 亿）** ，但用户更倾向于它的回答，而非 175B 的 GPT-3。
 
 2. **模型更安全、更有用** ：

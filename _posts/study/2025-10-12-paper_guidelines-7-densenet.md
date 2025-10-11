@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "论文写作 -- 问题应该怎么描述 / 集成性研究"
+title: "论文写作 -- 问题应该怎么描述 / 集成性研究 densenet"
 author: qhai
 location: "珠海"
 categories: ["论文写作"]
@@ -14,7 +14,7 @@ mermaid:
 glslcanvas:
 codeprint:
 permalink:
-date: 2025-09-28 01:50:53 +0800
+date: 2025-10-12 01:50:53 +0800
 archived: true
 layoutclear: true
 ---
@@ -25,7 +25,7 @@ layoutclear: true
 > * 案例 7：DenseNet (CVPR 2017) [7]（AI 辅助）
 > * 问题：综合改进已有残差与级联思想，提出密集连接新范式。
 > * 方法：保留 ResNet 恒等映射，融合 Highway 级联思想，引入“增长率”超参抑制参数爆炸。
-> * 结论：参数比 ResNet 少 50%，错误率再降 1% 量级，成为主流骨架。
+> * 结论：参数比 ResNet 少约 2/3（仅需 1/3 参数），在ImageNet等数据集上达到相当性能，成为主流骨架。
 
 
 ## 提出的问题
@@ -97,7 +97,7 @@ DenseNet 由多个 **Dense Block** 和 **Transition Layer** 组成：
 作者在多个基准数据集上（CIFAR-10, CIFAR-100, ImageNet）进行了实验：
 
 * 使用较浅的网络（例如 DenseNet-121, DenseNet-169, DenseNet-201）；
-* 每层的 **growth rate k=12/32/48** ；
+* 每层的 **growth rate k=32**（ImageNet）或 **k=12**（CIFAR）；
 * 与 ResNet 对比参数量更小，但准确率更高。
 
 
@@ -105,7 +105,7 @@ DenseNet 由多个 **Dense Block** 和 **Transition Layer** 组成：
 
 1. **DenseNet 有效缓解了梯度消失问题** ；
 2. **特征复用显著提高了参数效率** ；
-3. **在多个数据集上精度更高、参数更少** ；
+3. **在多个数据集上精度相当、参数更少**（如DenseNet-201仅20M参数，性能匹敌ResNet-101的40M+参数）；
 4. **网络更容易训练，泛化能力更强** ；
 5. DenseNet 的思想启发了后续 EfficientNet、HRNet 等架构。
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "论文写作 -- 问题应该怎么描述 / 基础研究"
+title: "论文写作 -- 问题应该怎么描述 / 基础研究 gnnpower"
 author: qhai
 location: "珠海"
 categories: ["论文写作"]
@@ -14,7 +14,7 @@ mermaid:
 glslcanvas:
 codeprint:
 permalink:
-date: 2025-09-28 01:50:53 +0800
+date: 2025-10-12 01:50:53 +0800
 archived: true
 layoutclear: true
 ---
@@ -24,7 +24,7 @@ layoutclear: true
 
 > * 案例 8：图神经网络表达能力理论（ICLR 2019） [8]（AI 辅助）
 > * 问题：证明 GNN 等价于 Weisfeiler-Lehman 测试，给出表达上界（纯理论）。
-> * 方法：数学推导 + 构造性证明，无实际系统实现。
+> * 方法：数学推导 + 构造性证明，提出GIN模型并实验验证。
 > * 结论：为后续 GNN 架构设计提供理论基石，被引 5000+ 次。
 
 
@@ -66,14 +66,14 @@ GNN 的最大表达能力 ≈ WL 测试的判别能力上限。
 
 GIN 的更新公式：
 $$
-h_v^{(k)} = \text{MLP}^{(k)} \Big( (1+\epsilon)\cdot h_v^{(k-1)} + \sum_{u\in N(v)} h_u^{(k-1)} \Big)
+h_v^{(k)} = \text{MLP}^{(k)} \Big( (1+\epsilon^{(k)})\cdot h_v^{(k-1)} + \sum_{u\in N(v)} h_u^{(k-1)} \Big)
 $$
 
 核心改进点：
 
 | 设计 | 目的 |
 | --- | --- |
-| 使用 **Sum 聚合（Σ）** 而不是平均或最大 | Sum 聚合是唯一能保证注入邻居多重集信息的方式（injective function） |
+| 使用 **Sum 聚合（Σ）** 而不是平均或最大 | Sum 聚合能表示单射多重集函数（injective multiset function），保证不同邻居结构映射到不同表示 |
 | 使用 **MLP** 而非线性层 | 确保节点表示更新具备足够非线性能力 |
 | 可学习参数 **ε** | 控制节点自身信息的重要性 |
 

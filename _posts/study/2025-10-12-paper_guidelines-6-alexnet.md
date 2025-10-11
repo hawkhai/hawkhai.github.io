@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "论文写作 -- 问题应该怎么描述 / 原创性研究"
+title: "论文写作 -- 问题应该怎么描述 / 原创性研究 alexnet"
 author: qhai
 location: "珠海"
 categories: ["论文写作"]
@@ -14,7 +14,7 @@ mermaid:
 glslcanvas:
 codeprint:
 permalink:
-date: 2025-09-28 01:50:53 +0800
+date: 2025-10-12 01:50:53 +0800
 archived: true
 layoutclear: true
 ---
@@ -25,7 +25,7 @@ layoutclear: true
 > * 案例 6：AlexNet（ImageNet) [6]（AI 辅助）
 > * 问题：首次公布深度卷积 +ReLU+Dropout 整套范式。
 > * 方法：8 层深度 CNN； GPU 并行训练； ReLU 加速收敛； Dropout 防过拟合。
-> * 结论：ImageNet Top-5 错误率从 26% → 15%，引爆深度学习热潮。
+> * 结论：ImageNet Top-5 错误率从 26.2%（传统方法）→ 18.2%（单个CNN）→ 15.3%（集成），引爆深度学习热潮。
 
 
 ## 提出的问题
@@ -85,7 +85,7 @@ layoutclear: true
 
 ## 解决方案
 
-1. **在 ImageNet ILSVRC-2012 数据集上训练** ：包含 120 万张图片、1000 类别。
+1. **在 ImageNet ILSVRC-2012 数据集上训练** ：包含 1.2 million（120万）张训练图片、1000 类别。
 2. **使用 GPU + ReLU + Dropout + 数据增强** 实现高效训练。
 3. **使用 SGD + 动量优化器** （momentum=0.9, learning rate=0.01）。
 4. 模型大小约 **60M 参数** 。
@@ -94,7 +94,8 @@ layoutclear: true
 ## 主要结论
 
 结果：
-* 在 ILSVRC-2012 上的 **Top-5 错误率仅 15.3%** ；
+* 单个CNN在 ILSVRC-2012 上的 **Top-5 错误率为 18.2%** ；
+* 通过集成7个CNN模型，最终达到 **15.3%** 的Top-5错误率；
 * 比当时第二名（传统方法）的 **26.2%** 低了整整 **10.9 个百分点！**
 
 这几乎是一场“降维打击”。
