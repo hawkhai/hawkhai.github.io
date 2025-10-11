@@ -19,7 +19,6 @@ archived: true
 layoutclear: true
 ---
 
-# 实验性研究
 
 > * 案例 5：“Training language models to follow instructions with human feedback” (arXiv 2022) [5]（AI 辅助）
 > * 问题：用人类反馈强化学习（RLHF）验证“对齐”可行性。

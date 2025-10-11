@@ -20,7 +20,6 @@ layoutclear: true
 ---
 
 
-# 基础研究
 
 > * 案例 8：图神经网络表达能力理论（ICLR 2019） [8]（AI 辅助）
 > * 问题：证明 GNN 等价于 Weisfeiler-Lehman 测试，给出表达上界（纯理论）。

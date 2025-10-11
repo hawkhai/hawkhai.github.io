@@ -20,7 +20,6 @@ layoutclear: true
 ---
 
 
-# 原创性研究
 
 > * 案例 6：AlexNet（ImageNet) [6]（AI 辅助）
 > * 问题：首次公布深度卷积 +ReLU+Dropout 整套范式。

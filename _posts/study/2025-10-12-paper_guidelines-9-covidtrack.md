@@ -20,10 +20,6 @@ layoutclear: true
 ---
 
 
-
-
-# 应用研究
-
 > * 案例 9：COVID-19实时追踪与预测框架（Nature Communications 2021）[9]（AI 辅助）
 > * 问题：利用数字化人口流动代理指标实现疫情近实时监测。
 > * 方法：整合Octopus卡交易数据与年龄结构SIR模型，克服9天报告延迟。
