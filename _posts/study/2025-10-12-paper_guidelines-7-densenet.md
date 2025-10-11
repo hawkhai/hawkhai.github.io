@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "论文写作 -- 问题应该怎么描述 / 集成性研究 densenet"
+title: "论文写作 -- 问题应该怎么描述 / 集成性研究 (DenseNet)"
 author: qhai
 location: "珠海"
 categories: ["论文写作"]

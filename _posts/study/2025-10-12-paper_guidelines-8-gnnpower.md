@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "论文写作 -- 问题应该怎么描述 / 基础研究 gnnpower"
+title: "论文写作 -- 问题应该怎么描述 / 基础研究 (GNN Power)"
 author: qhai
 location: "珠海"
 categories: ["论文写作"]

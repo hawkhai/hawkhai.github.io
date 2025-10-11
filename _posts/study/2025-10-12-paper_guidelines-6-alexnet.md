@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "论文写作 -- 问题应该怎么描述 / 原创性研究 alexnet"
+title: "论文写作 -- 问题应该怎么描述 / 原创性研究 (AlexNet)"
 author: qhai
 location: "珠海"
 categories: ["论文写作"]

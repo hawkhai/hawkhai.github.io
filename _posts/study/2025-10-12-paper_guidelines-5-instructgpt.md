@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "论文写作 -- 问题应该怎么描述 / 实验性研究 instructgpt"
+title: "论文写作 -- 问题应该怎么描述 / 实验性研究 (InstructGPT)"
 author: qhai
 location: "珠海"
 categories: ["论文写作"]

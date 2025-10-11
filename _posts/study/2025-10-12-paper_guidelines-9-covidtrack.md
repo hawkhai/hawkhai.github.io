@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "论文写作 -- 问题应该怎么描述 / 应用研究 covidtrack"
+title: "论文写作 -- 问题应该怎么描述 / 应用研究 (COVID Track)"
 author: qhai
 location: "珠海"
 categories: ["论文写作"]
