@@ -63,6 +63,26 @@ layoutclear: true
 > "This is because the language modeling objective used for many recent large LMs—predicting the next token on a webpage from the internet—is different from the objective 'follow the user's instructions helpfully and safely'. Thus, we say that the language modeling objective is misaligned."
 
 
+### 技术实现细节
+
+**RLHF 三步训练流程详细数据**：
+- **SFT 阶段**：13k 高质量指令-回答对进行监督微调
+- **RM 阶段**：33k 提示的人工排序数据训练奖励模型
+- **PPO 阶段**：使用 Proximal Policy Optimization 算法优化
+- **模型规模**：1.3B 参数的 InstructGPT 优于 175B 的 GPT-3
+- **人类偏好率**：85±3% 的优胜率（相比 GPT-3）
+
+**核心技术创新**：
+- 首次将人类反馈整合到大语言模型训练中
+- 建立了从"预测文本"到"执行任务"的转换范式
+- 奠定了 ChatGPT、GPT-4 的标准训练流程
+
+**实验设计特点**：
+- **验证方法**：人类偏好排序评估
+- **对照设计**：InstructGPT vs GPT-3 直接对比
+- **评估维度**：有用性、真实性、无害性
+
+
 ## 原创性研究：AlexNet
 
 
@@ -93,6 +113,32 @@ layoutclear: true
 
 > **计算瓶颈** ：
 > "Despite the attractive qualities of CNNs, and despite the relative efficiency of their local architecture, they have still been prohibitively expensive to apply in large scale to high-resolution images."
+
+
+### 技术架构与性能
+
+**网络架构详细设计**：
+- **层数结构**：5个卷积层 + 3个全连接层
+- **参数规模**：约 60M 参数
+- **GPU 配置**：两块 NVIDIA GTX 580 GPU 并行训练
+- **训练优化**：SGD + 动量优化器（momentum=0.9, learning rate=0.01）
+
+**性能突破数据**：
+- **单模型**：Top-5 错误率 18.2%
+- **集成模型**：7个CNN集成后达到 15.3%
+- **对比优势**：比传统方法（26.2%）低 10.9 个百分点
+- **数据集规模**：ImageNet 120万张训练图片，1000个类别
+
+**技术创新要点**：
+- 首次大规模使用 ReLU 激活函数（解决梯度饱和）
+- 引入 Dropout 正则化技术（防止过拟合）
+- 数据增强策略（随机裁剪、翻转）
+- 局部响应归一化（LRN）
+
+**创新模式特征**：
+- **突破性创新**：从零开始构建新范式
+- **多项技术同时创新**：GPU + ReLU + Dropout + 数据增强
+- **引发领域革命**：开启深度学习时代
 
 
 ## 集成性研究：DenseNet
@@ -128,6 +174,32 @@ layoutclear: true
 > "Recent work has shown that convolutional networks can be substantially deeper, more accurate, and efficient to train if they contain shorter connections between layers close to the input and those close to the output."
 
 
+### 数学原理与技术细节
+
+**核心数学公式**：
+
+传统CNN：$x_l = H_l(x_{l-1})$
+
+DenseNet：$x_l = H_l([x_0, x_1, x_2, \ldots, x_{l-1}])$
+
+**关键技术参数**：
+- **Growth Rate (k)**：控制每层输出通道数
+  - ImageNet：k=32
+  - CIFAR：k=12
+- **参数效率**：DenseNet-201 仅 20M 参数，性能匹敌 ResNet-101 的 40M+ 参数
+- **网络组成**：Dense Block + Transition Layer（1×1 Conv + 2×2 Pooling）
+
+**技术创新要点**：
+- **Dense Connectivity**：每层与所有前层直接连接，提高信息流动与梯度传播
+- **Feature Reuse**：旧特征被重复使用，减少冗余计算
+- **Fewer Parameters**：尽管连接很多，但因为通道数小，总参数反而更少
+
+**创新模式特征**：
+- **渐进式改进**：基于现有技术（ResNet）优化
+- **单一维度深度改进**：专注于特征传递和复用
+- **提升效率和性能**：参数量减少约 2/3，性能相当
+
+
 ## 基础研究：GNN Power
 
 
@@ -160,6 +232,29 @@ layoutclear: true
 > "The design of new GNNs is mostly based on empirical intuition, heuristics, and experimental trial-and-error. There is little theoretical understanding of the properties and limitations of GNNs, and formal analysis of GNNs' representational capacity is limited."
 
 
+### 理论框架与数学证明
+
+**核心理论贡献**：
+
+**GIN 更新公式**：
+$$h_v^{(k)} = \text{MLP}^{(k)} \Big( (1+\epsilon^{(k)})\cdot h_v^{(k-1)} + \sum_{u\in N(v)} h_u^{(k-1)} \Big)$$
+
+**理论等价性证明**：
+- GNN 表达能力 ≡ Weisfeiler-Lehman (WL) 测试判别能力
+- 单射聚合函数是达到 WL 上限的必要条件
+- GIN 是首个达到理论上限的实际可实现模型
+
+**设计原则**：
+- **Sum 聚合**：保证单射多重集函数特性
+- **MLP 更新**：提供足够的非线性表达能力
+- **可学习 ε**：平衡节点自身与邻居信息
+
+**创新模式特征**：
+- **理论指导**：数学理论先行
+- **构造最优解**：基于理论推导设计模型
+- **指导后续发展**：为 GNN 架构设计提供理论基石
+
+
 ## 应用研究：COVID Track
 
 
@@ -189,6 +284,30 @@ layoutclear: true
 
 > **迫切需求** ：
 > "Taken together, it remains an urgent priority to develop new analytics that would allow truly real-time monitoring of transmissibility, thus the application of timely public health interventions in mitigation."
+
+
+### 实证数据与应用效果
+
+**数据来源与规模**：
+- **数字代理指标**：香港 Octopus 卡交易数据
+- **年龄分组**：儿童、学生、成人、老年人
+- **相关性验证**：交通类指标与 Rt 相关系数 0.62-0.80
+- **时间延迟**：传统监测延迟约 9 天（感染→报告）
+
+**模型框架**：
+- **年龄结构 SIR 模型**：动态接触矩阵参数化
+- **反卷积方法**：报告时间→感染时间映射
+- **验证方法**：回溯预测与实际趋势对比
+
+**实际应用效果**：
+- **Nowcast 准确性**：与经验 Rt 高度吻合
+- **预测能力**：6天短期预测表现良好
+- **政策评估**：能及时检测干预措施效果
+
+**创新模式特征**：
+- **实践驱动**：解决实际问题
+- **验证可行性**：实地数据验证
+- **推动应用落地**：为公共卫生决策提供支持
 
 
 ## 问题描述的五种范式总结
@@ -229,97 +348,6 @@ layoutclear: true
 - **适用** ：实际应用、问题解决
 
 
-## 技术细节与实验数据
-
-### InstructGPT 技术实现
-
-**RLHF 三步训练流程详细数据**：
-- **SFT 阶段**：13k 高质量指令-回答对进行监督微调
-- **RM 阶段**：33k 提示的人工排序数据训练奖励模型
-- **PPO 阶段**：使用 Proximal Policy Optimization 算法优化
-- **模型规模**：1.3B 参数的 InstructGPT 优于 175B 的 GPT-3
-- **人类偏好率**：85±3% 的优胜率（相比 GPT-3）
-
-**核心技术创新**：
-- 首次将人类反馈整合到大语言模型训练中
-- 建立了从"预测文本"到"执行任务"的转换范式
-- 奠定了 ChatGPT、GPT-4 的标准训练流程
-
-### AlexNet 架构与性能
-
-**网络架构详细设计**：
-- **层数结构**：5个卷积层 + 3个全连接层
-- **参数规模**：约 60M 参数
-- **GPU 配置**：两块 NVIDIA GTX 580 GPU 并行训练
-- **训练优化**：SGD + 动量优化器（momentum=0.9, learning rate=0.01）
-
-**性能突破数据**：
-- **单模型**：Top-5 错误率 18.2%
-- **集成模型**：7个CNN集成后达到 15.3%
-- **对比优势**：比传统方法（26.2%）低 10.9 个百分点
-- **数据集规模**：ImageNet 120万张训练图片，1000个类别
-
-**技术创新要点**：
-- 首次大规模使用 ReLU 激活函数（解决梯度饱和）
-- 引入 Dropout 正则化技术（防止过拟合）
-- 数据增强策略（随机裁剪、翻转）
-- 局部响应归一化（LRN）
-
-### DenseNet 数学原理
-
-**核心数学公式**：
-
-传统CNN：$x_l = H_l(x_{l-1})$
-
-DenseNet：$x_l = H_l([x_0, x_1, x_2, \ldots, x_{l-1}])$
-
-**关键技术参数**：
-- **Growth Rate (k)**：控制每层输出通道数
-  - ImageNet：k=32
-  - CIFAR：k=12
-- **参数效率**：DenseNet-201 仅 20M 参数，性能匹敌 ResNet-101 的 40M+ 参数
-- **网络组成**：Dense Block + Transition Layer（1×1 Conv + 2×2 Pooling）
-
-**性能优势**：
-- 参数量减少约 2/3（相比 ResNet）
-- 梯度流动更顺畅，训练更稳定
-- 特征复用率显著提升
-
-### GNN Power 理论框架
-
-**核心理论贡献**：
-
-**GIN 更新公式**：
-$$h_v^{(k)} = \text{MLP}^{(k)} \Big( (1+\epsilon^{(k)})\cdot h_v^{(k-1)} + \sum_{u\in N(v)} h_u^{(k-1)} \Big)$$
-
-**理论等价性证明**：
-- GNN 表达能力 ≡ Weisfeiler-Lehman (WL) 测试判别能力
-- 单射聚合函数是达到 WL 上限的必要条件
-- GIN 是首个达到理论上限的实际可实现模型
-
-**设计原则**：
-- **Sum 聚合**：保证单射多重集函数特性
-- **MLP 更新**：提供足够的非线性表达能力
-- **可学习 ε**：平衡节点自身与邻居信息
-
-### COVID Track 实证数据
-
-**数据来源与规模**：
-- **数字代理指标**：香港 Octopus 卡交易数据
-- **年龄分组**：儿童、学生、成人、老年人
-- **相关性验证**：交通类指标与 Rt 相关系数 0.62-0.80
-- **时间延迟**：传统监测延迟约 9 天（感染→报告）
-
-**模型框架**：
-- **年龄结构 SIR 模型**：动态接触矩阵参数化
-- **反卷积方法**：报告时间→感染时间映射
-- **验证方法**：回溯预测与实际趋势对比
-
-**实际应用效果**：
-- **Nowcast 准确性**：与经验 Rt 高度吻合
-- **预测能力**：6天短期预测表现良好
-- **政策评估**：能及时检测干预措施效果
-
 ## 方法论对比分析
 
 ### 实验设计策略
@@ -331,28 +359,6 @@ $$h_v^{(k)} = \text{MLP}^{(k)} \Big( (1+\epsilon^{(k)})\cdot h_v^{(k-1)} + \sum_
 | **集成性研究** | 参数效率对比 | 多数据集验证 | CIFAR + ImageNet |
 | **基础研究** | 理论证明 + 实验验证 | 构造性证明 | 图分类基准 |
 | **应用研究** | 实地验证 + 回溯测试 | 相关性分析 | 实时交易数据 |
-
-### 技术创新模式
-
-**突破性创新**（AlexNet）：
-- 从零开始构建新范式
-- 多项技术同时创新
-- 引发领域革命
-
-**渐进式改进**（DenseNet）：
-- 基于现有技术优化
-- 单一维度深度改进
-- 提升效率和性能
-
-**理论指导**（GNN Power）：
-- 数学理论先行
-- 构造最优解
-- 指导后续发展
-
-**实践驱动**（InstructGPT, COVID Track）：
-- 解决实际问题
-- 验证可行性
-- 推动应用落地
 
 ## 写作启示
 
