@@ -32,10 +32,10 @@ $$
 
 根据上式，很容易得到下面结论：
 
-- $\frac{\partial\|\boldsymbol{x}\|^2}{\partial \boldsymbol{x}}=2 \boldsymbol{x}$
+- $\frac{\partial\lVert\boldsymbol{x}\rVert^2}{\partial \boldsymbol{x}}=2 \boldsymbol{x}$
 - $f(\boldsymbol{x})=\boldsymbol{x}^{\mathrm{T}} \boldsymbol{A} \boldsymbol{x}, \frac{\partial f(\boldsymbol{x})}{\partial \boldsymbol{x}}=(\mathbf{A} + \mathbf{A}^{\mathrm{T}}) \boldsymbol{x}$（当$\mathbf{A}$对称时为$2 \mathbf{A} \boldsymbol{x}$）
 - $f(\boldsymbol{x})=\boldsymbol{\beta}^{\mathrm{T}} \boldsymbol{x}, \frac{\partial f(\boldsymbol{x})}{\partial \boldsymbol{x}}=\boldsymbol{\beta}$
-- $f(\boldsymbol{x})=\|\boldsymbol{x}-\boldsymbol{a}\|, \frac{\partial f(\boldsymbol{x})}{\partial \boldsymbol{x}}=\frac{\boldsymbol{x}-\boldsymbol{a}}{\|\boldsymbol{x}-\boldsymbol{a}\|}$
+- $f(\boldsymbol{x})=\lVert\boldsymbol{x}-\boldsymbol{a}\rVert, \frac{\partial f(\boldsymbol{x})}{\partial \boldsymbol{x}}=\frac{\boldsymbol{x}-\boldsymbol{a}}{\lVert\boldsymbol{x}-\boldsymbol{a}\rVert}$（当$\boldsymbol{x} \neq \boldsymbol{a}$时）
 
 
 ## 高斯正交化
@@ -61,9 +61,7 @@ $$
 \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} e^{-x^2-y^2} \mathrm{~d} x \mathrm{~d} y=\int_0^{2 \pi} \int_0^{+\infty} e^{-r^2} r \mathrm{~d} r \mathrm{~d} \theta=\int_0^{2 \pi}\left(-\left.\frac{e^{-r^2}}{2}\right|_0 ^{+\infty}\right) d \theta=\int_0^{2 \pi} \frac{1}{2} \mathrm{~d} \theta=\pi
 $$
 
-## 下面是整理后的 **Markdown (MD)** 文档，包含正确的数学公式（LaTeX 语法），可直接在支持公式渲染的 Markdown 编辑器或 GitHub 上使用。
 
----
 
 ## n 重积分
 
