@@ -33,7 +33,7 @@ $$
 根据上式，很容易得到下面结论：
 
 - $\frac{\partial\|\boldsymbol{x}\|^2}{\partial \boldsymbol{x}}=2 \boldsymbol{x}$
-- $f(\boldsymbol{x})=\boldsymbol{x}^{\mathrm{T}} \boldsymbol{A} \boldsymbol{x}, \frac{\partial f(\boldsymbol{x})}{\partial \boldsymbol{x}}=2 \mathbf{A} \boldsymbol{x}$
+- $f(\boldsymbol{x})=\boldsymbol{x}^{\mathrm{T}} \boldsymbol{A} \boldsymbol{x}, \frac{\partial f(\boldsymbol{x})}{\partial \boldsymbol{x}}=(\mathbf{A} + \mathbf{A}^{\mathrm{T}}) \boldsymbol{x}$（当$\mathbf{A}$对称时为$2 \mathbf{A} \boldsymbol{x}$）
 - $f(\boldsymbol{x})=\boldsymbol{\beta}^{\mathrm{T}} \boldsymbol{x}, \frac{\partial f(\boldsymbol{x})}{\partial \boldsymbol{x}}=\boldsymbol{\beta}$
 - $f(\boldsymbol{x})=\|\boldsymbol{x}-\boldsymbol{a}\|, \frac{\partial f(\boldsymbol{x})}{\partial \boldsymbol{x}}=\frac{\boldsymbol{x}-\boldsymbol{a}}{\|\boldsymbol{x}-\boldsymbol{a}\|}$
 
@@ -58,7 +58,7 @@ D=\{(r, \theta) \mid 0 \leq \theta \leq 2 \pi, 0 \leq r<+\infty\}
 $$
 于是有
 $$
-\int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} e^{-x^2-y^2} \mathrm{~d} x \mathrm{~d} y=\int_0^{2 \pi} \int_0^{+\infty} e^{-r^2} r \mathrm{~d} x \mathrm{~d} y=\int_0^{2 \pi}\left(-\left.\frac{e^{-r^2}}{2}\right|_0 ^{+\infty}\right) d \theta=\int_0^{2 \pi} \frac{1}{2} \mathrm{~d} \theta=\pi
+\int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} e^{-x^2-y^2} \mathrm{~d} x \mathrm{~d} y=\int_0^{2 \pi} \int_0^{+\infty} e^{-r^2} r \mathrm{~d} r \mathrm{~d} \theta=\int_0^{2 \pi}\left(-\left.\frac{e^{-r^2}}{2}\right|_0 ^{+\infty}\right) d \theta=\int_0^{2 \pi} \frac{1}{2} \mathrm{~d} \theta=\pi
 $$
 
 ## 下面是整理后的 **Markdown (MD)** 文档，包含正确的数学公式（LaTeX 语法），可直接在支持公式渲染的 Markdown 编辑器或 GitHub 上使用。
@@ -71,26 +71,25 @@ $$
 
 n 重积分的一般形式
 
-[
-\iiint!!\cdots!!\int_D f(x_1, x_2, \dots, x_n) , dx_1 , dx_2 \cdots dx_n
-]
+$$
+\iiint\cdots\int_D f(x_1, x_2, \dots, x_n) \, dx_1 \, dx_2 \cdots dx_n
+$$
 
 多重积分转化为累次积分
 
 多重积分常用的一种计算方法是**转化为累次积分**。其一般形式为：
 
-[
-\iiint!!\cdots!!\int_D f(x_1, x_2, \dots, x_n), dx_1, dx_2 \cdots dx_n
-======================================================================
-
+$$
+\iiint\cdots\int_D f(x_1, x_2, \dots, x_n) \, dx_1 \, dx_2 \cdots dx_n
+=
 \int_{a_1}^{b_1}
-!!dx_1
+dx_1
 \int_{a_2(x_1)}^{b_2(x_1)}
-!!dx_2
+dx_2
 \cdots
 \int_{a_n(x_1,\dots,x_{n-1})}^{b_n(x_1,\dots,x_{n-1})}
-f(x_1, x_2, \dots, x_n), dx_n
-]
+f(x_1, x_2, \dots, x_n) \, dx_n
+$$
 
 变量变换法（换元法）
 
@@ -98,35 +97,34 @@ f(x_1, x_2, \dots, x_n), dx_n
 
 假设对 ( n ) 重积分进行如下的变换：
 
-[
+$$
 x = \varphi(y)
 \quad\text{或}\quad
 \begin{cases}
-x_1 = \varphi_1(y_1, y_2, \dots, y_n) \
-x_2 = \varphi_2(y_1, y_2, \dots, y_n) \
-\vdots \
+x_1 = \varphi_1(y_1, y_2, \dots, y_n) \\
+x_2 = \varphi_2(y_1, y_2, \dots, y_n) \\
+\vdots \\
 x_n = \varphi_n(y_1, y_2, \dots, y_n)
 \end{cases}
-]
+$$
 
 若该变换的雅可比行列式（Jacobian determinant）不为零，即：
 
-[
-\det!\left( \frac{\partial x}{\partial y} \right) \ne 0
-]
+$$
+\det\left( \frac{\partial x}{\partial y} \right) \ne 0
+$$
 
 则多重积分的变换公式为：
 
-[
-\iiint!!\cdots!!\int_D f(x), dx
-===============================
-
-\iiint!!\cdots!!\int_{D'}
-f(\varphi(y)) ,
+$$
+\iiint\cdots\int_D f(x) \, dx
+=
+\iiint\cdots\int_{D'}
+f(\varphi(y))
 \left|
-\det!\left( \frac{\partial x}{\partial y} \right)
+\det\left( \frac{\partial x}{\partial y} \right)
 \right| dy
-]
+$$
 
 ---
 
@@ -135,7 +133,6 @@ f(\varphi(y)) ,
 * ( D ) 为原积分区域；( D' ) 为经过变量变换后的积分区域。
 * (\displaystyle \frac{\partial x}{\partial y}) 表示雅可比矩阵。
 * 积分符号前的点表示多重积分（例如三重、四重、n重）。
-
 
 
 <hr class='reviewline'/>
