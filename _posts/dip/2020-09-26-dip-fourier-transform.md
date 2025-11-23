@@ -15,6 +15,8 @@ glslcanvas:
 codeprint:
 ---
 
+{% include image.html url="/assets/images/200926-dip-fourier-transform/901db6edf3b304efdfd28bce79dca818.png" %}
+
 
 ## 数学推导 傅里叶级数与傅里叶变换
 

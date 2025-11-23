@@ -146,10 +146,10 @@ The growth of acronyms in the scientific literature by Adrian Barnett & Zoe Doub
 
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2025-10-25-paper_homework_04-Abstract-issues.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2025-11-11-paper_homework_04-Abstract-issues.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://files.eric.ed.gov/fulltext/EJ1279792.pdf]({% include relrefx.html url="/backup/2025-10-25-paper_homework_04-Abstract-issues.md/files.eric.ed.gov/6d859a79.pdf" %})
-- [https://andrewsforest.oregonstate.edu/sites/default/files/lter/pubs/pdf/pub1429.pdf]({% include relrefx.html url="/backup/2025-10-25-paper_homework_04-Abstract-issues.md/andrewsforest.oregonstate.edu/d5229010.pdf" %})
-- [https://pmc.ncbi.nlm.nih.gov/articles/PMC7556863/pdf/elife-60080.pdf]({% include relrefx.html url="/backup/2025-10-25-paper_homework_04-Abstract-issues.md/pmc.ncbi.nlm.nih.gov/cfd91bc2.pdf" %})
-- [https://inform.nu/Articles/Vol3/v3n2p63-66.pdf]({% include relrefx.html url="/backup/2025-10-25-paper_homework_04-Abstract-issues.md/inform.nu/009766b2.pdf" %})
+- [https://files.eric.ed.gov/fulltext/EJ1279792.pdf]({% include relrefx.html url="/backup/2025-11-11-paper_homework_04-Abstract-issues.md/files.eric.ed.gov/6d859a79.pdf" %})
+- [https://andrewsforest.oregonstate.edu/sites/default/files/lter/pubs/pdf/pub1429.pdf]({% include relrefx.html url="/backup/2025-11-11-paper_homework_04-Abstract-issues.md/andrewsforest.oregonstate.edu/d5229010.pdf" %})
+- [https://pmc.ncbi.nlm.nih.gov/articles/PMC7556863/pdf/elife-60080.pdf]({% include relrefx.html url="/backup/2025-11-11-paper_homework_04-Abstract-issues.md/pmc.ncbi.nlm.nih.gov/cfd91bc2.pdf" %})
+- [https://inform.nu/Articles/Vol3/v3n2p63-66.pdf]({% include relrefx.html url="/backup/2025-11-11-paper_homework_04-Abstract-issues.md/inform.nu/009766b2.pdf" %})
