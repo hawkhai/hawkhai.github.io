@@ -166,11 +166,11 @@ ktitle kaliyun imgthumb zhconv codeformat
             except FileNotFoundError: # [Errno 2] No such file or directory: 'cd invisible ; git log -n 10000 --pretty=format:"%ad" --date=format:%Y-%m-%d_%H:%M:%S -- "chatgpt/README.md"'
                 # date: 1970-03-23 20:17:42 +0800
                 datestr = "2024-09-24_15:01:05"
-            datestr = datestr.replace("_", " ")
-            datestr = datestr.strip().split("\n")[-1]
-            assert datestr, frelgit
-            #assert False, (datestr, frelgit)
-            value = "{} +0800".format(datestr)
+
+            datestrk = datestr.replace("_", " ").strip().split("\n")[-1]
+            assert datestrk, (frelgit, datestr)
+            #assert False, (datestrk, frelgit)
+            value = "{} +0800".format(datestrk)
 
             print(magic, value)
             break
