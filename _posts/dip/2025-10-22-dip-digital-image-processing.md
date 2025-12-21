@@ -9,11 +9,161 @@ toc: true
 toclistyle:
 comments:
 visibility:
-mathjax:
+mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
 ---
+
+
+## 4 邻域均值低通滤波器的频域表示
+
+{% include image.html url="/assets/images/251022-dip-digital-image-proce~aa/20251221112356_214_88.jpg" %}
+
+> 利用像素点 $(x, y)$ 的 4 近领域（不包括该点）组成一个低通滤波器。
+> 写出与它等价的频域滤波函数。
+
+原始图像
+
+$$
+f(x,y)
+$$
+
+滤波后的图像
+
+$$
+g(x,y)
+$$
+
+用 4 个邻居平均
+
+$$
+\boxed{
+g(x,y)
+=\frac14\Big[
+f(x+1,y)+f(x-1,y)+f(x,y+1)+f(x,y-1)
+\Big]
+}
+$$
+
+> 傅里叶“平移公式”。如果
+> $$
+> f(x,y) \xrightarrow{\mathcal{F}} F(u,v)
+> $$
+>
+> 那么
+> $$
+> f(x+a,y+b) \xrightarrow{\mathcal{F}} F(u,v)e^{j2\pi(\frac{au}{M}+\frac{bv}{N})}
+> $$
+
+对应到本题的 4 种情况：
+
+| 空间域     | 频域                           |
+| ---------- | ------------------------------ |
+| $f(x+1,y)$ | $F(u,v)e^{j\frac{2\pi u}{M}}$  |
+| $f(x-1,y)$ | $F(u,v)e^{-j\frac{2\pi u}{M}}$ |
+| $f(x,y+1)$ | $F(u,v)e^{j\frac{2\pi v}{N}}$  |
+| $f(x,y-1)$ | $F(u,v)e^{-j\frac{2\pi v}{N}}$ |
+
+我们对
+$$
+g(x,y)
+=\frac14[\cdots]
+$$
+**两边同时做傅里叶变换**
+
+左边：
+
+$$
+g(x,y) \xrightarrow{\mathcal{F}} G(u,v)
+$$
+
+右边（逐项变换）：
+
+$$
+\begin{aligned}
+G(u,v)
+&=\frac14\Big[
+F(u,v)e^{j\frac{2\pi u}{M}}
++F(u,v)e^{-j\frac{2\pi u}{M}} \\
+&\quad\quad
++F(u,v)e^{j\frac{2\pi v}{N}}
++F(u,v)e^{-j\frac{2\pi v}{N}}
+\Big]
+\end{aligned}
+$$
+
+把公共因子提出来，
+你会发现 **每一项都有 $F(u,v)$** ：
+
+$$
+\begin{aligned}
+G(u,v)
+&=F(u,v)\cdot
+\frac14\Big(
+e^{j\frac{2\pi u}{M}}
++e^{-j\frac{2\pi u}{M}} \\
+&\quad\quad
++e^{j\frac{2\pi v}{N}}
++e^{-j\frac{2\pi v}{N}}
+\Big)
+\end{aligned}
+$$
+
+这一步的意义是：
+
+$$
+\boxed{
+G(u,v)=F(u,v)\cdot H(u,v)
+}
+$$
+
+括号里的东西，就是 **频域滤波器** $H(u,v)$。
+
+根据公式：
+
+$$
+\boxed{
+e^{j\theta}+e^{-j\theta}=2\cos\theta
+}
+$$
+
+应用到这里：
+
+$$
+\begin{aligned}
+H(u,v)
+&=\frac14\Big(
+2\cos\frac{2\pi u}{M}
++2\cos\frac{2\pi v}{N}
+\Big) \\
+&=\boxed{
+\frac12\Big(
+\cos\frac{2\pi u}{M}
++\cos\frac{2\pi v}{N}
+\Big)
+}
+\end{aligned}
+$$
+
+最终答案
+
+$$
+\boxed{
+H(u,v)=\frac12\left(
+\cos\frac{2\pi u}{M}
++\cos\frac{2\pi v}{N}
+\right)
+}
+$$
+
+并且
+
+$$
+\boxed{
+G(u,v)=F(u,v) H(u,v)
+}
+$$
 
 
 ## 色彩模型
