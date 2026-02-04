@@ -8,7 +8,7 @@ tags: ["机器学习"]
 toc: true
 toclistyle:
 comments:
-visibility:
+visibility: hidden
 mathjax: true
 mermaid:
 glslcanvas:
@@ -57,6 +57,33 @@ cluster: "机器学习课程"
 线性代数：MIT 18.06
 概率论与数理统计：MIT 6.041
 凸优化：CVX101
+
+wechatdl.md
+rdevblog.md
+吴恩达
+李沐
+李宏毅
+李航
+李飞飞
+
+后续建议学习李航老师的《统计学习方法》，或者周志华老师的《机器学习》（西瓜书）。
+
+参考书：
+（1）机器学习， 周志华，清华大学出版社，2016
+（2）统计学习方法，李航，清华大学出版社，2012
+（3）Machine Learning in Action, P. Harrington, 人民邮电出版社
+（4）Deep Learning, I. Goodfellow, Y. Bengio and A. Courville, 2016.
+（5）Pattern Recognition and Machine Learning ( 模式识别与机器学习 )，Christopher M. Bishop, 2006
+（6）Machine Learning: A Probabilistic Perspective, K. P. Murphy
+（7）Machine Learning ( 机器学习 ), Tom M. Mitchell, 机械工业出版社，2003 年。
+
+网课：
+(1) Stanford Web course “Machine Learning” by Andrew Ng    <https://www.coursera.org/course/ml>
+(2) Stanford Web course (CS231N) by Fei-fei Li <https://cs231n.Stanford.edu>
+(3) UCL reinforcement learning course <https://www0.cs.ucl.ac.uk/staff/d.silver/web/Teaching.html>
+(4) 2017 年课程实录 <https://b23.tv/eLlyiPI>
+
+本专栏图片、公式很多来自***大学李弘毅老师、斯坦福大学 cs229，斯坦福大学 cs231n 、斯坦福大学 cs224n 课程。在这里，感谢这些经典课程，向他们致敬！
 
 建议可以从吴恩达 / 李宏毅的课程入门，看完后可进一步的根据自己的研究方向选择，比如 CV 方向的可以看李飞飞的 CS231n 课程，最后再直接上手 Pytorch 去学习官方示例，把代码跑起来。
 
@@ -281,6 +308,10 @@ def normalEqn(X, y):
 - [https://www.zhihu.com/people/liang-rong-24-62]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.zhihu.com/d98e98a5.html" %})
 - [https://github.com/azataiot/DeepLearning-Notes]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/github.com/cc99b016.html" %})
 - [https://www.bilibili.com/video/BV1qf4y1x7kB/]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.bilibili.com/93706280.html" %})
+- [https://www.coursera.org/course/ml]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.coursera.org/52fe1156.html" %})
+- [https://cs231n.Stanford.edu]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/cs231n.Stanford.edu/8afa0c35.html" %})
+- [https://www0.cs.ucl.ac.uk/staff/d.silver/web/Teaching.html]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www0.cs.ucl.ac.uk/e7a496ae.html" %})
+- [https://b23.tv/eLlyiPI]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/b23.tv/0ef05d35.html" %})
 - [https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/github.com/9e99497d.html" %})
 - [http://www.ai-start.com/ml2014/]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.ai-start.com/21b3ffdf.html" %})
 - [https://scruel.github.io/Notes-ML-AndrewNg/]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/scruel.github.io/3e8a18b1.html" %})
