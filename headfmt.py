@@ -248,6 +248,7 @@ def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv=None):
     if fpath.endswith(SPACEBACKFILE_TAIL):
         return
 
+    #colorPrint("MAINXKEYFILE", fpath)
     fpath = os.path.relpath(fpath, ".")
     fsecli = parseHeadKeyValueRaw(fpath, fname, ftype)
     if not fsecli: return

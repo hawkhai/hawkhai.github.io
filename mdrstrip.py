@@ -274,8 +274,8 @@ title : %(title)s
     if not remote.split(".")[-1] in ("pdf", "html", "git", "php", "c", "phtml", "cpp", "cxx", "htm", "shtm", "xml",
                                      "ipynb", "py", "asp", "shtml", "aspx", "xhtml", "txt", "mspx", "sh",):
         print(fpath, url)
-        openTextFile(ignorenamefile)
-        assert False, remote
+        #openTextFile(ignorenamefile)
+        #assert False, remote
     return remote
 
 G_IMG_TAGED = set() # 图片资源等。

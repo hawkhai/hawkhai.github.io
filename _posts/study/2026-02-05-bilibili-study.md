@@ -9,7 +9,7 @@ toc: true
 toclistyle:
 comments:
 visibility:
-mathjax: true
+mathjax:
 mermaid:
 glslcanvas:
 codeprint:
@@ -18,7 +18,7 @@ archived: true
 layoutclear: true
 ---
 
-1. 通过 https://github.com/nilaoda/BBDown 下载视频。
+1. 通过 <https://github.com/nilaoda/BBDown> 下载视频。
 
 2. F:\pythonx\study\extract_video_frames.py
 
@@ -30,3 +30,10 @@ layoutclear: true
 
 6. 根据标记导出 pdf： F:\pythonx\study\subtitle_image_extractor.py
 
+
+
+<hr class='reviewline'/>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-02-05-bilibili-study.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://github.com/nilaoda/BBDown]({% include relrefx.html url="/backup/2026-02-05-bilibili-study.md/github.com/5bf11d30.html" %})
