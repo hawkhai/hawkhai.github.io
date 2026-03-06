@@ -6,43 +6,43 @@ if (!is_dir($dir)) {
 
 // 判断是否为 API 调用（?json=1 或 Accept: application/json）
 $isApi = isset($_GET['json']) ||
-         (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false);
+    (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false);
 
 $msg = '';
 $msgType = '';
 $uploadedName = '';
 $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http')
-         . '://' . $_SERVER['HTTP_HOST']
-         . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+        . '://' . $_SERVER['HTTP_HOST']
+        . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
     $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : '';
     if (md5($pwd) !== 'b7994e7c422d5653de8983fccd924e5f') {
-        $msg = '密码错误，文件未保存';
+        $msg = ' 密码错误，文件未保存 ';
         $msgType = 'error';
     } else {
         $file = $_FILES['file'];
         if ($file['error'] !== UPLOAD_ERR_OK) {
             $errors = array(
-                UPLOAD_ERR_INI_SIZE   => '文件超过服务器限制',
-                UPLOAD_ERR_FORM_SIZE  => '文件超过表单限制',
-                UPLOAD_ERR_PARTIAL    => '文件只上传了一部分',
-                UPLOAD_ERR_NO_FILE    => '没有选择文件',
-                UPLOAD_ERR_NO_TMP_DIR => '缺少临时目录',
-                UPLOAD_ERR_CANT_WRITE => '写入磁盘失败',
+                UPLOAD_ERR_INI_SIZE   => ' 文件超过服务器限制 ',
+                UPLOAD_ERR_FORM_SIZE  => ' 文件超过表单限制 ',
+                UPLOAD_ERR_PARTIAL    => ' 文件只上传了一部分 ',
+                UPLOAD_ERR_NO_FILE    => ' 没有选择文件 ',
+                UPLOAD_ERR_NO_TMP_DIR => ' 缺少临时目录 ',
+                UPLOAD_ERR_CANT_WRITE => ' 写入磁盘失败 ',
             );
-            $msg = isset($errors[$file['error']]) ? $errors[$file['error']] : '上传出错 (code=' . $file['error'] . ')';
+            $msg = isset($errors[$file['error']]) ? $errors[$file['error']] : ' 上传出错 (code=' . $file['error'] . ')';
             $msgType = 'error';
         } else {
             $name = basename($file['name']);
             $name = preg_replace('/[^\w\.\-\x{4e00}-\x{9fa5}]/u', '_', $name);
             $dest = $dir . '/' . $name;
             if (move_uploaded_file($file['tmp_name'], $dest)) {
-                $msg = '上传成功：' . $name;
+                $msg = ' 上传成功：' . $name;
                 $msgType = 'ok';
                 $uploadedName = $name;
             } else {
-                $msg = '移动文件失败，请检查目录权限';
+                $msg = ' 移动文件失败，请检查目录权限 ';
                 $msgType = 'error';
             }
         }
@@ -90,7 +90,7 @@ a { color: #06c; }
 
 <pre class="terms">
 ========================================
-  内部文件传输工具  —  使用协议
+    内部文件传输工具  —  使用协议
 ========================================
 
 本工具供内部成员传递文本、配置、日志等小文件使用。
@@ -107,7 +107,7 @@ a { color: #06c; }
 5. 使用即视为同意以上条款。
 
 ========================================
-  API 文档
+    API 文档
 ========================================
 
 端点：  POST /blog/tools/upload.php
@@ -120,28 +120,28 @@ a { color: #06c; }
 
 # 浏览器表单方式（默认返回 HTML）
 curl -F "file=@/path/to/yourfile.txt" \
-     -F "pwd=你的密码" \
-     https://sunocean.life/blog/tools/upload.php
+    -F "pwd= 你的密码" \
+    https://sunocean.life/blog/tools/upload.php
 
 # JSON 模式（?json=1 或 Accept: application/json）
 curl -F "file=@/path/to/yourfile.txt" \
-     -F "pwd=你的密码" \
-     "https://sunocean.life/blog/tools/upload.php?json=1"
+    -F "pwd= 你的密码" \
+    "https://sunocean.life/blog/tools/upload.php?json=1"
 
 --- JSON 响应格式 ---
 
 成功：
 {
-  "ok": true,
-  "msg": "上传成功：yourfile.txt",
-  "filename": "yourfile.txt",
-  "url": "https://sunocean.life/blog/tools/files/yourfile.txt"
+    "ok": true,
+    "msg": "上传成功：yourfile.txt",
+    "filename": "yourfile.txt",
+    "url": "https://sunocean.life/blog/tools/files/yourfile.txt"
 }
 
 失败：
 {
-  "ok": false,
-  "msg": "文件超过服务器限制"
+    "ok": false,
+    "msg": "文件超过服务器限制"
 }
 
 --- 文件列表 ---
@@ -153,12 +153,12 @@ GET  /blog/tools/index.php          列表页面（HTML）
 GET  /blog/tools/files/{filename}   直接下载
 
 ========================================
-  API 使用须知
+    API 使用须知
 ========================================
 
 1. API 无鉴权，任何能访问本域名的人均可调用，
    请在内网或可信环境下使用。
-2. 文件名中非字母/数字/中文/.-_ 的字符会被替换为
+2. 文件名中非字母 / 数字 / 中文 /.-_ 的字符会被替换为
    下划线，请勿依赖特殊字符文件名。
 3. 同名文件会被直接覆盖，无版本管理。
 4. 上传大小受服务器 php.ini 限制（upload_max_filesize
@@ -167,22 +167,22 @@ GET  /blog/tools/files/{filename}   直接下载
 </pre>
 
 <div class="agree">
-  <label>
+    <label>
     <input type="checkbox" id="agree"
-      onchange="document.getElementById('btnSubmit').disabled=!this.checked;">
+        onchange="document.getElementById('btnSubmit').disabled=!this.checked;">
     我已阅读并同意以上协议
-  </label>
+    </label>
 </div>
 
 <fieldset>
-  <legend>选择文件</legend>
-  <form method="POST" enctype="multipart/form-data">
+    <legend>选择文件</legend>
+    <form method="POST" enctype="multipart/form-data">
     <input type="file" name="file">
-    <input type="password" name="pwd" placeholder="上传密码" style="display:block;margin-bottom:12px;font-size:14px;">
-    <input type="submit" id="btnSubmit" value="上传" disabled>
-  </form>
+    <input type="password" name="pwd" placeholder=" 上传密码" style="display:block;margin-bottom:12px;font-size:14px;">
+    <input type="submit" id="btnSubmit" value=" 上传" disabled>
+    </form>
 <?php if ($msg !== '') { ?>
-  <div class="msg <?php echo $msgType; ?>"><?php echo htmlspecialchars($msg); ?></div>
+    <div class="msg <?php echo $msgType; ?>"><?php echo htmlspecialchars($msg); ?></div>
 <?php } ?>
 </fieldset>
 

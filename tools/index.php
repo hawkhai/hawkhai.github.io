@@ -6,11 +6,11 @@ if (!is_dir($dir)) {
 
 function reltime($ts) {
     $diff = time() - $ts;
-    if ($diff < 60)           return '刚刚';
-    if ($diff < 3600)         return intval($diff / 60) . ' 分钟前';
-    if ($diff < 86400)        return intval($diff / 3600) . ' 小时前';
-    if ($diff < 86400 * 2)    return '昨天 ' . date('H:i', $ts);
-    if ($diff < 86400 * 7)    return intval($diff / 86400) . ' 天前';
+    if ($diff < 60)           return ' 刚刚 ';
+    if ($diff < 3600)         return intval($diff / 60) . ' 分钟前 ';
+    if ($diff < 86400)        return intval($diff / 3600) . ' 小时前 ';
+    if ($diff < 86400 * 2)    return ' 昨天 ' . date('H:i', $ts);
+    if ($diff < 86400 * 7)    return intval($diff / 86400) . ' 天前 ';
     return date('m-d H:i', $ts);
 }
 
@@ -66,9 +66,9 @@ a { color: #06c; }
 <tr><td colspan="3" class="empty">暂无文件</td></tr>
 <?php } else { foreach ($files as $f) { ?>
 <tr>
-  <td class="name"><a href="files/<?php echo rawurlencode($f['name']); ?>" download><?php echo htmlspecialchars($f['name']); ?></a></td>
-  <td class="mtime"><?php echo reltime($f['mtime']); ?>  <span class="abs"><?php echo date('Y-m-d H:i:s', $f['mtime']); ?></span></td>
-  <td class="size"><?php echo byteformat($f['size']); ?></td>
+    <td class="name"><a href="files/<?php echo rawurlencode($f['name']); ?>" download><?php echo htmlspecialchars($f['name']); ?></a></td>
+    <td class="mtime"><?php echo reltime($f['mtime']); ?>  <span class="abs"><?php echo date('Y-m-d H:i:s', $f['mtime']); ?></span></td>
+    <td class="size"><?php echo byteformat($f['size']); ?></td>
 </tr>
 <?php } } ?>
 </table>
