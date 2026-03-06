@@ -16,29 +16,35 @@ $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : '
          . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
-    $file = $_FILES['file'];
-    if ($file['error'] !== UPLOAD_ERR_OK) {
-        $errors = array(
-            UPLOAD_ERR_INI_SIZE   => '文件超过服务器限制',
-            UPLOAD_ERR_FORM_SIZE  => '文件超过表单限制',
-            UPLOAD_ERR_PARTIAL    => '文件只上传了一部分',
-            UPLOAD_ERR_NO_FILE    => '没有选择文件',
-            UPLOAD_ERR_NO_TMP_DIR => '缺少临时目录',
-            UPLOAD_ERR_CANT_WRITE => '写入磁盘失败',
-        );
-        $msg = isset($errors[$file['error']]) ? $errors[$file['error']] : '上传出错 (code=' . $file['error'] . ')';
+    $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : '';
+    if (md5($pwd) !== 'b7994e7c422d5653de8983fccd924e5f') {
+        $msg = '密码错误，文件未保存';
         $msgType = 'error';
     } else {
-        $name = basename($file['name']);
-        $name = preg_replace('/[^\w\.\-\x{4e00}-\x{9fa5}]/u', '_', $name);
-        $dest = $dir . '/' . $name;
-        if (move_uploaded_file($file['tmp_name'], $dest)) {
-            $msg = '上传成功：' . $name;
-            $msgType = 'ok';
-            $uploadedName = $name;
-        } else {
-            $msg = '移动文件失败，请检查目录权限';
+        $file = $_FILES['file'];
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            $errors = array(
+                UPLOAD_ERR_INI_SIZE   => '文件超过服务器限制',
+                UPLOAD_ERR_FORM_SIZE  => '文件超过表单限制',
+                UPLOAD_ERR_PARTIAL    => '文件只上传了一部分',
+                UPLOAD_ERR_NO_FILE    => '没有选择文件',
+                UPLOAD_ERR_NO_TMP_DIR => '缺少临时目录',
+                UPLOAD_ERR_CANT_WRITE => '写入磁盘失败',
+            );
+            $msg = isset($errors[$file['error']]) ? $errors[$file['error']] : '上传出错 (code=' . $file['error'] . ')';
             $msgType = 'error';
+        } else {
+            $name = basename($file['name']);
+            $name = preg_replace('/[^\w\.\-\x{4e00}-\x{9fa5}]/u', '_', $name);
+            $dest = $dir . '/' . $name;
+            if (move_uploaded_file($file['tmp_name'], $dest)) {
+                $msg = '上传成功：' . $name;
+                $msgType = 'ok';
+                $uploadedName = $name;
+            } else {
+                $msg = '移动文件失败，请检查目录权限';
+                $msgType = 'error';
+            }
         }
     }
 
@@ -114,10 +120,12 @@ a { color: #06c; }
 
 # 浏览器表单方式（默认返回 HTML）
 curl -F "file=@/path/to/yourfile.txt" \
+     -F "pwd=你的密码" \
      https://sunocean.life/blog/tools/upload.php
 
 # JSON 模式（?json=1 或 Accept: application/json）
 curl -F "file=@/path/to/yourfile.txt" \
+     -F "pwd=你的密码" \
      "https://sunocean.life/blog/tools/upload.php?json=1"
 
 --- JSON 响应格式 ---
@@ -170,6 +178,7 @@ GET  /blog/tools/files/{filename}   直接下载
   <legend>选择文件</legend>
   <form method="POST" enctype="multipart/form-data">
     <input type="file" name="file">
+    <input type="password" name="pwd" placeholder="上传密码" style="display:block;margin-bottom:12px;font-size:14px;">
     <input type="submit" id="btnSubmit" value="上传" disabled>
   </form>
 <?php if ($msg !== '') { ?>
