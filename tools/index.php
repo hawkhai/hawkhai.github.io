@@ -153,16 +153,15 @@ a:hover { text-decoration: underline; }
 <?php } ?>
 
 <div class="delete-panel" id="deletePanel">
-    <form method="POST" id="deleteForm" onsubmit="return confirmDelete();">
-        <input type="hidden" name="action" value="delete">
-        <span id="deleteHint">确认删除选中的文件？</span>
-        <input type="password" name="pwd" placeholder="删除密码" required>
-        <button type="submit" class="btn-delete">确认删除</button>
-        <button type="button" class="btn-cancel" onclick="hideDeletePanel();">取消</button>
-    </form>
+    <span id="deleteHint">确认删除选中的文件？</span>
+    <input type="password" id="deletePwd" placeholder="删除密码" required>
+    <button type="button" class="btn-delete" onclick="submitBatchDelete();">确认删除</button>
+    <button type="button" class="btn-cancel" onclick="hideDeletePanel();">取消</button>
 </div>
 
-<form id="fileListForm">
+<form method="POST" id="fileListForm">
+<input type="hidden" name="action" value="delete" id="deleteAction" disabled>
+<input type="hidden" name="pwd" id="deletePwdHidden" disabled>
 <table>
 <tr>
     <th class="check"><?php if (!empty($files)) { ?><input type="checkbox" id="checkAll" onchange="toggleAll(this);"><?php } ?></th>
@@ -216,13 +215,26 @@ function hideDeletePanel() {
     document.getElementById('deletePanel').classList.remove('show');
 }
 
-function confirmDelete() {
+function submitBatchDelete() {
+    const pwd = document.getElementById('deletePwd').value;
+    if (!pwd) {
+        alert('请输入删除密码');
+        return;
+    }
+    
     const checked = document.querySelectorAll('.file-check:checked');
     if (checked.length === 0) {
         alert('请选择要删除的文件');
-        return false;
+        return;
     }
-    return true;
+    
+    // 启用隐藏字段并设置值
+    document.getElementById('deleteAction').disabled = false;
+    document.getElementById('deletePwdHidden').disabled = false;
+    document.getElementById('deletePwdHidden').value = pwd;
+    
+    // 提交表单
+    document.getElementById('fileListForm').submit();
 }
 
 function deleteSingle(filename) {

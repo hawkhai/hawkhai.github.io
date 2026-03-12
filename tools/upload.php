@@ -88,6 +88,29 @@ a { color: #06c; }
 <body>
 <h2>文件上传</h2>
 
+<div class="agree">
+    <label>
+    <input type="checkbox" id="agree"
+        onchange="document.getElementById('btnSubmit').disabled=!this.checked;">
+    我已阅读并同意以上协议
+    </label>
+</div>
+
+<fieldset>
+    <legend>选择文件</legend>
+    <form method="POST" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <input type="password" name="pwd" placeholder=" 上传密码" style="display:block;margin-bottom:12px;font-size:14px;">
+    <input type="submit" id="btnSubmit" value=" 上传" disabled>
+    </form>
+<?php if ($msg !== '') { ?>
+    <div class="msg <?php echo $msgType; ?>"><?php echo htmlspecialchars($msg); ?></div>
+<?php } ?>
+</fieldset>
+
+<p><a href="index.php">&larr; 查看文件列表</a></p>
+
+
 <pre class="terms">
 ========================================
     内部文件传输工具  —  使用协议
@@ -165,27 +188,5 @@ GET  /blog/tools/files/{filename}   直接下载
    / post_max_size），超限返回错误。
 5. 本 API 无速率限制，请合理使用，避免滥用。
 </pre>
-
-<div class="agree">
-    <label>
-    <input type="checkbox" id="agree"
-        onchange="document.getElementById('btnSubmit').disabled=!this.checked;">
-    我已阅读并同意以上协议
-    </label>
-</div>
-
-<fieldset>
-    <legend>选择文件</legend>
-    <form method="POST" enctype="multipart/form-data">
-    <input type="file" name="file">
-    <input type="password" name="pwd" placeholder=" 上传密码" style="display:block;margin-bottom:12px;font-size:14px;">
-    <input type="submit" id="btnSubmit" value=" 上传" disabled>
-    </form>
-<?php if ($msg !== '') { ?>
-    <div class="msg <?php echo $msgType; ?>"><?php echo htmlspecialchars($msg); ?></div>
-<?php } ?>
-</fieldset>
-
-<p><a href="index.php">&larr; 查看文件列表</a></p>
 </body>
 </html>
