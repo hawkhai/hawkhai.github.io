@@ -288,12 +288,12 @@ a:hover {
 
 # 浏览器表单方式（默认返回 HTML）
 curl -F "file=@/path/to/yourfile.txt" \
-    -F "pwd= 你的密码" \
+    -F "pwd=<password>" \
     https://sunocean.life/blog/tools/upload.php
 
 # JSON 模式（?json=1 或 Accept: application/json）
 curl -F "file=@/path/to/yourfile.txt" \
-    -F "pwd= 你的密码" \
+    -F "pwd=<password>" \
     "https://sunocean.life/blog/tools/upload.php?json=1"
 
 --- JSON 响应格式 ---
