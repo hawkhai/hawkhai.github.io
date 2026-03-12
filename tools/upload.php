@@ -17,7 +17,7 @@ $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : '
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
     $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : '';
-    if (md5($pwd) !== 'b7994e7c422d5653de8983fccd924e5f') {
+    if (md5($pwd) !== 'b2f8ad91addf53d67d02e1a5ba6cea88') {
         $msg = ' 密码错误，文件未保存 ';
         $msgType = 'error';
     } else {
