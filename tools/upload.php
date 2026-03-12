@@ -68,12 +68,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
 <title>文件上传</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { 
+body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', sans-serif;
-    max-width: 900px; 
-    margin: 0 auto; 
-    padding: 24px; 
-    color: #1a1a1a; 
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
+    color: #1a1a1a;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
 }
@@ -83,7 +83,7 @@ body {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     padding: 32px;
 }
-h2 { 
+h2 {
     font-size: 28px;
     font-weight: 600;
     color: #1a1a1a;
@@ -91,7 +91,7 @@ h2 {
     padding-bottom: 12px;
     border-bottom: 2px solid #e5e7eb;
 }
-pre.terms { 
+pre.terms {
     background: #f9fafb;
     border: 1px solid #e5e7eb;
     padding: 20px 24px;
@@ -104,8 +104,8 @@ pre.terms {
     border-radius: 8px;
     color: #374151;
 }
-.agree { 
-    margin-bottom: 20px; 
+.agree {
+    margin-bottom: 20px;
     font-size: 14px;
     padding: 12px 16px;
     background: #fef3c7;
@@ -119,27 +119,27 @@ pre.terms {
     font-weight: 500;
     color: #92400e;
 }
-.agree input { 
+.agree input {
     margin-right: 10px;
     width: 18px;
     height: 18px;
     cursor: pointer;
     accent-color: #667eea;
 }
-fieldset { 
+fieldset {
     border: 1px solid #e5e7eb;
     padding: 24px;
     margin: 0 0 20px;
     border-radius: 8px;
     background: #fafafa;
 }
-legend { 
+legend {
     font-weight: 600;
     padding: 0 12px;
     color: #374151;
     font-size: 16px;
 }
-input[type=file] { 
+input[type=file] {
     display: block;
     margin-bottom: 16px;
     padding: 10px;
@@ -169,7 +169,7 @@ input[type=password]:focus {
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
-input[type=submit] { 
+input[type=submit] {
     padding: 10px 24px;
     font-size: 14px;
     cursor: pointer;
@@ -185,14 +185,14 @@ input[type=submit]:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
-input[type=submit]:disabled { 
+input[type=submit]:disabled {
     background: #d1d5db;
     color: #9ca3af;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
 }
-.msg { 
+.msg {
     padding: 12px 16px;
     margin-top: 16px;
     font-size: 14px;
@@ -206,13 +206,13 @@ input[type=submit]:disabled {
 }
 .ok { border-color: #10b981; background: #d1fae5; color: #065f46; }
 .error { border-color: #ef4444; background: #fee2e2; color: #991b1b; }
-a { 
+a {
     color: #667eea;
     text-decoration: none;
     transition: color 0.2s;
     font-weight: 500;
 }
-a:hover { 
+a:hover {
     color: #764ba2;
     text-decoration: underline;
 }
