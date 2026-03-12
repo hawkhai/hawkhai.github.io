@@ -67,25 +67,171 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>文件上传</title>
 <style>
-body { font-family: monospace; max-width: 600px; margin: 40px auto; padding: 0 16px; color: #111; background: #fff; }
-h2 { border-bottom: 1px solid #ccc; padding-bottom: 6px; }
-pre.terms { background: #f6f6f6; border: 1px solid #ccc; padding: 14px 16px;
-    font-family: monospace; font-size: 13px; line-height: 1.7;
-    white-space: pre-wrap; word-break: break-all; margin-bottom: 12px; }
-.agree { margin-bottom: 16px; font-size: 14px; }
-.agree input { margin-right: 6px; }
-fieldset { border: 1px solid #ccc; padding: 16px; margin: 0 0 12px; }
-legend { font-weight: bold; padding: 0 6px; }
-input[type=file] { display: block; margin-bottom: 12px; }
-input[type=submit] { padding: 6px 20px; font-size: 14px; cursor: pointer; }
-input[type=submit]:disabled { color: #999; cursor: not-allowed; }
-.msg { border: 1px solid #ccc; padding: 8px 12px; margin-top: 12px; font-size: 13px; }
-.ok    { border-color: #6a6; color: #363; }
-.error { border-color: #c66; color: #633; }
-a { color: #06c; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', sans-serif;
+    max-width: 900px; 
+    margin: 0 auto; 
+    padding: 24px; 
+    color: #1a1a1a; 
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+.container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 32px;
+}
+h2 { 
+    font-size: 28px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e5e7eb;
+}
+pre.terms { 
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    padding: 20px 24px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    word-break: break-all;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    color: #374151;
+}
+.agree { 
+    margin-bottom: 20px; 
+    font-size: 14px;
+    padding: 12px 16px;
+    background: #fef3c7;
+    border-left: 4px solid #f59e0b;
+    border-radius: 6px;
+}
+.agree label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+    color: #92400e;
+}
+.agree input { 
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #667eea;
+}
+fieldset { 
+    border: 1px solid #e5e7eb;
+    padding: 24px;
+    margin: 0 0 20px;
+    border-radius: 8px;
+    background: #fafafa;
+}
+legend { 
+    font-weight: 600;
+    padding: 0 12px;
+    color: #374151;
+    font-size: 16px;
+}
+input[type=file] { 
+    display: block;
+    margin-bottom: 16px;
+    padding: 10px;
+    border: 2px dashed #d1d5db;
+    border-radius: 6px;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #fff;
+}
+input[type=file]:hover {
+    border-color: #667eea;
+    background: #f9fafb;
+}
+input[type=password] {
+    display: block;
+    margin-bottom: 16px;
+    font-size: 14px;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    width: 100%;
+    outline: none;
+    transition: all 0.2s;
+}
+input[type=password]:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+input[type=submit] { 
+    padding: 10px 24px;
+    font-size: 14px;
+    cursor: pointer;
+    background: #667eea;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+input[type=submit]:hover {
+    background: #5568d3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+input[type=submit]:disabled { 
+    background: #d1d5db;
+    color: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+.msg { 
+    padding: 12px 16px;
+    margin-top: 16px;
+    font-size: 14px;
+    border-radius: 8px;
+    border-left: 4px solid;
+    animation: slideIn 0.3s ease;
+}
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.ok { border-color: #10b981; background: #d1fae5; color: #065f46; }
+.error { border-color: #ef4444; background: #fee2e2; color: #991b1b; }
+a { 
+    color: #667eea;
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 500;
+}
+a:hover { 
+    color: #764ba2;
+    text-decoration: underline;
+}
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 8px 16px;
+    background: #f3f4f6;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+.back-link:hover {
+    background: #e5e7eb;
+    text-decoration: none;
+}
 </style>
 </head>
 <body>
+<div class="container">
 <h2>文件上传</h2>
 
 <div class="agree">
@@ -108,8 +254,7 @@ a { color: #06c; }
 <?php } ?>
 </fieldset>
 
-<p><a href="index.php">&larr; 查看文件列表</a></p>
-
+<a href="index.php" class="back-link">&larr; 查看文件列表</a>
 
 <pre class="terms">
 ========================================
@@ -188,5 +333,6 @@ GET  /blog/tools/files/{filename}   直接下载
    / post_max_size），超限返回错误。
 5. 本 API 无速率限制，请合理使用，避免滥用。
 </pre>
+</div>
 </body>
 </html>

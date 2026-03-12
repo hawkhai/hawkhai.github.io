@@ -100,43 +100,205 @@ usort($files, function($a, $b) { return $b['mtime'] - $a['mtime']; });
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>文件列表</title>
 <style>
-body { font-family: monospace; max-width: 860px; margin: 40px auto; padding: 0 16px; color: #111; background: #fff; }
-h2 { border-bottom: 1px solid #ccc; padding-bottom: 6px; margin-bottom: 4px; }
-.topbar { margin-bottom: 16px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
-.msg { border: 1px solid #ccc; padding: 8px 12px; margin-bottom: 12px; font-size: 13px; border-radius: 3px; }
-.msg.ok { border-color: #6a6; background: #efe; color: #363; }
-.msg.error { border-color: #c66; background: #fee; color: #633; }
-.msg.warning { border-color: #da6; background: #ffc; color: #630; }
-.delete-panel { display: none; padding: 10px; background: #f9f9f9; border: 1px solid #ddd; border-radius: 3px; margin-bottom: 12px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', sans-serif;
+    max-width: 900px; 
+    margin: 0 auto; 
+    padding: 24px; 
+    color: #1a1a1a; 
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+.container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 32px;
+}
+h2 { 
+    font-size: 28px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e5e7eb;
+}
+.topbar { 
+    margin-bottom: 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+.msg { 
+    padding: 12px 16px; 
+    margin-bottom: 20px; 
+    font-size: 14px; 
+    border-radius: 8px;
+    border-left: 4px solid;
+    animation: slideIn 0.3s ease;
+}
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.msg.ok { border-color: #10b981; background: #d1fae5; color: #065f46; }
+.msg.error { border-color: #ef4444; background: #fee2e2; color: #991b1b; }
+.msg.warning { border-color: #f59e0b; background: #fef3c7; color: #92400e; }
+.delete-panel { 
+    display: none; 
+    padding: 16px; 
+    background: #fef2f2; 
+    border: 1px solid #fecaca; 
+    border-radius: 8px; 
+    margin-bottom: 20px;
+    animation: slideIn 0.3s ease;
+}
 .delete-panel.show { display: block; }
-.delete-panel input[type=password] { padding: 4px 8px; font-size: 13px; margin-right: 8px; width: 120px; }
-.delete-panel button { padding: 4px 12px; font-size: 13px; cursor: pointer; margin-right: 6px; }
-.delete-panel .btn-delete { background: #c33; color: #fff; border: 1px solid #a22; }
-.delete-panel .btn-delete:hover { background: #d44; }
-.delete-panel .btn-cancel { background: #eee; border: 1px solid #ccc; }
-.delete-panel .btn-cancel:hover { background: #ddd; }
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th, td { text-align: left; padding: 5px 10px; border-bottom: 1px solid #ddd; }
-th { background: #f0f0f0; }
-th.check, td.check { width: 30px; text-align: center; }
-td.size  { white-space: nowrap; width: 80px; color: #555; }
-td.mtime { white-space: nowrap; width: 220px; color: #555; }
-td.actions { white-space: nowrap; width: 60px; text-align: center; }
-.abs { color: #aaa; font-size: 11px; }
-td.name  { word-break: break-all; }
-a { color: #06c; text-decoration: none; }
-a:hover { text-decoration: underline; }
-.empty { color: #999; padding: 12px 0; }
-.btn-del-single { color: #c33; cursor: pointer; font-size: 12px; }
-.btn-del-single:hover { color: #f44; text-decoration: underline; }
-.toolbar { font-size: 13px; }
-.toolbar a { margin-right: 12px; }
-.toolbar .btn-batch-delete { color: #c33; cursor: pointer; }
-.toolbar .btn-batch-delete:hover { text-decoration: underline; }
-.toolbar .selected-count { color: #666; margin-left: 8px; }
+.delete-panel input[type=password] { 
+    padding: 8px 12px; 
+    font-size: 14px; 
+    margin-right: 10px; 
+    width: 160px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    outline: none;
+    transition: all 0.2s;
+}
+.delete-panel input[type=password]:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+.delete-panel button { 
+    padding: 8px 16px; 
+    font-size: 14px; 
+    cursor: pointer; 
+    margin-right: 8px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+.delete-panel .btn-delete { 
+    background: #ef4444; 
+    color: #fff;
+}
+.delete-panel .btn-delete:hover { 
+    background: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+.delete-panel .btn-cancel { 
+    background: #f3f4f6; 
+    color: #374151;
+}
+.delete-panel .btn-cancel:hover { 
+    background: #e5e7eb;
+}
+table { 
+    width: 100%; 
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 14px;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+th, td { 
+    text-align: left; 
+    padding: 12px 16px;
+}
+th { 
+    background: linear-gradient(to bottom, #f9fafb, #f3f4f6);
+    font-weight: 600;
+    color: #374151;
+    border-bottom: 2px solid #e5e7eb;
+}
+td {
+    border-bottom: 1px solid #f3f4f6;
+    transition: background 0.2s;
+}
+tr:hover td {
+    background: #f9fafb;
+}
+tr:last-child td {
+    border-bottom: none;
+}
+th.check, td.check { width: 40px; text-align: center; }
+td.size { white-space: nowrap; width: 100px; color: #6b7280; }
+td.mtime { white-space: nowrap; width: 240px; color: #6b7280; }
+td.actions { white-space: nowrap; width: 70px; text-align: center; }
+.abs { color: #9ca3af; font-size: 12px; margin-left: 8px; }
+td.name { word-break: break-all; }
+a { 
+    color: #667eea; 
+    text-decoration: none;
+    transition: color 0.2s;
+}
+a:hover { 
+    color: #764ba2;
+    text-decoration: underline;
+}
+.empty { 
+    color: #9ca3af; 
+    padding: 40px 0; 
+    text-align: center;
+    font-size: 14px;
+}
+.btn-del-single { 
+    color: #ef4444; 
+    cursor: pointer; 
+    font-size: 13px;
+    font-weight: 500;
+}
+.btn-del-single:hover { 
+    color: #dc2626;
+    text-decoration: underline;
+}
+.toolbar { 
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+.toolbar a { 
+    margin-right: 16px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+.toolbar a:first-child {
+    background: #667eea;
+    color: #fff;
+}
+.toolbar a:first-child:hover {
+    background: #5568d3;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+.toolbar .btn-batch-delete { 
+    color: #ef4444;
+    cursor: pointer;
+}
+.toolbar .btn-batch-delete:hover { 
+    color: #dc2626;
+}
+.toolbar .selected-count { 
+    color: #6b7280; 
+    margin-left: 8px;
+    font-size: 13px;
+}
+input[type=checkbox] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #667eea;
+}
 </style>
 </head>
 <body>
+<div class="container">
 <h2>文件列表</h2>
 <div class="topbar">
     <div class="toolbar">
@@ -252,5 +414,6 @@ function deleteSingle(filename) {
     form.submit();
 }
 </script>
+</div>
 </body>
 </html>
