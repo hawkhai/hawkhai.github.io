@@ -223,6 +223,16 @@ ReLU 激活函数，线性扩展特性。把视角放大。
 作者最终有一个分离 0-9 字符的例子，也很精彩；也只有歪果仁，非常有时间，才能做出这么惊艳的视频。
 第三个视频没有出，期待。
 
+## 20260314 补充
+
+Why Neural Networks can learn (almost) anything
+为什么神经网络几乎可以学习任何事物：通用近似定理详解 - Emergent Garden
+https://www.bilibili.com/video/BV1KqZYBJE4y/
+
+Watching Neural Networks Learn
+视觉化神经网络的学习过程：通用函数逼近器的奥秘 - Emergent Garden
+https://www.bilibili.com/video/BV1gbZYBREh4/
+
 
 
 <hr class='reviewline'/>
