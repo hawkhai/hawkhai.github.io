@@ -223,15 +223,16 @@ ReLU 激活函数，线性扩展特性。把视角放大。
 作者最终有一个分离 0-9 字符的例子，也很精彩；也只有歪果仁，非常有时间，才能做出这么惊艳的视频。
 第三个视频没有出，期待。
 
+
 ## 20260314 补充
 
 Why Neural Networks can learn (almost) anything
 为什么神经网络几乎可以学习任何事物：通用近似定理详解 - Emergent Garden
-https://www.bilibili.com/video/BV1KqZYBJE4y/
+<https://www.bilibili.com/video/BV1KqZYBJE4y/>
 
 Watching Neural Networks Learn
 视觉化神经网络的学习过程：通用函数逼近器的奥秘 - Emergent Garden
-https://www.bilibili.com/video/BV1gbZYBREh4/
+<https://www.bilibili.com/video/BV1gbZYBREh4/>
 
 
 
@@ -242,3 +243,5 @@ https://www.bilibili.com/video/BV1gbZYBREh4/
 - [https://github.com/vivek3141/dl-visualization]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence-visualization.md/github.com/8db464ce.html" %})
 - [https://www.bilibili.com/video/BV1mD4y127sg/]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence-visualization.md/www.bilibili.com/1ad0e5b9.html" %})
 - [https://www.bilibili.com/video/BV1s3411y7WN/]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence-visualization.md/www.bilibili.com/9371f15d.html" %})
+- [https://www.bilibili.com/video/BV1KqZYBJE4y/]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence-visualization.md/www.bilibili.com/81b2e204.html" %})
+- [https://www.bilibili.com/video/BV1gbZYBREh4/]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence-visualization.md/www.bilibili.com/1daec433.html" %})
