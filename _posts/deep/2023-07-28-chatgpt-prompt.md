@@ -4,7 +4,7 @@ title: "机器学习 -- ChatGPT Prompt 提示词 吴恩达（进行中）"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "Prompt", "LLM"]
 toc: true
 toclistyle: none
 comments:

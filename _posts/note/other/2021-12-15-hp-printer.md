@@ -4,7 +4,7 @@ title: "生活 -- 惠普 178/179 彩机 HP Color Laser MFP 178nw"
 author:
 location: "珠海"
 categories: ["生活"]
-tags: ["生活"]
+tags: ["生活", "打印机"]
 toc:
 toclistyle:
 comments:

@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "MATHEMATICS --《概率论与数理统计》宋浩老师（已完成）"
+title: "数学 --《概率论与数理统计》宋浩老师（已完成）"
 author:
 location: "珠海"
 categories: ["数学"]
-tags: ["数学"]
+tags: ["数学", "概率论", "统计学"]
 toc: true
 toclistyle:
 comments:

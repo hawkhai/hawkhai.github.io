@@ -4,7 +4,7 @@ title: "论文写作 -- 论文摘要问题"
 author: qhai
 location: "珠海"
 categories: ["论文写作"]
-tags: ["论文写作"]
+tags: ["论文写作", "摘要"]
 toc: true
 toclistyle:
 comments:

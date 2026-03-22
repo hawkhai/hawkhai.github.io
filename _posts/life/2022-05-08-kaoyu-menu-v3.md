@@ -4,7 +4,7 @@ title: "<br/>重庆烤鱼 · 猪肚鸡"
 author:
 location: "广州"
 categories: ["生活"]
-tags: ["生活"]
+tags: ["生活", "美食"]
 toc: true
 toclistyle:
 comments:

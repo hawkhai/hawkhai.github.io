@@ -4,7 +4,7 @@ title: "图像处理 -- Windows cv::freetype::FreeType2"
 author:
 location: "珠海"
 categories: ["图像处理"]
-tags: ["图像处理"]
+tags: ["图像处理", "OpenCV", "FreeType"]
 toc: true
 toclistyle:
 comments:

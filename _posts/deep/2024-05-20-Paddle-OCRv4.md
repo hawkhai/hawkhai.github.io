@@ -4,7 +4,7 @@ title: "机器学习 -- Paddle-OCR 根据垂直类场景自定义数据微调 PP
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "OCR", "PaddleOCR"]
 toc: true
 toclistyle: none
 comments:

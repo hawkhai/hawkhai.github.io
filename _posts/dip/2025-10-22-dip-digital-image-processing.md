@@ -4,7 +4,7 @@ title: "图像处理笔记 -- 数字图像处理 (DIP)"
 author:
 location: "珠海"
 categories: ["图像处理"]
-tags: ["图像处理"]
+tags: ["图像处理", "DIP"]
 toc: true
 toclistyle:
 comments:

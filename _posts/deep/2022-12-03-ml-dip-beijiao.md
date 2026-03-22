@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "机器学习 -- 北交 / 图像处理与机器学习（已完成）"
+title: "机器学习 -- 北交 · 图像处理与机器学习（已完成）"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["图像处理", "机器学习"]
+tags: ["机器学习", "图像处理", "课程"]
 toc: true
 toclistyle: none
 comments:

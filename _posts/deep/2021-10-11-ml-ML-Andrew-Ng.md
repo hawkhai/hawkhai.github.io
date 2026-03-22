@@ -4,7 +4,7 @@ title: "机器学习 -- 吴恩达机器学习（已完成）"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "课程", "吴恩达"]
 toc: true
 toclistyle:
 comments:

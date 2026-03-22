@@ -4,7 +4,7 @@ title: "编程与调试 -- 使用 ctypes 进行 Python 和 C 的混合编程"
 author: yqh
 location: "珠海"
 categories: ["编程与调试"]
-tags: ["编程", "Python"]
+tags: ["编程", "Python", "C/C++"]
 toc: true
 toclistyle:
 comments:

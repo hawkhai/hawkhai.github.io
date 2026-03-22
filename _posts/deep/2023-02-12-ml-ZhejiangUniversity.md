@@ -4,7 +4,7 @@ title: "机器学习 -- 浙江大学 · 机器学习（已完成）"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "课程"]
 toc: true
 toclistyle: none
 comments:

@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "MATHEMATICS --《线性代数》宋浩老师（已完成）"
+title: "数学 --《线性代数》宋浩老师（已完成）"
 author:
 location: "珠海"
 categories: ["数学"]
-tags: ["数学"]
+tags: ["数学", "线性代数"]
 toc: true
 toclistyle:
 comments:

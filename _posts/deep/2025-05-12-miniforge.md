@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "机器学习 -- Miniforge 替代 Anaconda"
+title: "开发环境 -- Miniforge 替代 Anaconda"
 author:
 location: "珠海"
-categories: ["机器学习"]
-tags: ["机器学习"]
+categories: ["开发环境"]
+tags: ["开发环境", "Python", "Conda"]
 toc: true
 toclistyle:
 comments:

@@ -4,7 +4,7 @@ title: "机器学习 -- 经典论文 ViT (Vision Transformer)"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "论文", "ViT", "Transformer"]
 toc: true
 toclistyle:
 comments:

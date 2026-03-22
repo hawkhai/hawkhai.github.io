@@ -4,7 +4,7 @@ title: "机器学习 -- 学术论文解读系列（进行中）"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "论文"]
 toc: true
 toclistyle:
 comments:

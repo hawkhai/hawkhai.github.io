@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "MATHEMATICS --《高等数学》同济版 宋浩老师（已完成）"
+title: "数学 --《高等数学》同济版 宋浩老师（已完成）"
 author:
 location: "珠海"
 categories: ["数学"]
-tags: ["数学"]
+tags: ["数学", "高等数学", "微积分"]
 toc: true
 toclistyle:
 comments:

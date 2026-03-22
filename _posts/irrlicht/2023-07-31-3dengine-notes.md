@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "3D 引擎 DiligentEngine -- DiligentEngine"
+title: "3D 引擎 -- DiligentEngine 学习笔记"
 author:
 location: "珠海"
 categories: ["3D 引擎"]
-tags: ["Irrlicht", "图形学"]
+tags: ["DiligentEngine", "图形学", "OpenGL"]
 toc: true
 toclistyle:
 comments:

@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "编程与调试 C++ -- interview"
+title: "编程与调试 C++ -- 面试题整理"
 author: 杨全海
 location: "珠海"
 categories: ["编程与调试"]
-tags: ["编程", "C/C++"]
+tags: ["编程", "C/C++", "面试"]
 toc: true
 toclistyle:
 comments:

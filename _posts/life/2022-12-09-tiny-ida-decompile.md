@@ -4,7 +4,7 @@ title: "编程与调试 -- IDA Pro, We enjoyed a day's fishing by the river."
 author:
 location: "珠海"
 categories: ["编程与调试"]
-tags: ["C/C++", "编程"]
+tags: ["编程", "C/C++", "逆向", "IDA"]
 toc: true
 toclistyle:
 comments:

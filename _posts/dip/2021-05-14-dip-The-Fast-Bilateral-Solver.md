@@ -4,7 +4,7 @@ title: "图像处理笔记 -- The Fast Bilateral Solver 双边算子原理"
 author:
 location: "珠海"
 categories: ["图像处理"]
-tags: ["图像处理"]
+tags: ["图像处理", "算法"]
 toc: true
 toclistyle:
 comments:

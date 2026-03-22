@@ -4,7 +4,7 @@ title: "机器学习 -- 吴恩达深度学习（进行中）"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "深度学习", "吴恩达"]
 toc: true
 toclistyle:
 comments:

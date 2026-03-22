@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "BLOG -- 一些有趣的 开源工程 & BLOG"
+title: "BLOG -- 一些有趣的开源工程 & BLOG"
 author:
 location: "珠海"
 categories: ["BLOG"]
-tags: ["BLOG"]
+tags: ["BLOG", "开源", "资源"]
 toc: true
 toclistyle:
 comments:

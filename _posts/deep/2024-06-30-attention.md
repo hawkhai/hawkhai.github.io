@@ -4,7 +4,7 @@ title: "机器学习 -- Attention is all you need"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "Transformer", "Attention"]
 toc: true
 toclistyle:
 comments:

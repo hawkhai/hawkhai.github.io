@@ -4,7 +4,7 @@ title: "机器学习 -- 卡尔曼滤波（Kalman filtering）"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "数学", "滤波"]
 toc: true
 toclistyle:
 comments:

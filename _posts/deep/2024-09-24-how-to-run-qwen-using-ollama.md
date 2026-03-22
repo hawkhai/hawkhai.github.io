@@ -4,7 +4,7 @@ title: "机器学习 -- 如何使用 Ollama 运行 Qwen 大模型"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "LLM", "Ollama"]
 toc: true
 toclistyle:
 comments:

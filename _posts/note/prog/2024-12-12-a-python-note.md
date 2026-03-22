@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "编程与调试 -- 一个让人惊讶的 python Note"
+title: "编程与调试 -- 一个让人惊讶的 Python Note"
 author:
 location: "珠海"
 categories: ["编程与调试"]
-tags: ["编程"]
+tags: ["编程", "Python"]
 toc: true
 toclistyle:
 comments:

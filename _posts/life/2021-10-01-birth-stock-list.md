@@ -4,7 +4,7 @@ title: "生活 -- Birth Preparation · 待产准备清单"
 author:
 location: "珠海"
 categories: ["生活"]
-tags: ["生活"]
+tags: ["生活", "育儿"]
 toc: true
 toclistyle:
 comments:

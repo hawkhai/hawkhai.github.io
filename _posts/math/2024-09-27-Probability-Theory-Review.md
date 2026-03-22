@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "MATHEMATICS -- 生成模型数学 —— 概率论基础"
+title: "数学 -- 生成模型数学 · 概率论基础"
 author:
 location: "珠海"
 categories: ["数学"]
-tags: ["数学"]
+tags: ["数学", "概率论", "机器学习"]
 toc: true
 toclistyle:
 comments:

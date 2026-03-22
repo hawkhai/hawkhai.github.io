@@ -4,7 +4,7 @@ title: "机器学习笔记 -- 环境搭建 & 数学基础"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "数学"]
 toc: true
 toclistyle:
 comments:

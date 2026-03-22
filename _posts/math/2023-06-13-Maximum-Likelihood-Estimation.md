@@ -4,7 +4,7 @@ title: "机器学习 -- 极大似然估计（MLE，Maximum Likelihood Estimation
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "数学", "概率论"]
 toc: true
 toclistyle:
 comments:

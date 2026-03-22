@@ -4,7 +4,7 @@ title: "机器学习 -- 轻量级模型"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "模型优化", "轻量化"]
 toc: true
 toclistyle:
 comments:

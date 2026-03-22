@@ -4,7 +4,7 @@ title: "图像处理笔记 3/2 -- OpenCV 形态学处理"
 author:
 location: "珠海"
 categories: ["图像处理"]
-tags: ["图像处理"]
+tags: ["图像处理", "OpenCV", "形态学"]
 toc: true
 toclistyle:
 comments:

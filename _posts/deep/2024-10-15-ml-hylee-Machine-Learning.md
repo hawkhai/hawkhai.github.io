@@ -4,7 +4,7 @@ title: "机器学习 -- 李宏毅 2021/2022 春机器学习课程（进行中）
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "课程", "李宏毅"]
 toc: true
 toclistyle:
 comments:

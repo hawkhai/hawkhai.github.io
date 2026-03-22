@@ -4,7 +4,7 @@ title: "机器学习笔记 -- 3Blue1Brown 深度学习 Deep Learning（已完成
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "深度学习", "3Blue1Brown"]
 toc: true
 toclistyle:
 comments:

@@ -4,7 +4,7 @@ title: "论文写作 -- 学术论文实验设计合理性分析"
 author: qhai
 location: "珠海"
 categories: ["论文写作"]
-tags: ["论文写作"]
+tags: ["论文写作", "YOLO", "实验设计"]
 toc: true
 toclistyle:
 comments:

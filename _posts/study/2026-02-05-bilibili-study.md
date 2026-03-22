@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "论文写作 -- Bilibili 学习工具"
+title: "学习 -- Bilibili 学习工具"
 author: qhai
 location: "珠海"
-categories: ["论文写作"]
-tags: ["论文写作"]
+categories: ["学习"]
+tags: ["学习", "工具", "Bilibili"]
 toc: true
 toclistyle:
 comments:

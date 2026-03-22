@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "人工智能 -- 人工智能数学基础"
+title: "机器学习 -- 人工智能数学基础"
 author: qhai
 location: "珠海"
-categories: ["人工智能"]
-tags: ["人工智能"]
+categories: ["机器学习"]
+tags: ["机器学习", "数学", "课程"]
 toc: true
 toclistyle:
 comments:

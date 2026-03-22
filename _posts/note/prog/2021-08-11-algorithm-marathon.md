@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "编程与调试 HACKATHON 2021 -- 数据特征匹配和编译原理"
+title: "编程与调试 -- HACKATHON 2021 数据特征匹配和编译原理"
 author:
 location: "珠海"
 categories: ["编程与调试"]
-tags: ["编程"]
+tags: ["编程", "算法", "编译原理"]
 toc: true
 toclistyle:
 comments:

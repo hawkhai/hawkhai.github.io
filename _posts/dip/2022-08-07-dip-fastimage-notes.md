@@ -4,7 +4,7 @@ title: "图像处理 -- 一些奇奇怪怪的图像算法"
 author:
 location: "珠海"
 categories: ["图像处理"]
-tags: ["OpenCV", "图像处理"]
+tags: ["图像处理", "OpenCV", "算法"]
 toc: true
 toclistyle:
 comments:

@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "图像处理 -- GAMES204 - 计算成像（进行中……）"
+title: "图像处理 -- GAMES204 计算成像（进行中……）"
 author:
 location: "珠海"
 categories: ["图像处理"]
-tags: ["OpenCV", "图像处理"]
+tags: ["图像处理", "计算成像", "GAMES"]
 toc: true
 toclistyle:
 comments:

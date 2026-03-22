@@ -4,7 +4,7 @@ title: "机器学习笔记 -- 文档恢复质量评估系统 v3.0"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "文档处理", "评估"]
 toc: true
 toclistyle:
 comments:

@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "编程与调试 C++ -- Win10 uwp 使用 WinDbg 调试"
+title: "编程与调试 C++ -- Win10 UWP 使用 WinDbg 调试"
 author:
 location: "珠海"
 categories: ["编程与调试"]
-tags: ["调试", "Memory", "C/C++", "MacOS"]
+tags: ["调试", "Memory", "C/C++", "Windows", "UWP"]
 toc: true
 toclistyle:
 comments:

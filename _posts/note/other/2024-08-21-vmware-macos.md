@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "编程与调试 -- VMware 虚拟机安装 macOS 10.15"
+title: "开发环境 -- VMware 虚拟机安装 macOS 10.15"
 author:
 location: "珠海"
-categories: ["编程与调试"]
-tags: ["编程"]
+categories: ["开发环境"]
+tags: ["开发环境", "VMware", "MacOS"]
 toc: true
 toclistyle:
 comments:

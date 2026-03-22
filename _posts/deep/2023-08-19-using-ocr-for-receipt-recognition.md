@@ -4,7 +4,7 @@ title: "机器学习 -- Deep Dive Into OCR for Receipt Recognition"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "OCR", "深度学习"]
 toc: true
 toclistyle: none
 comments:

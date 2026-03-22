@@ -4,7 +4,7 @@ title: "编程与调试 -- Resource Hacker 修改 PE 描述信息"
 author:
 location: "珠海"
 categories: ["编程与调试"]
-tags: ["编程"]
+tags: ["编程", "PE", "逆向"]
 toc: true
 toclistyle:
 comments:

@@ -4,7 +4,7 @@ title: "编程与调试 -- 计算机系统的设计原则 Complexity & Technical
 author:
 location: "珠海"
 categories: ["编程与调试"]
-tags: ["Python", "编程"]
+tags: ["编程", "软件工程", "架构"]
 toc: true
 toclistyle:
 comments:

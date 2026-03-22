@@ -4,7 +4,7 @@ title: "机器学习笔记 -- 机器学习资源（进行中）"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "资源"]
 toc: true
 toclistyle:
 comments:

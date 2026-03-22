@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "编程与调试 -- 48 个英语国际音标完整指南"
+title: "学习 -- 48 个英语国际音标完整指南"
 author:
 location: "珠海"
 categories: ["学习"]
-tags: ["学习"]
+tags: ["学习", "英语", "音标"]
 toc: true
 toclistyle:
 comments:

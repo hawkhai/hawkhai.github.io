@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "机器学习 -- 大型语言模型简史：从 Transformers (2017) 到 DeepSeek-R1(2025)"
+title: "机器学习 -- 大型语言模型简史：从 Transformers (2017) 到 DeepSeek-R1 (2025)"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "LLM", "Transformer"]
 toc: true
 toclistyle:
 comments:

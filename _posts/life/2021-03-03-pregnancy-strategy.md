@@ -4,7 +4,7 @@ title: "生活 -- Pregnancy Strategy 丁香妈妈 · 孕期全攻略"
 author:
 location: "珠海"
 categories: ["生活"]
-tags: ["生活"]
+tags: ["生活", "育儿"]
 toc: true
 toclistyle:
 comments: true

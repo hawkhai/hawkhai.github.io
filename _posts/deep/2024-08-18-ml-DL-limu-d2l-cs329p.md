@@ -4,7 +4,7 @@ title: "机器学习 -- 实用机器学习 李沐（进行中）"
 author:
 location: "珠海"
 categories: ["机器学习"]
-tags: ["机器学习"]
+tags: ["机器学习", "课程", "李沐"]
 toc: true
 toclistyle:
 comments:

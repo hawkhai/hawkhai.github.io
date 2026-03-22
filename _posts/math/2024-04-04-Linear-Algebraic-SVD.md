@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "MATHEMATICS --《线性代数》奇异值分解（SVD）"
+title: "数学 --《线性代数》奇异值分解（SVD）"
 author:
 location: "珠海"
 categories: ["数学"]
-tags: ["数学"]
+tags: ["数学", "线性代数", "SVD"]
 toc: true
 toclistyle:
 comments:
