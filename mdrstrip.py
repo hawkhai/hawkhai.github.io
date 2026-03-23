@@ -799,7 +799,16 @@ def mainfile(fpath, fname, ftype, fdepth=0):
 
     codestate = False
     chartstate = False
+    frontmatter = False
+    frontmatter_count = 0
     for index, line in enumerate(lines):
+
+        if isMdFile and line.strip() == "---":
+            frontmatter_count += 1
+            if frontmatter_count == 1:
+                frontmatter = True
+            elif frontmatter_count == 2:
+                frontmatter = False
 
         for kftype in keepFileTypeList:
             line = line.replace(" ."+kftype, "."+kftype)
@@ -981,7 +990,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
 
             print("[%d]"%(index+1), ix, cx, cy, "\t", line)
             errcnt += 1
-            if AUTOFORMAT:
+            if AUTOFORMAT and not frontmatter:
                 line = line.replace(ix, cx+" "+cy)
                 lines[index] = line
 
