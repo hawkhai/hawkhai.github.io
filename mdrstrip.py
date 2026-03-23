@@ -4,7 +4,7 @@ sys.path.append("../")
 import datetime, time
 import traceback
 from urllib.parse import unquote
-from coderstrip import *
+from codestrip import *
 from pythonx.funclib import *
 from pythonx.kangxi import TranslateKangXi
 from pythonx.pelib import getLuckFileMd5, get_local_ipinfo
