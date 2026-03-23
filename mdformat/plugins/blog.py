@@ -205,7 +205,7 @@ class BlogPlugin(MdPlugin):
                           ignorelist=ignore_list,
                           onDirectory=_oncheckdirectory)
 
-    def _check_file_size(self, fpath, fname, ftype):
+    def _check_file_size(self, fpath, fname, ftype, depth=0):
         if fname.endswith(THUMBNAIL):
             srcimg = fpath[:-len(THUMBNAIL)]
             if not os.path.exists(srcimg):
