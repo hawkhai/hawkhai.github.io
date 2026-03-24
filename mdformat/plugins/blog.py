@@ -73,14 +73,12 @@ REVIEW_FORMAT = (
 REVIEW_LINE   = "<hr class='reviewline'/>"
 REVIEW_JS_PATH = "%s.js"
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
 def _get_link_tag_src(name):
     return "{{% include relref_{}.html %}}".format(name)
-
 
 def _is_host_ignore_stat(hostk):
     for name, host in LINKTAGARRAY:
@@ -95,7 +93,6 @@ def _is_host_ignore_stat(hostk):
             return True
     return False
 
-
 _G_CACHE_IGLIST = {}
 
 def _read_iglist(fpath):
@@ -109,7 +106,6 @@ def _read_iglist(fpath):
     li = [i.strip().split("# ")[0].strip() for i in li if i.strip().split("# ")[0].strip()]
     _G_CACHE_IGLIST[hash_key] = li
     return li
-
 
 _G_CHECKPAGE = []
 
@@ -139,7 +135,6 @@ def _checkpage(fdata):
             return itag
     return None
 
-
 # ---------------------------------------------------------------------------
 # File-size / directory check helpers (from mdrstrip.py)
 # ---------------------------------------------------------------------------
@@ -159,7 +154,6 @@ def _oncheckdirectory(rootdir, basename=None):
         curdir = os.path.split(curdir)[0]
     _G_CHECKTINUE_SET[rootdir] = True
     return True
-
 
 class BlogPlugin(MdPlugin):
     """Jekyll blog-specific MD formatting plugin."""
@@ -920,7 +914,6 @@ class BlogPlugin(MdPlugin):
                     openTextFile(mdfile)
 
         searchdir(jsdir, _visit)
-
 
 # ---------------------------------------------------------------------------
 # removeRefs (module-level, used by BlogPlugin.pre_process)

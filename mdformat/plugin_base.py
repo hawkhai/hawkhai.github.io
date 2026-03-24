@@ -43,7 +43,6 @@ class MdContext:
             self._plugin_data[key] = {}
         return self._plugin_data[key]
 
-
 class MdPlugin:
     """
     Base class for MD formatter plugins.

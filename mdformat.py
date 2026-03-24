@@ -62,7 +62,6 @@ MAINW_IGNORE_LIST = [
     "node_modules", "pdftools",
 ]
 
-
 def _extend_from_config(lst):
     """Append extra dirs from mdrstrip_dir_ignore.txt."""
     igdirs = _read_iglist("config/mdrstrip_dir_ignore.txt")
@@ -70,7 +69,6 @@ def _extend_from_config(lst):
         if d not in lst:
             lst.append(d)
     return lst
-
 
 def main():
     buildSnapCache("backup")
@@ -93,7 +91,6 @@ def main():
         script_file=__file__,
     )
 
-
 def mainw():
     print(parsePythonCmdx(__file__))
     timea = time.time()
@@ -102,7 +99,6 @@ def mainw():
     cleardirEmpty("tempdir")
     timeb = time.time()
     print("Total Time =", timeb - timea)
-
 
 if __name__ == "__main__":
     print(sys.argv)

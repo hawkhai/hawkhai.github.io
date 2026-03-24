@@ -35,7 +35,6 @@ from pythonx.kangxi import TranslateKangXi
 
 from .plugin_base import MdContext
 
-
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
@@ -68,7 +67,6 @@ def _load_rougify_list():
         for i in ROUGIFY_LIST:
             assert refindall("^([0-9a-z_#+-]+)$", i, re.IGNORECASE), i
     return ROUGIFY_LIST
-
 
 # ---------------------------------------------------------------------------
 # Character-set statistics helpers
@@ -133,7 +131,6 @@ class CharStats:
         _viewchar(self.cnchar, "cnfile.txt", 0x80, 0x7FFFFFFF)
         _viewchar(self.cschar, "csfile.txt", 0x80, 0x7FFFFFFF)
         _viewchar(self.enchar, "enfile.txt", 0x0,  0x7F)
-
 
 # ---------------------------------------------------------------------------
 # Core formatter
@@ -300,7 +297,7 @@ class MdFormatter:
                 elif ctx.frontmatter_count == 2:
                     ctx.frontmatter = False
 
-            # strip stray file-extension spaces ("file .pdf" → "file.pdf")
+            # strip stray file-extension spaces ("file.pdf" → "file.pdf")
             for kftype in keep_file_types:
                 line = line.replace(" ." + kftype, "." + kftype)
                 lines[index] = line
