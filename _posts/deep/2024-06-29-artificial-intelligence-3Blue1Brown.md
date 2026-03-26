@@ -71,6 +71,8 @@ Chapter 5 2017 年 11 月 3 日
 * Down-projection
 * Unembedding
 
+{% include image.html url="/assets/images/240629-artificial-intelligence~82/aef4daddfba6fd7fcf658dec3b1c66cd512443072_1.jpg" %}
+
 GPT 的第一层：词嵌入为向量（embedding）
 嵌入空间不仅代表词，还能包含上下文信息
 GPT 的最后一层：向量解码为词（Unembedding）
