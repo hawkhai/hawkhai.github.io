@@ -61,6 +61,7 @@ Chapter 5 2017 年 11 月 3 日
 
 ## GPT 是什么？直观解释 Transformer \| 深度学习第 5 章
 
+皇帝 - 男人 + 女人 ≈ 皇后
 <https://www.bilibili.com/video/BV13z421U7cs/>
 * Embedding
 * Key

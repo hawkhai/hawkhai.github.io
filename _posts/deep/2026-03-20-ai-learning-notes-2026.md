@@ -24,6 +24,10 @@ Hung-Yi Lee
 * Homepage: <https://speech.ee.ntu.edu.tw/~hylee/index.php>
 * NLP: <https://speech.ee.ntu.edu.tw/~hylee/dlhlp/2020-spring.php>
 
+Vector Space Models
+https://www.kaggle.com/code/shivamsourav2002/vector-space-models
+
+
 
 ## 高级软件工程
 
