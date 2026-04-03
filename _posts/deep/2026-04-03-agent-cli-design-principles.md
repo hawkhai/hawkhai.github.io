@@ -26,6 +26,19 @@ cluster:
 [来源 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/H-hggbJAMBTuambCzNE4OQ)
 
 
+### Agent 怎么想的
+
+LLM 训练数据里有大量 shell 命令和 bash 脚本（GitHub 代码约占 5%、Stack Overflow 约占 2%），Agent 天生对命令行有相当的「直觉」。
+
+但这个直觉有边界。Berkeley 的 BFCL V4 Leaderboard 显示，即使排名第一的模型，在复杂的多步工具调用场景下准确率也达不到 100%。SWE-bench 数据更直观：当前最强模型也只能解决约七成编码任务。
+
+模型能力仍在飞速进步，但使用 CLI 的方式没变：跑 `--help` 、解析输出、拼命令、看退出码。模型越强，每一步判断越准 —— 但 CLI 本身设计不好，再强的模型也会掉进同样的坑。
+
+Surge AI 有一个案例：让前沿模型处理只需改 2 行代码的问题，它走了 39 轮对话、改了 693 行代码，最终失败。原因是第一步就幻觉出了不存在的类名，然后在错误基础上越陷越深，连续 22 轮坚持「核心逻辑是对的」。而另一个模型遇到同样问题，发现文件被截断后主动要求重新读取，确认完整内容才动手，一次解决。
+
+好的 CLI 设计，就是帮 Agent 做这个区分：减少它需要猜的东西，增加它能验证的东西。
+
+
 ### Agent 的弱点
 
 - **大小写敏感短参数** ：`grep -a` / `-A` 、 `ssh -v` / `-V` 含义完全不同；Agent 基于概率选择，两个 token 概率接近时选错风险高
@@ -54,6 +67,8 @@ Docker 是典范：`container` / `image` / `volume` 是名词， `ls` / `rm` / `
 - `--verbose` 和 `--version` 不会混淆； `-v` / `-V` 一字之差意义迥异
 - LLM 见过海量 `--output` ，语义绑定强； `-o` 的语义绑定弱得多
 
+钉钉 CLI 的 `--yes` 参数描述是『跳过确认提示（AI Agent 模式）』 —— 参数名本身就是自描述的，Agent 一看就知道该在什么时候加它。
+
 
 ### 原则三：输出是契约
 
@@ -61,15 +76,21 @@ Docker 是典范：`container` / `image` / `volume` 是名词， `ls` / `rm` / `
 
 结构化输出一旦发布即为 API。Kubernetes v1.14 弃用 `--export` ，v1.18 正式移除，导致数千 Helm chart 和 CI/CD 管道崩溃。 **加新的可选字段安全，改变已有字段类型或名称就是破坏性变更。**
 
+GitHub CLI 在这方面做得趄庞：检测到输出被管道传输时，自动切换为 tab 分隔格式，去掉颜色转义符，文本不截断。飞书 CLI 支持 JSON、NDJSON、table、CSV、pretty 五种格式。
+
 
 ### 原则四：感知环境
 
-检测 TTY 还是 pipe，自动调整行为。非 TTY 下默认输出 JSON，不该要求 Agent 额外加 `--json` flag。
+检测 TTY 还是 pipe，自动调整行为。非 TTY 下默认输出 JSON，不该要求 Agent 额外加 `--json` flag。钉钉 CLI 的 `--yes` 参数就专门为此设计：跳过所有确认提示，进入 AI Agent 模式。
+
+gcloud 文档里有一条建议值得所有 CLI 开发者记住：「不要依赖 gcloud 的原始输出格式，永远使用 `--format` 标志。」因为原始输出格式可能随版本变化。
 
 
 ### 原则五：干跑优先
 
 每个有副作用的命令支持 `--dry-run` ，给 Agent 探索-验证的反馈循环。好的输出是结构化 JSON diff，告诉 Agent 什么会被创建、修改或删除。
+
+飞书的实现更细致：干跑时会输出完整的请求 URL、方法、参数，Agent 可以在执行前确认请求的正确性。Lightning Labs 的设计更进一步：`--dry-run` 使用专门的退出码（exit code 10），这样 Agent 可以通过退出码区分「干跑成功」和「真正执行成功」。
 
 
 ### 原则六：退出码控制
@@ -91,7 +112,7 @@ Docker 是典范：`container` / `image` / `volume` 是名词， `ls` / `rm` / `
 - **严格输入验证** ：验证 URL（拒绝 `javascript:` 、 `file:` 协议）、域名、输出路径（拒绝写入 `.ssh/` 、 `.gnupg/` ）
 - **枚举约束** ：`--format json|table|csv` 比 `--format <string>` 安全得多
 - **schema 自省** ：`mytool schema --all` 输出完整命令树 JSON；飞书 CLI 已实现 `lark-cli schema calendar.events.list`
-- schema 应按需查询 —— MCP 一次注入 55,000 tokens，CLI 让 Agent 按需跑 `--help`
+- schema 应按需查询 —— GitHub MCP 服务器一次注入 55,000 tokens，CLI 让 Agent 按需跑 `--help`
 
 
 ### 原则八：幂等设计
@@ -100,10 +121,12 @@ Docker 是典范：`container` / `image` / `volume` 是名词， `ls` / `rm` / `
 # 命令式：资源已存在会报错
 mytool user create --name "john"
 # 声明式：无论调用多少次，结果一致
-mytool user create --name "john" --if-not-exists
+mytool user ensure --name "john"
+# 或
+ mytool user create --name "john" --if-not-exists
 ```
 
-Agent 会重试（网络超时、结果不确定、任务中断恢复……）。 `kubectl apply` 是声明式设计的教科书。
+Agent 会重试（网络超时、结果不确定、任务中断恢复……）。 `kubectl apply` 是声明式设计的教科书。飞书 CLI 的 `+messages-send` 支持 `--idempotency-key` 参数：Agent 传入一个唯一标识符，即使命令被重复执行，服务端也只会处理一次。
 
 
 ### 原则九：错误即指南
@@ -145,6 +168,19 @@ Anthropic 发现「描述是影响工具使用准确率的最关键因素」 —
 ```
 
 开源参考：[agent-cli-guide {% include relref_github.html %}](https://github.com/Johnixr/agent-cli-guide)（GUIDE.md + CHECKLIST.md，可直接丢给 Coding Agent 使用）
+
+
+### 给飞书和钉钉打个分
+
+用这十条原则对照钉钉和飞书 CLI：
+
+**飞书做得好的：** noun-verb 结构清晰，三层架构让 Agent 按需选择抽象层级，schema 命令提供完整 API 自省，五种输出格式，按域申请权限（最小权限原则），权限不足时自动提示修复方案。
+
+**飞书可以改进的：** 非 TTY 下没有自动切 JSON，退出码没有文档化的细粒度语义， `--idempotency-key` 应该更广泛使用。
+
+**钉钉做得好的：** `--yes` （AI Agent 模式）语义自描述， `--mock` 参数方便调试，帮助文本全中文（对中文 LLM 更友好），批量熔断防 Agent 失控。
+
+**钉钉可以改进的：** 命令只有两层，缺少 shortcut 快捷层；没有 schema 自省命令；输出格式只有三种；帮助文本缺少使用示例。
 
 ---
 
@@ -244,6 +280,10 @@ Hint: run 'a2acli init' to create the local database
 
 
 ### 设计范式转变
+
+在软件工程的历史上，我们设计过面向人类的界面（GUI、CLI、Web UI），也设计过面向机器的接口（API、消息队列、数据库连接）。但我们 **从来没有认真设计过 "同时面向人类和机器 "的接口** 。
+
+这篇文章真正在做的事，是给这个新问题提供一套工程解法 —— 同一个入口，根据调用者的身份自动切换呈现方式，同时保证数据层的一致性。
 
 > 2026 年最好的 CLI，不是终端界面最漂亮的那些，而是当人类输入命令和当 Agent 编程调用时，同样运行良好的那些。
 
@@ -393,9 +433,12 @@ cli-anything-gimp batch convert --input "*.png" --format webp --quality 80
 # 如果让 Agent 编排：每张图 3 轮调用 × 100 张 = 300 轮推理循环
 
 # 适合 Skill + Agent 编排：创意性的、依赖上下文的任务
+# Skill 指导 Agent：先建项目 → 根据图片内容选择构图 → 加文字 → 调色 → 导出
+cli-anything-gimp project new --width 1080 --height 1080
 cli-anything-gimp layer add-from-file photo.jpg
 cli-anything-gimp filter add brightness -l 0 -p factor=1.3  # Agent 根据图片亮度决定参数
 cli-anything-gimp draw text --text "Hello" --size 48         # Agent 根据内容决定文案
+cli-anything-gimp export render post.png
 ```
 
 **经验法则：如果一个流程每次执行步骤都一样 → CLI；如果步骤取决于上下文 → Skill + Agent。**
