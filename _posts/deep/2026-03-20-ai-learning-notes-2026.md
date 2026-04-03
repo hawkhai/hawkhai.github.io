@@ -27,6 +27,10 @@ Hung-Yi Lee
 Vector Space Models
 <https://www.kaggle.com/code/shivamsourav2002/vector-space-models>
 
+<https://www.kaggle.com/code/rtatman/tutorial-getting-n-grams>
+Spanish text corpora
+<https://www.sketchengine.eu/guide/n-grams-multiword-expressions/>
+
 
 ## 高级软件工程
 
@@ -69,4 +73,6 @@ $$
 - [https://speech.ee.ntu.edu.tw/~hylee/index.php]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/speech.ee.ntu.edu.tw/dd2ca1ba.php" %})
 - [https://speech.ee.ntu.edu.tw/~hylee/dlhlp/2020-spring.php]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/speech.ee.ntu.edu.tw/23ab625b.php" %})
 - [https://www.kaggle.com/code/shivamsourav2002/vector-space-models]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.kaggle.com/65842495.html" %})
+- [https://www.kaggle.com/code/rtatman/tutorial-getting-n-grams]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.kaggle.com/d94e51e6.html" %})
+- [https://www.sketchengine.eu/guide/n-grams-multiword-expressions/]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.sketchengine.eu/d691b9d2.html" %})
 - [https://omniscient-house-4e0.notion.site/deb10f4bbd7941daa551d075063ba5be]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/omniscient-house-4e0.notion.site/8d1cae52.html" %})
