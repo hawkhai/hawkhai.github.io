@@ -27,6 +27,7 @@ Hung-Yi Lee
 Vector Space Models
 <https://www.kaggle.com/code/shivamsourav2002/vector-space-models>
 
+N-gram 语言模型与平滑技术
 <https://www.kaggle.com/code/rtatman/tutorial-getting-n-grams>
 Spanish text corpora
 <https://www.sketchengine.eu/guide/n-grams-multiword-expressions/>
