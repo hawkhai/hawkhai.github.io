@@ -32,6 +32,10 @@ N-gram 语言模型与平滑技术
 Spanish text corpora
 <https://www.sketchengine.eu/guide/n-grams-multiword-expressions/>
 
+Neural Network Word Embedding Using Keras
+<https://www.kaggle.com/code/ozlerhakan/neural-network-word-embedding-using-keras>
+<https://github.com/y33-j3T/Coursera-Deep-Learning/blob/master/Natural%20Language%20Processing%20with%20Probabilistic%20Models/Week%204%20-%20Word%20Embeddings%20with%20Neural%20Networks/NLP_C2_W4_lecture_nb_01.ipynb>
+
 
 ## 高级软件工程
 
@@ -76,4 +80,6 @@ $$
 - [https://www.kaggle.com/code/shivamsourav2002/vector-space-models]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.kaggle.com/65842495.html" %})
 - [https://www.kaggle.com/code/rtatman/tutorial-getting-n-grams]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.kaggle.com/d94e51e6.html" %})
 - [https://www.sketchengine.eu/guide/n-grams-multiword-expressions/]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.sketchengine.eu/d691b9d2.html" %})
+- [https://www.kaggle.com/code/ozlerhakan/neural-network-word-embedding-using-keras]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.kaggle.com/8dc1a642.html" %})
+- [https://github.com/y33-j3T/Coursera-Deep-Learning/blob/master/Natural%20Language%20Processing%20with%20Probabilistic%20Models/Week%204%20-%20Word%20Embeddings%20with%20Neural%20Networks/NLP_C2_W4_lecture_nb_01.ipynb]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/github.com/6bbe232c.html" %})
 - [https://omniscient-house-4e0.notion.site/deb10f4bbd7941daa551d075063ba5be]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/omniscient-house-4e0.notion.site/8d1cae52.html" %})
