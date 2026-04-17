@@ -32,6 +32,7 @@ N-gram 语言模型与平滑技术
 Spanish text corpora
 <https://www.sketchengine.eu/guide/n-grams-multiword-expressions/>
 
+CBOW（Continuous Bag-of-Words）模型详解
 Neural Network Word Embedding Using Keras
 <https://www.kaggle.com/code/ozlerhakan/neural-network-word-embedding-using-keras>
 <https://github.com/y33-j3T/Coursera-Deep-Learning/blob/master/Natural%20Language%20Processing%20with%20Probabilistic%20Models/Week%204%20-%20Word%20Embeddings%20with%20Neural%20Networks/NLP_C2_W4_lecture_nb_01.ipynb>
