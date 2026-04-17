@@ -36,6 +36,10 @@ Neural Network Word Embedding Using Keras
 <https://www.kaggle.com/code/ozlerhakan/neural-network-word-embedding-using-keras>
 <https://github.com/y33-j3T/Coursera-Deep-Learning/blob/master/Natural%20Language%20Processing%20with%20Probabilistic%20Models/Week%204%20-%20Word%20Embeddings%20with%20Neural%20Networks/NLP_C2_W4_lecture_nb_01.ipynb>
 
+https://www.geeksforgeeks.org/machine-learning/introduction-to-recurrent-neural-network/
+下面 pytorch 版本更简单，colab 支持
+https://docs.pytorch.org/tutorials/intermediate/char_rnn_classification_tutorial.html
+
 
 ## 高级软件工程
 
@@ -82,4 +86,6 @@ $$
 - [https://www.sketchengine.eu/guide/n-grams-multiword-expressions/]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.sketchengine.eu/d691b9d2.html" %})
 - [https://www.kaggle.com/code/ozlerhakan/neural-network-word-embedding-using-keras]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.kaggle.com/8dc1a642.html" %})
 - [https://github.com/y33-j3T/Coursera-Deep-Learning/blob/master/Natural%20Language%20Processing%20with%20Probabilistic%20Models/Week%204%20-%20Word%20Embeddings%20with%20Neural%20Networks/NLP_C2_W4_lecture_nb_01.ipynb]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/github.com/6bbe232c.html" %})
+- [https://www.geeksforgeeks.org/machine-learning/introduction-to-recurrent-neural-network/]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.geeksforgeeks.org/33fe67c3.html" %})
+- [https://docs.pytorch.org/tutorials/intermediate/char_rnn_classification_tutorial.html]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/docs.pytorch.org/6785d3ed.html" %})
 - [https://omniscient-house-4e0.notion.site/deb10f4bbd7941daa551d075063ba5be]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/omniscient-house-4e0.notion.site/8d1cae52.html" %})
