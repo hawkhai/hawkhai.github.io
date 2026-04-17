@@ -41,6 +41,14 @@ https://www.geeksforgeeks.org/machine-learning/introduction-to-recurrent-neural-
 https://docs.pytorch.org/tutorials/intermediate/char_rnn_classification_tutorial.html
 
 
+* 特征提取偏差：CNN 将皮草误识别为猫、手机误识别为鼠标，主要源于训练数据不足或特征提取能力不足，可通过增加数据或更换更强 CNN 解决。
+* 数据增强副作用：CNN 训练时的旋转增强导致模型无法区分上下空间关系（如将天空误判为沙滩），需移除旋转类数据增强操作。
+* 单帧信息局限：单张图像无法区分动作的连续性（如 "throwing" vs "catching"），需引入时序信息（Video）或连续帧来解决。
+
+
+
+
+
 ## 高级软件工程
 
 gstack：把 Claude Code 变成软件工厂
