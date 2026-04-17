@@ -645,7 +645,7 @@ pyinstaller 打包绿色软件，每次解压启动慢，如果
 ## aliyun oss image
 
 * ksample.py 上传下载管理整个 ksample。
-* kremote.py
+* kremotek.py
     * `upcode rebindex` 上传当前 pythonx 代码。
     * `downcode` 下载当前 pythonx 代码。
     * `upload image_ksample.json symlink` 上传图片。
@@ -654,12 +654,12 @@ pyinstaller 打包绿色软件，每次解压启动慢，如果
     * `upindex image_ksample.json` 上传索引。
     * `rebindex image_ksample.json` 重建本地索引。
 
-* pythonx 代码。
+* kremotek.py pythonx 代码。
     * UPCODE = "upcode" in sys.argv 上传代码。
     * DOWNCODE = "downcode" in sys.argv 下载代码。
     * REBINDEX = "rebindex" in sys.argv 更新本地代码索引。
 
-* 图片文件相关。
+* kremotek.py 图片文件相关。
     * UPLOAD = "upload" in sys.argv 上传图片。
     * DOWNLOAD = "download" in sys.argv 下载图片。
     * SYMLINK = "symlink" in sys.argv 上传后生成软链接。
