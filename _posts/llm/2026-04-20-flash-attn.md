@@ -142,7 +142,6 @@ cp -a /data/explore/mytts/nano-qwen3tts-vllm/examples/. \
 cp -a /data/explore/mytts/nano-qwen3tts-vllm/nano-qwen3tts-vllm/. \
     /data/nano-qwen3tts-vllm/nano-qwen3tts-vllm/
 
-
 nvidia-smi
 watch -n 1 nvidia-smi
 
