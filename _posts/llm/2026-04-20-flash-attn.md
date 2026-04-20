@@ -190,6 +190,18 @@ Flash Attention: 2.5.8
 ```
 
 
+## 20260420
+
+flash-attn 好像有问题。
+2568MiB / 23034MiB | 32%
+3874MiB / 23034MiB | 36%
+
+常规版本：
+2850MiB / 23034MiB | 34%
+
+SDPA 仍然略快 ~5%
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-04-20-flash-attn.md.js" %}'></script></p>
