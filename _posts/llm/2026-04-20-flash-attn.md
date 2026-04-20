@@ -14,12 +14,10 @@ mermaid:
 glslcanvas:
 codeprint:
 archived:
-date: 2025-06-24 09:52:22 +0800
 layoutclear: false
 ---
 
 flash-attn 难装，不是它“设计复杂”，而是它强绑定 GPU + CUDA + PyTorch + 编译链版本，任何一个不一致就直接炸。
-
 
 
 ## 安装 Python3.11
@@ -85,6 +83,7 @@ cd /data/
 du -h --max-depth=1
 ```
 
+
 ## flash-attn
 
 ```
@@ -98,7 +97,7 @@ source .venv/bin/activate
 ```
 pip install torch==2.5.0 torchvision==0.20.0 torchaudio==2.5.0 \
     --index-url https://download.pytorch.org/whl/cu121
-  
+
 # 2.5.0 12.1
 python -c "import torch; print(torch.__version__, torch.version.cuda)"
 
@@ -115,7 +114,7 @@ pip install vllm
 
 # 2. 如果还是 11.5，让我们下载并安装 CUDA 12.1
 wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_installers/cuda_12.1.1_530.30.02_linux.run
-# 3. 安装 CUDA 12.1 (只安装工具包)
+# 3. 安装 CUDA 12.1（只安装工具包）
 sudo TMPDIR=/data/tmp_cuda sh cuda_12.1.1_530.30.02_linux.run --silent --toolkit
 
 sudo rm -rf /usr/local/cuda
@@ -129,43 +128,45 @@ export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 which nvcc
 nvcc -V
 
-
 nvcc -V
 python -c "import torch; print(torch.__version__, torch.version.cuda)"
 which nvcc
 
 python examples/custom_voice_example.py --model-path Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice --text "Hello world" --speaker Vivian
+```
 
+```
 source /data/venv/base/bin/activate
 cd /data/pythonx/
 python3 kremotek.py downcode
 python3 kremotek.py download code_mytts.json removex
 
 cp -a /data/explore/mytts/nano-qwen3tts-vllm/examples/. \
-     /data/nano-qwen3tts-vllm/examples/
+    /data/nano-qwen3tts-vllm/examples/
 cp -a /data/explore/mytts/nano-qwen3tts-vllm/nano-qwen3tts-vllm/. \
-     /data/nano-qwen3tts-vllm/nano-qwen3tts-vllm/
+    /data/nano-qwen3tts-vllm/nano-qwen3tts-vllm/
 
 nvidia-smi
 
-cp -a /data/nano-qwen3tts-vllm/output/. /data/explore/mytts/nano-qwen3tts-vllm/output/ 
-     
-	 
-	 
+cp -a /data/nano-qwen3tts-vllm/output/. /data/explore/mytts/nano-qwen3tts-vllm/output/
+```
+
+```
+python examples/custom_voice_example.py --model-path Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice \
+    --text "人工智能技术的发展日新月异，深度学习模型在语音合成领域取得了突破性进展。现代文本转语音系统能够生成自然流畅的语音，音质接近真人水平。通过大规模预训练和精细调优，这些模型可以准确把握语言的韵律节奏，表达丰富的情感色彩。未来随着算力提升和算法优化，语音合成技术将更加智能高效，为各行各业带来更多创新应用场景。" \
+    --speaker Vivian --language Chinese
+```
 
 
-python examples/custom_voice_example.py   --model-path Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice   --text "人工智能技术的发展日新月异，深度学习模型在语音合成领域取得了突破性进展。现代文本转语音系统能够生成自然流畅的语音，音质接近真人水平。通过大规模预训练和精细调优，这些模型可以准确把握语言的韵律节奏，表达丰富的情感色彩。未来随着算力提升和算法优化，语音合成技术将更加智能高效，为各行各业带来更多创新应用场景。"   --speaker Vivian   --language Chinese
+## 验证一下
 
-
-## 
-
+```
 cd /data/nano-qwen3tts-vllm
 export UV_CACHE_DIR=/data/uvcache/.cache/uv
 source .venv/bin/activate
 which python
 which pip
-
-
+```
 
 ```
 python3 -c "
@@ -178,7 +179,7 @@ if torch.cuda.is_available():
     print(f'CUDA version: {torch.version.cuda}')
     print(f'GPU count: {torch.cuda.device_count()}')
     for i in range(torch.cuda.device_count()):
-        print(f'GPU {i}: {torch.cuda.get_device_name(i)}')
+    print(f'GPU {i}: {torch.cuda.get_device_name(i)}')
 python -c "import flash_attn; print(f'Flash Attention: {flash_attn.__version__}')"
 "
 
@@ -191,3 +192,12 @@ GPU 0: NVIDIA L4
 Flash Attention: 2.5.8
 ```
 
+
+
+<hr class='reviewline'/>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-04-20-flash-attn.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz]({% include relrefx.html url="/backup/2026-04-20-flash-attn.md/www.python.org/0ad48dc9.tgz" %})
+- [https://download.pytorch.org/whl/cu121]({% include relrefx.html url="/backup/2026-04-20-flash-attn.md/download.pytorch.org/3719994a.html" %})
+- [https://developer.download.nvidia.com/compute/cuda/12.1.1/local_installers/cuda_12.1.1_530.30.02_linux.run]({% include relrefx.html url="/backup/2026-04-20-flash-attn.md/developer.download.nvidia.com/1081b707.run" %})
