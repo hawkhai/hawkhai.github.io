@@ -101,11 +101,7 @@ pip install torch==2.5.0 torchvision==0.20.0 torchaudio==2.5.0 \
 # 2.5.0 12.1
 python -c "import torch; print(torch.__version__, torch.version.cuda)"
 
-pip install -U pip setuptools wheel packaging ninja --index-url https://mirrors.aliyun.com/pypi/simple/
-
 pip install ninja setuptools wheel packaging cmake --index-url https://mirrors.aliyun.com/pypi/simple/
-pip install flash-attn==2.6.3 --no-build-isolation -v
-pip uninstall flash-attn -y
 pip install flash-attn==2.5.8 --no-build-isolation -v --index-url https://mirrors.aliyun.com/pypi/simple/
 pip install flash_attn-2.6.3+cu121torch2.5-cp311-linux_x86_64.whl
 
@@ -146,7 +142,9 @@ cp -a /data/explore/mytts/nano-qwen3tts-vllm/examples/. \
 cp -a /data/explore/mytts/nano-qwen3tts-vllm/nano-qwen3tts-vllm/. \
     /data/nano-qwen3tts-vllm/nano-qwen3tts-vllm/
 
+
 nvidia-smi
+watch -n 1 nvidia-smi
 
 cp -a /data/nano-qwen3tts-vllm/output/. /data/explore/mytts/nano-qwen3tts-vllm/output/
 ```
