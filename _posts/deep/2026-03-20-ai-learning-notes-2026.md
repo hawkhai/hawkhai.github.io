@@ -45,6 +45,13 @@ Neural Network Word Embedding Using Keras
 * 数据增强副作用：CNN 训练时的旋转增强导致模型无法区分上下空间关系（如将天空误判为沙滩），需移除旋转类数据增强操作。
 * 单帧信息局限：单张图像无法区分动作的连续性（如 "throwing" vs "catching"），需引入时序信息（Video）或连续帧来解决。
 
+RNN/LSTM 架构演进与孪生网络
+损失函数设计与优化
+* Triplet Loss 改进：针对简单的线性整流（ReLU）损失函数在零值附近停止学习的问题，引入了 Alpha Margin。只有当正负样本的差异超过设定的阈值（Alpha）时，损失才归零，强制模型学习更难的样本。
+* 困难样本挖掘（Hard Negative Mining）：在训练过程中，并非所有负样本都同等重要。通过筛选与正样本相似度最高的“困难负样本”（Closest Negative）进行训练，能显著提升模型的判别能力。
+<https://docs.pytorch.org/tutorials/beginner/nlp/sequence_models_tutorial.html>
+<https://spotintelligence.com/2023/01/11/lstm-in-nlp-tasks/>
+
 
 ## 高级软件工程
 
@@ -93,4 +100,6 @@ $$
 - [https://github.com/y33-j3T/Coursera-Deep-Learning/blob/master/Natural%20Language%20Processing%20with%20Probabilistic%20Models/Week%204%20-%20Word%20Embeddings%20with%20Neural%20Networks/NLP_C2_W4_lecture_nb_01.ipynb]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/github.com/6bbe232c.html" %})
 - [https://www.geeksforgeeks.org/machine-learning/introduction-to-recurrent-neural-network/]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.geeksforgeeks.org/33fe67c3.html" %})
 - [https://docs.pytorch.org/tutorials/intermediate/char_rnn_classification_tutorial.html]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/docs.pytorch.org/6785d3ed.html" %})
+- [https://docs.pytorch.org/tutorials/beginner/nlp/sequence_models_tutorial.html]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/docs.pytorch.org/290458ec.html" %})
+- [https://spotintelligence.com/2023/01/11/lstm-in-nlp-tasks/]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/spotintelligence.com/eaba4514.html" %})
 - [https://omniscient-house-4e0.notion.site/deb10f4bbd7941daa551d075063ba5be]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/omniscient-house-4e0.notion.site/8d1cae52.html" %})
