@@ -54,6 +54,29 @@ SPACEBACKFILE_TAIL = ".spaceback.json"
 NEWLINE_CHAR = "\r\n" if IS_WINDOWS else "\n"
 PAUSE_CMD = "pause" if IS_WINDOWS else "read -p 'Press [Enter] key to continue...'"
 
+G_CACHE_IGLIST = {}
+
+# copyfrom E:\kSource\blog\checkcache.py
+G_CHECKPAGE = []
+
+G_IMG_TAGED = set() # 图片资源等。
+
+G_HOSTSET = {}
+
+G_CNCHAR = []
+G_CSCHAR = [] # 中文符号集合
+G_ENCHAR = []
+G_TYPESET = set()
+G_MDKEYSET = set()
+SNAPSHOT_HTML = "<font class='ref_snapshot'>参考资料快照</font>"
+REVIEW_REGEX  = "^<p class='reviewtip'><script type='text/javascript' src='{% include relrefx?.html url=\".*?\" %}'></script></p>$"
+REVIEW_FORMAT = "<p class='reviewtip'><script type='text/javascript' src='{%% include relref.html url=\"/%s.js\" %%}'></script></p>"
+REVIEW_LINE   = "<hr class='reviewline'/>"
+REVIEW_JS_PATH = "%s.js"
+ROUGIFY_LIST = loadRougifyList()
+
+G_CHECKTINUE_SET = {}
+
 def getLinkTagSrc(name):
     return "{% include relref_"+name+".html %}"
 
@@ -70,7 +93,6 @@ def isHostIgnoreStat(hostk):
             return True
     return False
 
-G_CACHE_IGLIST = {}
 def readfileIglist(fpath):
 
     hash = "{},{},{}".format(getMd5(fpath), os.path.getsize(fpath), os.path.getmtime(fpath))
@@ -86,8 +108,6 @@ def readfileIglist(fpath):
     G_CACHE_IGLIST[hash] = li
     return li
 
-# copyfrom E:\kSource\blog\checkcache.py
-G_CHECKPAGE = []
 def checkpage(fdata):
     if not G_CHECKPAGE:
         itag0 = bytesToString("ERR_CONNECTION_TIMED_OUT".encode("utf8"))
@@ -278,7 +298,6 @@ title : %(title)s
         #assert False, remote
     return remote
 
-G_IMG_TAGED = set() # 图片资源等。
 def tidyupImgClear():
     for key in G_IMG_TAGED:
         osremove(key)
@@ -431,7 +450,6 @@ def tidyupImg(imglocal, fpath, line, imgthumb=True):
     if isnailcopy: osremove(imglocalnail)
     return line.replace(imglocal, tpath.replace("\\", "/"))
 
-G_HOSTSET = {}
 def collectHost(fpath, md5src, line, imgthumb):
 
     reflist = []
@@ -546,18 +564,6 @@ def loadRougifyList():
         for i in ROUGIFY_LIST:
             assert refindall("^([0-9a-z_#+-]+)$", i, re.IGNORECASE), i
     return ROUGIFY_LIST
-
-G_CNCHAR = []
-G_CSCHAR = [] # 中文符号集合
-G_ENCHAR = []
-G_TYPESET = set()
-G_MDKEYSET = set()
-SNAPSHOT_HTML = "<font class='ref_snapshot'>参考资料快照</font>"
-REVIEW_REGEX  = "^<p class='reviewtip'><script type='text/javascript' src='{% include relrefx?.html url=\".*?\" %}'></script></p>$"
-REVIEW_FORMAT = "<p class='reviewtip'><script type='text/javascript' src='{%% include relref.html url=\"/%s.js\" %%}'></script></p>"
-REVIEW_LINE   = "<hr class='reviewline'/>"
-REVIEW_JS_PATH = "%s.js"
-ROUGIFY_LIST = loadRougifyList()
 
 def removeRefs(fpath, lines):
     lineCount = len(lines)
@@ -1153,8 +1159,6 @@ def mainfilew(fpath, fname, ftype):
     if errcnt == 0:
         savelog(__file__, fpath)
     return errcnt
-
-G_CHECKTINUE_SET = {}
 
 def oncheckdirectory(rootdir, basename=None):
     if rootdir in G_CHECKTINUE_SET.keys():
