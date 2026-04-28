@@ -93,7 +93,7 @@ def isHostIgnoreStat(hostk):
             return True
     return False
 
-def readfileIglist(fpath):
+def readFileIgnoreList(fpath):
 
     hash = "{},{},{}".format(getMd5(fpath), os.path.getsize(fpath), os.path.getmtime(fpath))
     if hash in G_CACHE_IGLIST:
@@ -137,7 +137,7 @@ def checkpage(fdata):
     return None
 
 def backupUrlContent(fpath, md5src, url):
-    for urlz in readfileIglist("config/mdrstrip_url_ignore_ends.txt"):
+    for urlz in readFileIgnoreList("config/mdrstrip_url_ignore_ends.txt"):
         if url.endswith(urlz):
             return
 
@@ -148,8 +148,8 @@ def backupUrlContent(fpath, md5src, url):
     # 有可能挂掉的网站，都稍微做一下备份。
     fname = os.path.split(fpath)[-1]
 
-    urligstarts = readfileIglist("config/mdrstrip_url_ignore_starts.txt")
-    urligstarts.extend(readfileIglist("invisible/config/mdrstrip_url_ignore_starts.txt"))
+    urligstarts = readFileIgnoreList("config/mdrstrip_url_ignore_starts.txt")
+    urligstarts.extend(readFileIgnoreList("invisible/config/mdrstrip_url_ignore_starts.txt"))
     for urlz in urligstarts:
         if url.startswith(urlz):
             return
@@ -159,7 +159,7 @@ def backupUrlContent(fpath, md5src, url):
     print(fpath, url)
     chrome = True # 可能有 js 代码，所以必须都用 Chrome 进行缓存
     chromeDialog = False
-    for urlz in readfileIglist("config/mdrstrip_url_chrome_dialog.txt"):
+    for urlz in readFileIgnoreList("config/mdrstrip_url_chrome_dialog.txt"):
         if url.startswith(urlz):
             chromeDialog = True
     mdname = os.path.split(fpath)[-1]
@@ -189,7 +189,7 @@ def backupUrlContent(fpath, md5src, url):
 
     mdxfile = False
     flocal = buildlocal(ttype)
-    if chrome and urlhostsrc in readfileIglist("config/mdrstrip_host_jekyll.txt"):
+    if chrome and urlhostsrc in readFileIgnoreList("config/mdrstrip_host_jekyll.txt"):
         mdxfile = True
         ttype = ".md" # 借用 Jekyll 格式化
         newlocal = buildlocal(ttype)
@@ -215,7 +215,7 @@ def backupUrlContent(fpath, md5src, url):
         fdatalocal = False
 
     idata = bytesToString(fdata)
-    if not url in readfileIglist("config/mdrstrip_url_ignore.txt"):
+    if not url in readFileIgnoreList("config/mdrstrip_url_ignore.txt"):
         result = checkpage(idata)
         if result:
             print("无法访问此网站", fpath, url, result)
@@ -275,7 +275,7 @@ title : %(title)s
     fmd5 = getFileSrcMd5z(flocal, mycache=MYCACHE, assertx=False) # 大文件，错误已经铸成，改不了了。
     invdir2 = isInvisibleDir(flocal) # invdir = isInvisibleDir(fpath)
     mdrstripBigfile = os.path.join("invisible" if invdir2 else ".", "config/mdrstrip_bigfiles.txt")
-    igbigfiles = readfileIglist(mdrstripBigfile)
+    igbigfiles = readFileIgnoreList(mdrstripBigfile)
     if not fmd5 in igbigfiles and not flocal in igbigfiles:
         if len(fdata) >= 1024*1000*1 and not IGNOREERR:
             print(getFileSrcMd5z(flocal, mycache=MYCACHE, assertx=False), "#", flocal, "#", "%.1f MB"%(len(fdata) / 1024 / 1024))
@@ -287,7 +287,7 @@ title : %(title)s
     # protocol :// hostname[:port] / path / [:parameters][?query]#fragment
     remotename = url.split("?")[0].split("#")[0].split("/")[-1]
     ignorenamefile = "config/mdrstrip_url_ignore_nametype.txt"
-    if remotename in readfileIglist(ignorenamefile):
+    if remotename in readFileIgnoreList(ignorenamefile):
         return remote
 
     # 外链类型 断言...
@@ -314,7 +314,7 @@ def tidyupImgCollect(rootdir):
 # 本地图片缓存路径。
 def tidyupImg(imglocal, fpath, line, imgthumb=True):
 
-    fakeimgfiles = readfileIglist("config/mdrstrip_fake_image_files.txt")
+    fakeimgfiles = readFileIgnoreList("config/mdrstrip_fake_image_files.txt")
 
     if imglocal in fakeimgfiles:
         return line
@@ -358,7 +358,7 @@ def tidyupImg(imglocal, fpath, line, imgthumb=True):
         if count >= 3:
             assert False, "重试次数过多..."
         os.system(PAUSE_CMD)
-        fakeimgfiles = readfileIglist("config/mdrstrip_fake_image_files.txt")
+        fakeimgfiles = readFileIgnoreList("config/mdrstrip_fake_image_files.txt")
         if imglocal in fakeimgfiles:
             return line
 
@@ -490,8 +490,8 @@ def collectHost(fpath, md5src, line, imgthumb):
     li = refindall(regex, line, re.IGNORECASE)
     if not li: return reflist, line
 
-    iglist = readfileIglist("config/mdrstrip_url_quote.txt")
-    iglist.extend(readfileIglist("invisible/config/mdrstrip_url_quote.txt"))
+    iglist = readFileIgnoreList("config/mdrstrip_url_quote.txt")
+    iglist.extend(readFileIgnoreList("invisible/config/mdrstrip_url_quote.txt"))
 
     for tx in li:
         url = tx[0]
@@ -686,12 +686,12 @@ def mainfile(fpath, fname, ftype, fdepth=0):
         writefileJson(fpath, fjson, ascii=False, encoding="utf8")
         return
 
-    iglist = readfileIglist("config/mdrstrip_file_ignore.txt")
+    iglist = readFileIgnoreList("config/mdrstrip_file_ignore.txt")
     if fname in iglist:
         return
 
     fpathsrc, fnamesrc, ftypesrc = fpath, fname, ftype
-    checkfilesize(fpath, fname, ftype)
+    checkFileSize(fpath, fname, ftype)
 
     ftype = ftype.lower()
     errcnt = 0
@@ -729,7 +729,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
     if fpath.find(os.sep+"_site"+os.sep) != -1: # _site 文件夹
         return
 
-    def linerstrip(line):
+    def lineRstrip(line):
         if isMdFile:
             for name, host in LINKTAGARRAY:
                 tak = getLinkTagSrc(name)
@@ -757,7 +757,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
         openTextFile(fpath)
         raise ex
     lines = removeRefs(fpath, lines)
-    lines = [linerstrip(line) for line in lines]
+    lines = [lineRstrip(line) for line in lines]
     lines.append("")
     lines.append("")
     while len(lines) >= 2 and not lines[-1] and not lines[-2]:
@@ -1089,7 +1089,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
     if not fname in ("2021-03-14-Equivalent-Unified-Ideograph.md",):
         page = TranslateKangXi(page)
 
-    def spacebackreg(regkey, regmap, page):
+    def spaceBackReg(regkey, regmap, page):
         li = re.findall(regkey, page)
         if not li: return page
         for i in li:
@@ -1103,7 +1103,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
         if spacebackkey == "regex":
             for regkey in spacebackvalue.keys():
                 regmap = spacebackvalue[regkey] # 字典
-                page = spacebackreg(regkey, regmap, page)
+                page = spaceBackReg(regkey, regmap, page)
             continue
         page = page.replace(spacebackkey, spacebackvalue)
 
@@ -1160,7 +1160,7 @@ def mainfilew(fpath, fname, ftype):
         savelog(__file__, fpath)
     return errcnt
 
-def oncheckdirectory(rootdir, basename=None):
+def onCheckDirectory(rootdir, basename=None):
     if rootdir in G_CHECKTINUE_SET.keys():
         return G_CHECKTINUE_SET[rootdir]
     curdir = rootdir
@@ -1176,7 +1176,7 @@ def oncheckdirectory(rootdir, basename=None):
     G_CHECKTINUE_SET[rootdir] = True
     return True
 
-def checkfilesize(fpath, fname, ftype):
+def checkFileSize(fpath, fname, ftype):
     # 原图不存在了，要移除缩略图。
     if fname.endswith(THUMBNAIL):
         srcimg = fpath[:-len(THUMBNAIL)]
@@ -1184,14 +1184,14 @@ def checkfilesize(fpath, fname, ftype):
             osremove(fpath)
             return
 
-    if not oncheckdirectory(os.path.split(fpath)[0]):
+    if not onCheckDirectory(os.path.split(fpath)[0]):
         return
 
     invdir = isInvisibleDir(fpath)
     mdrstripBigfile = os.path.join("invisible" if invdir else ".", "config/mdrstrip_bigfiles.txt")
-    fmd5 = getFileSrcMd5z(fpath, mycache=MYCACHE, assertx=False) # checkfilesize
+    fmd5 = getFileSrcMd5z(fpath, mycache=MYCACHE, assertx=False) # checkFileSize
 
-    igbigfiles = readfileIglist(mdrstripBigfile)
+    igbigfiles = readFileIgnoreList(mdrstripBigfile)
     if not (fmd5 in igbigfiles) and not (fpath in igbigfiles):
         size = os.path.getsize(fpath) / 1024.0 / 1000.0 # 1000 KB
         if size >= 1.0:
@@ -1256,7 +1256,7 @@ def main():
         tidyupImgCollect("assets"+os.sep+"images")
         tidyupImgCollect("invisible"+os.sep+"images")
 
-    igdirs = readfileIglist("config/mdrstrip_dir_ignore.txt")
+    igdirs = readFileIgnoreList("config/mdrstrip_dir_ignore.txt")
 
     CHECK_IGNORE_LIST = [
         "backup", "tempdir", "_site",
@@ -1265,9 +1265,9 @@ def main():
         "node_modules", "pdftools",
         ]
     CHECK_IGNORE_LIST.extend(igdirs)
-    searchdir(".", checkfilesize, ignorelist=CHECK_IGNORE_LIST, onDirectory=oncheckdirectory)
-    searchdir("backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST, onDirectory=oncheckdirectory)
-    searchdir("invisible"+os.sep+"backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST, onDirectory=oncheckdirectory)
+    searchdir(".", checkFileSize, ignorelist=CHECK_IGNORE_LIST, onDirectory=onCheckDirectory)
+    searchdir("backup", checkFileSize, ignorelist=CHECK_IGNORE_LIST, onDirectory=onCheckDirectory)
+    searchdir("invisible"+os.sep+"backup", checkFileSize, ignorelist=CHECK_IGNORE_LIST, onDirectory=onCheckDirectory)
 
     MAINW_IGNORE_LIST = [
         "backup", "tempdir",

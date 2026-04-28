@@ -23,7 +23,7 @@ def colorPrint(*args, color="red"):
     print(config[color] + msg + colorama.Style.RESET_ALL)
 
 # https://www.jonathan-petitcolas.com/ascii-art-converter/
-def printfail(msg):
+def printFail(msg):
     assert len(msg) == 8, msg
     colorPrint(r"""
                  !mB$@Mj.                           ')j'
@@ -41,7 +41,7 @@ def printfail(msg):
 {%s}       J@x
     """.replace("{%s}", msg))
 
-def printok(msg):
+def printOk(msg):
     assert len(msg) == 8, msg
     colorPrint(r"""
                           t%&.
@@ -96,9 +96,9 @@ python3 mdrstrip.py format copyres {} {} {}
     print("***" * 30)
     msg = "%-8.2f"%(btime - atime)
     if codek == 0:
-        printok(msg)
+        printOk(msg)
     else:
-        printfail(msg)
+        printFail(msg)
     #exit(0)
 
 if __name__ == "__main__":

@@ -65,7 +65,7 @@ def formatValue(value):
         value = value[1:-1].split(",")
         return "[{}]".format(", ".join(["\"{}\"".format(i.strip()) for i in value]))
 
-def analyzehead(fpath, fname, ftype, newmap):
+def analyzeHead(fpath, fname, ftype, newmap):
     fpath = os.path.relpath(fpath, ".")
     print(fpath)
     if fpath.startswith("_posts\\"):
@@ -92,7 +92,7 @@ def popenCmdW(cmdx):
     return datax
 
 gkvmap = {}
-def formatkv(fpath, fname, ftype, fsecli, setkv=None):
+def formatKV(fpath, fname, ftype, fsecli, setkv=None):
     if None == setkv: setkv = {}
     fdata = readfile(fpath, True)
     li = [line.strip() for line in fsecli.split("\n") if line.strip()]
@@ -183,7 +183,7 @@ ktitle kaliyun imgthumb zhconv codeformat
         if not key in gkvmap.keys():
             gkvmap[key] = []
 
-        def appvalue(value):
+        def appValue(value):
             if key in ("author",) and not codeformat:
                 return
             if value and not value in gkvmap[key]:
@@ -192,14 +192,14 @@ ktitle kaliyun imgthumb zhconv codeformat
         if value:
             if value.startswith("\"") and value.endswith("\""):
                 value = value[1:-1]
-                appvalue(value)
+                appValue(value)
             elif value.startswith("["):
                 for val in json.loads(value):
-                    appvalue(val)
+                    appValue(val)
             elif refindall("^[a-z]+$", value):
-                appvalue(value)
+                appValue(value)
             elif key in ('title', 'permalink', 'date', 'author'):
-                appvalue(value)
+                appValue(value)
             else:
                 assert False, (key, value)
 
@@ -220,7 +220,7 @@ ktitle kaliyun imgthumb zhconv codeformat
         newli.append(line.strip())
         newmap[key] = value.strip()
 
-    analyzehead(fpath, fname, ftype, newmap)
+    analyzeHead(fpath, fname, ftype, newmap)
     return "\r\n".join(newli), newmap
 
 def parseHeadKeyValueRaw(fpath, fname, ftype):
@@ -236,7 +236,7 @@ def parseHeadKeyValue(fpath, fname, ftype, setkv=None):
     if None == setkv: setkv = {}
     fsecli = parseHeadKeyValueRaw(fpath, fname, ftype)
     if not fsecli: return
-    tempv = formatkv(fpath, fname, ftype, fsecli[1], setkv=setkv)
+    tempv = formatKV(fpath, fname, ftype, fsecli[1], setkv=setkv)
     if not tempv: return
     return tempv[1]
 
@@ -258,7 +258,7 @@ def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv=None):
 
     mdtagfile = (fpath+".tag").replace(".md.tag", ".mdtag").replace("-", "")
     #writefile(mdtagfile, "")
-    tempv = formatkv(fpath, fname, ftype, fsecli[1], setkv)
+    tempv = formatKV(fpath, fname, ftype, fsecli[1], setkv)
     if tempv:
         fsecli[1] = "\r\n{}\r\n".format(tempv[0],)
 
