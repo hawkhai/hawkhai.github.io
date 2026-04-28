@@ -73,7 +73,7 @@ REVIEW_REGEX  = "^<p class='reviewtip'><script type='text/javascript' src='{% in
 REVIEW_FORMAT = "<p class='reviewtip'><script type='text/javascript' src='{%% include relref.html url=\"/%s.js\" %%}'></script></p>"
 REVIEW_LINE   = "<hr class='reviewline'/>"
 REVIEW_JS_PATH = "%s.js"
-ROUGIFY_LIST = loadRougifyList()
+ROUGIFY_LIST = None
 
 G_CHECKTINUE_SET = {}
 
@@ -1309,6 +1309,7 @@ def main():
     for hostx in hostlist[:10]:
         print(hostx)
 
+ROUGIFY_LIST = loadRougifyList()
 if __name__ == "__main__":
     print(sys.argv)
     import cProfile
