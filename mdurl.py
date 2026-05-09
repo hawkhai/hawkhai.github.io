@@ -126,7 +126,7 @@ def mainfilew(fpath, fname, ftype):
                 line = line.replace(txline, newline)
 
         chxx = u"：。".encode("utf8").decode("ISO8859-1")
-        result = refindall("[^\\s%s](%s)\\s"%(chxx, URL_REGEX), " %s "%line, re.IGNORECASE)
+        result = refindall("[^\\s%s=](%s)\\s"%(chxx, URL_REGEX), " %s "%line, re.IGNORECASE)
         if result:
             openTextFile(fpath)
             assert False, result
