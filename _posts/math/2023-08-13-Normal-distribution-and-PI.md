@@ -35,6 +35,8 @@ Why π is in the normal distribution (beyond integral tricks)
 [为什么正态分布中会有一个 π {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/A9XCDnDI6lZlCoudh-cryg)
 [姊妹篇：为什么正态分布中会有一个 e {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/TBNa4xfoIYhgDJKzs-tqwQ)
 
+π无处不在的真正原因
+https://www.bilibili.com/video/BV1yU546sEL5/
 
 
 <hr class='reviewline'/>
