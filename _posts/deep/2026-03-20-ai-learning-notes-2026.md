@@ -54,6 +54,9 @@ RNN/LSTM 架构演进与孪生网络
 
 <https://colab.research.google.com/drive/1b7aZamr065WPuLpq9C4RU6irB59gbX_K>
 
+<https://github.com/williamSYSU/TextGAN-PyTorch>
+<https://www.codegenes.net/blog/gan-text-generation-pytorch/>
+
 
 ## 高级软件工程
 
@@ -105,4 +108,6 @@ $$
 - [https://docs.pytorch.org/tutorials/beginner/nlp/sequence_models_tutorial.html]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/docs.pytorch.org/290458ec.html" %})
 - [https://spotintelligence.com/2023/01/11/lstm-in-nlp-tasks/]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/spotintelligence.com/eaba4514.html" %})
 - [https://colab.research.google.com/drive/1b7aZamr065WPuLpq9C4RU6irB59gbX_K]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/colab.research.google.com/bccdf790.html" %})
+- [https://github.com/williamSYSU/TextGAN-PyTorch]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/github.com/73103dff.html" %})
+- [https://www.codegenes.net/blog/gan-text-generation-pytorch/]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.codegenes.net/3eb7a86c.html" %})
 - [https://omniscient-house-4e0.notion.site/deb10f4bbd7941daa551d075063ba5be]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/omniscient-house-4e0.notion.site/8d1cae52.html" %})
