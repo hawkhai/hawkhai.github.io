@@ -51,7 +51,7 @@ CHECK_IGNORE_LIST = [
     "backup", "tempdir", "_site",
     "Debug", "Release", ".vs", "opengl-3rd", "opengles3-book", "opengles-book-samples",
     "UserDataSpider", "docs.gl", "ml-notes", "ksample", "dataset", "pdfdata",
-    "imgclassify", "node_modules", "pdftools",
+    "imgclassify", "node_modules", "pdftools", "cc-switch",
 ]
 
 MAINW_IGNORE_LIST = [
@@ -59,7 +59,7 @@ MAINW_IGNORE_LIST = [
     "Debug", "Release", ".vs", "opengl-3rd", "opengles3-book", "opengles-book-samples",
     "UserDataSpider", "docs.gl", "ml-notes", "ksample", "dataset", "pdfdata",
     "imgclassify", "openglcpp", "d2l-zh", "mathjax", "msgboard",
-    "node_modules", "pdftools",
+    "node_modules", "pdftools", "cc-switch",
 ]
 
 def _extend_from_config(lst):
