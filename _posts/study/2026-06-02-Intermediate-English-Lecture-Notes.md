@@ -29,3 +29,7 @@ Chris Gardner is a bright and talented, but marginally employed salesman. Strugg
 
 The film has received numerous good views upon its release. The tough beauty of the pictureis that it lets each viewer weigh the costs and benefits to Gardner. It's a genuinely transportinginspirational movie because it's also a cautionary tale. It does not downplay the hero'soccasional clumsiness or pigheadedness. For his performance, Will Smith was nominated foran Academy Award and a Golden Globe for Best Actor.
 
+
+
+<hr class='reviewline'/>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-06-02-Intermediate-English-Lecture-Notes.md.js" %}'></script></p>
