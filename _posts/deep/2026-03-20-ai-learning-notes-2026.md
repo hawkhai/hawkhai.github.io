@@ -63,6 +63,8 @@ RNN/LSTM 架构演进与孪生网络
 
 <https://docs.pytorch.org/tutorials/intermediate/variable_length_attention_tutorial.html>
 
+https://colab.research.google.com/github/telecombcn-dl/labs-all/blob/main/labs/attention/lab_attention_todo.ipynb
+
 
 ## 高级软件工程
 
@@ -120,4 +122,5 @@ $$
 - [https://colab.research.google.com/github/phlippe/uvadlc_notebooks/blob/master/docs/tutorial_notebooks/tutorial7/GNN_overview.ipynb]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/colab.research.google.com/4d81dd62.ipynb" %})
 - [https://github.com/svjan5/GNNs-for-NLP]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/github.com/ec396d0d.html" %})
 - [https://docs.pytorch.org/tutorials/intermediate/variable_length_attention_tutorial.html]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/docs.pytorch.org/2420dd43.html" %})
+- [https://colab.research.google.com/github/telecombcn-dl/labs-all/blob/main/labs/attention/lab_attention_todo.ipynb]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/colab.research.google.com/f2dc585e.ipynb" %})
 - [https://omniscient-house-4e0.notion.site/deb10f4bbd7941daa551d075063ba5be]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/omniscient-house-4e0.notion.site/8d1cae52.html" %})
