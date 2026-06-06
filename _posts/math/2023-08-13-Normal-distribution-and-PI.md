@@ -38,6 +38,8 @@ Why π is in the normal distribution (beyond integral tricks)
 π 无处不在的真正原因
 <https://www.bilibili.com/video/BV1yU546sEL5/>
 
+为什么π会出现在这里？Quantia
+https://www.bilibili.com/video/BV1Q7RhBCEEo/
 
 
 <hr class='reviewline'/>
