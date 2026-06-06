@@ -61,6 +61,8 @@ RNN/LSTM 架构演进与孪生网络
 <https://colab.research.google.com/github/phlippe/uvadlc_notebooks/blob/master/docs/tutorial_notebooks/tutorial7/GNN_overview.ipynb>
 <https://github.com/svjan5/GNNs-for-NLP>
 
+<https://docs.pytorch.org/tutorials/intermediate/variable_length_attention_tutorial.html>
+
 
 ## 高级软件工程
 
@@ -117,4 +119,5 @@ $$
 - [https://www.datacamp.com/tutorial/comprehensive-introduction-graph-neural-networks-gnns-tutorial]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.datacamp.com/1ba036f4.html" %})
 - [https://colab.research.google.com/github/phlippe/uvadlc_notebooks/blob/master/docs/tutorial_notebooks/tutorial7/GNN_overview.ipynb]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/colab.research.google.com/4d81dd62.ipynb" %})
 - [https://github.com/svjan5/GNNs-for-NLP]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/github.com/ec396d0d.html" %})
+- [https://docs.pytorch.org/tutorials/intermediate/variable_length_attention_tutorial.html]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/docs.pytorch.org/2420dd43.html" %})
 - [https://omniscient-house-4e0.notion.site/deb10f4bbd7941daa551d075063ba5be]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/omniscient-house-4e0.notion.site/8d1cae52.html" %})
