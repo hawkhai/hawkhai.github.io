@@ -39,7 +39,7 @@ Why π is in the normal distribution (beyond integral tricks)
 <https://www.bilibili.com/video/BV1yU546sEL5/>
 
 为什么 π 会出现在这里？Quantia
-https://www.bilibili.com/video/BV1Q7RhBCEEo/
+<https://www.bilibili.com/video/BV1Q7RhBCEEo/>
 
 
 

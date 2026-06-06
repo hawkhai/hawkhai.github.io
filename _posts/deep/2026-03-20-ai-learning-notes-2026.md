@@ -63,7 +63,7 @@ RNN/LSTM 架构演进与孪生网络
 
 <https://docs.pytorch.org/tutorials/intermediate/variable_length_attention_tutorial.html>
 
-https://colab.research.google.com/github/telecombcn-dl/labs-all/blob/main/labs/attention/lab_attention_todo.ipynb
+<https://colab.research.google.com/github/telecombcn-dl/labs-all/blob/main/labs/attention/lab_attention_todo.ipynb>
 
 
 ## 高级软件工程
