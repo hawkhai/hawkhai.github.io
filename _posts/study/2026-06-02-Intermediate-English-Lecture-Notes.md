@@ -27,11 +27,11 @@ Will's son Jadon Smith co-stars as Gardner's son Christopher Jr.
 
 《当幸福来敲门》是 2006 年上映的一部美国传记类剧情片，其灵感来源于一个真实的故事，取材于 20 世纪 80 年代初无家可归的劳动者克里斯 · 加德纳自立自强最终获得成功的经历。威尔 · 史密斯在剧中饰演克里斯 · 加德纳，而他的儿子贾登 · 史密斯也共同出演，在剧中扮演加德纳的儿子小克里斯。
 
-Chris Gardner is a bright and talented, but marginally employed salesman. Struggling to makeends meet, Gardener finds himself and his five-year-old son evicted from their San Franciscoapartment with nowhere to go. Nevertheless, he keeps in pursuit of his dream of a better lifefor the two of them. Finally, his effort has paid off and he gets the position. Upon hearing thenews, Chris rushes to his son's daycare, hugging him tightly.
+Chris Gardner is a bright and talented, but marginally employed salesman. Struggling to make ends meet, Gardener finds himself and his five-year-old son evicted from their San Francisco apartment with nowhere to go. Nevertheless, he keeps in pursuit of his dream of a better life for the two of them. Finally, his effort has paid off and he gets the position. Upon hearing the news, Chris rushes to his son's daycare, hugging him tightly.
 
 克里斯 · 加德纳是一位聪明、有天赋却很少被人雇佣的销售员。为了努力维持生计，加德纳和他五岁的儿子被迫搬出他们在旧金山的公寓，无家可归。然而，加德纳时钟坚持追求自己的梦想，希望自己和儿子过上更好的生活。终于，他的努力得到了回报，他赢得了那份工作。得知这个消息后，克里斯立即奔向儿子的托儿所，紧紧地拥抱着儿子。
 
-The film has received numerous good views upon its release. The tough beauty of the pictureis that it lets each viewer weigh the costs and benefits to Gardner. It's a genuinely transportinginspirational movie because it's also a cautionary tale. It does not downplay the hero'soccasional clumsiness or pigheadedness. For his performance, Will Smith was nominated foran Academy Award and a Golden Globe for Best Actor.
+The film has received numerous good views upon its release. The tough beauty of the picture is that it lets each viewer weigh the costs and benefits to Gardner. It's a genuinely transporting inspirational movie because it's also a cautionary tale. It does not downplay the hero's occasional clumsiness or pigheadedness. For his performance, Will Smith was nominated for an Academy Award and a Golden Globe for Best Actor.
 
 这部影片自上映以来获得不少好评。美丽的电影画面带着些许沉重感，因为它让每一位观众在观看的同时权衡加德纳的付出和回报。这是一部真正鼓舞人心的电影，同时也是一个带给人们启发的故事。它不会淡化英雄的偶尔笨拙和固执。鉴于威尔 · 史密斯在剧中的出色表演，他获得了奥斯卡金像奖和金球奖最佳男演员奖的提名。
 
@@ -60,7 +60,7 @@ decides not to write the story.
 水木英语
 访，乔佯装没有认出她是公主并提议带她游览罗马。通过此行，乔爱上了公主，但是他们不可能走到一起。安妮最终离开了乔回到了大使馆，乔决定放弃做任何报道。
 
-Roman Holiday is a cinematic treasure. The film earned an estimated 3 million dollars at theNorth American box office during its first year of release.
+Roman Holiday is a cinematic treasure. The film earned an estimated 3 million dollars at the North American box office during its first year of release.
 
 《罗马假日》是电影界的瑰宝。在北美首映的一年间票房达到约 300 万美元。
 
@@ -81,11 +81,11 @@ Forrest's birth in 1944 and 1982.
 In the film, Forrest teaches Elvis Presley to dance, becomes a football star, meets John F. Kennedy, serves with honor in Vietnam, speaks at an anti-war rally at the Washington
 Monument, hangs out with the Yuppies, defeats the Chinese national team in table tennis, meets Richard Nixon, discovers the break-in at the Watergate, opens a profitable shrimping
 business, becomes an original investor in Apple computers, and to run back and forth across
-the country for several years. After experiencing some of the most significant events inAmerican history, all he really wants is to be with the woman he loves, Jenny.
+the country for several years. After experiencing some of the most significant events in American history, all he really wants is to be with the woman he loves, Jenny.
 
 电影中，阿甘教“猫王”跳舞，成为橄榄球明星，受到肯尼迪的接见，参加越战获得荣誉勋章，在华盛顿纪念碑前发表反战演说，结交雅皮士，击败中国乒乓球国家队，见到尼克松总统并撞破了水门事件，做利润丰厚的捕虾生意，最早为苹果电脑投资，并用几年时间在全国做往返跑。然而，经历了这么多美国历史事件之后，他真正想要做的还是和他最爱的女人珍妮在一起。
 
-Just like the famous sayings in the movie: "Life is like a box of chocolates. You never knowwhat you're gonna get." In face of the sudden change in life, fortunate or unfortunate, howmany people could always keep the inner peace and pursue for the first dream like Forrest?
+Just like the famous sayings in the movie: "Life is like a box of chocolates. You never know what you're gonna get." In face of the sudden change in life, fortunate or unfortunate, how many people could always keep the inner peace and pursue for the first dream like Forrest?
 
 正如电影中那句著名的台词所说：“生活就像一盒巧克力，你永远不知道你将得到什么口味。”面对生活中那些突如其来的变化，无论是幸运还是不幸，又有多少人能像阿甘那样保持内心的宁静，不忘初心呢？
 
@@ -112,7 +112,7 @@ of Scarlett perfectly.
 
 这部影片把美国人在逆境中奋斗，追求个人独立，尊严和爱情，永远乐观进取的民族精神表现得淋漓尽致。斯嘉丽，这个中产阶级家庭出身的弱女子，历经内战乱火、家园重建、爱女夭折、失去挚爱等一连串巨大的困难和挫折，但她很少胆怯，一次次战胜逆境。“毕竟，明天又是新的一天。”这句台词就是她乐观自强人生的最好诠释。女主角费雯 · 丽把斯嘉丽那任性但不失高雅华贵的气质展现得淋漓尽致。
 
-The film received positive reviews upon its release in December 1939. At the 12th AcademyAwards held in 1940, it received ten Academy Awards from thirteen nominations, includingwins for Best Picture, Best Director (Victor Fleming), Best Actress (Vivien Leigh).
+The film received positive reviews upon its release in December 1939. At the 12th Academy Awards held in 1940, it received ten Academy Awards from thirteen nominations, including wins for Best Picture, Best Director (Victor Fleming), Best Actress (Vivien Leigh).
 
 该影片自 1939 年上映以来得到了积极的反响。在 1940 年第 12 届奥斯卡颁奖典礼上，它获得了 13 个奖项提名，并最终获得了 10 个奖项，其中包括最佳影片奖、最佳导演奖（维克多 · 弗莱明）和最佳女演员奖（费雯 · 丽）。
 
@@ -120,15 +120,15 @@ The film received positive reviews upon its release in December 1939. At the 12t
 
 ## Avatar《阿凡达》
 
-_Avatar_ is an American epic science fiction premiered in 2009. It broke several boxoffice records and became the highest-grossing film of all time, as well as in theUnited States and Canada, surpassing _Titanic_ which was also directed by James Cameron.
+_Avatar_ is an American epic science fiction premiered in 2009. It broke several box office records and became the highest-grossing film of all time, as well as in the United States and Canada, surpassing _Titanic_ which was also directed by James Cameron.
 
 《阿凡达》是2009年上映的一部美国史诗级别的科幻电影，在美国和加拿大打破几项票房纪录，成为有史以来票房收入最高的电影，超越了同样由詹姆斯·卡梅隆执导的电影《泰坦尼克号》。
 
-By 2154, natural resources are scarce on Earth. The Resources Development Administration mines on Pandora, whose atmosphere is poisonous to humans. TheNa’vi, 10-foot tall, blue-skinned humanoids inhabit there. To explore pandora’sbiosphere, scientists use Na’vi-human hybrids called “avatars”, operated bygenetically matched humans. Against this background, Jake Sully (starred by SamWorthington), paraplegic former marine, is found by RDA to replace his brother tofinish the mission to research on Navi’s ways in order to relocate them.
+By 2154, natural resources are scarce on Earth. The Resources Development Administration mines on Pandora, whose atmosphere is poisonous to humans. The Na’vi, 10-foot tall, blue-skinned humanoids inhabit there. To explore pandora’s biosphere, scientists use Na’vi-human hybrids called “avatars”, operated by genetically matched humans. Against this background, Jake Sully (starred by Sam Worthington), paraplegic former marine, is found by RDA to replace his brother to finish the mission to research on Navi’s ways in order to relocate them.
 
 到2154年，地球上的自然资源已十分稀缺。资源开发局在潘多拉星球上开采资源。潘多拉星球的大气对人类有害。身高10英尺、蓝色皮肤的纳威人住在潘多拉星球上。为了探索潘多拉生物圈，科学家把人类基因和纳威人的基因结合在一起，制造了克隆纳威人，叫作“阿凡达”。只有基因与该克隆人相配的人可以操控克隆人。 在这个背景下，杰克·萨利（萨姆·沃辛顿饰演），一名身患截瘫的退伍海军，被资源开发局找到以接替他的哥哥完成这项任务——调查纳威人的行为方式，为他们重新安排住所。
 
-During one mission, he is rescued by Neytiri, the daughter of the clan’s spiritualleader. He gets to know more about Pandora. It is contradictory for him to decidewhich side he should fight for. Finally, under the leadership of Jake, the clan unitestogether to battle against the RDA. After that, with the exception of Jake, Max, Normand a few other scientists, all humans are expelled from Pandora and sent back toEarth and Jake is transferred permanently into his avatar. Avatar is primarily anaction-adventure journey of self-discovery, in the context of imperialism and deepecology.
+During one mission, he is rescued by Neytiri, the daughter of the clan’s spiritual leader. He gets to know more about Pandora. It is contradictory for him to decide which side he should fight for. Finally, under the leadership of Jake, the clan unites together to battle against the RDA. After that, with the exception of Jake, Max, Norm and a few other scientists, all humans are expelled from Pandora and sent back to Earth and Jake is transferred permanently into his avatar. Avatar is primarily an action-adventure journey of self-discovery, in the context of imperialism and deep ecology.
 
 在一次任务中，杰克被纳威族精神领袖的女儿奈蒂丽救助，他得以对潘多拉星球有更深的了解。杰克十分矛盾，不知道他应该帮助哪一方。最终，在杰克的领导下，潘多拉部落联合抗击资源开发局。那场战役之后，除了杰克、麦克斯、诺姆和其他一些科学家，所有的人类都被驱逐出潘多拉星球返回地球。杰克永远地转化为阿凡达。《阿凡达》是在帝国主义和深层次生态主义背景下的一部关于自我发现的探险历程的电影。
 

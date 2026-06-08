@@ -119,9 +119,9 @@ _The Pursuit of Happiness_ is a 2006 American biographical drama film inspired b
 pull himself up by the bootstraps. William Smith features in the film as Chris Gardner and
 Will's son Jadon Smith co-stars as Gardner's son Christopher Jr.
 
-Chris Gardner is a bright and talented, but marginally employed salesman. Struggling to makeends meet, Gardener finds himself and his five-year-old son evicted from their San Franciscoapartment with nowhere to go. Nevertheless, he keeps in pursuit of his dream of a better lifefor the two of them. Finally, his effort has paid off and he gets the position. Upon hearing thenews, Chris rushes to his son's daycare, hugging him tightly.
+Chris Gardner is a bright and talented, but marginally employed salesman. Struggling to make ends meet, Gardener finds himself and his five-year-old son evicted from their San Francisco apartment with nowhere to go. Nevertheless, he keeps in pursuit of his dream of a better life for the two of them. Finally, his effort has paid off and he gets the position. Upon hearing the news, Chris rushes to his son's daycare, hugging him tightly.
 
-The film has received numerous good views upon its release. The tough beauty of the pictureis that it lets each viewer weigh the costs and benefits to Gardner. It's a genuinely transportinginspirational movie because it's also a cautionary tale. It does not downplay the hero'soccasional clumsiness or pigheadedness. For his performance, Will Smith was nominated foran Academy Award and a Golden Globe for Best Actor.
+The film has received numerous good views upon its release. The tough beauty of the picture is that it lets each viewer weigh the costs and benefits to Gardner. It's a genuinely transporting inspirational movie because it's also a cautionary tale. It does not downplay the hero's occasional clumsiness or pigheadedness. For his performance, Will Smith was nominated for an Academy Award and a Golden Globe for Best Actor.
 
 <div STYLE="page-break-after: always;"></div>
 
@@ -142,7 +142,7 @@ offers to give her a guided tour of Rome. Through all this, Joe falls in love wi
 relationship is impossible. Anne finally bids farewell to Joe and returns to the embassy. Joe
 decides not to write the story.
 
-Roman Holiday is a cinematic treasure. The film earned an estimated 3 million dollars at theNorth American box office during its first year of release.
+Roman Holiday is a cinematic treasure. The film earned an estimated 3 million dollars at the North American box office during its first year of release.
 
 <div STYLE="page-break-after: always;"></div>
 
@@ -159,9 +159,9 @@ Forrest's birth in 1944 and 1982.
 In the film, Forrest teaches Elvis Presley to dance, becomes a football star, meets John F. Kennedy, serves with honor in Vietnam, speaks at an anti-war rally at the Washington
 Monument, hangs out with the Yuppies, defeats the Chinese national team in table tennis, meets Richard Nixon, discovers the break-in at the Watergate, opens a profitable shrimping
 business, becomes an original investor in Apple computers, and to run back and forth across
-the country for several years. After experiencing some of the most significant events inAmerican history, all he really wants is to be with the woman he loves, Jenny.
+the country for several years. After experiencing some of the most significant events in American history, all he really wants is to be with the woman he loves, Jenny.
 
-Just like the famous sayings in the movie: "Life is like a box of chocolates. You never knowwhat you're gonna get." In face of the sudden change in life, fortunate or unfortunate, howmany people could always keep the inner peace and pursue for the first dream like Forrest?
+Just like the famous sayings in the movie: "Life is like a box of chocolates. You never know what you're gonna get." In face of the sudden change in life, fortunate or unfortunate, how many people could always keep the inner peace and pursue for the first dream like Forrest?
 
 <div STYLE="page-break-after: always;"></div>
 
@@ -182,19 +182,19 @@ line "After all, tomorrow is another day." is the best expression of her optimis
 better life. The leading role Vivien Leigh shows gorgeous, capricious, elegant characteristics
 of Scarlett perfectly.
 
-The film received positive reviews upon its release in December 1939. At the 12th AcademyAwards held in 1940, it received ten Academy Awards from thirteen nominations, includingwins for Best Picture, Best Director (Victor Fleming), Best Actress (Vivien Leigh).
+The film received positive reviews upon its release in December 1939. At the 12th Academy Awards held in 1940, it received ten Academy Awards from thirteen nominations, including wins for Best Picture, Best Director (Victor Fleming), Best Actress (Vivien Leigh).
 
 <div STYLE="page-break-after: always;"></div>
 
 ## Avatar《阿凡达》
 
-_Avatar_ is an American epic science fiction premiered in 2009. It broke several boxoffice records and became the highest-grossing film of all time, as well as in theUnited States and Canada, surpassing _Titanic_ which was also directed by James Cameron.
+_Avatar_ is an American epic science fiction premiered in 2009. It broke several box office records and became the highest-grossing film of all time, as well as in the United States and Canada, surpassing _Titanic_ which was also directed by James Cameron.
 
 
-By 2154, natural resources are scarce on Earth. The Resources Development Administration mines on Pandora, whose atmosphere is poisonous to humans. TheNa’vi, 10-foot tall, blue-skinned humanoids inhabit there. To explore pandora’sbiosphere, scientists use Na’vi-human hybrids called “avatars”, operated bygenetically matched humans. Against this background, Jake Sully (starred by SamWorthington), paraplegic former marine, is found by RDA to replace his brother tofinish the mission to research on Navi’s ways in order to relocate them.
+By 2154, natural resources are scarce on Earth. The Resources Development Administration mines on Pandora, whose atmosphere is poisonous to humans. The Na’vi, 10-foot tall, blue-skinned humanoids inhabit there. To explore pandora’s biosphere, scientists use Na’vi-human hybrids called “avatars”, operated by genetically matched humans. Against this background, Jake Sully (starred by Sam Worthington), paraplegic former marine, is found by RDA to replace his brother to finish the mission to research on Navi’s ways in order to relocate them.
 
 
-During one mission, he is rescued by Neytiri, the daughter of the clan’s spiritualleader. He gets to know more about Pandora. It is contradictory for him to decidewhich side he should fight for. Finally, under the leadership of Jake, the clan unitestogether to battle against the RDA. After that, with the exception of Jake, Max, Normand a few other scientists, all humans are expelled from Pandora and sent back toEarth and Jake is transferred permanently into his avatar. Avatar is primarily anaction-adventure journey of self-discovery, in the context of imperialism and deepecology.
+During one mission, he is rescued by Neytiri, the daughter of the clan’s spiritual leader. He gets to know more about Pandora. It is contradictory for him to decide which side he should fight for. Finally, under the leadership of Jake, the clan unites together to battle against the RDA. After that, with the exception of Jake, Max, Norm and a few other scientists, all humans are expelled from Pandora and sent back to Earth and Jake is transferred permanently into his avatar. Avatar is primarily an action-adventure journey of self-discovery, in the context of imperialism and deep ecology.
 
 
 
