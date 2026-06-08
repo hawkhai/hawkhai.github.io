@@ -184,6 +184,18 @@ of Scarlett perfectly.
 
 The film received positive reviews upon its release in December 1939. At the 12th AcademyAwards held in 1940, it received ten Academy Awards from thirteen nominations, includingwins for Best Picture, Best Director (Victor Fleming), Best Actress (Vivien Leigh).
 
+<div STYLE="page-break-after: always;"></div>
+
+## Avatar《阿凡达》
+
+_Avatar_ is an American epic science fiction premiered in 2009. It broke several boxoffice records and became the highest-grossing film of all time, as well as in theUnited States and Canada, surpassing _Titanic_ which was also directed by James Cameron.
+
+
+By 2154, natural resources are scarce on Earth. The Resources Development Administration mines on Pandora, whose atmosphere is poisonous to humans. TheNa’vi, 10-foot tall, blue-skinned humanoids inhabit there. To explore pandora’sbiosphere, scientists use Na’vi-human hybrids called “avatars”, operated bygenetically matched humans. Against this background, Jake Sully (starred by SamWorthington), paraplegic former marine, is found by RDA to replace his brother tofinish the mission to research on Navi’s ways in order to relocate them.
+
+
+During one mission, he is rescued by Neytiri, the daughter of the clan’s spiritualleader. He gets to know more about Pandora. It is contradictory for him to decidewhich side he should fight for. Finally, under the leadership of Jake, the clan unitestogether to battle against the RDA. After that, with the exception of Jake, Max, Normand a few other scientists, all humans are expelled from Pandora and sent back toEarth and Jake is transferred permanently into his avatar. Avatar is primarily anaction-adventure journey of self-discovery, in the context of imperialism and deepecology.
+
 
 
 <hr class='reviewline'/>

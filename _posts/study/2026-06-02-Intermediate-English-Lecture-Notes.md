@@ -116,6 +116,21 @@ The film received positive reviews upon its release in December 1939. At the 12t
 
 该影片自 1939 年上映以来得到了积极的反响。在 1940 年第 12 届奥斯卡颁奖典礼上，它获得了 13 个奖项提名，并最终获得了 10 个奖项，其中包括最佳影片奖、最佳导演奖（维克多 · 弗莱明）和最佳女演员奖（费雯 · 丽）。
 
+<div STYLE="page-break-after: always;"></div>
+
+## Avatar《阿凡达》
+
+_Avatar_ is an American epic science fiction premiered in 2009. It broke several boxoffice records and became the highest-grossing film of all time, as well as in theUnited States and Canada, surpassing _Titanic_ which was also directed by James Cameron.
+
+《阿凡达》是2009年上映的一部美国史诗级别的科幻电影，在美国和加拿大打破几项票房纪录，成为有史以来票房收入最高的电影，超越了同样由詹姆斯·卡梅隆执导的电影《泰坦尼克号》。
+
+By 2154, natural resources are scarce on Earth. The Resources Development Administration mines on Pandora, whose atmosphere is poisonous to humans. TheNa’vi, 10-foot tall, blue-skinned humanoids inhabit there. To explore pandora’sbiosphere, scientists use Na’vi-human hybrids called “avatars”, operated bygenetically matched humans. Against this background, Jake Sully (starred by SamWorthington), paraplegic former marine, is found by RDA to replace his brother tofinish the mission to research on Navi’s ways in order to relocate them.
+
+到2154年，地球上的自然资源已十分稀缺。资源开发局在潘多拉星球上开采资源。潘多拉星球的大气对人类有害。身高10英尺、蓝色皮肤的纳威人住在潘多拉星球上。为了探索潘多拉生物圈，科学家把人类基因和纳威人的基因结合在一起，制造了克隆纳威人，叫作“阿凡达”。只有基因与该克隆人相配的人可以操控克隆人。 在这个背景下，杰克·萨利（萨姆·沃辛顿饰演），一名身患截瘫的退伍海军，被资源开发局找到以接替他的哥哥完成这项任务——调查纳威人的行为方式，为他们重新安排住所。
+
+During one mission, he is rescued by Neytiri, the daughter of the clan’s spiritualleader. He gets to know more about Pandora. It is contradictory for him to decidewhich side he should fight for. Finally, under the leadership of Jake, the clan unitestogether to battle against the RDA. After that, with the exception of Jake, Max, Normand a few other scientists, all humans are expelled from Pandora and sent back toEarth and Jake is transferred permanently into his avatar. Avatar is primarily anaction-adventure journey of self-discovery, in the context of imperialism and deepecology.
+
+在一次任务中，杰克被纳威族精神领袖的女儿奈蒂丽救助，他得以对潘多拉星球有更深的了解。杰克十分矛盾，不知道他应该帮助哪一方。最终，在杰克的领导下，潘多拉部落联合抗击资源开发局。那场战役之后，除了杰克、麦克斯、诺姆和其他一些科学家，所有的人类都被驱逐出潘多拉星球返回地球。杰克永远地转化为阿凡达。《阿凡达》是在帝国主义和深层次生态主义背景下的一部关于自我发现的探险历程的电影。
 
 
 <hr class='reviewline'/>
