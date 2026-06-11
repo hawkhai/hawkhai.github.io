@@ -186,13 +186,12 @@ The film received positive reviews upon its release in December 1939. At the 12t
 
 <div STYLE="page-break-after: always;"></div>
 
+
 ## Avatar《阿凡达》
 
 _Avatar_ is an American epic science fiction premiered in 2009. It broke several box office records and became the highest-grossing film of all time, as well as in the United States and Canada, surpassing _Titanic_ which was also directed by James Cameron.
 
-
 By 2154, natural resources are scarce on Earth. The Resources Development Administration mines on Pandora, whose atmosphere is poisonous to humans. The Na’vi, 10-foot tall, blue-skinned humanoids inhabit there. To explore pandora’s biosphere, scientists use Na’vi-human hybrids called “avatars”, operated by genetically matched humans. Against this background, Jake Sully (starred by Sam Worthington), paraplegic former marine, is found by RDA to replace his brother to finish the mission to research on Navi’s ways in order to relocate them.
-
 
 During one mission, he is rescued by Neytiri, the daughter of the clan’s spiritual leader. He gets to know more about Pandora. It is contradictory for him to decide which side he should fight for. Finally, under the leadership of Jake, the clan unites together to battle against the RDA. After that, with the exception of Jake, Max, Norm and a few other scientists, all humans are expelled from Pandora and sent back to Earth and Jake is transferred permanently into his avatar. Avatar is primarily an action-adventure journey of self-discovery, in the context of imperialism and deep ecology.
 
