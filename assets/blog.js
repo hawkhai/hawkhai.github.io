@@ -289,9 +289,18 @@ function checkHrefTagk() {
         var $this = $(this);
         var href = $this.find("> img.domaintag");
         if (!href.length) {
-            $this.addClass("ahref_withimg");
             var textv = $this.html();
             var hrefv = $this.attr("href");
+            if (textv.indexOf(hrefv) == -1) {
+                var host = getHostName(hrefv);
+                if (host.indexOf("sunocean.life") == 0) {
+                    return;
+                }
+                if (host.indexOf("hawkhai.com") == 0) {
+                    return;
+                }
+            }
+            $this.addClass("ahref_withimg");
             if (textv.indexOf(hrefv) == -1) {
                 var host = getHostName(hrefv);
                 if (host.indexOf("www.") == 0) {
