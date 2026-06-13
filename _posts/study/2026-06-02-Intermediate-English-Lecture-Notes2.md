@@ -15,7 +15,7 @@ glslcanvas:
 codeprint:
 date: 2025-10-11 01:50:53 +0800
 archived:
-layoutclear: 
+layoutclear:
 ---
 
 <style>
@@ -112,7 +112,7 @@ layoutclear:
 }
 </style>
 
-<a href="https://sunocean.life/wordtap/" target="_blank" style="display:inline-block;font-size:3em;font-weight:800;text-decoration:none;line-height:1.4;background:linear-gradient(90deg,#FF6B6B,#feca57,#48dbfb);-webkit-background-clip:text;background-clip:text;color:transparent;animation:pulse 2s infinite;transition:.2s ease;cursor:pointer" onmouseover="this.style.transform='scale(1.08)';this.style.textShadow='0 6px 20px rgba(0,0,0,.25)'" onmouseout="this.style.transform='scale(1)';this.style.textShadow='none'" onmousedown="this.style.transform='scale(.95)'" onmouseup="this.style.transform='scale(1.08)'">WordTap.cn<span style="display:block;font-size:.45em;font-weight:500;margin-top:4px;background:linear-gradient(90deg,#a29bfe,#fd79a8);-webkit-background-clip:text;background-clip:text;color:transparent;animation:float 2.5s ease-in-out infinite">&nbsp;贴入英文，点词听读 👉</span></a><style>@keyframes pulse{0%,100%{text-shadow:0 0 0 transparent}50%{text-shadow:0 0 12px rgba(255,107,107,.35)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}</style>
+<a href="https://sunocean.life/wordtap/" target="_blank" style="display:inline-block;font-size:3em;font-weight:800;text-decoration:none;line-height:1.4;background:linear-gradient(90deg,#FF6B6B,#feca57,#48dbfb);-webkit-background-clip:text;background-clip:text;color:transparent;animation:pulse 2s infinite;transition:.2s ease;cursor:pointer" onmouseover="this.style.transform='scale(1.08)';this.style.textShadow='0 6px 20px rgba(0,0,0,.25)'" onmouseout="this.style.transform='scale(1)';this.style.textShadow='none'" onmousedown="this.style.transform='scale(.95)'" onmouseup="this.style.transform='scale(1.08)'">WordTap.cn<span style="display:block;font-size:.45em;font-weight:500;margin-top:4px;background:linear-gradient(90deg,#a29bfe,#fd79a8);-webkit-background-clip:text;background-clip:text;color:transparent;animation:float 2.5s ease-in-out infinite">&nbsp; 贴入英文，点词听读 👉</span></a><style>@keyframes pulse{0%,100%{text-shadow:0 0 0 transparent}50%{text-shadow:0 0 12px rgba(255,107,107,.35)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}</style>
 
 
 ## The Pursuit of Happiness《当幸福来敲门》

@@ -15,7 +15,7 @@ glslcanvas:
 codeprint:
 date: 2025-10-11 01:50:53 +0800
 archived:
-layoutclear: 
+layoutclear:
 ---
 
 <style>
@@ -112,8 +112,7 @@ layoutclear:
 }
 </style>
 
-<a href="https://sunocean.life/wordtap/" target="_blank" style="display:inline-block;font-size:3em;font-weight:800;text-decoration:none;line-height:1.4;background:linear-gradient(90deg,#FF6B6B,#feca57,#48dbfb);-webkit-background-clip:text;background-clip:text;color:transparent;animation:pulse 2s infinite;transition:.2s ease;cursor:pointer" onmouseover="this.style.transform='scale(1.08)';this.style.textShadow='0 6px 20px rgba(0,0,0,.25)'" onmouseout="this.style.transform='scale(1)';this.style.textShadow='none'" onmousedown="this.style.transform='scale(.95)'" onmouseup="this.style.transform='scale(1.08)'">WordTap.cn<span style="display:block;font-size:.45em;font-weight:500;margin-top:4px;background:linear-gradient(90deg,#a29bfe,#fd79a8);-webkit-background-clip:text;background-clip:text;color:transparent;animation:float 2.5s ease-in-out infinite">&nbsp;贴入英文，点词听读 👉</span></a><style>@keyframes pulse{0%,100%{text-shadow:0 0 0 transparent}50%{text-shadow:0 0 12px rgba(255,107,107,.35)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}</style>
-
+<a href="https://sunocean.life/wordtap/" target="_blank" style="display:inline-block;font-size:3em;font-weight:800;text-decoration:none;line-height:1.4;background:linear-gradient(90deg,#FF6B6B,#feca57,#48dbfb);-webkit-background-clip:text;background-clip:text;color:transparent;animation:pulse 2s infinite;transition:.2s ease;cursor:pointer" onmouseover="this.style.transform='scale(1.08)';this.style.textShadow='0 6px 20px rgba(0,0,0,.25)'" onmouseout="this.style.transform='scale(1)';this.style.textShadow='none'" onmousedown="this.style.transform='scale(.95)'" onmouseup="this.style.transform='scale(1.08)'">WordTap.cn<span style="display:block;font-size:.45em;font-weight:500;margin-top:4px;background:linear-gradient(90deg,#a29bfe,#fd79a8);-webkit-background-clip:text;background-clip:text;color:transparent;animation:float 2.5s ease-in-out infinite">&nbsp; 贴入英文，点词听读 👉</span></a><style>@keyframes pulse{0%,100%{text-shadow:0 0 0 transparent}50%{text-shadow:0 0 12px rgba(255,107,107,.35)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}</style>
 
 
 ## Caesar Salad 恺撒沙拉
@@ -121,18 +120,19 @@ layoutclear:
 A Caesar salad is salad of romaine lettuce and croutons dressed with parmesan cheese, lemon juice, olive oil, egg, Worcestershire sauce, garlic, and black pepper. Caesar
 dressing is the key to a Caesar salad. Parmesan cheese can also be replaced by Asiago. The original Caesar salad recipe did not contain pieces of anchovy; the slight anchovy
 flavor comes from the Worcestershire sauce. It is often prepared tableside and
-traditionally prepared in a wooden bowl. 
+traditionally prepared in a wooden bowl.
 
 The salad’s creation is generally attributed to restaurateur Caesar Cardini, an Italian
 immigrant who operated restaurants in Mexico and the United States. His daughter
 Rosa (1928-2003) recounted that her father invented the dish when a Fourth of July
 1924 rush depleted the kitchen’s supplies. Cardini made do with what he had, adding
 the dramatic flair of the table-side tossing "by the chef". This story is not certifiable
-however it very well could have happened. The salad soon became a hit. In 1948, Cardini began to sell the dressing commercially under the name of Cardini’s. 
+however it very well could have happened. The salad soon became a hit. In 1948, Cardini began to sell the dressing commercially under the name of Cardini’s.
 
 Nowadays, many variations of the salad exist for example, by topping a Caesar salad
-with grilled chicken, steak, or seafood. Certain Mexican restaurants may improvise onitems such as substituting tortilla strips for croutons. 
+with grilled chicken, steak, or seafood. Certain Mexican restaurants may improvise onitems such as substituting tortilla strips for croutons.
+
 
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-06-02-Intermediate-English-Lecture-Notes2.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-06-02-Intermediate-English-Lecture-Notes3.md.js" %}'></script></p>
