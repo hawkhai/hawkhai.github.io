@@ -133,6 +133,16 @@ Nowadays, many variations of the salad exist for example, by topping a Caesar sa
 with grilled chicken, steak, or seafood. Certain Mexican restaurants may improvise on items such as substituting tortilla strips for croutons.
 
 
+## Chicago Style Hot Dog 芝加哥热狗
+
+A Chicago-style hot dog, also called Chicago Dog or Chicago Red Hot, is an all-beef frankfurter on a poppy seed bun, originating from the city of Chicago, Illinois. The hot dog is topped with yellow mustard, chopped white onions, bright green sweet
+pickle relish, a dill pickle spear, tomato slices or wedges, pickled sport peppers and a dash of celery salt. The complete assembly of Chicago hot dog is said to be "dragged through the garden" due to the many toppings. The canonical recipe of Chicago hot dog does not include ketchup, and there is a widely shared, strong opinion among many Chicagoans that ketchup is unacceptable. A number of Chicago hot dog vendors do not offer ketchup as a condiment.
+
+The "dragged through the garden" style is heavily promoted by Vienna Beef and Red Hot Chicago, the two most prominent Chicago hot dog manufacturers. Several popular hot dog stands serve a simpler version: a steamed natural-casing dog with only mustard, onions, plain relish and sport peppers, wrapped up with hand-cut French fries. Many vendors offer Chicago-style dog with cheese sauce, known as cheese dog.
+
+Hot dogs are American’s favorite foods and regarded as a fun food by most Americans. In America, sports and hot dogs go together like cookies and milk. People usually eat hot dogs while watching sports, which is an American tradition with a long history.
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-06-02-Intermediate-English-Lecture-Notes3.md.js" %}'></script></p>
