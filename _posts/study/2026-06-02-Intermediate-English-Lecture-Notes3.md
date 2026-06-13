@@ -130,7 +130,7 @@ the dramatic flair of the table-side tossing "by the chef". This story is not ce
 however it very well could have happened. The salad soon became a hit. In 1948, Cardini began to sell the dressing commercially under the name of Cardini’s.
 
 Nowadays, many variations of the salad exist for example, by topping a Caesar salad
-with grilled chicken, steak, or seafood. Certain Mexican restaurants may improvise onitems such as substituting tortilla strips for croutons.
+with grilled chicken, steak, or seafood. Certain Mexican restaurants may improvise on items such as substituting tortilla strips for croutons.
 
 
 

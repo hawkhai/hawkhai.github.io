@@ -155,7 +155,7 @@ _Forrest Gump_, on the basis of the 1986 novel of the same name by Winston Groom
 American romantic-comedy-drama film. The story depicts several decades in the life of
 Forrest Gump, a slow-witted and naive, but good-hearted and athletically prodigious man
 from Alabama who witnesses, and in some cases influences, some of the defining events of
-the latter half of the 20th century in the United States. More specifically , the period between
+the latter half of the 20th century in the United States. More specifically, the period between
 Forrest's birth in 1944 and 1982.
 
 In the film, Forrest teaches Elvis Presley to dance, becomes a football star, meets John F. Kennedy, serves with honor in Vietnam, speaks at an anti-war rally at the Washington
@@ -171,7 +171,7 @@ Just like the famous sayings in the movie: "Life is like a box of chocolates. Yo
 ## Gone with the Wind《乱世佳人》
 
 _Gone with the Wind_ is a 1939 American epic historical romance film adapted from Margaret
-Mitchell's Pulitzer-winning 1936 novel. It was directed by Victor Fleming. Set in the 19th- century American South, the film tells the story of Scarlett O'Hara, the strong-willed daughter
+Mitchell's Pulitzer-winning 1936 novel. It was directed by Victor Fleming. Set in the 19th-century American South, the film tells the story of Scarlett O'Hara, the strong-willed daughter
 of a Georgia plantation owner, from her romantic pursuit of Ashley Wikes, who is married to
 another kind-hearted woman, Malanie Hamilton, to her marriage to Rhett Butler.
 
