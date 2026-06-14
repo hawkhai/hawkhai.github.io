@@ -143,6 +143,23 @@ The "dragged through the garden" style is heavily promoted by Vienna Beef and Re
 Hot dogs are American’s favorite foods and regarded as a fun food by most Americans. In America, sports and hot dogs go together like cookies and milk. People usually eat hot dogs while watching sports, which is an American tradition with a long history.
 
 
+## Fish and Chips 炸鱼薯条
+
+Fish and chips, a hot dish of English origin, consist of battered fish, commonly Atlantic cod or haddock, and deep-fried chips. It is a common take-away food in England.
+
+The dish became popular in wider circles in London and South East England in the
+middle of the 19th century as a consequence of the rapid development of trawl fishing
+in the North Sea, and the development of railways which connected the ports to major
+industrial cities. Traditional frying uses beef dripping or lard; however, vegetable oils, such as peanut oil (used because of its relatively high smoke point) now predominate. In chip shops in the United Kingdom and Ireland, salt and vinegar is traditionally
+sprinkled over fish and chips at the time it is served. A portion of mushy peas is a
+popular side dish.
+
+In the United Kingdom, Ireland, Australia, Canada, New Zealand and South Africa, Fish and chips usually sell through independent restaurants and take-aways known as
+fish and chip shops. These shops reach staggering 35,000 in the 1930’s leveling to
+around 11,000 now. The record for the largest number of portions sold in one day by
+an independent fish and chip shop is over 4,000.
+
+
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-06-02-Intermediate-English-Lecture-Notes3.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-06-02-Intermediate-English-Lecture-Notes2.md.js" %}'></script></p>
