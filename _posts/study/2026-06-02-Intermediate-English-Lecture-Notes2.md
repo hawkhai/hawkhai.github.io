@@ -115,89 +115,34 @@ layoutclear:
 <a href="https://sunocean.life/wordtap/" target="_blank" style="display:inline-block;font-size:3em;font-weight:800;text-decoration:none;line-height:1.4;background:linear-gradient(90deg,#FF6B6B,#feca57,#48dbfb);-webkit-background-clip:text;background-clip:text;color:transparent;animation:pulse 2s infinite;transition:.2s ease;cursor:pointer" onmouseover="this.style.transform='scale(1.08)';this.style.textShadow='0 6px 20px rgba(0,0,0,.25)'" onmouseout="this.style.transform='scale(1)';this.style.textShadow='none'" onmousedown="this.style.transform='scale(.95)'" onmouseup="this.style.transform='scale(1.08)'">WordTap.cn<span style="display:block;font-size:.45em;font-weight:500;margin-top:4px;background:linear-gradient(90deg,#a29bfe,#fd79a8);-webkit-background-clip:text;background-clip:text;color:transparent;animation:float 2.5s ease-in-out infinite">&nbsp; 贴入英文，点词听读 👉</span></a><style>@keyframes pulse{0%,100%{text-shadow:0 0 0 transparent}50%{text-shadow:0 0 12px rgba(255,107,107,.35)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}</style>
 
 
-## The Pursuit of Happiness《当幸福来敲门》
+## Caesar Salad 恺撒沙拉
 
-_The Pursuit of Happiness_ is a 2006 American biographical drama film inspired by a true story, that of Chris Gardner, who was among working homeless in th early 1980s and managed to
-pull himself up by the bootstraps. William Smith features in the film as Chris Gardner and
-Will's son Jadon Smith co-stars as Gardner's son Christopher Jr.
+A Caesar salad is salad of romaine lettuce and croutons dressed with parmesan cheese, lemon juice, olive oil, egg, Worcestershire sauce, garlic, and black pepper. Caesar
+dressing is the key to a Caesar salad. Parmesan cheese can also be replaced by Asiago. The original Caesar salad recipe did not contain pieces of anchovy; the slight anchovy
+flavor comes from the Worcestershire sauce. It is often prepared tableside and
+traditionally prepared in a wooden bowl.
 
-Chris Gardner is a bright and talented, but marginally employed salesman. Struggling to make ends meet, Gardener finds himself and his five-year-old son evicted from their San Francisco apartment with nowhere to go. Nevertheless, he keeps in pursuit of his dream of a better life for the two of them. Finally, his effort has paid off and he gets the position. Upon hearing the news, Chris rushes to his son's daycare, hugging him tightly.
+The salad’s creation is generally attributed to restaurateur Caesar Cardini, an Italian
+immigrant who operated restaurants in Mexico and the United States. His daughter
+Rosa (1928-2003) recounted that her father invented the dish when a Fourth of July
+1924 rush depleted the kitchen’s supplies. Cardini made do with what he had, adding
+the dramatic flair of the table-side tossing "by the chef". This story is not certifiable
+however it very well could have happened. The salad soon became a hit. In 1948, Cardini began to sell the dressing commercially under the name of Cardini’s.
 
-The film has received numerous good views upon its release. The tough beauty of the picture is that it lets each viewer weigh the costs and benefits to Gardner. It's a genuinely transporting inspirational movie because it's also a cautionary tale. It does not downplay the hero's occasional clumsiness or pigheadedness. For his performance, Will Smith was nominated for an Academy Award and a Golden Globe for Best Actor.
-
-<div STYLE="page-break-after: always;"></div>
-
-
-## Roman Holiday《罗马假日》
-
-_Roman Holiday_ is a Romantic comedy released in 1953 by Paramount Pictures. It stars
-Gregory Peek as a reporter and Audrey Hepburn as a royal princess of some unspecified
-European country. It is directed by William Wyler who still has a record of more people
-getting to the Oscar sweeptakers for his films than any other director. Hepburn won an
-Academy Award for Best Actress for her performance; the screenplay and costume design
-also won.
-
-Anne, the crown princess, embarks on a highly publicized tour of European capitals. When
-she and her royal entourage arrive in Rome, she begins to rebel against her restricted schedule. One night Anne sneaks out to her room, hops into the back of a delivery truck and escapes. She runs into an American newspaper reporter, Joe Bradley, stationed in Rome. In order to
-make an exclusive interview with the princess, Joe pretends that he doesn't recognize her and
-offers to give her a guided tour of Rome. Through all this, Joe falls in love with her. But a
-relationship is impossible. Anne finally bids farewell to Joe and returns to the embassy. Joe
-decides not to write the story.
-
-Roman Holiday is a cinematic treasure. The film earned an estimated 3 million dollars at the North American box office during its first year of release.
-
-<div STYLE="page-break-after: always;"></div>
+Nowadays, many variations of the salad exist for example, by topping a Caesar salad
+with grilled chicken, steak, or seafood. Certain Mexican restaurants may improvise on items such as substituting tortilla strips for croutons.
 
 
-## Forrest Gump《阿甘正传》
+## Chicago Style Hot Dog 芝加哥热狗
 
-_Forrest Gump_, on the basis of the 1986 novel of the same name by Winston Groom, is a 1994
-American romantic-comedy-drama film. The story depicts several decades in the life of
-Forrest Gump, a slow-witted and naive, but good-hearted and athletically prodigious man
-from Alabama who witnesses, and in some cases influences, some of the defining events of
-the latter half of the 20th century in the United States. More specifically, the period between
-Forrest's birth in 1944 and 1982.
+A Chicago-style hot dog, also called Chicago Dog or Chicago Red Hot, is an all-beef frankfurter on a poppy seed bun, originating from the city of Chicago, Illinois. The hot dog is topped with yellow mustard, chopped white onions, bright green sweet
+pickle relish, a dill pickle spear, tomato slices or wedges, pickled sport peppers and a dash of celery salt. The complete assembly of Chicago hot dog is said to be "dragged through the garden" due to the many toppings. The canonical recipe of Chicago hot dog does not include ketchup, and there is a widely shared, strong opinion among many Chicagoans that ketchup is unacceptable. A number of Chicago hot dog vendors do not offer ketchup as a condiment.
 
-In the film, Forrest teaches Elvis Presley to dance, becomes a football star, meets John F. Kennedy, serves with honor in Vietnam, speaks at an anti-war rally at the Washington
-Monument, hangs out with the Yuppies, defeats the Chinese national team in table tennis, meets Richard Nixon, discovers the break-in at the Watergate, opens a profitable shrimping
-business, becomes an original investor in Apple computers, and to run back and forth across
-the country for several years. After experiencing some of the most significant events in American history, all he really wants is to be with the woman he loves, Jenny.
+The "dragged through the garden" style is heavily promoted by Vienna Beef and Red Hot Chicago, the two most prominent Chicago hot dog manufacturers. Several popular hot dog stands serve a simpler version: a steamed natural-casing dog with only mustard, onions, plain relish and sport peppers, wrapped up with hand-cut French fries. Many vendors offer Chicago-style dog with cheese sauce, known as cheese dog.
 
-Just like the famous sayings in the movie: "Life is like a box of chocolates. You never know what you're gonna get." In face of the sudden change in life, fortunate or unfortunate, how many people could always keep the inner peace and pursue for the first dream like Forrest?
-
-<div STYLE="page-break-after: always;"></div>
-
-
-## Gone with the Wind《乱世佳人》
-
-_Gone with the Wind_ is a 1939 American epic historical romance film adapted from Margaret
-Mitchell's Pulitzer-winning 1936 novel. It was directed by Victor Fleming. Set in the 19th-century American South, the film tells the story of Scarlett O'Hara, the strong-willed daughter
-of a Georgia plantation owner, from her romantic pursuit of Ashley Wikes, who is married to
-another kind-hearted woman, Malanie Hamilton, to her marriage to Rhett Butler.
-
-The film shows incisively and vividly how Americans struggle in adversity, the pursuit of
-personal independence, dignity, love, optimism and enterprising national spirit. Scarlett, the
-little woman grown up in a middle-class family, has experienced a series of huge difficulties
-and setbacks, like civil war, the reconstruction, the death of daughter, losing her beloved ones
-and so on. But she seldom shows timidity and overcomes the adversities again and again. The
-line "After all, tomorrow is another day." is the best expression of her optimism to strive for a
-better life. The leading role Vivien Leigh shows gorgeous, capricious, elegant characteristics
-of Scarlett perfectly.
-
-The film received positive reviews upon its release in December 1939. At the 12th Academy Awards held in 1940, it received ten Academy Awards from thirteen nominations, including wins for Best Picture, Best Director (Victor Fleming), Best Actress (Vivien Leigh).
-
-<div STYLE="page-break-after: always;"></div>
-
-
-## Avatar《阿凡达》
-
-_Avatar_ is an American epic science fiction premiered in 2009. It broke several box office records and became the highest-grossing film of all time, as well as in the United States and Canada, surpassing _Titanic_ which was also directed by James Cameron.
-
-By 2154, natural resources are scarce on Earth. The Resources Development Administration mines on Pandora, whose atmosphere is poisonous to humans. The Na’vi, 10-foot tall, blue-skinned humanoids inhabit there. To explore pandora’s biosphere, scientists use Na’vi-human hybrids called “avatars”, operated by genetically matched humans. Against this background, Jake Sully (starred by Sam Worthington), paraplegic former marine, is found by RDA to replace his brother to finish the mission to research on Navi’s ways in order to relocate them.
-
-During one mission, he is rescued by Neytiri, the daughter of the clan’s spiritual leader. He gets to know more about Pandora. It is contradictory for him to decide which side he should fight for. Finally, under the leadership of Jake, the clan unites together to battle against the RDA. After that, with the exception of Jake, Max, Norm and a few other scientists, all humans are expelled from Pandora and sent back to Earth and Jake is transferred permanently into his avatar. Avatar is primarily an action-adventure journey of self-discovery, in the context of imperialism and deep ecology.
+Hot dogs are American’s favorite foods and regarded as a fun food by most Americans. In America, sports and hot dogs go together like cookies and milk. People usually eat hot dogs while watching sports, which is an American tradition with a long history.
 
 
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-06-02-Intermediate-English-Lecture-Notes2.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-06-02-Intermediate-English-Lecture-Notes3.md.js" %}'></script></p>
