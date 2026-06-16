@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "学习 -- Intermediate English Lecture Notes1"
+title: "学习 -- Intermediate English Lecture Movies"
 author: qhai
 location: "珠海"
 categories: ["学习"]

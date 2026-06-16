@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "学习 -- Intermediate English Lecture Notes2"
+title: "学习 -- Intermediate English Lecture Foods"
 author: qhai
 location: "珠海"
 categories: ["学习"]
@@ -158,6 +158,25 @@ In the United Kingdom, Ireland, Australia, Canada, New Zealand and South Africa,
 fish and chip shops. These shops reach staggering 35,000 in the 1930’s leveling to
 around 11,000 now. The record for the largest number of portions sold in one day by
 an independent fish and chip shop is over 4,000.
+
+
+## French Bread 法式面包
+
+French bread is the ideal representative of French cuisine. The French are known for
+their culinary expertise. Though difficult to believe, a national law in France directs
+that French bread should contain only combinations of flour, yeast , salt and water. This is an example of the seriousness with which the French treat their food.
+
+Today, French bread is bread made from white wheat flour. This gives the bread a
+strong and chewy crust and an interior full of bubbles due to the use of sourdough
+starters to prepare the bread. The French believe in having their bread fresh and most
+bakeries make fresh bread for breakfast, lunch, dinner or a late-night snack. Today
+with globalization, French bread is being prepared across the world.
+
+French bread is a much loved dinner component. Its crusty top makes it more
+delicious and adds pleasure at the dining table. The French baguette is of a definite
+shape of the bread with a recommended length with the same type of crispy crust and
+slits for appropriate movement of gases creating the crumbs and the soft inside thebread.
+French bread is really good for health too as the French food industry has a rulewhere no preservatives are used to make French bread. As a result, the bread can gostale very fast as compared to other commercially prepared foods.
 
 
 
