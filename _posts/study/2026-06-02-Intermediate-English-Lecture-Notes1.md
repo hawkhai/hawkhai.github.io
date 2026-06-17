@@ -115,30 +115,30 @@ layoutclear:
 <a href="https://sunocean.life/wordtap/" target="_blank" style="display:inline-block;font-size:3em;font-weight:800;text-decoration:none;line-height:1.4;background:linear-gradient(90deg,#FF6B6B,#feca57,#48dbfb);-webkit-background-clip:text;background-clip:text;color:transparent;animation:pulse 2s infinite;transition:.2s ease;cursor:pointer" onmouseover="this.style.transform='scale(1.08)';this.style.textShadow='0 6px 20px rgba(0,0,0,.25)'" onmouseout="this.style.transform='scale(1)';this.style.textShadow='none'" onmousedown="this.style.transform='scale(.95)'" onmouseup="this.style.transform='scale(1.08)'">WordTap.cn<span style="display:block;font-size:.45em;font-weight:500;margin-top:4px;background:linear-gradient(90deg,#a29bfe,#fd79a8);-webkit-background-clip:text;background-clip:text;color:transparent;animation:float 2.5s ease-in-out infinite">&nbsp; 贴入英文，点词听读 👉</span></a><style>@keyframes pulse{0%,100%{text-shadow:0 0 0 transparent}50%{text-shadow:0 0 12px rgba(255,107,107,.35)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}</style>
 
 
-## The Pursuit of Happiness 《当幸福来敲门》
+## The Pursuit of Happyness 《当幸福来敲门》
 
-_The Pursuit of Happiness_ is a 2006 American biographical drama film inspired by a true story, that of Chris Gardner, who was among working homeless in the early 1980s and managed to
-pull himself up by the bootstraps. William Smith features in the film as Chris Gardner and
-Will's son Jadon Smith co-stars as Gardner's son Christopher Jr.
+_The Pursuit of Happyness_ is a 2006 American biographical drama film inspired by a true story, that of Chris Gardner, who was among the working homeless in the early 1980s and managed to
+pull himself up by the bootstraps. Will Smith features in the film as Chris Gardner and
+Will's son Jaden Smith co-stars as Gardner's son Christopher Jr.
 
-Chris Gardner is a bright and talented, but marginally employed salesman. Struggling to make ends meet, Gardener finds himself and his five-year-old son evicted from their San Francisco apartment with nowhere to go. Nevertheless, he keeps in pursuit of his dream of a better life for the two of them. Finally, his effort has paid off and he gets the position. Upon hearing the news, Chris rushes to his son's daycare, hugging him tightly.
+Chris Gardner is a bright and talented, but marginally employed salesman. Struggling to make ends meet, Gardner finds himself and his five-year-old son evicted from their San Francisco apartment with nowhere to go. Nevertheless, he keeps in pursuit of his dream of a better life for the two of them. Finally, his effort has paid off and he gets the position. Upon hearing the news, Chris rushes to his son's daycare, hugging him tightly.
 
-The film has received numerous good views upon its release. The tough beauty of the picture is that it lets each viewer weigh the costs and benefits to Gardner. It's a genuinely transporting inspirational movie because it's also a cautionary tale. It does not downplay the hero's occasional clumsiness or pigheadedness. For his performance, Will Smith was nominated for an Academy Award and a Golden Globe for Best Actor.
+The film received numerous good reviews upon its release. The tough beauty of the picture is that it lets each viewer weigh the costs and benefits to Gardner. It's a genuinely transporting inspirational movie because it's also a cautionary tale. It does not downplay the hero's occasional clumsiness or pigheadedness. For his performance, Will Smith was nominated for an Academy Award and a Golden Globe for Best Actor.
 
 <div STYLE="page-break-after: always;"></div>
 
 
 ## Roman Holiday 《罗马假日》
 
-_Roman Holiday_ is a Romantic comedy released in 1953 by Paramount Pictures. It stars
-Gregory Peek as a reporter and Audrey Hepburn as a royal princess of some unspecified
+_Roman Holiday_ is a romantic comedy released in 1953 by Paramount Pictures. It stars
+Gregory Peck as a reporter and Audrey Hepburn as a royal princess of some unspecified
 European country. It is directed by William Wyler who still has a record of more people
-getting to the Oscar sweeptakers for his films than any other director. Hepburn won an
+getting to the Oscar sweepstakes for his films than any other director. Hepburn won an
 Academy Award for Best Actress for her performance; the screenplay and costume design
 also won.
 
 Anne, the crown princess, embarks on a highly publicized tour of European capitals. When
-she and her royal entourage arrive in Rome, she begins to rebel against her restricted schedule. One night Anne sneaks out to her room, hops into the back of a delivery truck and escapes. She runs into an American newspaper reporter, Joe Bradley, stationed in Rome. In order to
+she and her royal entourage arrive in Rome, she begins to rebel against her restricted schedule. One night Anne sneaks out of her room, hops into the back of a delivery truck and escapes. She runs into an American newspaper reporter, Joe Bradley, stationed in Rome. In order to
 make an exclusive interview with the princess, Joe pretends that he doesn't recognize her and
 offers to give her a guided tour of Rome. Through all this, Joe falls in love with her. But a
 relationship is impossible. Anne finally bids farewell to Joe and returns to the embassy. Joe
@@ -172,8 +172,8 @@ Just like the famous sayings in the movie: "Life is like a box of chocolates. Yo
 
 _Gone with the Wind_ is a 1939 American epic historical romance film adapted from Margaret
 Mitchell's Pulitzer-winning 1936 novel. It was directed by Victor Fleming. Set in the 19th-century American South, the film tells the story of Scarlett O'Hara, the strong-willed daughter
-of a Georgia plantation owner, from her romantic pursuit of Ashley Wikes, who is married to
-another kind-hearted woman, Malanie Hamilton, to her marriage to Rhett Butler.
+of a Georgia plantation owner, from her romantic pursuit of Ashley Wilkes, who is married to
+another kind-hearted woman, Melanie Hamilton, to her marriage to Rhett Butler.
 
 The film shows incisively and vividly how Americans struggle in adversity, the pursuit of
 personal independence, dignity, love, optimism and enterprising national spirit. Scarlett, the
@@ -193,7 +193,7 @@ The film received positive reviews upon its release in December 1939. At the 12t
 
 _Avatar_ is an American epic science fiction premiered in 2009. It broke several box office records and became the highest-grossing film of all time, as well as in the United States and Canada, surpassing _Titanic_ which was also directed by James Cameron.
 
-By 2154, natural resources are scarce on Earth. The Resources Development Administration mines on Pandora, whose atmosphere is poisonous to humans. The Na’vi, 10-foot-tall, blue-skinned humanoids inhabit there. To explore pandora’s biosphere, scientists use Na’vi-human hybrids called “avatars”, operated by genetically matched humans. Against this background, Jake Sully (starred by Sam Worthington), paraplegic former marine, is found by RDA to replace his brother to finish the mission to research on Navi’s ways in order to relocate them.
+By 2154, natural resources are scarce on Earth. The Resources Development Administration mines on Pandora, whose atmosphere is poisonous to humans. The Na’vi, 10-foot-tall, blue-skinned humanoids inhabit there. To explore Pandora’s biosphere, scientists use Na’vi-human hybrids called “avatars”, operated by genetically matched humans. Against this background, Jake Sully (starred by Sam Worthington), a paraplegic former Marine, is found by RDA to replace his brother to finish the mission to research on Na’vi’s ways in order to relocate them.
 
 During one mission, he is rescued by Neytiri, the daughter of the clan’s spiritual leader. He gets to know more about Pandora. It is contradictory for him to decide which side he should fight for. Finally, under the leadership of Jake, the clan unites together to battle against the RDA. After that, with the exception of Jake, Max, Norm and a few other scientists, all humans are expelled from Pandora and sent back to Earth and Jake is transferred permanently into his avatar. Avatar is primarily an action-adventure journey of self-discovery, in the context of imperialism and deep ecology.
 
