@@ -117,7 +117,7 @@ layoutclear:
 
 ## Caesar Salad 恺撒沙拉
 
-A Caesar salad is salad of romaine lettuce and croutons dressed with parmesan cheese, lemon juice, olive oil, egg, Worcestershire sauce, garlic, and black pepper. Caesar
+A Caesar salad is a salad of romaine lettuce and croutons dressed with parmesan cheese, lemon juice, olive oil, egg, Worcestershire sauce, garlic, and black pepper. Caesar
 dressing is the key to a Caesar salad. Parmesan cheese can also be replaced by Asiago. The original Caesar salad recipe did not contain pieces of anchovy; the slight anchovy
 flavor comes from the Worcestershire sauce. It is often prepared tableside and
 traditionally prepared in a wooden bowl.
@@ -133,7 +133,7 @@ Nowadays, many variations of the salad exist for example, by topping a Caesar sa
 with grilled chicken, steak, or seafood. Certain Mexican restaurants may improvise on items such as substituting tortilla strips for croutons.
 
 
-## Chicago Style Hot Dog 芝加哥热狗
+## Chicago-Style Hot Dog 芝加哥热狗
 
 A Chicago-style hot dog, also called Chicago Dog or Chicago Red Hot, is an all-beef frankfurter on a poppy seed bun, originating from the city of Chicago, Illinois. The hot dog is topped with yellow mustard, chopped white onions, bright green sweet
 pickle relish, a dill pickle spear, tomato slices or wedges, pickled sport peppers and a dash of celery salt. The complete assembly of Chicago hot dog is said to be "dragged through the garden" due to the many toppings. The canonical recipe of Chicago hot dog does not include ketchup, and there is a widely shared, strong opinion among many Chicagoans that ketchup is unacceptable. A number of Chicago hot dog vendors do not offer ketchup as a condiment.
@@ -164,7 +164,7 @@ an independent fish and chip shop is over 4,000.
 
 French bread is the ideal representative of French cuisine. The French are known for
 their culinary expertise. Though difficult to believe, a national law in France directs
-that French bread should contain only combinations of flour, yeast , salt and water. This is an example of the seriousness with which the French treat their food.
+that French bread should contain only combinations of flour, yeast, salt and water. This is an example of the seriousness with which the French treat their food.
 
 Today, French bread is bread made from white wheat flour. This gives the bread a
 strong and chewy crust and an interior full of bubbles due to the use of sourdough
@@ -172,11 +172,11 @@ starters to prepare the bread. The French believe in having their bread fresh an
 bakeries make fresh bread for breakfast, lunch, dinner or a late-night snack. Today
 with globalization, French bread is being prepared across the world.
 
-French bread is a much loved dinner component. Its crusty top makes it more
+French bread is a much-loved dinner component. Its crusty top makes it more
 delicious and adds pleasure at the dining table. The French baguette is of a definite
 shape of the bread with a recommended length with the same type of crispy crust and
-slits for appropriate movement of gases creating the crumbs and the soft inside thebread.
-French bread is really good for health too as the French food industry has a rulewhere no preservatives are used to make French bread. As a result, the bread can gostale very fast as compared to other commercially prepared foods.
+slits for appropriate movement of gases creating the crumbs and the soft inside the bread.
+French bread is really good for health too as the French food industry has a rule where no preservatives are used to make French bread. As a result, the bread can go stale very fast as compared to other commercially prepared foods.
 
 
 

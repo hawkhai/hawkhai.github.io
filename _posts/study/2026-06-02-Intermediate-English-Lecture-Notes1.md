@@ -115,9 +115,9 @@ layoutclear:
 <a href="https://sunocean.life/wordtap/" target="_blank" style="display:inline-block;font-size:3em;font-weight:800;text-decoration:none;line-height:1.4;background:linear-gradient(90deg,#FF6B6B,#feca57,#48dbfb);-webkit-background-clip:text;background-clip:text;color:transparent;animation:pulse 2s infinite;transition:.2s ease;cursor:pointer" onmouseover="this.style.transform='scale(1.08)';this.style.textShadow='0 6px 20px rgba(0,0,0,.25)'" onmouseout="this.style.transform='scale(1)';this.style.textShadow='none'" onmousedown="this.style.transform='scale(.95)'" onmouseup="this.style.transform='scale(1.08)'">WordTap.cn<span style="display:block;font-size:.45em;font-weight:500;margin-top:4px;background:linear-gradient(90deg,#a29bfe,#fd79a8);-webkit-background-clip:text;background-clip:text;color:transparent;animation:float 2.5s ease-in-out infinite">&nbsp; 贴入英文，点词听读 👉</span></a><style>@keyframes pulse{0%,100%{text-shadow:0 0 0 transparent}50%{text-shadow:0 0 12px rgba(255,107,107,.35)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}</style>
 
 
-## The Pursuit of Happiness《当幸福来敲门》
+## The Pursuit of Happiness 《当幸福来敲门》
 
-_The Pursuit of Happiness_ is a 2006 American biographical drama film inspired by a true story, that of Chris Gardner, who was among working homeless in th early 1980s and managed to
+_The Pursuit of Happiness_ is a 2006 American biographical drama film inspired by a true story, that of Chris Gardner, who was among working homeless in the early 1980s and managed to
 pull himself up by the bootstraps. William Smith features in the film as Chris Gardner and
 Will's son Jadon Smith co-stars as Gardner's son Christopher Jr.
 
@@ -128,7 +128,7 @@ The film has received numerous good views upon its release. The tough beauty of 
 <div STYLE="page-break-after: always;"></div>
 
 
-## Roman Holiday《罗马假日》
+## Roman Holiday 《罗马假日》
 
 _Roman Holiday_ is a Romantic comedy released in 1953 by Paramount Pictures. It stars
 Gregory Peek as a reporter and Audrey Hepburn as a royal princess of some unspecified
@@ -149,7 +149,7 @@ Roman Holiday is a cinematic treasure. The film earned an estimated 3 million do
 <div STYLE="page-break-after: always;"></div>
 
 
-## Forrest Gump《阿甘正传》
+## Forrest Gump 《阿甘正传》
 
 _Forrest Gump_, on the basis of the 1986 novel of the same name by Winston Groom, is a 1994
 American romantic-comedy-drama film. The story depicts several decades in the life of
@@ -168,7 +168,7 @@ Just like the famous sayings in the movie: "Life is like a box of chocolates. Yo
 <div STYLE="page-break-after: always;"></div>
 
 
-## Gone with the Wind《乱世佳人》
+## Gone with the Wind 《乱世佳人》
 
 _Gone with the Wind_ is a 1939 American epic historical romance film adapted from Margaret
 Mitchell's Pulitzer-winning 1936 novel. It was directed by Victor Fleming. Set in the 19th-century American South, the film tells the story of Scarlett O'Hara, the strong-willed daughter
@@ -189,11 +189,11 @@ The film received positive reviews upon its release in December 1939. At the 12t
 <div STYLE="page-break-after: always;"></div>
 
 
-## Avatar《阿凡达》
+## Avatar 《阿凡达》
 
 _Avatar_ is an American epic science fiction premiered in 2009. It broke several box office records and became the highest-grossing film of all time, as well as in the United States and Canada, surpassing _Titanic_ which was also directed by James Cameron.
 
-By 2154, natural resources are scarce on Earth. The Resources Development Administration mines on Pandora, whose atmosphere is poisonous to humans. The Na’vi, 10-foot tall, blue-skinned humanoids inhabit there. To explore pandora’s biosphere, scientists use Na’vi-human hybrids called “avatars”, operated by genetically matched humans. Against this background, Jake Sully (starred by Sam Worthington), paraplegic former marine, is found by RDA to replace his brother to finish the mission to research on Navi’s ways in order to relocate them.
+By 2154, natural resources are scarce on Earth. The Resources Development Administration mines on Pandora, whose atmosphere is poisonous to humans. The Na’vi, 10-foot-tall, blue-skinned humanoids inhabit there. To explore pandora’s biosphere, scientists use Na’vi-human hybrids called “avatars”, operated by genetically matched humans. Against this background, Jake Sully (starred by Sam Worthington), paraplegic former marine, is found by RDA to replace his brother to finish the mission to research on Navi’s ways in order to relocate them.
 
 During one mission, he is rescued by Neytiri, the daughter of the clan’s spiritual leader. He gets to know more about Pandora. It is contradictory for him to decide which side he should fight for. Finally, under the leadership of Jake, the clan unites together to battle against the RDA. After that, with the exception of Jake, Max, Norm and a few other scientists, all humans are expelled from Pandora and sent back to Earth and Jake is transferred permanently into his avatar. Avatar is primarily an action-adventure journey of self-discovery, in the context of imperialism and deep ecology.
 
