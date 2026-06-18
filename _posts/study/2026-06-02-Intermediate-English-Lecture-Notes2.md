@@ -49,7 +49,7 @@ layoutclear:
     margin: 0.3em 0;
 }
 
-/* 电影标题 */
+/* 主题标题 */
 .post h2 {
     font-size: 1.4em;
     margin-top: 2em;
@@ -72,7 +72,7 @@ layoutclear:
     color: #000;
 }
 
-/* 英文台词 / 名言 */
+/* 英文引用 / 名言 */
 .post blockquote {
     margin: 1.2em 0;
     padding: 0.8em 1em;
@@ -117,8 +117,8 @@ layoutclear:
 
 ## Caesar Salad 恺撒沙拉
 
-A Caesar salad is a salad of romaine lettuce and croutons dressed with Parmesan cheese, lemon juice, olive oil, egg, Worcestershire sauce, garlic, and black pepper. Caesar
-dressing is the key to a Caesar salad. Parmesan cheese can also be replaced by Asiago. The original Caesar salad recipe did not contain pieces of anchovy; the slight anchovy
+A Caesar salad is a salad of romaine lettuce and croutons tossed with a dressing made from Parmesan cheese, lemon juice, olive oil, egg, Worcestershire sauce, garlic, and black pepper. Caesar
+dressing is the key to a Caesar salad. In some variations, Parmesan cheese is replaced by Asiago. The original Caesar salad recipe did not contain pieces of anchovy; the slight anchovy
 flavor comes from the Worcestershire sauce. It is often prepared tableside and
 traditionally prepared in a wooden bowl.
 
@@ -126,7 +126,7 @@ The salad’s creation is generally attributed to restaurateur Caesar Cardini, a
 immigrant who operated restaurants in Mexico and the United States. His daughter
 Rosa (1928-2003) recounted that her father invented the dish when a Fourth of July
 1924 rush depleted the kitchen’s supplies. Cardini made do with what he had, adding
-the dramatic flair of the tableside tossing "by the chef". This story is not certifiable;
+the dramatic flair of tableside tossing by the chef. This story cannot be verified with certainty;
 however, it very well could have happened. The salad soon became a hit. In 1948, Cardini began to sell the dressing commercially under the name of Cardini’s.
 
 Nowadays, many variations of the salad exist, for example, by topping a Caesar salad
@@ -140,16 +140,16 @@ with grilled chicken, steak, or seafood. Certain Mexican restaurants may improvi
 A Chicago-style hot dog, also called Chicago Dog or Chicago Red Hot, is an all-beef frankfurter on a poppy seed bun, originating from the city of Chicago, Illinois. The hot dog is topped with yellow mustard, chopped white onions, bright green sweet
 pickle relish, a dill pickle spear, tomato slices or wedges, pickled sport peppers and a dash of celery salt. The complete assembly of a Chicago hot dog is said to be "dragged through the garden" due to the many toppings. The canonical recipe of a Chicago hot dog does not include ketchup, and there is a widely shared, strong opinion among many Chicagoans that ketchup is unacceptable. A number of Chicago hot dog vendors do not offer ketchup as a condiment.
 
-The "dragged through the garden" style is heavily promoted by Vienna Beef and Red Hot Chicago, the two most prominent Chicago hot dog manufacturers. Several popular hot dog stands serve a simpler version: a steamed natural-casing dog with only mustard, onions, plain relish and sport peppers, wrapped up with hand-cut French fries. Many vendors offer Chicago-style dog with cheese sauce, known as cheese dog.
+The "dragged through the garden" style is heavily promoted by Vienna Beef and Red Hot Chicago, the two most prominent Chicago hot dog manufacturers. Several popular hot dog stands serve a simpler version: a steamed natural-casing dog with only mustard, onions, plain relish and sport peppers, wrapped up with hand-cut French fries. Many vendors also offer a hot dog with cheese sauce, known as a cheese dog.
 
-Hot dogs are Americans’ favorite foods and regarded as a fun food by most Americans. In America, sports and hot dogs go together like cookies and milk. People usually eat hot dogs while watching sports, which is an American tradition with a long history.
+Hot dogs are among Americans’ favorite foods and are regarded as a fun food by many Americans. In America, sports and hot dogs go together like cookies and milk. People often eat hot dogs while watching sports, which is an American tradition with a long history.
 
 <div STYLE="page-break-after: always;"></div>
 
 
 ## Fish and Chips 炸鱼薯条
 
-Fish and chips, a hot dish of English origin, consists of battered fish, commonly Atlantic cod or haddock, and deep-fried chips. It is a common takeaway food in England.
+Fish and chips, a hot dish of English origin, consists of battered fish, commonly Atlantic cod or haddock, and deep-fried chips. It is a common takeaway food in the United Kingdom.
 
 The dish became popular in wider circles in London and South East England in the
 middle of the 19th century as a consequence of the rapid development of trawl fishing
@@ -158,9 +158,9 @@ industrial cities. Traditional frying uses beef dripping or lard; however, veget
 sprinkled over fish and chips at the time it is served. A portion of mushy peas is a
 popular side dish.
 
-In the United Kingdom, Ireland, Australia, Canada, New Zealand and South Africa, Fish and chips usually sell through independent restaurants and takeaways known as
-fish and chip shops. These shops reached a staggering 35,000 in the 1930s, leveling to
-around 11,000 now. The record for the largest number of portions sold in one day by
+In the United Kingdom, Ireland, Australia, Canada, New Zealand and South Africa, fish and chips are usually sold by independent restaurants and takeaways known as
+fish and chip shops. These shops reached a staggering 35,000 in the 1930s, later falling to
+around 11,000. The record for the largest number of portions sold in one day by
 an independent fish and chip shop is over 4,000.
 
 <div STYLE="page-break-after: always;"></div>
@@ -168,21 +168,20 @@ an independent fish and chip shop is over 4,000.
 
 ## French Bread 法式面包
 
-French bread is the ideal representative of French cuisine. The French are known for
+French bread is a classic representative of French cuisine. The French are known for
 their culinary expertise. Though difficult to believe, a national law in France directs
-that French bread should contain only combinations of flour, yeast, salt and water. This is an example of the seriousness with which the French treat their food.
+that traditional French bread should contain only flour, water, salt and yeast or leaven. This is an example of the seriousness with which the French treat their food.
 
-Today, French bread is bread made from white wheat flour. This gives the bread a
-strong and chewy crust and an interior full of bubbles due to the use of sourdough
-starters to prepare the bread. The French believe in having their bread fresh and most
-bakeries make fresh bread for breakfast, lunch, dinner or a late-night snack. Today
-with globalization, French bread is being prepared across the world.
+The familiar baguette is usually made from white wheat flour. It has a
+firm, chewy crust and an airy interior, often helped by careful fermentation.
+The French value fresh bread, and many
+bakeries bake bread several times a day. With globalization, French-style bread is now prepared across the world.
 
-French bread is a much-loved dinner component. Its crusty top makes it more
-delicious and adds pleasure at the dining table. The French baguette is of a definite
-shape of the bread with a recommended length with the same type of crispy crust and
-slits for appropriate movement of gases creating the crumbs and the soft inside the bread.
-French bread is really good for health too as the French food industry has a rule where no preservatives are used to make French bread. As a result, the bread can go stale very fast as compared to other commercially prepared foods.
+French bread is a much-loved dinner component. Its crusty exterior makes it more
+delicious and adds pleasure at the dining table. The French baguette has a long, narrow
+shape, with a crisp crust and
+slits that allow steam and gases to escape while the soft crumb develops inside the bread.
+Because traditional French bread uses only a few basic ingredients and no preservatives, it can go stale much faster than many commercially prepared breads.
 
 <div STYLE="page-break-after: always;"></div>
 
@@ -201,13 +200,13 @@ between 1 and 16 fluid ounces (30-470 ml) of hot water. The strength of an Ameri
 varies with the number of shots of espresso added.
 
 A café au lait is traditionally the
-French way of preparing ‘coffee with milk’ both at home and in cafés in Europe.
-Similar to the Portuguese galão, a latte is a portion of espresso and steamed milk, generally in a 1:3 to 1:5 ratio of espresso to milk, with a little foam on top.
+French way of preparing ‘coffee with milk’, both at home and in cafés in Europe.
+Similar to the Portuguese galão, a latte is made with espresso and steamed milk, generally in a 1:3 to 1:5 ratio of espresso to milk, with a little foam on top.
 
 Coffee milk
 is a drink similar to chocolate milk; however, instead of chocolate syrup, coffee syrup
 is used. It is the official state drink of Rhode Island in the United States. Cappuccino
-is a coffee-based drink prepared with espresso, hot milk, and steamed milk foam.
+is a coffee-based drink prepared with espresso, steamed milk, and milk foam.
 
 
 

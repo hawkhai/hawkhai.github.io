@@ -117,11 +117,11 @@ layoutclear:
 
 ## The Pursuit of Happyness 《当幸福来敲门》
 
-_The Pursuit of Happyness_ is a 2006 American biographical drama film inspired by a true story, that of Chris Gardner, who was among the working homeless in the early 1980s and managed to
-pull himself up by the bootstraps. Will Smith features in the film as Chris Gardner and
+_The Pursuit of Happyness_ is a 2006 American biographical drama film inspired by the true story of Chris Gardner, who was among the working homeless in the early 1980s and managed to
+pull himself up by his bootstraps. Will Smith stars in the film as Chris Gardner and
 Will's son Jaden Smith co-stars as Gardner's son Christopher Jr.
 
-Chris Gardner is a bright and talented, but marginally employed salesman. Struggling to make ends meet, Gardner finds himself and his five-year-old son evicted from their San Francisco apartment with nowhere to go. Nevertheless, he keeps in pursuit of his dream of a better life for the two of them. Finally, his effort has paid off and he gets the position. Upon hearing the news, Chris rushes to his son's daycare, hugging him tightly.
+Chris Gardner is a bright and talented, but marginally employed salesman. Struggling to make ends meet, Gardner finds himself and his five-year-old son evicted from their San Francisco apartment with nowhere to go. Nevertheless, he keeps pursuing his dream of a better life for the two of them. Finally, his efforts pay off and he gets the position. Upon hearing the news, Chris rushes to his son's daycare and hugs him tightly.
 
 The film received numerous good reviews upon its release. The tough beauty of the picture is that it lets each viewer weigh the costs and benefits to Gardner. It's a genuinely transporting inspirational movie because it's also a cautionary tale. It does not downplay the hero's occasional clumsiness or pigheadedness. For his performance, Will Smith was nominated for an Academy Award and a Golden Globe for Best Actor.
 
@@ -132,14 +132,14 @@ The film received numerous good reviews upon its release. The tough beauty of th
 
 _Roman Holiday_ is a romantic comedy released in 1953 by Paramount Pictures. It stars
 Gregory Peck as a reporter and Audrey Hepburn as a royal princess of some unspecified
-European country. It is directed by William Wyler who still has a record of more people
-getting to the Oscar sweepstakes for his films than any other director. Hepburn won an
+European country. It was directed by William Wyler, whose films earned more acting
+Oscar nominations than those of any other director. Hepburn won an
 Academy Award for Best Actress for her performance; the screenplay and costume design
 also won.
 
-Anne, the crown princess, embarks on a highly publicized tour of European capitals. When
+Anne, the princess, embarks on a highly publicized tour of European capitals. When
 she and her royal entourage arrive in Rome, she begins to rebel against her restricted schedule. One night Anne sneaks out of her room, hops into the back of a delivery truck and escapes. She runs into an American newspaper reporter, Joe Bradley, stationed in Rome. In order to
-make an exclusive interview with the princess, Joe pretends that he doesn't recognize her and
+get an exclusive interview with the princess, Joe pretends that he doesn't recognize her and
 offers to give her a guided tour of Rome. Through all this, Joe falls in love with her. But a
 relationship is impossible. Anne finally bids farewell to Joe and returns to the embassy. Joe
 decides not to write the story.
@@ -151,19 +151,19 @@ Roman Holiday is a cinematic treasure. The film earned an estimated 3 million do
 
 ## Forrest Gump 《阿甘正传》
 
-_Forrest Gump_, on the basis of the 1986 novel of the same name by Winston Groom, is a 1994
-American romantic-comedy-drama film. The story depicts several decades in the life of
+_Forrest Gump_, based on the 1986 novel of the same name by Winston Groom, is a 1994
+American comedy-drama film. The story depicts several decades in the life of
 Forrest Gump, a slow-witted and naive, but good-hearted and athletically prodigious man
 from Alabama who witnesses, and in some cases influences, some of the defining events of
 the latter half of the 20th century in the United States. More specifically, the period between
 Forrest's birth in 1944 and 1982.
 
 In the film, Forrest teaches Elvis Presley to dance, becomes a football star, meets John F. Kennedy, serves with honor in Vietnam, speaks at an anti-war rally at the Washington
-Monument, hangs out with the Yuppies, defeats the Chinese national team in table tennis, meets Richard Nixon, discovers the break-in at the Watergate, opens a profitable shrimping
-business, becomes an original investor in Apple computers, and to run back and forth across
+Monument, meets members of the counterculture, defeats the Chinese national team in table tennis, meets Richard Nixon, discovers the break-in at the Watergate complex, opens a profitable shrimping
+business, becomes an early investor in Apple Computer, and runs back and forth across
 the country for several years. After experiencing some of the most significant events in American history, all he really wants is to be with the woman he loves, Jenny.
 
-Just like the famous sayings in the movie: "Life is like a box of chocolates. You never know what you're gonna get." In face of the sudden change in life, fortunate or unfortunate, how many people could always keep the inner peace and pursue for the first dream like Forrest?
+As the famous line in the movie says: "Life is like a box of chocolates. You never know what you're gonna get." In the face of life's sudden changes, whether fortunate or unfortunate, how many people can keep their inner peace and keep pursuing their original dreams like Forrest?
 
 <div STYLE="page-break-after: always;"></div>
 
@@ -173,16 +173,15 @@ Just like the famous sayings in the movie: "Life is like a box of chocolates. Yo
 _Gone with the Wind_ is a 1939 American epic historical romance film adapted from Margaret
 Mitchell's Pulitzer-winning 1936 novel. It was directed by Victor Fleming. Set in the 19th-century American South, the film tells the story of Scarlett O'Hara, the strong-willed daughter
 of a Georgia plantation owner, from her romantic pursuit of Ashley Wilkes, who is married to
-another kind-hearted woman, Melanie Hamilton, to her marriage to Rhett Butler.
+his kind-hearted cousin, Melanie Hamilton, to her marriage to Rhett Butler.
 
-The film shows incisively and vividly how Americans struggle in adversity, the pursuit of
-personal independence, dignity, love, optimism and enterprising national spirit. Scarlett, the
-little woman grown up in a middle-class family, has experienced a series of huge difficulties
-and setbacks, like civil war, the reconstruction, the death of daughter, losing her beloved ones
-and so on. But she seldom shows timidity and overcomes the adversities again and again. The
+The film shows incisively and vividly how people struggle in adversity while pursuing
+personal independence, dignity, love, optimism and an enterprising spirit. Scarlett, the
+young woman raised in a wealthy plantation family, experiences a series of huge difficulties
+and setbacks, including the Civil War, Reconstruction, the death of her daughter and the loss of people she loves.
+But she seldom shows timidity and overcomes adversity again and again. The
 line "After all, tomorrow is another day." is the best expression of her optimism to strive for a
-better life. The leading role Vivien Leigh shows gorgeous, capricious, elegant characteristics
-of Scarlett perfectly.
+better life. Vivien Leigh's performance perfectly captures Scarlett's beauty, capriciousness and elegance.
 
 The film received positive reviews upon its release in December 1939. At the 12th Academy Awards held in 1940, it received ten Academy Awards from thirteen nominations, including wins for Best Picture, Best Director (Victor Fleming), Best Actress (Vivien Leigh).
 
@@ -191,11 +190,11 @@ The film received positive reviews upon its release in December 1939. At the 12t
 
 ## Avatar 《阿凡达》
 
-_Avatar_ is an American epic science fiction premiered in 2009. It broke several box office records and became the highest-grossing film of all time, as well as in the United States and Canada, surpassing _Titanic_ which was also directed by James Cameron.
+_Avatar_ is an American epic science fiction film released in 2009. It broke several box office records and became the highest-grossing film worldwide and, at the time, in the United States and Canada, surpassing _Titanic_, which was also directed by James Cameron.
 
-By 2154, natural resources are scarce on Earth. The Resources Development Administration mines on Pandora, whose atmosphere is poisonous to humans. The Na’vi, 10-foot-tall, blue-skinned humanoids inhabit there. To explore Pandora’s biosphere, scientists use Na’vi-human hybrids called “avatars”, operated by genetically matched humans. Against this background, Jake Sully (starred by Sam Worthington), a paraplegic former Marine, is found by RDA to replace his brother to finish the mission to research on Na’vi’s ways in order to relocate them.
+By 2154, natural resources are scarce on Earth. The Resources Development Administration mines unobtanium on Pandora, whose atmosphere is poisonous to humans. The Na’vi, 10-foot-tall, blue-skinned humanoids, live there. To explore Pandora’s biosphere, scientists use Na’vi-human hybrids called “avatars”, operated by genetically matched humans. Against this background, Jake Sully (played by Sam Worthington), a paraplegic former Marine, is recruited by the RDA to replace his late twin brother in the Avatar Program and help persuade the Na’vi to relocate.
 
-During one mission, he is rescued by Neytiri, the daughter of the clan’s spiritual leader. He gets to know more about Pandora. It is contradictory for him to decide which side he should fight for. Finally, under the leadership of Jake, the clan unites together to battle against the RDA. After that, with the exception of Jake, Max, Norm and a few other scientists, all humans are expelled from Pandora and sent back to Earth and Jake is transferred permanently into his avatar. Avatar is primarily an action-adventure journey of self-discovery, in the context of imperialism and deep ecology.
+During one mission, he is rescued by Neytiri, the daughter of the clan’s spiritual leader. He gradually learns more about Pandora and is torn over which side he should fight for. Finally, under Jake's leadership, the Na’vi clans unite to battle against the RDA. After that, with the exception of Jake, Max, Norm and a few other scientists, most humans are expelled from Pandora and sent back to Earth, and Jake is transferred permanently into his avatar. _Avatar_ is primarily an action-adventure journey of self-discovery, set in the context of imperialism and deep ecology.
 
 
 
