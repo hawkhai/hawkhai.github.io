@@ -66,6 +66,47 @@ RNN/LSTM 架构演进与孪生网络
 <https://colab.research.google.com/github/telecombcn-dl/labs-all/blob/main/labs/attention/lab_attention_todo.ipynb>
 
 
+### Schedule
+
+Ch1: Introduction
+Ch2: Sentiment Analysis with Logistic Regression
+Ch3: Sentiment Analysis with Naïve Bayes
+Ch4: Vector Space Models
+Ch5: Machine Translation and Document Search
+Ch6: Autocorrect
+Ch7: Speech Tagging and Hidden Markov Models
+Ch8: Autocomplete and Language Models
+Ch9: Word embeddings with neural networks
+Ch10: Neural Networks for Sentiment Analysis
+Ch11: Recurrent Neural Networks for Language Modeling
+Ch12: LSTMs and Named Entity Recognition
+Ch13: Siamese Networks
+Ch14: Neural Machine Translation
+Ch15: Text Summarization
+Ch16: Question Answering
+Ch17: Transformer
+Ch18: Large Language Model
+
+
+### Books
+
+Text book
+Speech and Language Processing, Daniel Jurafsky, Prentice Hall, <https://web.stanford.edu/~jurafsky/slp3/>
+Reference book
+自然语言处理入门，何晗，人民邮电出版社
+
+{% include image.html url="/assets/images/260320-ai-learning-notes-2026/104.png" %}
+
+
+### Extracurricular Materials
+
+Younes Bensouda Mourri
+NLP: <https://www.coursera.org/specializations/natural-language-processing#courses>
+Hung-Yi Lee
+Homepage: <https://speech.ee.ntu.edu.tw/~hylee/index.php>
+NLP: <https://speech.ee.ntu.edu.tw/~hylee/dlhlp/2020-spring.php>
+
+
 ## 高级软件工程
 
 gstack：把 Claude Code 变成软件工厂
@@ -73,6 +114,9 @@ gstack：把 Claude Code 变成软件工厂
 
 
 ## 智能感知与通信
+
+Candes 和陶哲轩的大作“稀疏恢复（Sparse Recovery）” —— 张颢（清华大学）
+<https://www.bilibili.com/video/BV1fF4m1G7Rj/>
 
 
 ### 智能感知技术
@@ -123,4 +167,7 @@ $$
 - [https://github.com/svjan5/GNNs-for-NLP]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/github.com/ec396d0d.html" %})
 - [https://docs.pytorch.org/tutorials/intermediate/variable_length_attention_tutorial.html]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/docs.pytorch.org/2420dd43.html" %})
 - [https://colab.research.google.com/github/telecombcn-dl/labs-all/blob/main/labs/attention/lab_attention_todo.ipynb]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/colab.research.google.com/f2dc585e.ipynb" %})
+- [https://web.stanford.edu/~jurafsky/slp3/]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/web.stanford.edu/68846bab.html" %})
+- [https://www.coursera.org/specializations/natural-language-processing#courses]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.coursera.org/50904782.html" %})
 - [https://omniscient-house-4e0.notion.site/deb10f4bbd7941daa551d075063ba5be]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/omniscient-house-4e0.notion.site/8d1cae52.html" %})
+- [https://www.bilibili.com/video/BV1fF4m1G7Rj/]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.bilibili.com/c942ee94.html" %})
