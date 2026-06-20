@@ -803,6 +803,8 @@ def mainfile(fpath, fname, ftype, fdepth=0):
     if os.path.exists(spacebackfile):
         spacebackjson = readfileJson(spacebackfile, "utf8")
 
+    spacebackjson["粤ICP备17134686号"] = "粤ICP备17134686号"
+
     codestate = False
     chartstate = False
     frontmatter = False
