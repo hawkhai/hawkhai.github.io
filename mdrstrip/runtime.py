@@ -14,15 +14,12 @@ SCRIPT_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir,
 CACHEFILE = os.path.join("tempdir", "mycache", os.path.split(SCRIPT_FILE)[-1], "cache.db")
 MYCACHE = None
 
-
 def _should_open_cache():
     return os.path.splitext(os.path.basename(sys.argv[0]))[0].lower() == "mdrstrip"
-
 
 if _should_open_cache():
     print("CACHEFILE", CACHEFILE)
     MYCACHE = LocalLimitedDict(CACHEFILE, max_size=10000)
-
 
 from PIL import Image
 # AttributeError: module 'PIL.Image' has no attribute 'Resampling'
@@ -81,7 +78,6 @@ REVIEW_JS_PATH = "%s.js"
 ROUGIFY_LIST = None
 
 G_CHECKTINUE_SET = {}
-
 
 def close_cache():
     global MYCACHE
