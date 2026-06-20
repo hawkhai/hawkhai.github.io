@@ -35,6 +35,12 @@ Why π is in the normal distribution (beyond integral tricks)
 [为什么正态分布中会有一个 π {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/A9XCDnDI6lZlCoudh-cryg)
 [姊妹篇：为什么正态分布中会有一个 e {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/TBNa4xfoIYhgDJKzs-tqwQ)
 
+π 无处不在的真正原因
+<https://www.bilibili.com/video/BV1yU546sEL5/>
+
+为什么 π 会出现在这里？Quantia
+<https://www.bilibili.com/video/BV1Q7RhBCEEo/>
+
 
 
 <hr class='reviewline'/>
@@ -44,3 +50,5 @@ Why π is in the normal distribution (beyond integral tricks)
 - [https://www.bilibili.com/video/BV1wu411W7uU/]({% include relrefx.html url="/backup/2023-08-13-Normal-distribution-and-PI.md/www.bilibili.com/1395b8cf.html" %})
 - [https://mp.weixin.qq.com/s/A9XCDnDI6lZlCoudh-cryg]({% include relrefx.html url="/backup/2023-08-13-Normal-distribution-and-PI.md/mp.weixin.qq.com/b92a3ed9.html" %})
 - [https://mp.weixin.qq.com/s/TBNa4xfoIYhgDJKzs-tqwQ]({% include relrefx.html url="/backup/2023-08-13-Normal-distribution-and-PI.md/mp.weixin.qq.com/c9b96a38.html" %})
+- [https://www.bilibili.com/video/BV1yU546sEL5/]({% include relrefx.html url="/backup/2023-08-13-Normal-distribution-and-PI.md/www.bilibili.com/63be9b25.html" %})
+- [https://www.bilibili.com/video/BV1Q7RhBCEEo/]({% include relrefx.html url="/backup/2023-08-13-Normal-distribution-and-PI.md/www.bilibili.com/92674f9e.html" %})

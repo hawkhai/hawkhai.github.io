@@ -83,7 +83,7 @@ def parseRootReq(path, result, action):
     if action == "/tagctrl":
         return parseReqActionTagCtrl(localjs, localmd, kjson, query, headnote, href)
 
-def headkv_jsonsumps(li):
+def headkvJsonDumps(li):
     temp = jsondumps(li, False, 0)
     temp = " ".join(temp.split())
     if temp.startswith("[ "): temp = "["+temp[2:]
@@ -96,7 +96,7 @@ def parseReqActionChgCate(localjs, localmd, kjson, querysrc, headnote, href):
     for k, v in querysrc:
         if k == "mycate":
             li.append(v)
-    headfmt.mainxkeyfile(localmd, None, "md", setkv={"categories": headkv_jsonsumps(li)})
+    headfmt.mainxkeyfile(localmd, None, "md", setkv={"categories": headkvJsonDumps(li)})
     return kjson
 
 def parseReqActionChgTag(localjs, localmd, kjson, querysrc, headnote, href):
@@ -105,7 +105,7 @@ def parseReqActionChgTag(localjs, localmd, kjson, querysrc, headnote, href):
     for k, v in querysrc:
         if k == "mytag":
             li.append(v)
-    headfmt.mainxkeyfile(localmd, None, "md", setkv={"tags": headkv_jsonsumps(li)})
+    headfmt.mainxkeyfile(localmd, None, "md", setkv={"tags": headkvJsonDumps(li)})
     return kjson
 
 def parseReqActionTagCtrl(localjs, localmd, kjson, query, headnote, href):

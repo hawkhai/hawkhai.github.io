@@ -24,6 +24,9 @@ EQUA_REGEX  = """(\\!\\[\\[公式\\]\\]\\(https://www.zhihu.com/equation\\?tex=(
 NEWLINE_CHAR = "\r\n" if IS_WINDOWS else "\n"
 DEBUG = "debug" in sys.argv
 
+def isHttpUrl(url):
+    return url.strip().lower().startswith(("http://", "https://"))
+
 def twikiImage(line):
     # ![](/download/attachments/186253641/image2021-9-9_17-21-5.png?version=1&modificationDate=1631179266000&api=v2)
     regex = '''(\!\[\]\((/download/[a-z]+/[0-9]+/[a-z0-9-_%]+.[a-z]+\?version=1&modificationDate=[0-9]+&api=v2)\))'''
@@ -100,8 +103,11 @@ def mainfilew(fpath, fname, ftype):
         while htimgs:
             assert len(htimgs) == 1, htimgs
             htimg = htimgs[0]
-            print(htimg)
+            if DEBUG:
+                print(ascii(htimg))
             txline, txtitle, txurl = htimg
+            if not isHttpUrl(txurl):
+                break
             if txurl.startswith(".."):
                 break
             if txurl in ("chart.png",):
@@ -126,7 +132,7 @@ def mainfilew(fpath, fname, ftype):
                 line = line.replace(txline, newline)
 
         chxx = u"：。".encode("utf8").decode("ISO8859-1")
-        result = refindall("[^\\s%s](%s)\\s"%(chxx, URL_REGEX), " %s "%line, re.IGNORECASE)
+        result = refindall("[^\\s%s=](%s)\\s"%(chxx, URL_REGEX), " %s "%line, re.IGNORECASE)
         if result:
             openTextFile(fpath)
             assert False, result
@@ -169,7 +175,7 @@ def main():
         "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
         "Debug", "Release", ".vs", "openglcpp", "opengl-3rd", "opengles3-book", "opengles-book-samples",
         "UserDataSpider", "docs.gl", "ml-notes", "table-transformer", "pdfdata", "imgclassify", "ksample",
-        "node_modules", "pdftools",
+        "node_modules", "pdftools", "cc-switch",
         ), reverse=True)
 
 if __name__ == "__main__":

@@ -1,0 +1,202 @@
+---
+layout: post
+title: "学习 -- Intermediate English Lecture Movies"
+author: qhai
+location: "珠海"
+categories: ["学习"]
+tags: ["学习", "工具", "Bilibili"]
+toc: true
+toclistyle:
+comments:
+visibility:
+mathjax:
+mermaid:
+glslcanvas:
+codeprint:
+date: 2025-10-11 01:50:53 +0800
+archived:
+layoutclear:
+---
+
+<style>
+/* =========================
+   NoteAI 英语讲义样式补丁
+   ========================= */
+
+/* 正文整体 */
+.post {
+    font-family: "Segoe UI", "Georgia", "Times New Roman", serif;
+    font-size: 17px;
+    line-height: 1.75;
+    color: #222;
+}
+
+/* 段落 */
+.post p {
+    margin: 0.6em 0 1em;
+    text-align: justify;
+    line-height: 2.0;
+    font-size: larger;
+}
+
+/* 目录 */
+.post ul {
+    padding-left: 1.2em;
+    margin: 1em 0;
+}
+
+.post ul li {
+    margin: 0.3em 0;
+}
+
+/* 电影标题 */
+.post h2 {
+    font-size: 1.4em;
+    margin-top: 2em;
+    margin-bottom: 0.6em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid #ddd;
+    color: #1a1a1a;
+}
+
+/* 小标题（如片名、年份说明） */
+.post h3 {
+    font-size: 1.1em;
+    margin-top: 1.4em;
+    color: #444;
+}
+
+/* 强调文字 */
+.post strong {
+    font-weight: 600;
+    color: #000;
+}
+
+/* 英文台词 / 名言 */
+.post blockquote {
+    margin: 1.2em 0;
+    padding: 0.8em 1em;
+    background: #f9f9f9;
+    border-left: 4px solid #ccc;
+    font-style: italic;
+    color: #555;
+}
+
+/* 代码 / 日期 / 元数据 */
+.post code,
+.post .meta {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.92em;
+    color: #666;
+}
+
+/* 图片说明（如果存在） */
+.post img + em {
+    display: block;
+    margin-top: 0.4em;
+    font-size: 0.9em;
+    color: #777;
+    text-align: center;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .post {
+        font-size: 16px;
+        line-height: 1.7;
+    }
+
+    .post h2 {
+        font-size: 1.25em;
+    }
+}
+</style>
+
+<a href="https://sunocean.life/wordtap/" target="_blank" style="display:inline-block;font-size:3em;font-weight:800;text-decoration:none;line-height:1.4;background:linear-gradient(90deg,#FF6B6B,#feca57,#48dbfb);-webkit-background-clip:text;background-clip:text;color:transparent;animation:pulse 2s infinite;transition:.2s ease;cursor:pointer" onmouseover="this.style.transform='scale(1.08)';this.style.textShadow='0 6px 20px rgba(0,0,0,.25)'" onmouseout="this.style.transform='scale(1)';this.style.textShadow='none'" onmousedown="this.style.transform='scale(.95)'" onmouseup="this.style.transform='scale(1.08)'">WordTap.cn<span style="display:block;font-size:.45em;font-weight:500;margin-top:4px;background:linear-gradient(90deg,#a29bfe,#fd79a8);-webkit-background-clip:text;background-clip:text;color:transparent;animation:float 2.5s ease-in-out infinite">&nbsp; 贴入英文，点词听读 👉</span></a><style>@keyframes pulse{0%,100%{text-shadow:0 0 0 transparent}50%{text-shadow:0 0 12px rgba(255,107,107,.35)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}</style>
+
+
+## The Pursuit of Happyness 《当幸福来敲门》
+
+_The Pursuit of Happyness_ is a 2006 American biographical drama film inspired by the true story of Chris Gardner, who was among the working homeless in the early 1980s and managed to
+pull himself up by his bootstraps. Will Smith stars in the film as Chris Gardner and
+Will's son Jaden Smith co-stars as Gardner's son Christopher Jr.
+
+Chris Gardner is a bright and talented, but marginally employed salesman. Struggling to make ends meet, Gardner finds himself and his five-year-old son evicted from their San Francisco apartment with nowhere to go. Nevertheless, he keeps pursuing his dream of a better life for the two of them. Finally, his efforts pay off and he gets the position. Upon hearing the news, Chris rushes to his son's daycare and hugs him tightly.
+
+The film received numerous good reviews upon its release. The tough beauty of the picture is that it lets each viewer weigh the costs and benefits to Gardner. It's a genuinely transporting inspirational movie because it's also a cautionary tale. It does not downplay the hero's occasional clumsiness or pigheadedness. For his performance, Will Smith was nominated for an Academy Award and a Golden Globe for Best Actor.
+
+<div STYLE="page-break-after: always;"></div>
+
+
+## Roman Holiday 《罗马假日》
+
+_Roman Holiday_ is a romantic comedy released in 1953 by Paramount Pictures. It stars
+Gregory Peck as a reporter and Audrey Hepburn as a royal princess of some unspecified
+European country. It was directed by William Wyler, whose films earned more acting
+Oscar nominations than those of any other director. Hepburn won an
+Academy Award for Best Actress for her performance; the screenplay and costume design
+also won.
+
+Anne, the princess, embarks on a highly publicized tour of European capitals. When
+she and her royal entourage arrive in Rome, she begins to rebel against her restricted schedule. One night Anne sneaks out of her room, hops into the back of a delivery truck and escapes. She runs into an American newspaper reporter, Joe Bradley, stationed in Rome. In order to
+get an exclusive interview with the princess, Joe pretends that he doesn't recognize her and
+offers to give her a guided tour of Rome. Through all this, Joe falls in love with her. But a
+relationship is impossible. Anne finally bids farewell to Joe and returns to the embassy. Joe
+decides not to write the story.
+
+Roman Holiday is a cinematic treasure. The film earned an estimated 3 million dollars at the North American box office during its first year of release.
+
+<div STYLE="page-break-after: always;"></div>
+
+
+## Forrest Gump 《阿甘正传》
+
+_Forrest Gump_, based on the 1986 novel of the same name by Winston Groom, is a 1994
+American comedy-drama film. The story depicts several decades in the life of
+Forrest Gump, a slow-witted and naive, but good-hearted and athletically prodigious man
+from Alabama who witnesses, and in some cases influences, some of the defining events of
+the latter half of the 20th century in the United States. More specifically, the period between
+Forrest's birth in 1944 and 1982.
+
+In the film, Forrest teaches Elvis Presley to dance, becomes a football star, meets John F. Kennedy, serves with honor in Vietnam, speaks at an anti-war rally at the Washington
+Monument, meets members of the counterculture, defeats the Chinese national team in table tennis, meets Richard Nixon, discovers the break-in at the Watergate complex, opens a profitable shrimping
+business, becomes an early investor in Apple Computer, and runs back and forth across
+the country for several years. After experiencing some of the most significant events in American history, all he really wants is to be with the woman he loves, Jenny.
+
+As the famous line in the movie says: "Life is like a box of chocolates. You never know what you're gonna get." In the face of life's sudden changes, whether fortunate or unfortunate, how many people can keep their inner peace and keep pursuing their original dreams like Forrest?
+
+<div STYLE="page-break-after: always;"></div>
+
+
+## Gone with the Wind 《乱世佳人》
+
+_Gone with the Wind_ is a 1939 American epic historical romance film adapted from Margaret
+Mitchell's Pulitzer-winning 1936 novel. It was directed by Victor Fleming. Set in the 19th-century American South, the film tells the story of Scarlett O'Hara, the strong-willed daughter
+of a Georgia plantation owner, from her romantic pursuit of Ashley Wilkes, who is married to
+his kind-hearted cousin, Melanie Hamilton, to her marriage to Rhett Butler.
+
+The film shows incisively and vividly how people struggle in adversity while pursuing
+personal independence, dignity, love, optimism and an enterprising spirit. Scarlett, the
+young woman raised in a wealthy plantation family, experiences a series of huge difficulties
+and setbacks, including the Civil War, Reconstruction, the death of her daughter and the loss of people she loves.
+But she seldom shows timidity and overcomes adversity again and again. The
+line "After all, tomorrow is another day." is the best expression of her optimism to strive for a
+better life. Vivien Leigh's performance perfectly captures Scarlett's beauty, capriciousness and elegance.
+
+The film received positive reviews upon its release in December 1939. At the 12th Academy Awards held in 1940, it received ten Academy Awards from thirteen nominations, including wins for Best Picture, Best Director (Victor Fleming), Best Actress (Vivien Leigh).
+
+<div STYLE="page-break-after: always;"></div>
+
+
+## Avatar 《阿凡达》
+
+_Avatar_ is an American epic science fiction film released in 2009. It broke several box office records and became the highest-grossing film worldwide and, at the time, in the United States and Canada, surpassing _Titanic_, which was also directed by James Cameron.
+
+By 2154, natural resources are scarce on Earth. The Resources Development Administration mines unobtanium on Pandora, whose atmosphere is poisonous to humans. The Na’vi, 10-foot-tall, blue-skinned humanoids, live there. To explore Pandora’s biosphere, scientists use Na’vi-human hybrids called “avatars”, operated by genetically matched humans. Against this background, Jake Sully (played by Sam Worthington), a paraplegic former Marine, is recruited by the RDA to replace his late twin brother in the Avatar Program and help persuade the Na’vi to relocate.
+
+During one mission, he is rescued by Neytiri, the daughter of the clan’s spiritual leader. He gradually learns more about Pandora and is torn over which side he should fight for. Finally, under Jake's leadership, the Na’vi clans unite to battle against the RDA. After that, with the exception of Jake, Max, Norm and a few other scientists, most humans are expelled from Pandora and sent back to Earth, and Jake is transferred permanently into his avatar. _Avatar_ is primarily an action-adventure journey of self-discovery, set in the context of imperialism and deep ecology.
+
+
+
+<hr class='reviewline'/>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-06-02-Intermediate-English-Lecture-Notes1.md.js" %}'></script></p>
