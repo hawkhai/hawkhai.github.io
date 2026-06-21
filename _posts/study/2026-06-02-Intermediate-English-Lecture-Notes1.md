@@ -25,7 +25,7 @@ layoutclear:
 
 /* 正文整体 */
 .post {
-    font-family: "Segoe UI", "Georgia", "Times New Roman", serif;
+    font-family: Itim, "Segoe UI", "Georgia", "Times New Roman", serif;
     font-size: 17px;
     line-height: 1.75;
     color: #222;
