@@ -248,6 +248,10 @@ class MdFormatter:
 
         try:
             lines = readfileLines(fpath, False, False, "utf8")
+        except UnicodeDecodeError as ex:
+            print("跳过非 UTF-8 文件: {} byte={} pos={} reason={}".format(
+                fpath, hex(ex.object[ex.start]), ex.start, ex.reason))
+            return 0
         except Exception as ex:
             openTextFile(fpath)
             raise ex

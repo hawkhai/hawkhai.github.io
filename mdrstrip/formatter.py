@@ -81,6 +81,10 @@ def mainfile(fpath, fname, ftype, fdepth=0):
     md5src = getFileMd5(fpath, mycache=MYCACHE, assertx=False) # mainfile
     try:
         lines = readfileLines(fpath, False, False, "utf8")
+    except UnicodeDecodeError as ex:
+        print("跳过非 UTF-8 文件: {} byte={} pos={} reason={}".format(
+            fpath, hex(ex.object[ex.start]), ex.start, ex.reason))
+        return 0
     except Exception as ex:
         openTextFile(fpath)
         raise ex
@@ -131,7 +135,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
     if os.path.exists(spacebackfile):
         spacebackjson = readfileJson(spacebackfile, "utf8")
 
-    spacebackjson["粤ICP备17134686号"] = "粤ICP备17134686号"
+    spacebackjson["粤 ICP 备 17134686 号"] = "粤ICP备17134686号"
 
     codestate = False
     chartstate = False

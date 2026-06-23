@@ -171,4 +171,3 @@ At the same time, street markets must be kept clean and safe. Clear rules about 
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-06-02-Intermediate-English-Lecture-Notes3.md.js" %}'></script></p>
-

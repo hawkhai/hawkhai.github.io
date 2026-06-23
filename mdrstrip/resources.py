@@ -179,6 +179,33 @@ def tidyupImgCollect(rootdir):
     searchdir(rootdir, mainfile) # tidyupImgCollect
 
 # 本地图片缓存路径。
+def getMarkdownCodeSpanList(line):
+    spans = []
+    index = 0
+    while index < len(line):
+        if line[index] != "`":
+            index += 1
+            continue
+
+        ticklen = 1
+        while index + ticklen < len(line) and line[index + ticklen] == "`":
+            ticklen += 1
+
+        marker = "`" * ticklen
+        end = line.find(marker, index + ticklen)
+        if end == -1:
+            break
+
+        spans.append((index, end + ticklen))
+        index = end + ticklen
+    return spans
+
+def isInMarkdownCodeSpan(index, spans):
+    for start, end in spans:
+        if start <= index < end:
+            return True
+    return False
+
 def tidyupImg(imglocal, fpath, line, imgthumb=True):
 
     fakeimgfiles = readFileIgnoreList("config/mdrstrip_fake_image_files.txt")
@@ -354,16 +381,20 @@ def collectHost(fpath, md5src, line, imgthumb):
                 )"""
 
     regex = "".join(regex.split())
-    li = refindall(regex, line, re.IGNORECASE)
+    li = list(re.finditer(regex, line, re.IGNORECASE))
     if not li: return reflist, line
 
     iglist = readFileIgnoreList("config/mdrstrip_url_quote.txt")
     iglist.extend(readFileIgnoreList("invisible/config/mdrstrip_url_quote.txt"))
 
+    codeSpans = getMarkdownCodeSpanList(line)
+
     for tx in li:
-        url = tx[0]
-        host = tx[2]
-        checkz = line.split(url)
+        url = tx.group(1)
+        host = tx.group(3)
+        if isInMarkdownCodeSpan(tx.start(1), codeSpans):
+            continue
+        checkz = [line[:tx.start(1)], line[tx.end(1):]]
         for iline in checkz[1:]: # 检查网址的后继标记。
             checkli = ["", ")", "]", ">", " ", "*", "$"]
             for urlz in iglist:

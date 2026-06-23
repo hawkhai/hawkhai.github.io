@@ -171,4 +171,3 @@ Critical thinking is also helpful in English study. When reading an article, lea
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-06-02-Intermediate-English-Lecture-Notes5.md.js" %}'></script></p>
-

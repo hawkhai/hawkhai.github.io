@@ -65,6 +65,10 @@ RNN/LSTM 架构演进与孪生网络
 
 <https://colab.research.google.com/github/telecombcn-dl/labs-all/blob/main/labs/attention/lab_attention_todo.ipynb>
 
+F:\pythonx\study\NLP
+<https://zh.d2l.ai/chapter_natural-language-processing-applications/sentiment-analysis-and-dataset.html>
+<https://adg.csdn.net/696f24eb437a6b40336975d1.html>
+
 
 ### Schedule
 
@@ -118,6 +122,9 @@ gstack：把 Claude Code 变成软件工厂
 Candes 和陶哲轩的大作“稀疏恢复（Sparse Recovery）” —— 张颢（清华大学）
 <https://www.bilibili.com/video/BV1fF4m1G7Rj/>
 
+这是下载 latex 模板的网址
+<https://template-selector.ieee.org/secure/templateSelector/downloadTemplate?publicationTypeId=1&titleId=12&articleId=3&fileId=14>
+
 
 ### 智能感知技术
 
@@ -167,7 +174,10 @@ $$
 - [https://github.com/svjan5/GNNs-for-NLP]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/github.com/ec396d0d.html" %})
 - [https://docs.pytorch.org/tutorials/intermediate/variable_length_attention_tutorial.html]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/docs.pytorch.org/2420dd43.html" %})
 - [https://colab.research.google.com/github/telecombcn-dl/labs-all/blob/main/labs/attention/lab_attention_todo.ipynb]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/colab.research.google.com/f2dc585e.ipynb" %})
+- [https://zh.d2l.ai/chapter_natural-language-processing-applications/sentiment-analysis-and-dataset.html]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/zh.d2l.ai/21f9a406.html" %})
+- [https://adg.csdn.net/696f24eb437a6b40336975d1.html]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/adg.csdn.net/ce47be31.html" %})
 - [https://web.stanford.edu/~jurafsky/slp3/]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/web.stanford.edu/68846bab.html" %})
 - [https://www.coursera.org/specializations/natural-language-processing#courses]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.coursera.org/50904782.html" %})
 - [https://omniscient-house-4e0.notion.site/deb10f4bbd7941daa551d075063ba5be]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/omniscient-house-4e0.notion.site/8d1cae52.html" %})
 - [https://www.bilibili.com/video/BV1fF4m1G7Rj/]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/www.bilibili.com/c942ee94.html" %})
+- [https://template-selector.ieee.org/secure/templateSelector/downloadTemplate?publicationTypeId=1&titleId=12&articleId=3&fileId=14]({% include relrefx.html url="/backup/2026-03-20-ai-learning-notes-2026.md/template-selector.ieee.org/cbde668e.html" %})
