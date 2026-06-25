@@ -29,7 +29,7 @@ auto count = (unsigned int)(-1227133513 * (bytes >> 3));
 
 [note {% include relref_github.html %}](https://github.com/firmianay/CTF-All-In-One/blob/master/doc/3.1.2_integer_overflow.md)
 关于整数的异常情况主要有三种：
-* **溢出** 在 CPU 标志位语境下要区分有符号和无符号：`OF` 用来检测有符号溢出，`CF` 用来表示无符号加减法中的进位/借位。C/C++ 里无符号整数按模 $2^n$ 回绕，有符号整数溢出则是未定义行为。
+* **溢出** 在 CPU 标志位语境下要区分有符号和无符号：`OF` 用来检测有符号溢出， `CF` 用来表示无符号加减法中的进位 / 借位。C/C++ 里无符号整数按模 $2^n$ 回绕，有符号整数溢出则是未定义行为。
 * **回绕** 无符号数 `0-1` 时会变成最大的数，如 `1` 字节的无符号数会变为 `255` ，
     而 `255+1` 会变成最小数 `0` 。
     进位标志 `CF` 可检测无符号数的回绕。
@@ -363,7 +363,7 @@ size_t | 4 | *8* | 4 | *8*
 有符号数和无符号数在计算机里表示都是一样的，二进制的补码形式。
 是有符号还是无符号，是编译器来辨认的。
 * 赋值截断问题
-    * 整数等长直接赋值，变短直接截断，变长时无符号数补 0、有符号负数通常做符号扩展。浮点数有自己的 IEEE 754 编码和转换规则，不能按整数的截断/符号扩展来理解。
+    * 整数等长直接赋值，变短直接截断，变长时无符号数补 0、有符号负数通常做符号扩展。浮点数有自己的 IEEE 754 编码和转换规则，不能按整数的截断 / 符号扩展来理解。
     * `char a = 0xf1; unsigned b = a;` // 0xfffffff1
     * `unsigned b = 0xffffff01; char a = (char)b;` // 0x01
 * 运算问题
@@ -412,10 +412,10 @@ IEEE754 标准，该标准定义了 float 和 double，float 有 32 位，double
 | unsigned char | float | 转换到 long；然后从 long 转换到 float
 | unsigned char | double | 转换到 long；然后从 long 转换到 double
 
-等级低于 `int` 的整数类型会先做整数提升：如果 `int` 能表示该类型的所有值就提升为 `int`，否则提升为 `unsigned int`；之后还要继续做 usual arithmetic conversions。
+等级低于 `int` 的整数类型会先做整数提升：如果 `int` 能表示该类型的所有值就提升为 `int` ，否则提升为 `unsigned int` ；之后还要继续做 usual arithmetic conversions。
 {% include image.html url="/assets/images/221202-the-missing-div-instruc~41/v2-568aeb491ab0ee5a8ec274aee66b366a_720w.webp" %}
 
-若运算符两边类型低于 `int`，通常会先做整数提升；随后再按 usual arithmetic conversions 在有符号/无符号和类型等级之间选共同类型。不能简单理解成“高于 int 就取最高等级类型”，无符号参与时尤其要小心。
+若运算符两边类型低于 `int` ，通常会先做整数提升；随后再按 usual arithmetic conversions 在有符号 / 无符号和类型等级之间选共同类型。不能简单理解成“高于 int 就取最高等级类型”，无符号参与时尤其要小心。
 {% include image.html url="/assets/images/221202-the-missing-div-instruc~41/v2-865dd0a13f463d190d1adadef7d4b43e_720w.webp" %}
 
 [note {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/138546274)

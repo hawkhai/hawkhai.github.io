@@ -22,7 +22,7 @@ codeprint:
     GBK 是 GB2312 的扩展，除了兼容 GB2312 外，它还能显示繁体中文，还有日文的假名。
 * cp936：简体中文 Windows 中常见的默认代码页是 CP936，通常对应 GBK，而不是纯 GB2312。
     当然有其它编码格式：cp950 繁体中文、cp932 日语、cp1250 中欧语言。
-* Unicode 是国际组织制定的字符集/编码标准，为字符分配码点。UTF-8、UTF-16、UTF-32 是把这些码点编码成字节序列的不同方式。
+* Unicode 是国际组织制定的字符集 / 编码标准，为字符分配码点。UTF-8、UTF-16、UTF-32 是把这些码点编码成字节序列的不同方式。
     * UTF-8（8-bit Unicode Transformation Format）是最流行的一种对 Unicode 进行传播和存储的编码方式。
         它用不同的 bytes 来表示每一个代码点。ASCII 字符每个只需要用一个 byte，与 ASCII 的编码是一样的。所以说 ASCII 是 UTF-8 的一个子集。
 

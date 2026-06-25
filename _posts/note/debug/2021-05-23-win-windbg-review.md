@@ -121,7 +121,7 @@ D:\PCGMR_BUILD\Cim\CiSrc\zapp\zapp\include\framework\KzPath.cpp(52)+0x38
 1. 启动进程
 2. Windbg 附加进程
 3. 输入 `~*kv` ，输出所有线程
-4. 用 `~*kv` 输出所有线程后搜索 `ntdll!RtlEnterCriticalSection`，或在可用扩展中使用 `!findstack ntdll!RtlEnterCriticalSection` 查找哪些线程在等待锁
+4. 用 `~*kv` 输出所有线程后搜索 `ntdll!RtlEnterCriticalSection` ，或在可用扩展中使用 `!findstack ntdll!RtlEnterCriticalSection` 查找哪些线程在等待锁
     * 或者看代码某一函数没执行，对比 windbg 中的线程，找到线程 id 分析
     * 图 1 是源代码，图 2 是执行结果, ThreadProc1 函数中的 `ThreadProc1 lock g_mutex2;` 没发生，怀疑是否死锁了
 5. windbg 中线程信息如下，发现 ThreadProc1 在等某一把锁

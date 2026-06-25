@@ -67,8 +67,8 @@ This behavior is correct for most purposes, but it means that values stored with
 ## Windows 类型
 
 Windows API 有一些特殊之处：32 位 Windows API 多数使用 stdcall 调用约定，普通 C 导出函数常用 cdecl；64 位 Windows 下调用约定基本统一。
-- 调用 32 位 WinAPI 时通常应使用 `windll`/`WINFUNCTYPE`；调用自己导出的 cdecl 函数时仍应使用 `cdll`/`CFUNCTYPE`。
-- `LoadLibrary` 本身是 WinAPI，可通过 `ctypes.windll.kernel32.LoadLibraryW` 调用；`ctypes.cdll.LoadLibrary(path)` 是按 cdecl 方式加载并调用目标 DLL 导出函数的入口，两者不要混为一谈。
+- 调用 32 位 WinAPI 时通常应使用 `windll` / `WINFUNCTYPE` ；调用自己导出的 cdecl 函数时仍应使用 `cdll` / `CFUNCTYPE` 。
+- `LoadLibrary` 本身是 WinAPI，可通过 `ctypes.windll.kernel32.LoadLibraryW` 调用； `ctypes.cdll.LoadLibrary(path)` 是按 cdecl 方式加载并调用目标 DLL 导出函数的入口，两者不要混为一谈。
 
 Windows API 有很多内建类型，ctypes 内部都已经定义好了，在子模块 wintypes 下，可以直接使用。
 `DWORD`

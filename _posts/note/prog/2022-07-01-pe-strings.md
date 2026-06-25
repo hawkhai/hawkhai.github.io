@@ -123,7 +123,7 @@ codeprint:
 * GBK 编码是 GB2312 编码的超集，向下完全兼容 GB2312。
 * GB18030 编码向下兼容 GBK 和 GB2312。
 * GBK、GB2312 等与 UTF8 之间都必须通过 Unicode 编码才能相互转换。
-* GBK、GB2312 常被同时当作字符集/编码方案来讨论；Unicode 是字符编码标准，UTF-8 是 Unicode 的一种编码形式。
+* GBK、GB2312 常被同时当作字符集 / 编码方案来讨论；Unicode 是字符编码标准，UTF-8 是 Unicode 的一种编码形式。
 
 * "utf8"，1~4 字节表示一个字符
 * "gbk"，1~2 byte 表示一个字符

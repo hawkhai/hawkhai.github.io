@@ -348,7 +348,7 @@ attribute vec4 a_vertex;    // 顶点坐标
 attribute vec3 a_normal;    // 顶点法线
 attribute vec2 a_texcoord;  // 纹理坐标
 
-varying float v_diffuse;    // 法线与入射光夹角的余弦/漫反射系数
+varying float v_diffuse;    // 法线与入射光夹角的余弦 / 漫反射系数
 varying vec2 v_texcoord;    // 2d 纹理坐标
 
 void main(void)

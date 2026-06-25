@@ -197,7 +197,7 @@ OpenGL_ES_2.x 为可编程渲染管线（Programmable）而设计。
 
 ## Sample OpenGL ES 2.0
 
-1. 顶点属性数据不一定必须紧密排列；`glVertexAttribPointer` 的 stride 可以指定相邻顶点属性之间的字节间隔，stride 为 0 才表示紧密排列。
+1. 顶点属性数据不一定必须紧密排列； `glVertexAttribPointer` 的 stride 可以指定相邻顶点属性之间的字节间隔，stride 为 0 才表示紧密排列。
 2. 各种数据的堆栈深度较低。
 
 OpenGL based Graphics : A state machine4

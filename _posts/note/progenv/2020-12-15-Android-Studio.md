@@ -174,7 +174,7 @@ ERROR: ABIs [arm64-v8a] are not supported for platform.
 Supported ABIs are [armeabi-v7a, x86].
 Affected Modules: app
 
-当我使用的 Android 平台版本太低时，就会报上面的错；`arm64-v8a` 从 Android 5.0/API 21 开始支持，需确保 `minSdkVersion` / `APP_PLATFORM` 不低于 `android-21`。单纯提高 `compileSdkVersion` 不一定是根因。
+当我使用的 Android 平台版本太低时，就会报上面的错； `arm64-v8a` 从 Android 5.0/API 21 开始支持，需确保 `minSdkVersion` / `APP_PLATFORM` 不低于 `android-21` 。单纯提高 `compileSdkVersion` 不一定是根因。
 
 ```
 $(call import-add-path, $(LOCAL_PATH)) # 没有这一行，下面这行会报错。

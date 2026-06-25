@@ -1046,7 +1046,7 @@ $λ=(A,B,Π)$
 
 DNN-HMM 与 GMM-HMM 对比：
 假设输入语音为 $\{x_1,x_2,...,x_T\}$，且 HMM 有 N 个状态
-1. GMM-HMM (Gaussian Mixture Models-HiddenMarkov Models) 是用 GMM 来模拟观测似然/概率密度 $p(x_t\|s_i)$，其中 $i=1,2,...,N$。
+1. GMM-HMM (Gaussian Mixture Models-HiddenMarkov Models) 是用 GMM 来模拟观测似然 / 概率密度 $p(x_t\|s_i)$，其中 $i=1,2,...,N$。
 2. DNN-HMM (Deep Neural Networks-Hidden MarkovModels) 通常用 DNN 估计后验概率 $p(s_i\|x_t)$，再结合先验转换为 HMM 解码所需的似然信息，其中 $i=1,2,...,N$。
 
 参考书和论文

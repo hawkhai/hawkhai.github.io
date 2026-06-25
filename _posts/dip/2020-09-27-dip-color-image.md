@@ -70,7 +70,7 @@ $\text{HSV}$ 即使用 **色相（Hue）、饱和度（Saturation）、明度（
 
 #### HSI 颜色模型
 
-根据视觉的主观感受对颜色进行描述。亮度（Intensity）、色调/色相（Hue）、饱和度（Saturation）。
+根据视觉的主观感受对颜色进行描述。亮度（Intensity）、色调 / 色相（Hue）、饱和度（Saturation）。
 
 RGB 转换到 HSI 空间。
 

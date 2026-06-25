@@ -229,7 +229,7 @@ python weight_comparison_report.py
 ✅ Balanced Weighting: Optimized for better extreme/median balance
 ✅ Distribution Analysis: Quality assessment with CV and outlier detection
 
-🎯 Recommendation: Use 'Balanced Final Scores' as primary evaluation metric
+🎯 Recommendation: Use 'Balanced F inal Scores' as primary evaluation metric
 📊 For detailed analysis, check distribution quality indicators
 ```
 

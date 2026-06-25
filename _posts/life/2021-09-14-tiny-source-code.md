@@ -170,7 +170,7 @@ struct S4 {
 [from {% include relref_jianshu.html %}](https://www.jianshu.com/p/58b602f8b7d5)
 {% include image.html url="/assets/images/210914-tiny-source-code/2718191-40b00426103734bc.webp" %}
 
-生长方向：很多常见架构/ABI 中栈向低地址增长，堆分配区域常从较低地址向上扩展；这和大小端无关，大小端只描述多字节对象内部的字节排列。
+生长方向：很多常见架构 /ABI 中栈向低地址增长，堆分配区域常从较低地址向上扩展；这和大小端无关，大小端只描述多字节对象内部的字节排列。
 栈每压入一个内存块，即在栈的下端开辟出来，该内存块的首地址是在该内存块的最下面。
 内存块里的数据生长方向，是向上的（与栈本身的生长方向是相反的），
 这一点对堆来讲也适用（当然，堆的开口本来就朝上，很好理解）。
@@ -1442,7 +1442,7 @@ delete objects;   // 错误的用法
 严格应该这样说：后者相当于仅调用了 `objects[0]` 的析构函数，
 漏掉了调用另外 99 个对象的析构函数，
 并且在调用之后释放内存时导致异常（如果存在析构函数的话），
-即使对象无非平凡析构函数，`new[]` 后使用 `delete` 仍是未定义行为，不能写成与 `delete []objects` 相同。
+即使对象无非平凡析构函数， `new[]` 后使用 `delete` 仍是未定义行为，不能写成与 `delete []objects` 相同。
 
 `new []` ：
 ```
@@ -1952,7 +1952,7 @@ uint64 crc64(const uchar* data, size_t size, uint64 crcx)
 }
 ```
 
-如果这段代码可能被多线程同时首次调用，`initialized` 和 `table` 的初始化需要用 `std::call_once` 或等价机制保护，否则会有数据竞争。
+如果这段代码可能被多线程同时首次调用， `initialized` 和 `table` 的初始化需要用 `std::call_once` 或等价机制保护，否则会有数据竞争。
 
 
 ## bsearch & qsort

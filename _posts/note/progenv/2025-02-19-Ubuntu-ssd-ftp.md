@@ -70,7 +70,7 @@ sudo mount /dev/sdb /mnt/ssd
 编辑 `/etc/fstab` 文件，添加以下内容：
 
 ```bash
-UUID=实际的-UUID /mnt/ssd ext4 defaults 0 2
+UUID= 实际的-UUID /mnt/ssd ext4 defaults 0 2
 ```
 
 设备名如 `/dev/sdb` 可能会因为硬盘顺序变化而改变，开机自动挂载建议用 `blkid` 查到的 UUID。

@@ -291,7 +291,7 @@ typedef struct _FILENAME_ATTRIBUTE { // 文件名属性的值区域
 
 ## 复杂的堆
 
-在 Linux 下，跨 so 的 `malloc/free` 通常只要链接到同一套 C 运行库/分配器，释放方就能正确归还内存；但不能简单说“每个进程只有一个 heap”，实际实现可能有多个 arena 或自定义 allocator。跨模块仍然最好保持分配/释放接口成对。
+在 Linux 下，跨 so 的 `malloc/free` 通常只要链接到同一套 C 运行库 / 分配器，释放方就能正确归还内存；但不能简单说“每个进程只有一个 heap”，实际实现可能有多个 arena 或自定义 allocator。跨模块仍然最好保持分配 / 释放接口成对。
 但是在 windows 下面，问题变得复杂了。 **这里主要讨论 MT 模式。**
 
 1. windows 允许一个进程中有多个 heap，那么这样就需要指明一块内存要在哪个 heap 上分配，win32 的 HeapAlloc 函数就是这样设计的，给出一个 heap 的句柄，给出一个 size，然后返回一个指针。每个进程都至少有一个主 heap，可以通过 GetProcessHeap 来获得，其它的堆，可以通过 GetProcessHeaps 取到。同样，内存释放的时候通过 HeapFree 来完成，还是需要指定一个堆。

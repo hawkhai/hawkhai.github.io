@@ -611,7 +611,7 @@ If it doesn't then you'll need the tool between your ears to hunt the bug down.
 * Description – Corrupted infix pattern for freed block at address <address>
 * Trace description – No stack frames for the current block
 
-基础类型数组的释放问题：`new[]` 必须配 `delete[]`，即使元素没有析构函数，混用 `delete` 也是未定义行为，只是某些实现上可能看起来“释放成功”。
+基础类型数组的释放问题：`new[]` 必须配 `delete[]` ，即使元素没有析构函数，混用 `delete` 也是未定义行为，只是某些实现上可能看起来“释放成功”。
 ```cpp
 #include "stdafx.h"
 

@@ -16,7 +16,7 @@ codeprint:
 cluster: "WinDBG"
 ---
 
-如果 windbg 加载 dump 后窗口显示 wow64cpu，通常表示这是 32 位进程运行在 64 位 Windows 的 WOW64 环境下；可加载 wow64exts 后在 32 位/64 位上下文之间切换查看：
+如果 windbg 加载 dump 后窗口显示 wow64cpu，通常表示这是 32 位进程运行在 64 位 Windows 的 WOW64 环境下；可加载 wow64exts 后在 32 位 /64 位上下文之间切换查看：
 
 ```
 .load wow64exts

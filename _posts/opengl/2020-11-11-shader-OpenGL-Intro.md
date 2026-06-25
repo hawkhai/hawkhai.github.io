@@ -42,7 +42,7 @@ cluster: "LearnOpenGL"
 
 随着图形处理器的进步，OpenGL 和 Direct3D 等主要的图形软件库都开始支持着色器。
 第一批支持着色器的 GPU 仅支持像素着色器，但随着开发者逐渐认识到着色器的强大，很快便出现了顶点着色器。
-2001 年，NVIDIA GeForce 3（NV20）随 Direct3D 8 时代的可编程顶点/像素着色器能力问世。Direct3D 10 和 OpenGL 3.2 则引入了几何着色器。
+2001 年，NVIDIA GeForce 3（NV20）随 Direct3D 8 时代的可编程顶点 / 像素着色器能力问世。Direct3D 10 和 OpenGL 3.2 则引入了几何着色器。
 
 {% include image.html url="/assets/images/201111-shader-opengl-intro/faa27c0e4a3a4b7eb3436c016ce606f1.jpeg"
 caption="利用 gpu 渲染一个巨人的图像" %}

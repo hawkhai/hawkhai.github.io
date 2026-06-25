@@ -97,7 +97,7 @@ nmake install
 * error LNK2001: 无法解析的外部符号 \_\_imp_curl_easy_cleanup
 * error LNK2001: 无法解析的外部符号 \_\_imp_curl_easy_setopt
 
-解决方案：如果项目静态链接 libcurl，加入预编译选项 `CURL_STATICLIB`；`BUILDING_LIBCURL` 是编译 libcurl 本体时使用的宏，普通使用方不要定义。
+解决方案：如果项目静态链接 libcurl，加入预编译选项 `CURL_STATICLIB` ； `BUILDING_LIBCURL` 是编译 libcurl 本体时使用的宏，普通使用方不要定义。
 
 ```
 // 添加依赖库

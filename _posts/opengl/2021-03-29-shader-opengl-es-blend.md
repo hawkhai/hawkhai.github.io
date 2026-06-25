@@ -311,7 +311,7 @@ Irrlicht 统计分析，存在两个 API 都混用的情况，貌似也跑的好
 * glEnable( GL_POLYGON_SMOOTH );
 * 可以优化多边形反走样；但必须有 α 位平面，以用来存储累加的覆盖值。
 
-* 当输入颜色值只有 RGB 通道时，补齐为 RGBA 参与纹理/片元计算时 A 通常按 1.0 处理；是否透明取决于片元着色器实际输出的 alpha。
+* 当输入颜色值只有 RGB 通道时，补齐为 RGBA 参与纹理 / 片元计算时 A 通常按 1.0 处理；是否透明取决于片元着色器实际输出的 alpha。
 
 * [OpenGL ES -- 混合](https://www.heqiangfly.com/2020/04/30/opengl-es-color-blend/)
 * [VAO 与 VBO 的前世今生 {% include relref_csdn.html %}](https://blog.csdn.net/xufeng0991/article/details/80813594)

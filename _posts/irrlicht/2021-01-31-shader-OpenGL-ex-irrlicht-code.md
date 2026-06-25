@@ -27,8 +27,8 @@ const char* GetStringUTFChars(JNIEnv*env, jstring string, jboolean *isCopy);
 
 当从 JNI 函数 GetStringUTFChars 函数中返回得到字符串 B 时，
 1. 如果 B 是原始字符串 java.lang.String 的一份拷贝，则 isCopy 被赋值为 JNI_TRUE。
-2. 如果 B 不是拷贝，isCopy 被赋值为 JNI_FALSE；但无论 isCopy 是 JNI_TRUE 还是 JNI_FALSE，返回值类型都是 `const char*`，本地代码都不应该修改这段缓冲区。
-3. 通常，我们不必关心 JVM 是否会返回拷贝，只需要为 isCopy 传递 NULL 作为参数，并在使用结束后调用 `ReleaseStringUTFChars`。
+2. 如果 B 不是拷贝，isCopy 被赋值为 JNI_FALSE；但无论 isCopy 是 JNI_TRUE 还是 JNI_FALSE，返回值类型都是 `const char*` ，本地代码都不应该修改这段缓冲区。
+3. 通常，我们不必关心 JVM 是否会返回拷贝，只需要为 isCopy 传递 NULL 作为参数，并在使用结束后调用 `ReleaseStringUTFChars` 。
 
 
 ## stringaling.h
