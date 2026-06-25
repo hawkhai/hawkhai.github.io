@@ -1,7 +1,7 @@
 #encoding=utf8
 """Per-file formatting and content validation for mdrstrip."""
 from .runtime import *
-from .config import getLinkTagSrc, loadRougifyList, readFileIgnoreList
+from .config import getLinkTagSrc, loadRougifyList, loadSpaceFixJson, mergeSpaceFixJson, readFileIgnoreList
 from .filesystem import checkFileSize
 from .references import appendRefs, removeRefs
 
@@ -129,13 +129,11 @@ def mainfile(fpath, fname, ftype, fdepth=0):
 
     # .spacefix.json
     spacefixfile = (os.path.splitext(fpath)[0] + SPACEFIXFILE_TAIL)
-    spacefixjson = {}
+    spacefixjson = loadSpaceFixJson()
     if not os.path.exists(spacefixfile):
         spacefixfile = os.path.join(os.path.split(fpath)[0], "k"+os.path.splitext(fname)[0]+SPACEFIXFILE_TAIL)
     if os.path.exists(spacefixfile):
-        spacefixjson = readfileJson(spacefixfile, "utf8")
-
-    spacefixjson["粤 ICP 备 17134686 号"] = "粤ICP备17134686号"
+        mergeSpaceFixJson(spacefixjson, readfileJson(spacefixfile, "utf8"))
 
     codestate = False
     chartstate = False

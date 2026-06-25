@@ -33,6 +33,26 @@ def readFileIgnoreList(fpath):
     G_CACHE_IGLIST[hash] = li
     return li
 
+def mergeSpaceFixJson(spacefixjson, extra):
+    if not extra:
+        return spacefixjson
+
+    for key, value in extra.items():
+        if key == "regex":
+            if key not in spacefixjson:
+                spacefixjson[key] = {}
+            spacefixjson[key].update(value)
+            continue
+        spacefixjson[key] = value
+    return spacefixjson
+
+def loadSpaceFixJson():
+    spacefixjson = {}
+    for fpath in ("config/mdrstrip.spacefix.json", "invisible/config/mdrstrip.spacefix.json"):
+        if os.path.exists(fpath):
+            mergeSpaceFixJson(spacefixjson, readfileJson(fpath, "utf8"))
+    return spacefixjson
+
 def checkpage(fdata):
     if not G_CHECKPAGE:
         itag0 = bytesToString("ERR_CONNECTION_TIMED_OUT".encode("utf8"))
