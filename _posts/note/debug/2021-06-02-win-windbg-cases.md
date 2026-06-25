@@ -289,7 +289,7 @@ QPixmap SimplePageEdit::GetImagePixmap(const std::shared_ptr<IPageElement>& elem
 ```
 
 上面这段代码，存在严重的内存泄漏，调用一次 泄漏整张图片的内存，大概几十兆，稍微多调用几次，程序就挂了。
-问题出在函数 `QImage` ， `free(data);` 当 data 为空的时候，free 函数不会报错。
+问题出在 `QImage` 构造函数的 cleanup 参数用错了：cleanupFunction 收到的是 cleanupInfo，不会自动收到图像数据指针；这里只传了函数、没有把 data 作为 cleanupInfo 传进去，实际释放的是空指针。
 **写的时候，应该没有全面调试和确认，没有准确查询文档。**
 
 函数原型：
@@ -299,7 +299,7 @@ QImage(const uchar *data, int width, int height, Format format,
         void *cleanupInfo = nullptr);
 ```
 
-其中 data 是指向颜色数据（32bit）的指针，width 表示一行有多少个像素，height 表示一列有多少个像素，format 表示图像格式（QImage 提供了多种格式）。
+其中 data 是指向颜色数据（32bit）的指针，width 表示一行有多少个像素，height 表示有多少行像素，format 表示图像格式（QImage 提供了多种格式）。
 QImage 在析构时并不会删除 data。如果提供了 cleanupFunction 和 cleanupInfo，那么当 QImage 的图像数据不再被使用时，
 会调用 **cleanupFunction** 清除 **cleanupInfo** 所指向的内存。
 
@@ -675,7 +675,7 @@ EDI = 88001700 EIP = 00D78866 ESP = 0262FD7C EBP = 0262FE08 EFL = 00010286
 {% include image.html url="/assets/images/210602-win-windbg-cases/20210619003129.png" %}
 {% include image.html url="/assets/images/210602-win-windbg-cases/20200312111504316.png" %}
 
-每个堆块的前 8 个字节是一个 HEAP_ENTRY 结构体，头部的结构，记录了这块内存 de 信息。
+在本文这个 32 位 NT Heap 示例中，每个堆块的前 8 个字节是一个 HEAP_ENTRY 结构体，头部结构记录了这块内存的信息。
 Vista 引入了很多新的东西，对堆块的块头结构（HEAP_ENTRY）编码，编码的目的是引入随机性，增强堆的安全性，防止黑客轻易就可以预测堆的数据内容而实施攻击。
 其中的 EncodeFlagMask 用来指示是否启用编码功能；Encoding 字段是用来编码的，编码的方法就是用这个 Encoding 结构与每个堆块的头结构做异或（XOR）。
 * [Windows Heap Chunk Header Parsing and Size Calculation](https://stackoverflow.com/questions/28483473/windows-heap-chunk-header-parsing-and-size-calculation)

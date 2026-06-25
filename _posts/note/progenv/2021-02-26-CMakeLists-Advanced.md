@@ -122,8 +122,8 @@ endif()
 if (MSVC_VERSION VERSION_LESS 1900)
 
     list(APPEND DEFAULT_COMPILE_FLAGS
-        <<CONFIG:Debug>: /Zi>     # this is set in RelWithDebInfo builds for all MSVC versions
-        <<CONFIG:RelNoOptimization>: /Zi>
+        $<$<CONFIG:Debug>:/Zi>     # this is set in RelWithDebInfo builds for all MSVC versions
+        $<$<CONFIG:RelNoOptimization>:/Zi>
     )
 
 else() # Visual Studio 14 2015 as minimum
@@ -131,11 +131,11 @@ else() # Visual Studio 14 2015 as minimum
     list(APPEND DEFAULT_COMPILE_FLAGS
         /Zc:referenceBinding /Zc:strictStrings /Zc:throwingNew
         # allow native edit and continue
-        <<CONFIG:Debug>:             /ZI>
-        <<CONFIG:RelNoOptimization>: /ZI>
+        $<$<CONFIG:Debug>:/ZI>
+        $<$<CONFIG:RelNoOptimization>:/ZI>
         # Enable compiler generation of Control Flow Guard security checks. (incompatible with /ZI)
-        <<CONFIG:Release>:           /guard:cf>
-        <<CONFIG:RelWithDebInfo>:    /guard:cf>
+        $<$<CONFIG:Release>:/guard:cf>
+        $<$<CONFIG:RelWithDebInfo>:/guard:cf>
     )
 endif()
 ```

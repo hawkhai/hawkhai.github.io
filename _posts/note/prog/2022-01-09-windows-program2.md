@@ -44,7 +44,7 @@ cluster: "Windows 编程知识点"
 
 * 作用
     * 文件头，兼容 DOS 模式
-    * DOS 下默认显示 This program must be run under win32
+    * DOS 下通常显示 This program cannot be run in DOS mode
 * 重要字段
     * e_magic 标记 MZ(4D5A)，MS-DOS 创建者 Mark Zbikowski
     * e_lfanew 指向真正的 PEHeader
@@ -86,7 +86,7 @@ cluster: "Windows 编程知识点"
     * main
         * main/WinMain
 * 编译运行过程
-    * 编译链接过程 ENTRY 选项指定入口函数，默认为 main
+    * 编译链接过程 ENTRY 选项指定入口函数；默认入口通常是 CRT 启动函数，而不是直接从 main 开始
     * OEP 指定为 libc.lib 中的 mainCRTStartup(console)
     * mainCRTStartup 完成初始化后调用 main
 * 备注

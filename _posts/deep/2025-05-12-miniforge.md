@@ -44,18 +44,18 @@ rm --rf ~/anaconda3
 官网下载地址：<https://conda-forge.org/download>
 
 ```
-bash Miniforge3-MacoSX-arm64.sh
+bash Miniforge3-MacOSX-arm64.sh
 ```
 
 清华源的 forge 镜像
 <https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/>
 
 
-## 活 Miniforge 环境
+## 激活 Miniforge 环境
 
 安装完成后，终端会提示你执行以下命令来激活 conda 环境
 ```
-source ~/.bashrc # 或者 ~/.zshrc1
+source ~/.bashrc # 或者 ~/.zshrc
 ```
 
 至此安装完毕，可输入 conda 或 mamba 命令验证是否安装成功
@@ -68,9 +68,12 @@ mamba --version
 ## Anaconda 环境迁移
 
 ```
-# 拷贝 Anaconda envs 到 Miniforge envs
-# 完全兼容 mamba env list mamba activate ENV NAME
-cp anaconda3/envs/* miniforge3/envs/
+# 不建议直接拷贝 Anaconda envs 到 Miniforge envs：
+# conda 环境里常包含绝对路径和二进制包元数据，直接复制不保证可用。
+# 更稳妥的方式是在旧环境导出后，在 Miniforge 中重建。
+conda activate ENV_NAME
+conda env export --from-history > environment.yml
+conda env create -f environment.yml
 ```
 
 

@@ -393,7 +393,7 @@ PaddleOCR 内置了一部分字典，可以按需使用。
 
 **自定义字典**
 
-如需自定义 dic 文件，请在 configs/rec/PP-OCRv3/en_PP-OCRv3_rec.yml 中添加 character_dict_path 字段，指向您的字典路径。
+如需自定义 dic 文件，请在实际使用的识别配置文件中添加 character_dict_path 字段，例如本文的 configs/rec/PP-OCRv4/ch_PP-OCRv4_rec.yml，并指向您的字典路径。
 
 **添加空格类别**
 
@@ -605,7 +605,7 @@ python tools/infer_rec.py -c configs/rec/PP-OCRv4/ch_PP-OCRv4_rec.yml -o Global.
 ### 2-7 导出
 
 ```
-python tools/export_model.py -c configs/rec/PP-OCRv4/ch_PP-OCRv4_rec.yml -o Global.pretrained_model=./pretrain_models/en_PP-OCRv3_rec_train/best_accuracy  Global.save_inference_dir=./inference/en_PP-OCRv3_rec/
+python tools/export_model.py -c configs/rec/PP-OCRv4/ch_PP-OCRv4_rec.yml -o Global.pretrained_model={path/to/weights}/best_accuracy Global.save_inference_dir=./inference/ch_PP-OCRv4_rec/
 ```
 
 

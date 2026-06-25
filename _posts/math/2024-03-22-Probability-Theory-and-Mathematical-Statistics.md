@@ -319,7 +319,7 @@ C 是常数 \\
 D(C)=0\\
 D(CX)=C^2D(X)\\
 D(C+X)=D(X)\\
-D(X+Y)=D(X)+D(Y)+2E[(X-E(X)(Y-E(Y)]\\
+D(X+Y)=D(X)+D(Y)+2E[(X-E(X))(Y-E(Y))]\\
 若 X,Y 相互独立 \\
 D(X+Y)=D(X)+D(Y)\\
 {\color{Red} 标准化：}\\
@@ -383,7 +383,7 @@ $$
 \begin{array}{l}
 
 定义 :\\
-协方差：Cov(X,Y)=E[(X-E(X)(Y-E(Y))]\\
+协方差：Cov(X,Y)=E[(X-E(X))(Y-E(Y))]\\
 
 性质：\\
 Cov(X,Y)=Cov(Y,X)\\

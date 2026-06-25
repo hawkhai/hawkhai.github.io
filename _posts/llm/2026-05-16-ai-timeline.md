@@ -117,7 +117,7 @@ ViT: 当图像遇到 Transformer（2020.10）
 
 CLIP: 文生图的奠基石（2021.03）
 
-Stable Diffusion，它来了（2021.12）
+Latent Diffusion 论文（2021.12）；Stable Diffusion 公开发布（2022.08）
 
 DiT: 人们期待一个融合的未来（2022.12）
 

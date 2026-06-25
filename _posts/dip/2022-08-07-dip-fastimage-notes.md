@@ -27,7 +27,7 @@ codeprint:
 
 彩色图像处理
 1. 分别对 R G B 进行 均衡，然后在合并，但这样做 可能导致 图像色彩失真
-2. 把 BGR 转换成 HSV 色彩空间，然后对 V 通道进行 均衡，这样可 保证图像色彩不失真 【HSV 分别是 色调、饱和度、亮度】
+2. 把 BGR 转换成 HSV 色彩空间，然后对 V 通道进行均衡，通常比直接均衡 RGB 三通道更能减轻色偏，但不能绝对保证色彩不失真。【HSV 分别是 色调、饱和度、亮度】
 
 
 ## Optimized contrast enhancement for real-time image and video dehazing

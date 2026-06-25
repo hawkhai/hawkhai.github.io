@@ -69,9 +69,7 @@ User32 和 Gdi32 中部分函数在调用的底层会加载其他 DLL。
 
 ### 使用 CreateThread
 
-主线程进入临界区去调用 DllMain 时进入了临界区，而工作线程也要进入临界区去执行 DllMain。
-但是此时临界区被主线程占用，工作线程便进入等待状态。而主线程却等待工作线程退出才退出临界区。
-于是这就是死锁产生的原因。
+调用 DllMain 时持有 loader lock，新线程启动时也需要发送 DLL_THREAD_ATTACH 通知。单纯 CreateThread 未必立刻死锁，但如果 DllMain 里等待这个线程初始化或退出，就会因为新线程无法完成 DLL 通知而形成死锁。
 
 
 ### 使用 ExitThread
@@ -99,7 +97,7 @@ User32 和 Gdi32 中部分函数在调用的底层会加载其他 DLL。
 
 9. ExitProcess 将导致主线程意外退出，子线程对未卸载的 DLL 进行了 DllMain 调用，且调用原因是 DLL_PROCESS_DETACH。
 
-10. ExitThread 是最和平的退出方式，它会让线程退出前对未卸载的 DLL 调用 DllMain。
+10. 线程从线程函数正常返回或调用 ExitThread 时，会在线程退出前对未卸载且未禁用线程通知的 DLL 调用 DllMain；但不应在 DllMain 中等待这类退出流程。
 
 11. 线程的创建和退出不会对调用了 DisableThreadLibraryCalls 的 DLL 调用 DllMain。
 

@@ -75,7 +75,7 @@ Chapter 5 2017 年 11 月 3 日
 {% include image.html url="/assets/images/240629-artificial-intelligence~82/aef4daddfba6fd7fcf658dec3b1c66cd512443072_1.jpg" %}
 
 GPT 的第一层：词嵌入为向量（embedding）
-嵌入空间不仅代表词，还能包含上下文信息
+初始词嵌入本身主要代表 token；经过 Transformer 各层之后，隐藏状态才会逐步融合上下文信息
 GPT 的最后一层：向量解码为词（Unembedding）
 带温度的 Softmax 函数
 
@@ -113,7 +113,7 @@ Demystifying attention, the key mechanism inside transformers and LLMs.
 
 {% include image.html url="/assets/images/240629-artificial-intelligence~82/20240629221908.png" caption="every node can see every other node" %}
 
-2017 Transformer 提出，截至到 2020 年的 ViT（Vision Transformer），最近 4 年都没有新的革命范式提出了，感觉图片中可能链接的都链接完了。
+2017 Transformer 提出，到 2020 年 ViT（Vision Transformer）把 Transformer 引入通用视觉骨干，是一次很明显的范式切换；后续更多是在架构、训练范式和生成模型上继续演进。
 
 * GPT
 * AlphaFold

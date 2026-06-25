@@ -27,8 +27,8 @@ cluster: "编程指南"
 | adm | administrator |
 | app | application |
 | arg | argument |
-| asm | assemble |
-| asyn | asynchronization |
+| asm | assembly |
+| async | asynchronous |
 | avg | average |
 | bk | back |
 | bmp | bitmap |
@@ -135,7 +135,7 @@ cluster: "编程指南"
 | tab | table |
 | tbl | table |
 | temp / tmp | temporary |
-| tran / trans | translate / transation / transparent |
+| tran / trans | translate / transaction / transparent |
 | tst | test |
 | txt | text |
 | unk | unknown |
@@ -146,7 +146,7 @@ cluster: "编程指南"
 | ver | version |
 | vert | vertical |
 | vir | virus |
-| wnd | windows / window |
+| wnd | window |
 
 
 ## 参考

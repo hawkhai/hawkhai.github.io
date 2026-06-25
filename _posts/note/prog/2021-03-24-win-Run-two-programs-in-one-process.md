@@ -126,7 +126,7 @@ BOOL WINAPI RemoteGetPasswordText( GETPASS* pgp ) {
     NullFunction();
 
     // 隐性调用 Windows API
-    if ( SendMessageA( pgp->hwndPassword, WM_GETTEXT, sizeof(pgp->szPassText)-1, (LPARAM)pgp->szPassText ) ) ) {
+    if ( SendMessageA( pgp->hwndPassword, WM_GETTEXT, sizeof(pgp->szPassText)-1, (LPARAM)pgp->szPassText ) ) {
         MessageBoxA( NULL,
             pgp->szPassText,
             "Great!!", // 可以使用字符串常量

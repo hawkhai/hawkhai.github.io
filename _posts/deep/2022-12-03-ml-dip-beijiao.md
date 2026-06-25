@@ -347,8 +347,8 @@ Preprocessing
 
 * Gray levels 灰度级
 * Gradient features 梯度
-* Gabor features 边缘特征
-* Harr features 小波
+* Gabor features 方向与纹理特征
+* Haar features Haar-like 矩形特征
 
 
 ### P55 9.1.3 复杂背景下的人脸检测算法分类器设计 07:03

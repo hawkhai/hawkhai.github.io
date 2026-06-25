@@ -131,7 +131,7 @@ Default: diffuse 1.0 1.0 1.0 1.0
 
 * **modulate**
 
-另一种将渲染输出加到场景内容中，一般用于给场景着色和加深场景颜色。对于浓烟弥漫的玻璃，半透明的物体等，有很好的使用效果。相当于“scene_blend dest_colour zero”。
+将渲染输出与场景内容相乘，一般用于给场景着色和加深场景颜色。相当于“scene_blend dest_colour zero”。
 
 * **colour_blend**
 
@@ -268,7 +268,7 @@ Default: diffuse 1.0 1.0 1.0 1.0
 
 示例 : alpha_rejection greater_equal 128
 
-如上例所示，拒绝所有来自管线的 alpha 值大于等于 128 的像素。 function 参数可以选择在 depth_function 属性的参数列表中所列的参数。value 参数理论上可以是 0 到 255 之间的任意数，但是考虑到硬件兼容性，最好限制在 0 到 128 之间。
+如上例所示，只有 alpha 值大于等于 128 的像素才会通过，低于阈值的像素会被拒绝。 function 参数可以选择在 depth_function 属性的参数列表中所列的参数。value 参数理论上可以是 0 到 255 之间的任意数。
 
 默认 : alpha_rejection always_pass
 
@@ -546,7 +546,7 @@ exp2 = 雾以几何的二次方增加，更加快速（fog = 1/e^（distance * d
 
 **cubic**
 
-这类纹理由贴在立方体内侧的 6 个 2D 纹理组成。可由 3D 纹理坐标指向，并且对于立方体反射映射（cubic reflection maps）和标准映射（normal maps）很有用。
+这类纹理由贴在立方体内侧的 6 个 2D 纹理组成。可由 3D 纹理坐标指向，常用于立方体反射映射（cubic reflection maps）、天空盒等场景。
 
 'numMipMaps' 选项允许你指定这个纹理的 mipmap 数量。默认值无限（'unlimited'）意味着 mips 的大小生成下限到 1x1。你可以随意指定一个固定的数（甚至是 0）。注意，如果你在多个材质脚本中使用相同的纹理，生成的 mipmap 数量将与装载纹理的第一个纹理单元中指定的数量一致 —— 所以务必保持你的使用一致。
 

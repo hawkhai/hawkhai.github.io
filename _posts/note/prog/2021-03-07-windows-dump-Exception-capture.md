@@ -65,6 +65,7 @@ private:
 
 导航到注册表项：
 * 导航到 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps。
+* 如果只想配置当前用户，也可以使用 HKEY_CURRENT_USER\Software\Microsoft\Windows\Windows Error Reporting\LocalDumps。
 
 创建子项：
 * 如果 LocalDumps 子项不存在，右键点击 Windows Error Reporting，选择 新建 -> 项，命名为 LocalDumps。

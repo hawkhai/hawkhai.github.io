@@ -35,7 +35,7 @@ SWIG is a software development tool that connects programs written in C and C++ 
 ## Emscripten
 
 Branches for Emscripten, native (BridJ), and SWIG.
-把 C/C++ 编译成 JS 代码。
+把 C/C++ 编译到 WebAssembly/asm.js，并生成配套的 JS 胶水代码。
 Emscripten: An LLVM-to-Web Compiler
 
 

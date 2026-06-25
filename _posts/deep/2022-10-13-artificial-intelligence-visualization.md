@@ -132,12 +132,12 @@ cluster: "机器学习课程"
 {% include image1.html url="/assets/images/221013-artificial-intelligence~0c/20221015004432.png" %}
 
 
-### 激活函数 argmax
+### 输出决策 argmax
 
-激活函数的可微性非常重要。我们这里引入一个新的激活函数 **argmax** 。
+激活函数的可微性非常重要，所以训练时通常不会把不可微的 **argmax** 当作激活函数；这里把它作为输出阶段的决策操作来看。
 这个函数返回最大值的索引。
 
-比如一个 25 个数字组成的随机变量，应用这个激活函数，返回 3（第三个点最大）。
+比如一个 25 个数字组成的随机变量，应用这个决策操作，返回 3（第三个点最大）。
 {% include image1.html url="/assets/images/221013-artificial-intelligence~0c/20221015005212.png" %}
 {% include image1.html url="/assets/images/221013-artificial-intelligence~0c/20221015005249.png" %}
 
@@ -189,7 +189,7 @@ ReLU 激活函数，线性扩展特性。把视角放大。
 ## 最终决策边界
 
 
-### argmax 激活的情况
+### argmax 决策的情况
 
 倒数第二层绘制成二维。
 {% include image1.html url="/assets/images/221013-artificial-intelligence~0c/20221015012342.png" %}
@@ -204,7 +204,7 @@ ReLU 激活函数，线性扩展特性。把视角放大。
 {% include image1.html url="/assets/images/221013-artificial-intelligence~0c/20221015012714.png" %}
 
 
-### softmax 激活的情况
+### softmax 输出的情况
 
 采用 softmax 激活函数后，这些分割平面变成了，高潮又来了：
 {% include image1.html url="/assets/images/221013-artificial-intelligence~0c/20221015012902.png" %}

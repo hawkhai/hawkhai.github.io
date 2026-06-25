@@ -16,13 +16,13 @@ codeprint:
 archived: true
 ---
 
-> Kunth 大神说过的“过早的优化是万恶之源 + 寻找真正的瓶颈”。
+> Knuth 大神说过的“过早的优化是万恶之源 + 寻找真正的瓶颈”。
 
 GLSL optimizer based on Mesa's GLSL compiler. Used in Unity for mobile shader optimization.
 [glsl-optimizer {% include relref_github.html %}](https://github.com/aras-p/glsl-optimizer)
 
-能在 CPU 完成的，尽量不要在 GPU 里面完成，比如投影矩阵。[from {% include relref_zhihu.html %}](https://www.zhihu.com/question/367207731)
-传入 vertex shader 后，每个流水单元会计算投影矩阵，导致大量重复的计算（有多少个顶点就有多少次重复的计算）。
+能在 CPU 预先算好的，尽量不要在 GPU 里面重复构造，比如 Model/View/Projection 或 MVP 矩阵。[from {% include relref_zhihu.html %}](https://www.zhihu.com/question/367207731)
+如果在 vertex shader 中逐顶点构造这些矩阵，就会造成大量重复计算；通常应在 CPU 侧算好矩阵，再作为 uniform 传入 shader。
 Vertex Shader 里面的代码，每个顶点都要执行一次。
 Pixel Shader 里面的代码，每个像素都要执行一次。[Compute Shader 简介](http://frankorz.com/2021/04/17/compute-shader/)
 

@@ -44,7 +44,7 @@ $$
 $$
 \boldsymbol{x} =
 \begin{bmatrix}
-x_1\x_2\x_3
+x_1 & x_2 & x_3
 \end{bmatrix}
 $$
 
@@ -100,7 +100,10 @@ $$
 $$
 \boldsymbol{x} =
 \begin{bmatrix}
-x_1\x_2\\vdots\x_n
+x_1\\
+x_2\\
+\vdots\\
+x_n
 \end{bmatrix}
 \in \mathbb{R}^n
 $$
@@ -151,8 +154,8 @@ $$
 = [2x_1, 2x_2, \dots, 2x_n]
 = 2
 \begin{bmatrix}
-x_1\x_2\\vdots\x_n
-\end{bmatrix}^{!!\mathsf{T}}
+x_1 & x_2 & \cdots & x_n
+\end{bmatrix}
 $$
 
 如果我们采用列向量形式表示梯度（在机器学习中常用这种 convention），
@@ -203,7 +206,7 @@ $$
 - $f(\boldsymbol{x})=\lVert\boldsymbol{x}-\boldsymbol{a}\rVert, \frac{\partial f(\boldsymbol{x})}{\partial \boldsymbol{x}}=\frac{\boldsymbol{x}-\boldsymbol{a}}{\lVert\boldsymbol{x}-\boldsymbol{a}\rVert}$（当 $\boldsymbol{x} \neq \boldsymbol{a}$ 时）
 
 
-## 高斯正交化
+## 施密特正交化（Gram-Schmidt）
 
 {% include image.html url="/assets/images/251025-mathematical-fundamenta~5a/23492424.png" %}
 

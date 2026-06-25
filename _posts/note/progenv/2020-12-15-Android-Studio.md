@@ -138,7 +138,7 @@ E:\android-studio-ide-181.5014246-windows\android-studio\jre\bin\jarsigner.exe -
 ## WINDOWS 的 Android Studio 无法启动 ARM 的模拟器
 
 * mumu 夜神也是 x86 模拟器，只是有 intel 搞得一个 arm 兼容层 **houdini**
-* 现在 windows 下跑 arm apk 最好的方案就是微软搞的那个 **wsa** ，win11 可以直接商店安装，win10 其实也能用，但需要一些特殊步骤安装
+* 以前 Windows 下跑 ARM APK 可以考虑微软的 **WSA** ，但 Microsoft 已在 2025-03-05 之后结束 WSA / Amazon Appstore 支持；现在应优先考虑真机、官方模拟器或仍在维护的第三方方案。
 
 
 ## Android Studio
@@ -174,8 +174,7 @@ ERROR: ABIs [arm64-v8a] are not supported for platform.
 Supported ABIs are [armeabi-v7a, x86].
 Affected Modules: app
 
-当我使用的 compileSdkVersion 19 时，就会报上面的错，改成 compileSdkVersion 26 就可以了。
-说明不同的编译版本，它们所支持的平台不一样。
+当我使用的 Android 平台版本太低时，就会报上面的错；`arm64-v8a` 从 Android 5.0/API 21 开始支持，需确保 `minSdkVersion` / `APP_PLATFORM` 不低于 `android-21`。单纯提高 `compileSdkVersion` 不一定是根因。
 
 ```
 $(call import-add-path, $(LOCAL_PATH)) # 没有这一行，下面这行会报错。

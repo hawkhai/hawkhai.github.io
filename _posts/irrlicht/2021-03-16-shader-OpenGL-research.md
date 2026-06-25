@@ -105,8 +105,8 @@ Irrlicht GLES 分析。
 * glTexImage2D **上传图片数据。**
     * target=3553; level=0; internalformat=32993; width=64; height=64; border=0; format=32993; type=5121; pixels=<ADDRESS>;
     * glTexImage2D(GL_TEXTURE_2D, 0, InternalFormat, Size.Width, Size.Height, 0, PixelFormat, PixelType, 0);
-    * internalformat 指定纹理中的颜色组件。可选的值有 GL_ALPHA, GL_RGB, GL_RGBA, GL_LUMINANCE, GL_LUMINANCE_ALPHA 等几种。
-    * format 像素数据的颜色格式，不需要和 internalformatt 取值必须相同。可选的值参考 internalformat。
+    * internalformat 指定纹理在 OpenGL 内部的存储格式，现代 OpenGL 更推荐使用 GL_RGB8、GL_RGBA8 这类 sized internal format。
+    * format 像素数据的颜色格式，描述客户端内存中 pixels 的分量排列，不需要和 internalformat 完全相同，但必须是 OpenGL 定义了转换关系的组合。
     * type 指定像素数据的数据类型。可以使用的值有 GL_UNSIGNED_BYTE, GL_UNSIGNED_SHORT_5_6_5, GL_UNSIGNED_SHORT_4_4_4_4, GL_UNSIGNED_SHORT_5_5_5_1。
 * glGenerateMipmap
     * target=3553;
@@ -114,10 +114,9 @@ Irrlicht GLES 分析。
     * texture=33985;
 * glPixelStorei 对齐像素字节函数：[glPixelStorei {% include relref_csdn.html %}](https://blog.csdn.net/keneyr/article/details/102727363)
     * pname=3333; param=1;
-    * glPixelStorei(GL_UNPACK_ALIGNMENT,1) 控制的是所读取数据的对齐方式，默认 4 字节对齐，
-        即一行的图像数据字节数必须是 4 的整数倍，即读取数据时，读取 4 个字节用来渲染一行，
-        之后读取 4 字节数据用来渲染第二行。对 RGB 3 字节像素而言，若一行 10 个像素，即 30 个字节，在 4 字节对齐模式下，
-        OpenGL 会读取 32 个字节的数据，若不加注意，会导致 glTextImage 中致函数的读取越界，从而全面崩溃。
+    * glPixelStorei(GL_UNPACK_ALIGNMENT,1) 控制的是客户端像素数据每一行起始地址的对齐方式，默认 4 字节对齐。
+        这表示 OpenGL 会把每行步长按 4 字节边界取整，而不是“每次读取 4 个字节渲染一行”。对 RGB 3 字节像素而言，若一行 10 个像素，即 30 个字节，在 4 字节对齐模式下，
+        OpenGL 会按 32 字节的行步长取下一行数据，若实际数据是紧密排列而没有 padding，就会导致 glTexImage2D 读错行数据，严重时可能越界。
     * 1) glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     * 2) glTexImage2D(,,,, &pixelData);
     * 3) glPixelStorei(GL_UNPACK_ALIGNMENT, 4);

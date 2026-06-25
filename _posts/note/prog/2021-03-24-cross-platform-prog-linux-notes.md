@@ -316,8 +316,7 @@ extern "C" JNIEXPORT jstring JNICALL
 Java_com_test_MainActivity_stringFromJNI(
         JNIEnv* env,
         jobject thiz) {
-    void* func = getFunctionPtr("Java_com_testEngine_platform",
-                                "libtestEngine.so");
+    void* func = getFunctionPtr("Java_com_testEngine_platform");
     typedef jstring JNICALL (*FUNC)(JNIEnv* env, jobject /* this */);
     FUNC myfunc = (FUNC) func;
     jstring retv = myfunc(env, thiz);

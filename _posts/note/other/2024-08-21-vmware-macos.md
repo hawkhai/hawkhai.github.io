@@ -18,6 +18,8 @@ l2dwidget: true
 
 [VMware 虚拟机安装 macOS 10.15（教 unlock，调整分辨率） {% include relref_csdn.html %}](https://blog.csdn.net/weixin_48830465/article/details/125050097)
 
+注意：macOS 的许可通常限制在 Apple 品牌硬件上运行。下面内容只适合作为虚拟化技术记录，实际使用前需要确认授权和合规边界。
+
 
 ## 下载并使用 Unlock 工具
 

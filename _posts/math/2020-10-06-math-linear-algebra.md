@@ -92,7 +92,7 @@ $$
 {% include image.html url="/assets/images/201006-math-linear-algebra/rr3qru.jpeg" %}
 
 根据平面方程，平面的法向量 $$(Normal Vector)$$ 是 $$v=(a, b, c)$$，设从平面上任意一点 $$(x, y, z)$$ 到 $$(x_0, y_0, z_0)$$ 的向量为 $$w$$，
-那么通过内积 $$dot\_product(w, v)$$ 算出 $$w$$ 到 $$v$$ 的投影向量 $$p$$，其大小就是 $$(x_0, y_0, z_0)$$ 到平面 $$a*x + b*y + c*z + d = 0$$ 的垂直距离。
+那么点到平面的垂直距离是 $$w$$ 在法向量方向上的标量投影长度：$$\left|dot\_product(w, v)\right| / \|v\|$$，也就是 $$|a x_0+b y_0+c z_0+d| / \sqrt{a^2+b^2+c^2}$$。
 这里用到了向量模型的基本概念：法向量，投影向量，内积，整个问题解决过程简洁明快。
 
 

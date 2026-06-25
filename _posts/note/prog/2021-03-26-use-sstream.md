@@ -24,7 +24,7 @@ codeprint:
 
 你可以使用 C++11 标准库里的 stringstream，它可以实现字符串和所有各种数字的转换，包括 int, float, double，简单粗暴，不用考虑缓冲区溢出的问题。自从知道这个神器之后，我就没有用过 sscanf 和 sprintf 函数了。
 
-当要进行多次数据类型转换时，需要先使用 clear() 清空流，不然之前的数据会影响下一次数据类型转换。
+当要复用同一个 stringstream 进行多次数据类型转换时，需要同时清空状态和缓冲区；单独 clear() 只重置错误状态，不会清掉已有内容。
 
 ```cpp
 #include <string>
@@ -33,15 +33,17 @@ codeprint:
 int main()
 {
     std::stringstream str2digit;
-    std::string sint='1', sfloat='1.1', sdouble='1.2';
+    std::string sint = "1", sfloat = "1.1", sdouble = "1.2";
     int dint;
     float dfloat;
     double ddouble;
 
     str2digit << sint; str2digit >> dint;  // string to int
     str2digit.clear();
+    str2digit.str("");
     str2digit << sfloat; str2digit >> dfloat;  // string to float
     str2digit.clear();
+    str2digit.str("");
     str2digit << sdouble; str2digit >> ddouble;  // string to double
 
     std::cout << dint << ", " << dfloat << ", " << ddouble << std::endl;
@@ -119,17 +121,17 @@ fileSave.open(filename, ios::ate);
         strStream<<DATA1[i]<< "  " <<DATA2[i]<< "  " <<DATA3[i]<< "  " <<DATA4[i]<<endl;
         fileSave.write( strStream.str().c_str(), strStream.str().size() );
     }
-fileSave.close;
+fileSave.close();
 ```
 
 清空一个 stringstream 对象 (stringstream strs) 里的内容时，单 strs.clear() 是不行的，要用 strs.str("") 这句才行哦。
 
 ```cpp
 // 把整个文件内容存储到单独一个字符串里：
-ofstream dfileSave;
+ifstream dfileSave;
 stringstream outstream;
 
-dfileSave.open("tResult.txt", ios::in | ios::app);
+dfileSave.open("tResult.txt", ios::in);
 
 std::filebuf *pFileBuffer =  dfileSave.rdbuf();
 outstream << pFileBuffer;

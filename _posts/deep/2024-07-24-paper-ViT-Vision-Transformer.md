@@ -22,13 +22,13 @@ cluster: "机器学习课程"
 美国 AI 从业者 / 研究者 60% 以上为华人 / 华裔，已经是统治级别的地位了。
 有好的丹炉和原料也还要有过硬的炼丹技术。
 
-* Transformer 相较于 CNN 结构，缺少一定的平移不变性和局部感知性，因此在数据量不充分时，很难达到同等的效果。具体表现为使用中等规模的 ImageNet 训练的 Transformer 会比 ResNet 在精度上低几个百分点。
+* Transformer 相较于 CNN 结构，缺少一定的平移等变性（translation equivariance）和局部感知性，因此在数据量不充分时，很难达到同等的效果。具体表现为使用中等规模的 ImageNet 训练的 Transformer 会比 ResNet 在精度上低几个百分点。
     * 数据规模至少 ImageNet-21k 才建议选择 ViT。
 * 当有大量的训练样本时，结果则会发生改变。使用大规模数据集进行预训练后，再使用迁移学习的方式应用到其他数据集上，可以达到或超越当前的 SOTA 水平。
 
 {% include image.html url="/assets/images/240724-paper-vit-vision-transf~56/ViT.webp" %}
 
-但是当训练数据集不够大的时候，ViT 的表现通常比同等大小的 ResNets 要差一些，因为 Transformer 和 CNN 相比缺少归纳偏置（inductive bias），即一种先验知识，提前做好的假设。CNN 具有两种归纳偏置，一种是局部性（locality / two-dimensional neighborhood structure），即图片上相邻的区域具有相似的特征；一种是平移不变形（translation equivariance），
+但是当训练数据集不够大的时候，ViT 的表现通常比同等大小的 ResNets 要差一些，因为 Transformer 和 CNN 相比缺少归纳偏置（inductive bias），即一种先验知识，提前做好的假设。CNN 具有两种归纳偏置，一种是局部性（locality / two-dimensional neighborhood structure），即图片上相邻的区域具有相似的特征；一种是平移等变性（translation equivariance），
 $f(g(x))=g(f(x))$ ，其中 $g$ 代表卷积操作，$f$ 代表平移操作。当 CNN 具有以上两种归纳偏置，就有了很多先验信息，需要相对少的数据就可以学习一个比较好的模型。
 
 
@@ -52,7 +52,7 @@ caption="位置编码得相似性分析 (cos)，位置越接接近，patches 之
 * 2-D 位置编码：patch 编码为 11,12,13,21,22,23,31,32,33，即同时考虑 X 和 Y 轴的信息，每个轴的编码维度是 D/2。
 * 相对位置编码。
 
-实际实验结果表明，不管使用哪种位置编码方式，模型的精度都很接近，甚至不适用位置编码，模型的性能损失也没有特别大。原因可能是 ViT 是作用在 image patch 上的，而不是 image pixel，对网络来说这些 patch 之间的相对位置信息很容易理解，所以使用什么方式的位置编码影像都不大。
+实际实验结果表明，不管使用哪种位置编码方式，模型的精度都很接近，甚至不使用位置编码，模型的性能损失也没有特别大。原因可能是 ViT 是作用在 image patch 上的，而不是 image pixel，对网络来说这些 patch 之间的相对位置信息很容易理解，所以使用什么方式的位置编码影响都不大。
 
 {% include image.html url="/assets/images/240724-paper-vit-vision-transf~56/v2-e152c9ad22f6984912fb0652cf294018_1440w.png" %}
 

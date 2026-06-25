@@ -108,9 +108,9 @@ pip install flash_attn-2.6.3+cu121torch2.5-cp311-linux_x86_64.whl
 python -c "import flash_attn; print('flash-attn OK')"
 pip install vllm
 
-# 2. 如果还是 11.5，让我们下载并安装 CUDA 12.1
+# 如果 nvcc 还是 11.5，需要安装 CUDA 12.1 toolkit；torch.version.cuda 取决于 PyTorch wheel，不会因为系统 nvcc 改变。
 wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_installers/cuda_12.1.1_530.30.02_linux.run
-# 3. 安装 CUDA 12.1（只安装工具包）
+# 安装 CUDA 12.1（只安装工具包）
 sudo TMPDIR=/data/tmp_cuda sh cuda_12.1.1_530.30.02_linux.run --silent --toolkit
 
 sudo rm -rf /usr/local/cuda
@@ -176,8 +176,9 @@ if torch.cuda.is_available():
     print(f'CUDA version: {torch.version.cuda}')
     print(f'GPU count: {torch.cuda.device_count()}')
     for i in range(torch.cuda.device_count()):
-    print(f'GPU {i}: {torch.cuda.get_device_name(i)}')
-python -c "import flash_attn; print(f'Flash Attention: {flash_attn.__version__}')"
+        print(f'GPU {i}: {torch.cuda.get_device_name(i)}')
+import flash_attn
+print(f'Flash Attention: {flash_attn.__version__}')
 "
 
 Python: 3.11.9 (main, Apr 16 2026, 17:55:20) [GCC 11.4.0]

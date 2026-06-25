@@ -34,9 +34,9 @@ codeprint:
 {% include image.html url="/assets/images/200912-math-imagination/10.jpg" %}
 
 
-### 地心说
+### 第谷式视角
 
-火星围绕太阳转，并且跟随太阳围绕地球转：
+火星围绕太阳转，并且跟随太阳围绕地球转，这更接近第谷式体系；从几何上看，它也能解释地球视角下的火星逆行：
 
 {% include image.html url="/assets/images/200912-math-imagination/v2-18234d1760fc55f900c2e20ab5a6e1a4_hd.gif" %}
 

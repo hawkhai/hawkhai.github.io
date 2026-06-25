@@ -197,7 +197,7 @@ typedef struct tagPIXELFORMATDESCRIPTOR { // pfd
 ```
 
 Irrlicht:
-内存中为：BGRA，文件存储通常 big-endian，为 ARGB。刚好是内存的反转。OpenGLColor RGBA。
+以 A8R8G8B8 这类 32 位格式为例，逻辑分量顺序是 ARGB；在常见 little-endian CPU 内存中字节常表现为 BGRA。文件里的字节顺序取决于具体文件格式，不能简单说成通常 big-endian。OpenGLColor RGBA。
 
 ```cpp
 //! An enum for the color format of textures used by the Irrlicht Engine.

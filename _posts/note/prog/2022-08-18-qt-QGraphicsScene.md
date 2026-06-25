@@ -156,7 +156,7 @@ QImage(uchar * data, int width, int height, int bytesPerLine, Format format)
 QImage(const uchar * data, int width, int height, int bytesPerLine, Format format)
 // 深拷贝
 QImage QImage::copy(const QRect & rectangle = QRect()) const
-// 浅拷贝
+// 返回通道交换后的新 QImage，原图不变
 QImage QImage::rgbSwapped() const
 ```
 

@@ -42,10 +42,10 @@ cv2.morphologyEx MORPH_CLOSE
 {% include image.html url="/assets/images/240129-dip-opencv-morphology/fe75d8b8114942ceaff8e0d88bb632a8.png" %}
 
 
-## 梯度 = 原图 - 腐蚀
+## 梯度 = 膨胀 - 腐蚀
 
 cv2.morphologyEx MORPH_GRADIENT
-腐蚀之后原图像边缘变小了，原图 - 腐蚀 就可以得到腐蚀掉的部分，即边缘。
+膨胀会扩大前景，腐蚀会缩小前景，膨胀 - 腐蚀 就可以得到边界附近的轮廓。
 
 {% include image.html url="/assets/images/240129-dip-opencv-morphology/1f3a5be1e0074ddf81d34d66b46f381d.png" %}
 
@@ -58,10 +58,10 @@ cv2.morphologyEx MORPH_TOPHAT
 {% include image.html url="/assets/images/240129-dip-opencv-morphology/3b561c8bfb624c439b9e8a9e8d2ac912.png" %}
 
 
-## 黑帽 = 原图 - 闭运算
+## 黑帽 = 闭运算 - 原图
 
 cv2.morphologyEx MORPH_BLACKHAT
-闭运算可以将图像内部的噪点去除，那么原图 - 闭运算 的结果就是图像内部的噪点。
+闭运算可以填补前景内部的小暗区域，那么闭运算 - 原图 的结果就是这些暗细节。
 
 {% include image.html url="/assets/images/240129-dip-opencv-morphology/f023634b0d2a464ba18be75334587f38.png" %}
 

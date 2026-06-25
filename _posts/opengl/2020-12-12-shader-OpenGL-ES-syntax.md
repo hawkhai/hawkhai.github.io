@@ -27,7 +27,7 @@ cluster: "OpenGL Shader"
 ### 向量构造
 
 * 如果向量构造器中只提供了一个标量参数，则向量中所有值都会设定为该标量值。
-* 如果提供了多个标量值或提供了向量参数，则会从左至右使用提供的参数来给向量赋值，如果使用多个标量来赋值，则需要确保标量的个数要多于向量构造器中的个数。
+* 如果提供了多个标量值或提供了向量参数，则会从左至右使用提供的参数来给向量赋值；使用多个标量时，需要确保这些标量足够填满向量的各个分量。
 
 ```glsl
 vec4 myVec4 = vec4(1.0);            // myVec4 = {1.0, 1.0, 1.0, 1.0}
@@ -44,7 +44,7 @@ myVec4 = vec4(myVec2, temp, 0.0);   // myVec4 = {myVec2.x, myVec2.y, temp, 0.0}
 
 * 如果对矩阵构造器只提供了一个标量参数，该值会作为矩阵的对角线上的值。例如 mat4(1.0) 可以构造一个 4×4 的单位矩阵。
 * 矩阵可以通过多个向量作为参数来构造，例如一个 mat2 可以通过两个 vec2 来构造。
-* 矩阵可以通过多个标量作为参数来构造，矩阵中每个值对应一个标量，按照从左到右的顺序。
+* 矩阵可以通过多个标量作为参数来构造，矩阵中每个值对应一个标量，参数会按列优先顺序填入矩阵。
 
 在 OpenGL ES 中， **矩阵的值会以列的顺序来存储** 。在构造矩阵时，构造器参数会按照列的顺序来填充矩阵，如下：
 
@@ -150,7 +150,7 @@ fogVar = fogStruct(vec4(0.0, 1.0, 0.0, 0.0), // color
 
 与 C 语言不同，在 GLSL 中，关于数组有两点需要注意：
 
-* 除了 uniform 变量之外，数组的索引只允许使用常数整型表达式。
+* OpenGL ES 2.0 对数组动态索引限制较多，尤其 sampler 数组通常要求使用常量整型表达式索引。
 * 在 GLSL 中不能在创建的同时给数组初始化，即数组中的元素需要在定义数组之后逐个初始化，且数组不能使用 const 限定符。
 
 
@@ -337,7 +337,7 @@ GLSL 中的函数不能够递归调用。
 | 限定符 | 描述 |
 | ----- | ----- |
 | in | 默认使用的缺省限定符，指明参数传递的是值，并且函数不会修改传入的值（C 语言中传递值） |
-| inout | 指明参数传入的是引用，如果在函数中对参数的值进行了修改，当函数结束后参数的值也会修改（C 语言中传递引用） |
+| inout | 指明参数传入后可读可写，如果在函数中对参数的值进行了修改，当函数结束后参数的值也会修改（语义上类似传入可写参数） |
 | out | 参数的值不会传入函数，但是在函数内部修改其值，函数结束后其值会被修改 |
 
 ```glsl
@@ -673,7 +673,7 @@ Syntax & Description
 
 ### 纹理查找函数
 
-图像纹理有两种：一种是平面 2d 纹理，另一种是盒纹理。针对不同的纹理类型有不同访问方法。
+OpenGL ES 2.0 核心中常用的采样纹理主要是平面 2D 纹理和立方体纹理。针对不同的纹理类型有不同访问方法。
 * 函数中带有 Cube 字样的是指需要传入盒状纹理。
 * 带有 Proj 字样的是指带投影的版本。
 
@@ -695,7 +695,7 @@ vec4 texture2DProj(sampler2D sampler, vec4 coord, float bias);
 vec4 textureCube(samplerCube sampler, vec3 coord, float bias);
 ```
 
-在定点着色器和片段着色器中都可用：
+在顶点着色器和片段着色器中都可用：
 
 ```glsl
 vec4 texture2D(sampler2D sampler, vec2 coord);
@@ -732,7 +732,7 @@ The direction of coord is used to select which face to do a 2-dimensional textur
 A shader pair that applies diffuse and ambient lighting to a
 textured object.
 
-这个例子是 OpenGL® ES 官方唯一的例子，能看懂了，估计就差不多了。
+这个例子是 OpenGL® ES 规范中一个经典参考示例，能看懂了，估计就差不多了。
 
 Vertex Shader:
 
@@ -749,14 +749,14 @@ attribute vec4 a_vertex; // 顶点坐标
 attribute vec3 a_normal; // 顶点法线
 // texture coordinates
 attribute vec2 a_texcoord; // 纹理坐标
-varying float v_diffuse; // 法线与入射光的夹角
+varying float v_diffuse; // 法线与入射光夹角的余弦/漫反射系数
 varying vec2 v_texcoord; // 2d 纹理坐标
 
 void main(void) {
     // 归一化法线
     // put vertex normal into eye coords
     vec3 ec_normal = normalize(normal_matrix * a_normal);
-    // v_diffuse 是法线与光照的夹角。根据向量点乘法则，当两向量长度为 1 是乘积，即 cosθ 值。
+    // v_diffuse 是法线与光照方向夹角的余弦值。根据向量点乘法则，当两向量长度为 1 时乘积即 cosθ。
     // emit diffuse scale factor, texcoord, and position
     v_diffuse = max(dot(ec_light_dir, ec_normal), 0.0);
     v_texcoord = a_texcoord;

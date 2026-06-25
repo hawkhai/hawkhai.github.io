@@ -41,6 +41,8 @@ git remote set-url origin git@gitlab.liebaopay.com:pc_duba/kpdf/pdfreader2.git
 git push
 ```
 
+BFG、`filter-branch`、`filter-repo` 都会重写历史；对已共享仓库操作前要先备份、通知所有协作者，并确认远端保护分支/CI/标签策略。后续强推会要求其他人重新同步或重新克隆，不能当普通清理命令直接跑。
+
 遇到的两个问题：
 1. 新仓库一定要为空，没有任何提交记录，否则提示权限不足。
 2. bfg 还是很好的，貌似不会清除最新的那些文件，只会清理没用到的又在总库里面的文件。

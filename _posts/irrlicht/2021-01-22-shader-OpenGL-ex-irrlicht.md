@@ -27,7 +27,7 @@ $$NV/AMD/ATI \leadsto EXT \leadsto ARB \leadsto GL$$
 * *docs.GL* <http://docs.gl/>
 * *MicrosoftDocs OpenGL* <https://github.com/MicrosoftDocs/win32/tree/docs/desktop-src/OpenGL>
 
-OpenGL ES & OpenGL 存在大量 API 交叉的情况，为了兼容，很多 API 采用 wglGetProcAddress 函数指针的形式。包含厂商后缀的都是 wglGetProcAddress，$$\color{pink}{ogladdr}$$。分了五类：
+OpenGL ES & OpenGL 存在大量 API 交叉的情况。Irrlicht 在 Windows OpenGL 路径下，很多扩展 API 采用 wglGetProcAddress 函数指针的形式加载；OpenGL ES 路径则走 EGL/GLES 的接口。这里把 Windows OpenGL 侧需要动态加载的函数标成 $$\color{pink}{ogladdr}$$。分了五类：
 
 * 只支持 GLES: $$\color{blue}{gles}$$（大概 36 个）
 * 只支持 OpenGL & wglGetProcAddress: $$\color{pink}{ogladdr}$$（大概 140 个）

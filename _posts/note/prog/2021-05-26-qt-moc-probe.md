@@ -88,8 +88,8 @@ public slots:
 };
 ```
 
-* Q_OBJECT 在哪个线程创建的，其对应的信号槽消息循环就挂在了哪个线程上。
-* 发送对象，会拷贝构造一个，发过去后，用完了在槽函数结束后销毁。
+* QObject 实例属于哪个线程，通常取决于它在哪个线程创建或后来 moveToThread 到哪个线程；QueuedConnection 会投递到接收者所属线程的事件循环。
+* 跨线程队列连接发送对象时，Qt 需要拷贝/构造参数并在槽函数调用结束后销毁；同线程直接连接一般只是直接调用，不会走这套队列拷贝流程。
     * 信号函数：<span imgid="signalfunc.Construct" />
   ```cpp
 // 生成的信号函数
@@ -97,7 +97,7 @@ public slots:
 void Test::signalfunc(const MyString & _t1, int _t2)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t2))) };
-    // 这个会调用对象的拷贝构造函数，然后再把指针传过去。
+    // activate 先传递参数地址；是否拷贝取决于连接类型，队列连接会在投递事件时拷贝参数。
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 ```

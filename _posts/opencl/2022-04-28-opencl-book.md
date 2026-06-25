@@ -86,7 +86,7 @@ OpenCL 是一个异构编程架构，其管理者是非盈利技术组织 **Khro
 * 2010 年， **Khronos Group** 发布了 OpenCL 1.1 标准。
 * 2011 年，发布了 OpenCL 1.2 标准。本书的第一版介绍了很多 OpenCL 1.2 的特性。
 * 2013 年， **Khronos Group** 发布了 OpenCL 2.0 标准。
-* OpenCL 3.0 处于最终模式（2020-09-30）。 OpenCL 1.2 是强制性的。所有 OpenCL 2.x 模块和新的 3.0 模块都是可选的。新的首选语言是具有许多 C++ 17 功能的 OpenCL 的 C++。
+* OpenCL 3.0 已发布。OpenCL 3.0 以 OpenCL 1.2 功能作为基线，OpenCL 2.x 以及新增 3.0 功能大多改为可选能力；C++ for OpenCL 是一种面向 OpenCL 的 C++ 内核语言路线，但不是所有平台都默认支持。
 
 OpenCL 2.0 较大的改变有如下内容：
 

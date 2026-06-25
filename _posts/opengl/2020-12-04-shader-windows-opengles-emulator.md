@@ -64,7 +64,7 @@ PowerVR、Adreno、Mali 三大主流移动 GPU。[from](https://www.expreview.co
 
 厂商 | 名称
 ---- | ----
-AMD | ~~OpenGL ES 2.0 Emulator~~ 2008 年卖给了高通（Qualcomm）
+AMD | ~~OpenGL ES 2.0 Emulator~~ AMD 的手持图形/多媒体技术资产在 2009 年被高通（Qualcomm）收购，Adreno 的源流来自这条移动图形技术线；不是 emulator 产品本身被卖给高通。
 ARM | OpenGL ES 2.0 Emulator v1.2 [ARM Mali Emulator](https://developer.arm.com/tools-and-software/graphics-and-gaming/opengl-es-emulator/downloads)
 Qualcomm | Adreno SDK 2.2 [Adreno GPU SDK](https://developer.qualcomm.com/software/adreno-gpu-sdk/tools)
 NVIDIA | ~~Windows OpenGL ES 2.0 Emulator~~ Tegra 没有找到地方下载

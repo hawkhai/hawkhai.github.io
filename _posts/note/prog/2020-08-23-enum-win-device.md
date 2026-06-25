@@ -327,7 +327,7 @@ If you want to send/receive data to the device driver loaded, to allow this, you
 
 ## Load/Unload WDM Driver
 
-Windows also allows loading drivers at runtime using the SetupDiXXX API. The first we need to call SetuiDiGetINFClass to get the class of a specified device INF file.
+Windows also allows loading drivers at runtime using the SetupDiXXX API. The first we need to call SetupDiGetINFClass to get the class of a specified device INF file.
 
 {% include image.html url="/assets/images/200823-enum-win-device/infinst.jpg" %}
 

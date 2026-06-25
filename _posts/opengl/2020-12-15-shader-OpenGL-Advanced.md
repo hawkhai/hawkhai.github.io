@@ -105,11 +105,10 @@ while (True):
 
 ```cpp
 // stencil test 比较的时候需要 mask
-status = glStencilFunc.func((stencilbuf[x,y] & glStencilFunc.mask), (glStencilFunc.ref & glStencilFunc.mask));
-status |= depth_test_result;
-if (status == stencil_test_fail) stencilop = glStencilOp.sfailop;
-else if (status == stencil_test_pass & depth_test_fail) stencilop = glStencilOp.dpfailop;
-else if (status == stencil_test_pass & depth_test_pass) stencilop = glStencilOp.dppassop;
+stencil_pass = glStencilFunc.func((stencilbuf[x,y] & glStencilFunc.mask), (glStencilFunc.ref & glStencilFunc.mask));
+if (!stencil_pass) stencilop = glStencilOp.sfailop;
+else if (!depth_test_pass) stencilop = glStencilOp.dpfailop;
+else stencilop = glStencilOp.dppassop;
 // stencil test 结束后的操作不需要 mask
 stencil_new_value = stencilop(stencilbuf[x,y]);
 // 写入 stencil buffer 的时候需要另一个 mask
@@ -280,10 +279,8 @@ uniform mat4 view;
 void main()
 {
     TexCoords=aPos;
-    gl_Position=view*vec4(aPos,1.0);
-    float w=-gl_Position.z;
-    gl_Position=projection*view*vec4(aPos,1.0);
-    gl_Position.z=w; // == gl_Position.w
+    vec4 pos=projection*view*vec4(aPos,1.0);
+    gl_Position=pos.xyww; // 让深度在透视除法后变成 1.0
 }
 
 #version 400 core

@@ -16,7 +16,7 @@ codeprint:
 cluster: "草履虫"
 ---
 
-美国诺贝尔物理学奖得主费曼 (Feymann) 每次看到一个有的数学公式的时候，就会问：圆在哪里？这个推导中使用到了，也就是告诉我们正态分布密度公式中有个，其根源来在于二维正态分布中的等高线恰好是个圆。
+美国诺贝尔物理学奖得主费曼 (Feynman) 每次看到一个含有 $$\pi$$ 的数学公式时，会追问“圆在哪里？”正态分布密度公式中出现 $$\pi$$，一个直观来源是二维标准正态分布的等高线恰好是圆。
 
 [3Blue1Brown 为什么正态分布里会有一个 π？（不止是积分技巧） {% include relref_bili.html %}](https://www.bilibili.com/video/BV1wu411W7uU/)
 Why π is in the normal distribution (beyond integral tricks)

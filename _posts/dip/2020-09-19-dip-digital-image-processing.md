@@ -227,7 +227,7 @@ $$
 
 这个矢量的幅度为：
 
-$$\operatorname{mag}(\nabla f)=g(x, y)=\sqrt{\frac{\partial^{2} f}{\partial x^{2}}+\frac{\partial^{2} f}{\partial y^{2}}}$$
+$$\operatorname{mag}(\nabla f)=g(x, y)=\sqrt{\left(\frac{\partial f}{\partial x}\right)^2+\left(\frac{\partial f}{\partial y}\right)^2}$$
 
 方向角为：
 
@@ -247,8 +247,8 @@ G_{y}=f(x, y)-f(x, y-1)
 
 $$\begin{array}{l}
 \nabla^2 f=\frac{\partial^{2} f}{\partial x^{2}}+\frac{\partial^{2} f}{\partial y^{2}} \\
-\frac{\partial^{2} f}{\partial x^{2}}=f(x+1)+f(x-1)-2 f(x) \\
-\frac{\partial^{2} f}{\partial y^{2}}=f(y+1)+f(y-1)-2 f(y) \\
+\frac{\partial^{2} f}{\partial x^{2}}=f(x+1,y)+f(x-1,y)-2 f(x,y) \\
+\frac{\partial^{2} f}{\partial y^{2}}=f(x,y+1)+f(x,y-1)-2 f(x,y) \\
 \end{array}$$
 
 两个分向量相加：
@@ -509,9 +509,9 @@ $$d=\left(x^{2}+y^{2}\right)^{\frac{1}{2}}$$
 
 闭运算，弥合，毛刺保留；开运算，分裂，毛刺去掉。[from {% include relref_csdn.html %}](https://blog.csdn.net/fengbingchun/article/details/52423810)
 
-* **开运算（open）** ：先腐蚀后膨胀的过程。开运算可以用来消除小黑点，在纤细点处分离物体、平滑较大物体的边界的同时并不明显改变其面积。
+* **开运算（open）** ：先腐蚀后膨胀的过程。对亮前景而言，开运算常用来去除小白点 / 小突出物，在纤细点处分离物体、平滑较大物体的边界的同时并不明显改变其面积。
 
-* **闭运算（close）** ：先膨胀后腐蚀的过程。闭运算可以用来排除小黑洞。
+* **闭运算（close）** ：先膨胀后腐蚀的过程。对亮前景而言，闭运算常用来填补小黑洞 / 小缝隙。
 
 * **形态学梯度（morph-grad）** ：可以突出团块（blob）的边缘，保留物体的边缘轮廓。
 
@@ -545,7 +545,7 @@ $$d=\left(x^{2}+y^{2}\right)^{\frac{1}{2}}$$
 一维傅里叶变换：
 
 $$
-F(u) = \sum_{M=0}^{M-1} f(x) e^{-j u x \frac{2\pi} M}， u=0,1,2,\cdots,M-1
+F(u) = \sum_{x=0}^{M-1} f(x) e^{-j u x \frac{2\pi} M}， u=0,1,2,\cdots,M-1
 $$
 
 一维傅里叶逆变换：
@@ -570,14 +570,14 @@ $$\cos(x) = \frac {e^{ix} + e^{-jx}} {2i}$$
 
 一维傅里叶变换：
 
-$$F(u) = \sum_{M=0}^{M-1} f(x) \left( e^{-j u x \frac{2\pi} M} \right)， u=0,1,2,\cdots,M-1 \\ \Rightarrow F(u) = \sum_{M=0}^{M-1} f(x) \left( \cos(u x \frac{2\pi} M) - j \sin(u x \frac{2\pi} M) \right)， u=0,1,2,\cdots,M-1$$
+$$F(u) = \sum_{x=0}^{M-1} f(x) \left( e^{-j u x \frac{2\pi} M} \right)， u=0,1,2,\cdots,M-1 \\ \Rightarrow F(u) = \sum_{x=0}^{M-1} f(x) \left( \cos(u x \frac{2\pi} M) - j \sin(u x \frac{2\pi} M) \right)， u=0,1,2,\cdots,M-1$$
 
 一维傅里叶逆变换：
 
 $$f(x) = {\frac 1 M} \sum_{u=0}^{M-1} F(u) e^{j u x \frac{2\pi} M}， x=0,1,2,\cdots,M-1 \\ \Rightarrow f(x) = {\frac 1 M} \sum_{u=0}^{M-1} F(u) \left( \cos(u x \frac{2\pi} M) + j \sin(u x \frac{2\pi} M) \right) ， x=0,1,2,\cdots,M-1$$
 
-在计算每个 $$F(u)$$ 时，由于一维傅里叶逆变换中的 $$u$$ 是一个复数，
-假设复数 $$F(u) = a + b j$$ ，将 $$u$$ 代入逆变换中，得到如下：
+在计算每个 $$F(u)$$ 时，$$u$$ 是频率索引，复数的是频域系数 $$F(u)$$。
+假设复数 $$F(u) = a + b j$$ ，将 $$F(u)$$ 代入逆变换中，得到如下：
 
 $$f(x) = {\frac 1 M} \sum_{u=0}^{M-1} F(u) \left( \cos(u x \frac{2\pi} M) + j \sin(u x \frac{2\pi} M) \right) ， x=0,1,2,\cdots,M-1$$
 

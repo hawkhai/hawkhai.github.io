@@ -92,7 +92,7 @@ More information about this [esthetic trick algorithm {% include relref_scriptol
 
 pix2pix 来自卡内基梅隆大学的 Aayush Bansal 、Yaser Sheikh、Deva Ramanan，联合研究了一种基于示例图像合成清晰照片的技术 — PixelNN，把模糊的低分辨率或者是有马赛克的图片，使用表面法线贴图和草图等，合成出高分辨率的逼真图像。
 
-这玩意可以提高驾驶技术：用 GAN 去除（爱情）动作片中的马赛克和衣服。
+这类模型可以合成看似合理的细节，但不能把被遮挡或马赛克覆盖的真实信息“还原”出来；生成结果只是基于先验的猜测。
 
 {% include image.html url="/assets/images/201031-dip-graphic-algorithms/teaser1.png" %}
 

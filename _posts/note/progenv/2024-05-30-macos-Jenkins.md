@@ -30,7 +30,7 @@ rm -rf ~/Library/Caches/Homebrew/portable-ruby-3.1.4.arm64_big_sur.bottle.tar.gz
 
 ## Mac M1 上运行 Jenkins
 
-**Docker Desktop 收费！**
+**Docker Desktop 对大型商业组织有授权/订阅限制；个人、小型团队等场景按许可条款可免费使用。**
 首先在 docker 官网上下载好支持 m1 版本的 desktop 客户端，随后打开 jenkins.io 查看安装命令：
 
 ```
@@ -335,7 +335,7 @@ public class BCryptDemo {
 /etc/init.d/jenkins restart
 
 
-### 方式二：取消密码
+### 方式二：临时取消安全登录
 
 进入 Jenkins 主目录，备份 config.xml
 cp config.xml config.xml.bak
@@ -343,7 +343,7 @@ cp config.xml config.xml.bak
 修改 config.xml 文件
 找到关键词 useSecurity ，把后面的值 true 改为 false 重启 Jenkins /etc/init.d/jenkins restart
 ```
-可以无账号和密码登录 Jenkins
+这只适合在隔离环境里临时救急，登录后应立刻重置管理员密码，并把 `useSecurity` 改回 `true`；不要让可被外部访问的 Jenkins 长期无账号和密码登录。
 
 
 ## Jenkins git 克隆代码超时问题解决

@@ -291,7 +291,7 @@ typedef struct _FILENAME_ATTRIBUTE { // 文件名属性的值区域
 
 ## 复杂的堆
 
-在 linux 下，每个进程只有一个 heap，在任何一个动态库模块 so 中通过 new 或者 malloc 来分配内存的时候都是从这个唯一的 heap 中分配的，那么自然你在其它随便什么地方都可以释放。这个模型是简单的。
+在 Linux 下，跨 so 的 `malloc/free` 通常只要链接到同一套 C 运行库/分配器，释放方就能正确归还内存；但不能简单说“每个进程只有一个 heap”，实际实现可能有多个 arena 或自定义 allocator。跨模块仍然最好保持分配/释放接口成对。
 但是在 windows 下面，问题变得复杂了。 **这里主要讨论 MT 模式。**
 
 1. windows 允许一个进程中有多个 heap，那么这样就需要指明一块内存要在哪个 heap 上分配，win32 的 HeapAlloc 函数就是这样设计的，给出一个 heap 的句柄，给出一个 size，然后返回一个指针。每个进程都至少有一个主 heap，可以通过 GetProcessHeap 来获得，其它的堆，可以通过 GetProcessHeaps 取到。同样，内存释放的时候通过 HeapFree 来完成，还是需要指定一个堆。
@@ -300,9 +300,9 @@ typedef struct _FILENAME_ATTRIBUTE { // 文件名属性的值区域
 
 3. 如果一个进程需要动态库支持，系统在加载 dll 的时候，在 dll 的启动代码 \_DllMainCRTStartup 中，会创建这个 \_\_crtheap，所以理论上有多少个 dll，就有多少个 \_\_crtheap。最后主进程的 mainCRTStartup 中还会创建一个为主进程服务的 \_\_crtheap。（由于顺序总是先加载 dll，然后才启动 main 进程，所以你可以看到各个 dll 的 \_\_crtheap 地址比较小，而主进程的 \_\_crtheap 比较大，当然排在最前面的堆是每个进程的主 heap）。可以使用 windbg 查看。
 
-4. 从上面的分析中可以看出，对于 crt 来说，由于每个 dll 都有自己的 heap，所以每个 dll 通过 new/malloc 分配的内存都是在自己 dll 内部的那个 heap 上用 HeapAlloc 来分配的，而如果你想在其它模块中释放，那么在释放的时候 HeapFree 就会失败了，因为各个模块的 \_\_crtheap 是不一样的。
+4. 从上面的分析中可以看出，对于 CRT 来说，是否能跨 DLL 释放取决于模块是否使用同一套运行库和同一个分配器状态。不同 CRT 实例、不同编译选项（例如静态链接运行库）或自定义 allocator 混用时，跨模块释放就很容易出问题。
 
-这样，基本上事情就比较清楚了，在 windows 下一个进程存在着多个 heap，除了一个主 heap 外，还有很多的 \_\_crtheap，用来处理通过 c/c++ 的运行库进行的内存操作。所以使用 new/malloc 来分配的内存实际上都是局部的，可以在多个 dll 中共享，但是却必须是谁申请谁释放。这个是 windows 下的一个规则。（当然如果在 dll 内部使用 HeapAlloc(GetProcessHeap(), size) 来分配的内存是可以在 dll 以外释放的，因为这时内存分配在全局的主 heap 上，而不是分配在 dll 自己的 \_\_crtheap 上）
+这样，基本上事情就比较清楚了，在 Windows 下一个进程可以存在多个 heap，C/C++ 运行库还会封装自己的分配逻辑。所以 `new/malloc` 分配的内存是否可以跨 DLL 释放，关键看双方是否使用同一套兼容的分配器。工程接口设计上仍应坚持“谁分配，谁释放”，或者显式提供配套的释放函数。（当然如果在 dll 内部使用 HeapAlloc(GetProcessHeap(), size) 来分配的内存是可以在 dll 以外用同一个进程堆释放的，因为这时内存分配在全局的主 heap 上，而不是分配在 dll 自己的 CRT 分配器上）
 
 
 ## 其它

@@ -52,7 +52,7 @@ gem -v
 {% highlight shell %}
 ridk install
 gem install bundler # 安装 bundler
-gem install bundler:1.16.1
+gem install bundler -v 1.16.1
 chcp 850 # 多语种 (MS-DOS Latin1)
 gem install jekyll # 安装 jekyll
 jekyll -v

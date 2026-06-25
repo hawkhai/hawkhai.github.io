@@ -146,7 +146,7 @@ ADD_EXECUTABLE(t1 ${SRC_LIST})
 * **CMAKE\_MINOR\_VERSION** cmake 次版本号，如 2.8.6 中的 8
 * **CMAKE\_PATCH\_VERSION** cmake 补丁等级，如 2.8.6 中的 6
 * **CMAKE\_SYSTEM** 系统名称，例如 Linux-2.6.22
-* **CAMKE\_SYSTEM\_NAME** 不包含版本的系统名，如 Linux
+* **CMAKE\_SYSTEM\_NAME** 不包含版本的系统名，如 Linux
 * **CMAKE\_SYSTEM\_VERSION** 系统版本，如 2.6.22
 * **CMAKE\_SYSTEM\_PROCESSOR** 处理器名称，如 i686
 * **UNIX** 在所有的类 UNIX 平台为 TRUE，包括 OS X 和 cygwin

@@ -372,7 +372,7 @@ namespace geometry {
         }
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, TSIZE * SECSIZE, points, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, TSIZE * SECSIZE * sizeof(float), points, GL_STATIC_DRAW);
         glDrawArrays(GL_POINTS, 0, TSIZE);
 
         for (int i = 0; i < TSIZE; i++)
@@ -385,7 +385,7 @@ namespace geometry {
             points[i * SECSIZE + 5] = -(kstep)*i * 10 + ktime; // kparam
         }
 
-        glBufferData(GL_ARRAY_BUFFER, TSIZE * SECSIZE, points, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, TSIZE * SECSIZE * sizeof(float), points, GL_STATIC_DRAW);
         glDrawArrays(GL_POINTS, 0, TSIZE);
     }
 

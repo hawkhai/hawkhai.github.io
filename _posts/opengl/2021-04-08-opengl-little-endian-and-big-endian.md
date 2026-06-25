@@ -16,8 +16,8 @@ codeprint:
 ---
 
 这个问题还是很麻烦的。
-* 文件存储，一般是 大端模式，二进制查看更直观。
-* Irrlicht 内存。ECF_A1R5G5B5 ECF_R5G6B5 ECF_A8R8G8B8 可能封装成 short，int 之类的，就是小端模式，方便运算速度，位运算更直观。
+* 文件存储没有“一般都是大端”的统一规则；不同文件格式会明确规定自己的字节序，有的用大端，有的用小端。
+* Irrlicht 内存。ECF_A1R5G5B5 ECF_R5G6B5 ECF_A8R8G8B8 可能封装成 short，int 之类的，在常见 x86/x64 机器上按小端模式观察；这主要是 CPU/ABI 的数据表示方式，不是文件格式层面的规则。
     * ECF_R8G8B8 # 这个是大端存储的，蛋疼。因为是 3 个 8，没法封装加速运算，数组格式查看更直观。
 * 然后是传递给 GPU glTexImage2D(format, type)。
     * GPU 内部格式主要包含 GL_ALPHA, GL_RGB, GL_RGBA 等。
@@ -173,9 +173,9 @@ So for example ECF_A8R8G8B8 is BGRA in memory same as in DX9's D3DFMT_A8R8G8B8 f
 
 * ECF_A1R5G5B5 # Little-Endian
 * ECF_R5G6B5 # Little-Endian，刚好对应 GL_UNSIGNED_SHORT_5_6_5
-* ECF_R8G8B8 # 这个是大端存储的，蛋疼。只能搞一个 GL_UNSIGNED_BYTE 了。
+* ECF_R8G8B8 # 这是按 R、G、B 三个字节排列；不是 16/32 位整数格式时，不应简单套用大小端说法。
 * ECF_A8R8G8B8 # Warning: This tends to be BGRA in memory (it's ARGB on file, but with usual big-endian memory it's flipped)
-    * 内存里面为了速度，是小端存储的，存储到文件是大端的。小端的根本目的，可以用 int 加速运算。
+    * 内存里的字节序取决于 CPU 架构；存储到文件时则取决于文件格式约定。小端并不是“为了用 int 加速运算”才存在的。
 
 **Irrlicht 这些格式刚好和 OpenGL 可以对应上**
 

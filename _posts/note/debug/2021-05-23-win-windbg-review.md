@@ -121,7 +121,7 @@ D:\PCGMR_BUILD\Cim\CiSrc\zapp\zapp\include\framework\KzPath.cpp(52)+0x38
 1. 启动进程
 2. Windbg 附加进程
 3. 输入 `~*kv` ，输出所有线程
-4. 输入 `!find stackntdll!RtlEnterCriticalSection` ，查找哪些线程在等待锁
+4. 用 `~*kv` 输出所有线程后搜索 `ntdll!RtlEnterCriticalSection`，或在可用扩展中使用 `!findstack ntdll!RtlEnterCriticalSection` 查找哪些线程在等待锁
     * 或者看代码某一函数没执行，对比 windbg 中的线程，找到线程 id 分析
     * 图 1 是源代码，图 2 是执行结果, ThreadProc1 函数中的 `ThreadProc1 lock g_mutex2;` 没发生，怀疑是否死锁了
 5. windbg 中线程信息如下，发现 ThreadProc1 在等某一把锁
@@ -166,8 +166,8 @@ D:\PCGMR_BUILD\Cim\CiSrc\zapp\zapp\include\framework\KzPath.cpp(52)+0x38
 ### windbg 手动分析
 
 1. 设置 gflags.exe, 这工具和 windbg 在同一目录
-2. windbg 附加到进程，输入 `!heap –s`
-3. 程序运行一段时间之后，再次输入 `!heap–s`
+2. windbg 附加到进程，输入 `!heap -s`
+3. 程序运行一段时间之后，再次输入 `!heap -s`
     * 发现 00970000 这个堆有增加，其他无变化
 4. 输入 `!heap -stat -h00970000` ，查看这个堆状态
     * 发现这个堆的内存主要是被大小为 0x224 的块占用
@@ -195,7 +195,7 @@ D:\PCGMR_BUILD\Cim\CiSrc\zapp\zapp\include\framework\KzPath.cpp(52)+0x38
 SET _NT_SYMBOL_PATH=SRV*C:\Symbols*http://msdl.microsoft.com/download/symbols;F:\windbgtest\Debug
 ```
 4. 启动 memoryleak.exe, 利用 umdh 创建第一次 heap 快照
-    * 输入 `umdh-pn:memoryleak.exe -f:memory1.log`
+    * 输入 `umdh -pn:memoryleak.exe -f:memory1.log`
 5. 运行一段时间后，再次输入快照， `umdh -pn:memoryleak.exe -f:memory2.log`
 6. 分析前后 2 次快照的差异 `umdh -dmemory1.log memory2.log -f:memoryleak.log`
     * 会在当前路径下面生成 memoryleak.log，打开分析

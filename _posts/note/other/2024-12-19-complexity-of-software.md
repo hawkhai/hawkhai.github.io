@@ -91,10 +91,10 @@ Algorithmic optimizations have a greater impact than micro optimizations.
 6. Anyone who doesn't do this will be fired.
 7. Thank you; have a nice day!
 
-Jeff Bezos, 亚马逊的创始人和 CEO，在 AWS 发布的两年前，大概是 2002 年的时候，给全体员工发了这个邮件，下面是大体的翻译：
+据 Steve Yegge 后来流传的说法，Jeff Bezos 大约在 2002 年提出了这套内部要求；它通常被认为是 AWS 服务化思路成形前的重要背景之一，下面是大体的翻译：
 
 1. 从现在开始所有的团队都需要使用服务接口来提供数据和功能。
-2. 团队直接必须通过服务接口来交流。
+2. 团队之间必须通过服务接口来交流。
 3. 不允许其他形式的进程交流：不能直接连接，不能直接读取其他团队的数据，不能共享内存，不能有任何形式的后门。唯一允许的交流方式就是通过网络调取服务接口。
 4. 用什么技术都无所谓，HTTP, Corba, Pubsub, 定制协议都不要紧，Jeff Bezos 不管。
 5. 没有任何的例外，所有的服务接口从开始就必须以公开化作为设计的原则。这也就是说，所有的团队从计划和设计之初就要让系统可以对外部人员开放。没有例外。

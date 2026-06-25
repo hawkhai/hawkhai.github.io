@@ -118,8 +118,8 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex);
         unlock 一个不是被调用线程锁住的 mutex 的结果也是不确定的。
         企图 unlock 一个未被锁住的 mutex 导致不确定的结果。
 
-* pthread_mutex_trylock() 调用在参数 mutex 指定的 mutex 对象当前被锁住的时候立即返回，
-    除此之外，pthread_mutex_trylock() 跟 pthread_mutex_lock() 功能完全一样。
+* pthread_mutex_trylock() 在 mutex 已被其他线程锁住时不会阻塞，而是立即返回 `EBUSY`；
+    如果 mutex 可用，它会像 pthread_mutex_lock() 一样尝试获得这把锁。
 
 * pthread_mutex_unlock() 函数释放有参数 mutex 指定的 mutex 对象的锁。如果被释放取决于该 Mutex 对象的类型属性。
     如果有多个线程为了获得该 mutex 锁阻塞，调用 pthread_mutex_unlock() 将是该 mutex 可用，

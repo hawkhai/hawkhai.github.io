@@ -203,7 +203,7 @@ for (int i = 0; i < objectArray.size(); ++i)
 
 ## 相机控制
 
-右手坐标系。移除 roll。Z 轴正方向为前进方向。
+右手坐标系。移除 roll。在 OpenGL 常见相机约定中，视线前方通常是 -Z 方向，+Z 指向相机后方。
 
 {% include image.html url="/assets/images/201229-shader-box-shooter/20190827164053851.png" %}
 

@@ -87,8 +87,8 @@ output = entroy(input, target) # 打印输出：1.3447
 ```
 
 为什么在很多的网络模型中，使用交叉熵做损失函数而不使用 KL 散度做损失函数呢？
-* 此时：KL 散度 = 交叉熵-信息熵 = 交叉熵 - 0 = 交叉熵
-* **因为有真实分布，所以用交叉熵。如果没有真实分布，请用 KL 散度。**
+* $$D_{KL}(P\|Q)=H(P,Q)-H(P)$$，其中 $$H(P)$$ 与模型参数无关，所以优化交叉熵等价于优化 KL 散度。
+* 对普通分类任务的 one-hot 标签，$$H(P)=0$$，交叉熵数值上等于 KL 散度；如果是软标签或两个完整分布之间的约束，再直接写 KL 散度会更清楚。
 
 [香农熵，交叉熵和 KL 散度 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1JY411q72n/)
 
@@ -118,6 +118,8 @@ DeepSeek-R1 GRPO 算法揭秘
 {% include image.html url="/assets/images/250220-llm-history-transformer~a8/20250304003942.png" %}
 
 * DeepSeek-R1 GRPO 算法揭秘
+
+下面是 GRPO 的简化笔记；完整目标函数通常还包含 PPO-style 的 clip ratio 项，不能把它理解成只使用未裁剪的概率比值。
 
 $$
 \begin{aligned}

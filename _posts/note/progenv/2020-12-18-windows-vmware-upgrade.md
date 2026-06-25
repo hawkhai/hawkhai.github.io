@@ -21,7 +21,7 @@ codeprint:
 ## Vm 虚拟机报错“此主机支持 Intel VT-x，但 Intel VT-x 处于禁用状态”
 
 1. 重启计算机，进入 bios（F1、F2、F10、DELETE，一般机器这三个键进入 bios）
-2. 找到 Security 或者 Configuration 中的“Inter Virtualization Technology” 选项，把“Disabled”改成“Enabled”即可
+2. 找到 Security 或者 Configuration 中的“Intel Virtualization Technology” 选项，把“Disabled”改成“Enabled”即可
 3. 保存虚拟配置（一般是 F10）
 4. 重启电脑，vm 中的虚拟机可以用了
 

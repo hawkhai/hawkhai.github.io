@@ -18,7 +18,7 @@ archived: true
 
 Fast Multi-Pass 3D Point Segmentation Based on a Structured Mesh Graph for Ground Vehicles
 
-cartographer 是扫地机器人的核心算法。
+SLAM 是扫地机器人导航中的重要模块，Cartographer 是一个可参考的开源 SLAM 系统。
 > 关于代码造轮子。网上很多人说编程的大忌就是造轮子。但是算法你不造轮子不行啊，只会用库，不懂原理，你连修改都没法改，没有办法根据目标的变化修改代码，很被动。所以，算法造轮子不能偷懒，该造还得造，还得好好造，多编多练才能取得进步。
 
 谷歌开源自动驾驶汽车、机器人等平台所需的 SLAM 技术的库 Cartographer。

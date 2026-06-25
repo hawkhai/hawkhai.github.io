@@ -19,7 +19,7 @@ codeprint:
 ## FFmpeg 将多张图片合成视频
 
 生成一个图片序列，假设保存在 `E:\kSource\blog\memoryimgback\target` 目录，
-命令方式为 0.jpg、1.jpg、2.jpg...
+命名方式为 000000.jpg、000001.jpg、000002.jpg...
 运行以下命令，把图片序列合成为一个 mp4 视频文件：
 "C:\Program Files\ImageMagick-6.9.11-Q16-HDRI\ffmpeg.exe" -framerate 30 -f image2 -i E:\kSource\blog\memoryimgback\target\%06d.jpg E:\kSource\blog\memoryimgback\target.mp4
 
@@ -77,10 +77,10 @@ def sharpen(img):
 def sepia(img):
     # converting to float to prevent loss
     imgSepia = np.array(img, dtype=np.float64)
-    # multipying image with special sepia matrix
-    imgSepia = cv2.transform(imgSepia, np.matrix([[0.272, 0.534, 0.131],
-                                    [0.349, 0.686, 0.168],
-                                    [0.393, 0.769, 0.189]]))
+    # cv2.imread() 得到的是 BGR 顺序；这里的矩阵输出仍保持 BGR 顺序
+    imgSepia = cv2.transform(imgSepia, np.array([[0.131, 0.534, 0.272],
+                                    [0.168, 0.686, 0.349],
+                                    [0.189, 0.769, 0.393]]))
     # normalizing values greater than 255 to 255
     imgSepia[np.where(imgSepia > 255)] = 255
     imgSepia = np.array(imgSepia, dtype=np.uint8)

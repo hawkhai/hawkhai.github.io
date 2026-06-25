@@ -20,7 +20,7 @@ cluster: "LearnOpenGL"
 原来是一个 GPU 硬件版本的预设回调函数。[旺柴][旺柴]
 
 在 OpenGLES 中，有三个可以绘制的 buffer（缓存），color buffer（颜色缓存），depth buffer（深度缓存）和 stencil buffer（模板缓存）。
-对于 color buffer 和 depth buffer 来说，buffer 里面存储的一般都是浮点数，然而对于 stencil buffer，buffer 存储的是无符号整数，确切的说，0 或者 1。
+对于 color buffer 和 depth buffer 来说，buffer 里面存储的一般都是颜色或深度值；对于 stencil buffer，buffer 存储的是无符号整数，常见轮廓示例只用 0 和 1。
 在 OpenGLES 中，stencil buffer 一般最大有 8 位，这就意味着 stencil buffer 的最大值就是 0xFF。
 首先要建立起来的观念就是 stencil buffer 的操作并不是加减乘除等算术运算，而是位操作运算。
 
@@ -41,7 +41,7 @@ void glStencilFunc(GLenum func, GLint ref, GLuint mask);
         * stencil test 失败
         * stencil test 成功，depth test 失败
         * stencil test 成功，depth test 成功
-    * 对于 stencil 值有 7 个操作
+    * 对于 stencil 值有 8 个操作
         * GL_KEEP
         * GL_ZERO
         * GL_REPLACE
@@ -59,11 +59,10 @@ void glStencilFunc(GLenum func, GLint ref, GLuint mask);
 
 ```cpp
 // stencil test 比较的时候需要 mask
-status = glStencilFunc.func((stencilbuf[x,y] & glStencilFunc.mask), (glStencilFunc.ref & glStencilFunc.mask));
-status |= depth_test_result;
-if (status == stencil_test_fail) stencilop = glStencilOp.sfailop;
-else if (status == stencil_test_pass & depth_test_fail) stencilop = glStencilOp.dpfailop;
-else if (status == stencil_test_pass & depth_test_pass) stencilop = glStencilOp.dppassop;
+stencil_pass = glStencilFunc.func((stencilbuf[x,y] & glStencilFunc.mask), (glStencilFunc.ref & glStencilFunc.mask));
+if (!stencil_pass) stencilop = glStencilOp.sfailop;
+else if (!depth_test_pass) stencilop = glStencilOp.dpfailop;
+else stencilop = glStencilOp.dppassop;
 // stencil test 结束后的操作不需要 mask
 stencil_new_value = stencilop(stencilbuf[x,y]);
 // 写入 stencil buffer 的时候需要另一个 mask

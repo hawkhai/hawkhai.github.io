@@ -21,8 +21,7 @@ cluster: "WinDBG"
 > * [Win10 uwp 使用 WinDbg 调试](https://cloud.tencent.com/developer/article/2066552)
 > * [使用 WinDbg 调试 UWP 应用](https://learn.microsoft.com/zh-cn/windows-hardware/drivers/debugger/debugging-a-uwp-app-using-windbg)
 
-vs2022 自带的 winui3 就是这套
-创建个 UI 都是其他进程创建的 UI 管理是有宿主进程的 点按钮响应啥的 都走的 RPC 通讯 跨进程回来的
+WinUI 3 属于 Windows App SDK，和传统 UWP 不是同一套模型；涉及应用容器、打包应用或 XAML Island 等场景时，调试思路会有相近之处。
 
 * <https://github.com/StackOverflowExcept1on/uwp-injector>
     * This project allows to perform DLL-injection into UWP applications

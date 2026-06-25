@@ -81,7 +81,7 @@ gn args out/Release86
 # See "gn args <out_dir> --list" for available build arguments.
 
 use_goma = false # Googlers 可以使用它来分布式编译。确保 goma 已安装并首先运行。
-is_debug = true # 要生成 release 库，所以关闭调试功能。
+is_debug = false # 生成 release 库时关闭调试配置。
 
 # 设置为启用实验性 Skia 后端。
 pdf_use_skia = false
@@ -91,8 +91,8 @@ pdf_use_skia_paths = false
 pdf_enable_xfa = false # 设置 false 以删除 XFA 支持（隐含 JS 支持）。
 pdf_enable_v8 = false # 设置 false 以删除 Javascript 支持。
 pdf_is_standalone = true # 设置非嵌入式构建。
-# true 编译为动态库 /MD,/MDd，false 编译为静态库 /MT,/MTd
-is_component_build = true # 禁用组件构建（必须为 false）
+# true 启用组件构建，可生成 pdfium.dll；false 更适合静态库场景。
+is_component_build = true # 本文编译动态库，所以启用组件构建。
 # pdf_is_complete_lib 为 false 时，编译为多个静态库，true 编译为一个独立的静态库
 # 编译为一个独立的静态库（is_component_build 必须为 false）
 # pdf_is_complete_lib = true

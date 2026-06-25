@@ -40,20 +40,20 @@ if (m_hThread != NULL) {
 
 1. 不要在 DllMain 中做的事情。
 2. 不要轻易用 TerminateThread / ExitThread / SuspendThread。
-    子线程和主线程都使用了一个临界区变量，TerminateThread 结束线程时，不会回收线程的栈！
+    子线程和主线程都使用了一个临界区变量，TerminateThread 结束线程时不会执行正常清理；如果线程正持有临界区，临界区不会被自动释放。
 3. 使用 \_\_try \_\_except 捕获了异常，导致锁未释放。
 
-在 Windows 中使用互斥锁可以有效的避免死锁。
+在 Windows 中使用互斥锁不能从根本上避免锁顺序导致的死锁；它只是在持有 Mutex 的线程意外终止时有 abandoned mutex 语义。
 当持有 Mutex 的线程在调用 ReleaseMutex 前意外退出，如 ExitThread 和 TerminateThread。
-系统会把 Mutex 分给等待 Mutex 的线程中的一个并返回 Wait_Abandoned，从而避免了死锁。
+系统会把 Mutex 分给等待 Mutex 的线程中的一个并返回 WAIT_ABANDONED，等待方必须把受保护状态视为可能不一致。
 
 
 ## Dynamic-Link Library Best Practices
 
 常见到一些开发者喜欢在 DllMain 里面写大量的初始化代码（比如 CoInitializeEx，LoadLibraryEx，CreateProces，创建线程，同步线程 等等 ...），这些初始化代码很容易产生其他的 lock，进而导致进程死锁。
 
-DllMain 在收到 DLL_PROCESS_ATTACH 和 DLL_PROCESS_DETACH 时会进入临界区。
-它是使其他线程不能进入临界区从而导致死锁的关键。
+DllMain 在收到 DLL_PROCESS_ATTACH 和 DLL_PROCESS_DETACH 时运行在 loader lock 之下。
+如果在其中调用会再次触碰 loader lock 或等待其他线程的操作，就很容易形成死锁。
 
 <https://docs.microsoft.com/zh-cn/windows/win32/dlls/dynamic-link-library-best-practices>
 

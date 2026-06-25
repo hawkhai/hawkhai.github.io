@@ -70,8 +70,10 @@ sudo mount /dev/sdb /mnt/ssd
 编辑 `/etc/fstab` 文件，添加以下内容：
 
 ```bash
-/dev/sdb /mnt/ssd ext4 defaults 0 2
+UUID=实际的-UUID /mnt/ssd ext4 defaults 0 2
 ```
+
+设备名如 `/dev/sdb` 可能会因为硬盘顺序变化而改变，开机自动挂载建议用 `blkid` 查到的 UUID。
 
 保存并退出。
 sudo cp '/home/yqh/ 桌面 /fstab' /etc/fstab
@@ -162,6 +164,8 @@ sudo mkdir -p /mnt/ssd/ftp
 sudo chown -R ftp:ftp /mnt/ssd/ftp
 sudo chmod 755 /mnt/ssd/ftp
 ```
+
+如果后面要让多个本地 FTP 用户共享同一个目录，不要反复把目录所有者改成不同用户；应使用共享用户组或 ACL 来控制读写权限。
 
 
 ### 4. 重启 `vsftpd` 服务
@@ -295,7 +299,6 @@ sudo cp '/home/yqh/ 桌面 /vsftpd.conf' /etc/vsftpd.conf
 将 `/mnt/ssd/ftp` 目录的权限设置为只读：
 
 ```bash
-sudo chown ftp_readonly:ftp_readonly /mnt/ssd/ftp
 sudo chmod 755 /mnt/ssd/ftp
 ```
 
@@ -304,7 +307,7 @@ sudo chmod 755 /mnt/ssd/ftp
 将 `/mnt/ssd/ftp` 目录的权限设置为读写：
 
 ```bash
-sudo chown ftp_readwrite:ftp_readwrite /mnt/ssd/ftp
+sudo chown ftp_readwrite:ftp_group /mnt/ssd/ftp
 sudo chmod 755 /mnt/ssd/ftp
 ```
 
@@ -781,7 +784,7 @@ sudo nano /etc/vsftpd.conf
 ```
 确保 umask 设置合适，确保文件和目录的权限对于组成员是可读写的。
 ```bash
-local_umask=022
+local_umask=002
 
 sudo chmod g+s /mnt/ssd/ftp
 

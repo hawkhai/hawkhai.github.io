@@ -20,7 +20,7 @@ codeprint:
 
 Qt 内存管理机制：Qt 在内部能够维护对象的层次结构。对于可视元素，这种层次结构就是子组件与父组件的关系；对于非可视元素，则是一个对象与另一个对象的从属关系。在 Qt 中，删除父对象会将其子对象一起删除。
 
-C++ 中 delete 和 new 必须配对使用（一一对应）：delete 少了，则内存泄露，多了麻烦更大。Qt 中使用了 new 却很少 delete，因为 QObject 的类及其继承的类，设置了 parent（也可在构造时使用 setParent 函数或 parent 的 addChild）故 parent 被 delete 时，这个 parent 的相关所有 child 都会自动 delete，不用用户手动处理。但 parent 是不区分它的 child 是 new 出来的还是在栈上分配的。这体现 delete 的强大，可以释放掉任何的对象，而 delete 栈上对象就会导致内存出错，这需要了解 Qt 的半自动的内存管理。另一个问题：child 不知道它自己是否被 delete 掉了，故可能会出现野指针。那就要了解 Qt 的智能指针 QPointer。
+C++ 中 delete 和 new 必须配对使用（一一对应）：delete 少了，则内存泄露，多了麻烦更大。Qt 中使用了 new 却很少 delete，因为 QObject 的类及其继承的类，设置了 parent（也可在构造时使用 setParent 函数或 parent 的 addChild）故 parent 被 delete 时，这个 parent 的相关所有 child 都会自动 delete，不用用户手动处理。但 parent 是不区分它的 child 是 new 出来的还是在栈上分配的；如果把栈对象挂到会自动析构子对象的 parent 下，parent 析构时可能对栈对象执行 delete，从而导致内存错误。另一个问题：child 不知道它自己是否被 delete 掉了，故可能会出现野指针。那就要了解 Qt 的智能指针 QPointer。
 
 
 ## 关联图

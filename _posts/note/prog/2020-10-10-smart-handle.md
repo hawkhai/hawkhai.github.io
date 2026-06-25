@@ -150,7 +150,7 @@ inline Mutex::Mutex() {
 }
 inline Mutex::~Mutex() {
     // 析构函数，就是销毁 mMutex 变量
-    pthread_mutex_destory(&mMutex);
+    pthread_mutex_destroy(&mMutex);
 }
 
 inline status_t Mutex::lock() {
@@ -162,7 +162,7 @@ inline void Mutex::unlock() {
 }
 
 inline status_t Mutex::tryLock() {
-    return pthread_mutex_tryLock(&mMutex);
+    return pthread_mutex_trylock(&mMutex);
 }
 
 typedef Mutex::Autolock AutoMutex;

@@ -19,9 +19,9 @@ codeprint:
 
 首先确保安装了最新的 TortoiseGit，老版本不能 AutoLoad Putty Key，存在 bug。
 
-TortoiseGit 使用扩展名为 ppk 的密钥，而不是 ssh\-keygen 生成的 rsa 密钥。也就是说使用 ssh\-keygen \-t rsa \-C "username@email\.com" 产生的密钥，TortoiseGit 中不能用。
+如果 TortoiseGit 配置为使用 PuTTY/plink，它通常使用扩展名为 ppk 的私钥；ssh\-keygen 生成的 OpenSSH 私钥需要先用 PuTTYgen 转成 ppk，或者把 TortoiseGit 的 SSH 客户端切换为 OpenSSH。
 
-而基于 github 的开发必须要用到 rsa 密钥，因此需要用到 TortoiseGit 的 putty key generator 工具，来生成既适用于 github 的 rsa 密钥也适用于 TortoiseGit 的 ppk 密钥。
+GitHub 并不只支持 RSA，也支持其他 SSH key 类型。这里使用 TortoiseGit 的 PuTTY key generator，是为了得到适用于 PuTTY/plink 的 ppk 私钥，并把对应公钥添加到代码托管平台。
 
 PuTTYGen 和 Pageant 都在开始菜单中的 TortoiseGit 文件夹下，可以找到。
 

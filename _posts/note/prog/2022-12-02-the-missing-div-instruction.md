@@ -29,9 +29,7 @@ auto count = (unsigned int)(-1227133513 * (bytes >> 3));
 
 [note {% include relref_github.html %}](https://github.com/firmianay/CTF-All-In-One/blob/master/doc/3.1.2_integer_overflow.md)
 关于整数的异常情况主要有三种：
-* **溢出** 只有有符号数才会发生溢出。有符号数最高位表示符号，在两正或两负相加时，
-    有可能改变符号位的值，产生溢出。
-    溢出标志 `OF` 可检测有符号数的溢出。
+* **溢出** 在 CPU 标志位语境下要区分有符号和无符号：`OF` 用来检测有符号溢出，`CF` 用来表示无符号加减法中的进位/借位。C/C++ 里无符号整数按模 $2^n$ 回绕，有符号整数溢出则是未定义行为。
 * **回绕** 无符号数 `0-1` 时会变成最大的数，如 `1` 字节的无符号数会变为 `255` ，
     而 `255+1` 会变成最小数 `0` 。
     进位标志 `CF` 可检测无符号数的回绕。
@@ -59,14 +57,13 @@ auto count = (unsigned int)(-1227133513 * (bytes >> 3));
 ```cpp
 for (int i = 0; i < 10; i++) {
     int a = i * 5;
-    int b = a * 3435973837;
+    unsigned int b = (unsigned int)a * 3435973837u;
     printf("%u %u \n", a, b);
     assert(a / 5 == b);
 }
 ```
 
-除以 5 等价于 乘以 3435973837。
-求一个 5 的倍数除 5 等于多少，可以换成乘法。
+在无符号 32 位模运算里，乘以 3435973837 是乘以 5 的模逆元；只在输入本来就是 5 的倍数时，才能用它得到除以 5 的结果。
 ```cpp
 int main() {
     cout << 100 * 3435973837; // 输出 20
@@ -300,7 +297,7 @@ Debug 版本 sizeof(myvec) == 16，Release 版本 sizeof(myvec) == 12。
 #define MatVecCount(myvec) ((unsigned int)(-1227133513 * (MatVecLen(myvec) >> 3)))
 ```
 
-右移 3，相当于 除以 8，然后乘以 -1227133513 相当于除以 7，最终效果就是 除以了 56，这也回答了开篇那个问题。
+右移 3，相当于对无符号数做除以 8 的移位近似；再乘以预先计算好的 magic number 并取高位，整体等价于编译器把常数除法改写成乘法和移位，最终效果就是除以 56，这也回答了开篇那个问题。
 而 **为了增强 64 位版本的程序可移植性** ，可以尝试强制 `(unsigned int)` 限制。
 
 {% include image.html url="/assets/images/221202-the-missing-div-instruc~41/20230105155358.png" %}
@@ -366,7 +363,7 @@ size_t | 4 | *8* | 4 | *8*
 有符号数和无符号数在计算机里表示都是一样的，二进制的补码形式。
 是有符号还是无符号，是编译器来辨认的。
 * 赋值截断问题
-    * 等长直接赋值，变短直接截断，变长如果正前补 0，为负前补 1，浮点数同理。
+    * 整数等长直接赋值，变短直接截断，变长时无符号数补 0、有符号负数通常做符号扩展。浮点数有自己的 IEEE 754 编码和转换规则，不能按整数的截断/符号扩展来理解。
     * `char a = 0xf1; unsigned b = a;` // 0xfffffff1
     * `unsigned b = 0xffffff01; char a = (char)b;` // 0x01
 * 运算问题
@@ -415,15 +412,15 @@ IEEE754 标准，该标准定义了 float 和 double，float 有 32 位，double
 | unsigned char | float | 转换到 long；然后从 long 转换到 float
 | unsigned char | double | 转换到 long；然后从 long 转换到 double
 
-比 int 低级的类型，都会转换成 int，比 int 高级的类型不变。
+等级低于 `int` 的整数类型会先做整数提升：如果 `int` 能表示该类型的所有值就提升为 `int`，否则提升为 `unsigned int`；之后还要继续做 usual arithmetic conversions。
 {% include image.html url="/assets/images/221202-the-missing-div-instruc~41/v2-568aeb491ab0ee5a8ec274aee66b366a_720w.webp" %}
 
-若运算符两边类型均低于 int 或等于 int，那么结果为 int。 若有高于 int 的，那么结果为高于 int 的等级最高的类型。
+若运算符两边类型低于 `int`，通常会先做整数提升；随后再按 usual arithmetic conversions 在有符号/无符号和类型等级之间选共同类型。不能简单理解成“高于 int 就取最高等级类型”，无符号参与时尤其要小心。
 {% include image.html url="/assets/images/221202-the-missing-div-instruc~41/v2-865dd0a13f463d190d1adadef7d4b43e_720w.webp" %}
 
 [note {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/138546274)
 `int < unsigned int < long < unsigned long < float < double`
-char，short，unsigned char，unsigned short 总是会被转换为 int。
+char、short、unsigned char 通常会提升为 int；unsigned short 是否提升为 int 取决于当前平台的 int 能否表示它的全部取值。
 
 
 

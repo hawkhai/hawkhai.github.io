@@ -576,7 +576,7 @@ void main() {
         vec3(uJoint1 * vec4(pos, 1.0))*aSkinWeight.y +
         vec3(uJoint2 * vec4(pos, 1.0))*aSkinWeight.z +
         vec3(uJoint3 * vec4(pos, 1.0))*aSkinWeight.w;
-  vec3 nrm = vec3(uJoint0InvTranspose * vec4(aVertexNormal, 1.0));
+  vec3 nrm = vec3(uJoint0InvTranspose * vec4(aVertexNormal, 0.0));
 
   // 矩阵
   vWorld = uWorld * vec4(pos, 1.0);

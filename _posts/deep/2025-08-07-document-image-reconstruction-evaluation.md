@@ -216,10 +216,10 @@ python weight_comparison_report.py
 ### 2. **直方图可视化**
 
 - **紫色粗线** ：平衡最终得分 （主要评价指标）
-- **深红虚线** ：Bottom 1% （25% 权重）
-- **红色点线** ：Bottom 5% （15% 权重）
+- **深红虚线** ：Bottom 1% （40% 权重）
+- **红色点线** ：Bottom 5% （25% 权重）
 - **橙色点线** ：10th Percentile （20% 权重）
-- **蓝色点线** ：Median （40% 权重）
+- **蓝色点线** ：Median （15% 权重）
 
 
 ### 3. **控制台输出**
@@ -229,7 +229,7 @@ python weight_comparison_report.py
 ✅ Balanced Weighting: Optimized for better extreme/median balance
 ✅ Distribution Analysis: Quality assessment with CV and outlier detection
 
-🎯 Recommendation: Use 'Balanced F inal Scores' as primary evaluation metric
+🎯 Recommendation: Use 'Balanced Final Scores' as primary evaluation metric
 📊 For detailed analysis, check distribution quality indicators
 ```
 

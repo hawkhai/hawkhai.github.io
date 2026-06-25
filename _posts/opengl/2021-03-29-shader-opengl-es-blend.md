@@ -33,8 +33,8 @@ const GLfloat TRIANGLE_COORDS[] = {
 glVertexAttribPointer(mPositionId, 3/*每组数据三个 float*/, GL_FLOAT, GL_FALSE, 0, TRIANGLE_COORDS);
 // 1. GL_TRIANGLES：每三个顶之间绘制三角形，之间不连接。
 // 2. GL_TRIANGLE_FAN：以 V0V1V2, V0V2V3, V0V3V4，……的形式绘制三角形。
-// 3. GL_TRIANGLE_STRIP：顺序在每三个顶点之间均绘制三角形。这个方法可以保证从相同的方向上所有三角形均被绘制。
-//    以 V0V1V2, V1V2V3, V2V3V4……的形式绘制三角形
+// 3. GL_TRIANGLE_STRIP：相邻三个顶点组成一个三角形；为保持面朝向，实际绕序会交替调整。
+//    可理解为 V0V1V2, V2V1V3, V2V3V4, V4V3V5……的形式绘制三角形
 glDrawArrays(GL_TRIANGLES, 0, 4/*数组长度 4*/); // 只会绘制 1 个三角形
 ```
 
@@ -311,7 +311,7 @@ Irrlicht 统计分析，存在两个 API 都混用的情况，貌似也跑的好
 * glEnable( GL_POLYGON_SMOOTH );
 * 可以优化多边形反走样；但必须有 α 位平面，以用来存储累加的覆盖值。
 
-* 当输入颜色值为 RGB 时，混合计算时，A 值默认为 0.0。
+* 当输入颜色值只有 RGB 通道时，补齐为 RGBA 参与纹理/片元计算时 A 通常按 1.0 处理；是否透明取决于片元着色器实际输出的 alpha。
 
 * [OpenGL ES -- 混合](https://www.heqiangfly.com/2020/04/30/opengl-es-color-blend/)
 * [VAO 与 VBO 的前世今生 {% include relref_csdn.html %}](https://blog.csdn.net/xufeng0991/article/details/80813594)

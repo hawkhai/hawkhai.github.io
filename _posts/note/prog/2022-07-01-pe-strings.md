@@ -103,17 +103,17 @@ codeprint:
     * 2 byte 表示一个字符
     * 共 13060 个汉字
 * Unicode 由国际标准化组织制定，整合全世界的字符
-    * 2 byte 表示一个字符
-    * 表示全世界所有的字符
-    * 如果只使用英文字符，较浪费空间
+    * Unicode 是字符编码标准，给字符分配码点，不等于固定 2 byte 的编码
+    * 码点范围可超过 U+FFFF，是否占 2 byte 取决于 UTF-16 等具体编码形式
+    * 如果用 UTF-16/UTF-32 只存英文字符，才会相对浪费空间
 * UTF (Unicode Translation Format) 通用转换格式
     * 是 Unicode 的实现，解决了 Unicode 空间浪费的问题
     * UTF-8, UTF-16, UTF-16LE(little endian), UTF-16BE(big endian), UTF-32
 * UTF-8 变长多字节编码，1~4 字节表示一个字符
     * 1 byte 表示一个 US-ASCIl 字符
-    * 2 byte 表示一个拉丁文字符（拉丁文、希腊文、西里尔字母、亚美尼亚语、希伯来文、阿拉伯文、叙利亚文等）
-    * 3 byte 表示一个汉字（中日韩文字、东南亚文字、中东文字等）
-    * 4 byte 表示其他极少使用的语言
+    * 2 byte 覆盖 U+0080~U+07FF 的码点，不是所有拉丁文字符都固定 2 byte
+    * 3 byte 覆盖 U+0800~U+FFFF，常见汉字多在这一档
+    * 4 byte 覆盖 U+10000 及以上的补充平面字符
 * UTF-8-BOM (Byte Order Mark)
     * Unicode 规定使用 BOM 来标识字节顺序，UTF-8-BOM 的文件会以 EF BB BF 开头
     * UTF-16 和 UTF-32 需要决定是按 2 Byte 读还是按 4 byte 读，需要 BOM 来决定顺序
@@ -123,7 +123,7 @@ codeprint:
 * GBK 编码是 GB2312 编码的超集，向下完全兼容 GB2312。
 * GB18030 编码向下兼容 GBK 和 GB2312。
 * GBK、GB2312 等与 UTF8 之间都必须通过 Unicode 编码才能相互转换。
-* GBK、GB2312 以及 Unicode 都既是字符集，也是编码方式，而 UTF-8 只是编码方式，并不是字符集。
+* GBK、GB2312 常被同时当作字符集/编码方案来讨论；Unicode 是字符编码标准，UTF-8 是 Unicode 的一种编码形式。
 
 * "utf8"，1~4 字节表示一个字符
 * "gbk"，1~2 byte 表示一个字符

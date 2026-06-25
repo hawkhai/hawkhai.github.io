@@ -41,11 +41,11 @@ codeprint:
 
 GLSL 与 HLSL 分别基于 OpenGL 和 Direct3D 的接口，两者不能混用。
 
-Cg 是一个可以被 OpenGL 和 Direct3D 广泛支持的图形处理器编程语言。
+Cg 曾是一个面向 OpenGL 和 Direct3D 的图形处理器编程语言，但后来已经停止维护，现代项目通常直接使用 GLSL、HLSL 或平台对应的中间表示。
 Cg 语言和 OpenGL、Direct3D 并不是同一层次的语言，而是 OpenGL 和 DirectX 的上层，
 即 Cg 程序是运行在 OpenGL 和 DirectX 标准顶点和像素着色的基础上的。
 Cg 由 NVIDIA 公司和微软公司相互协作在标准硬件光照语言的语法和语义上达成了一致开发。
-所以，HLSL 和 Cg 其实是同一种语言。
+所以，HLSL 和 Cg 在语法和早期设计上非常接近，但不能简单说成同一种语言。
 
 
 ## OpenGL / GLSL 渲染环境搭建

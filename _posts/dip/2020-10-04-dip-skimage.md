@@ -47,7 +47,7 @@ print(img[0][0])  # 图像的像素值（高度，宽度，通道数）
 | ---- | ---- | ---- |
 | uint8 | $0$ to $255$ | `img_as_ubyte` Convert to 8-bit uint. |
 | uint16 | $0$ to $65535$ | `img_as_uint` Convert to 16-bit uint. |
-| uint32 | $0$ to $2^{32}$ | |
+| uint32 | $0$ to $2^{32}-1$ | |
 | float | $-1$ to $1$ or $0$ to $1$ | `img_as_float` Convert to 64-bit floating point. |
 | int8 | $-128$ to $127$ | |
 | int16 | $-32768$ to $32767$ | `img_as_int` Convert to 16-bit int. |
@@ -93,7 +93,7 @@ print(img[0][0])  # 图像的像素值（高度，宽度，通道数）
 ### 颜色空间转换
 
 ```python
-skimage.color.rgb2grey(rgb)
+skimage.color.rgb2gray(rgb)
 skimage.color.rgb2hsv(rgb)
 skimage.color.rgb2lab(rgb)
 skimage.color.gray2rgb(image)
@@ -199,7 +199,7 @@ matplotlib.pyplot.imshow(X, cmap=None)
 
 ### 黑帽（black-tophat）
 
-将原图像减去它的闭运算值，返回比结构化元素小的黑点，且将这些黑点反色。
+将闭运算值减去原图像，返回比结构化元素小的黑点，并以亮点形式显示这些暗细节。
 
 
 ## 自动识别标注硬币

@@ -55,7 +55,7 @@ cp -R out/x64/Release/crashpad_handler*   ../../lib/macos/dump/x86_64/Release/
 
 也有可能是 cpu arch 不同吧，分析 dump 的机器环境上安装的 app 版本必须要与崩溃的版本一致才可以。
 
-**分析崩溃的 机器要和 崩溃的 dump 安装同样的版本，分析程序会读对应的 elf 文件。**
+**分析崩溃的机器要和崩溃的 dump 安装同样的版本，分析程序会读对应的 Mach-O 文件。**
 崩溃分析需要准备的文件：
 1. 崩溃文件 minidump
 2. 对应的符号 .dSYM 文件
@@ -85,7 +85,7 @@ settings set target.source-map /oldpath /newpath
 ### 符号化的准备–UUID
 
 首先判断 DSYM 文件和 app 和 crash 文件（如果存在）的 UUID 相同，确保是同一次编译的产物，
-因为每次编译由于 ALSR（地址空间随机化）会生成不同的偏移量，如果三者的 UUID 不同，那么偏移量也会不同，
+因为每次编译由于 ASLR（地址空间布局随机化）会生成不同的偏移量，如果三者的 UUID 不同，那么偏移量也会不同，
 导致符号化的地址不一样，会定位到错误的方法名上面去，下面就是查看 UUID 的方法。
 
 #### dSYM 文件的 uuid
@@ -343,7 +343,7 @@ image list
 
 也有可能是 cpu arch 不同吧，分析 dump 的机器环境上安装的 app 版本必须要与崩溃的版本一致才可以。
 
-**分析崩溃的 机器要和 崩溃的 dump 安装同样的版本，分析程序会读对应的 elf 文件。**
+**分析崩溃的机器要和崩溃的 dump 安装同样的版本，分析程序会读对应的 Mach-O 文件。**
 崩溃分析需要准备的文件：
 1. 崩溃文件 minidump
 2. 对应的符号 .dSYM 文件

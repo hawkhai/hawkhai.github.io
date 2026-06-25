@@ -348,15 +348,15 @@ attribute vec4 a_vertex;    // 顶点坐标
 attribute vec3 a_normal;    // 顶点法线
 attribute vec2 a_texcoord;  // 纹理坐标
 
-varying float v_diffuse;    // 法线与入射光的夹角
+varying float v_diffuse;    // 法线与入射光夹角的余弦/漫反射系数
 varying vec2 v_texcoord;    // 2d 纹理坐标
 
 void main(void)
 {
     // 归一化法线
     vec3 ec_normal = normalize(normal_matrix * a_normal);
-    // v_diffuse 是法线与光照的夹角。
-    // 根据向量点乘法则，当两向量长度为 1 是 乘积即 cosθ 值
+    // v_diffuse 是法线与光照方向夹角的余弦值。
+    // 根据向量点乘法则，当两向量长度为 1 时乘积即 cosθ 值
     v_diffuse = max(dot(ec_light_dir, ec_normal), 0.0);
     v_texcoord = a_texcoord;
     gl_Position = mvp_matrix * a_vertex;
@@ -378,7 +378,7 @@ void main (void)
 {
     vec4 color = texture2D(t_reflectance, v_texcoord);
     // 这里分解开来是 color*vec3(1,1,1)*v_diffuse + color*i_ambient
-    // 色*光*夹角 cos + 色*环境光
+    // 色*光*夹角余弦 + 色*环境光
     gl_FragColor = color*(vec4(v_diffuse) + i_ambient);
 }
 ```

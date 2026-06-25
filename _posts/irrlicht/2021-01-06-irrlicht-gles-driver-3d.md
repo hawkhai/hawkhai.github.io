@@ -16,7 +16,7 @@ codeprint:
 cluster: "Irrlicht OpenGL-ES2 Driver"
 ---
 
-Irrlicht 采用了标准的 Blinn-Phong 光照模型。但是它是在 顶点着色器 里面计算的光照，这样更解决 GPU，相比放在片段着色器里面计算，光照效果更生硬。
+Irrlicht 采用了标准的 Blinn-Phong 光照模型。但是它是在顶点着色器里面计算光照，这样更节省 GPU，相比放在片段着色器里面计算，光照效果更生硬。
 
 Irrlicht 总体说来还是比较简陋。主要包含 Blinn-Phong 光照模型，反射、天空盒、法线纹理、视差纹理等等。
 
@@ -326,7 +326,7 @@ void main()
 
 ## COGLES2SphereMap.vsh
 
-主要用于天空盒贴图。和 COGLES2Solid.vsh 得主要不同是：
+主要用于球面环境映射。和 COGLES2Solid.vsh 的主要不同是：
 
 ```glsl
 void main()
@@ -348,7 +348,7 @@ void main()
 代码和 COGLES2Solid.fsh 完全一样。
 
 
-## COGLES2Reflection2Layer.fsh
+## COGLES2Reflection2Layer.vsh
 
 代码在 COGLES2Solid2.vsh 的基础上，纹理 2 采用反射得到：
 
@@ -366,7 +366,7 @@ void main()
 ```
 
 
-## COGLES2Reflection2Layer.vsh
+## COGLES2Reflection2Layer.fsh
 
 ```glsl
 void main()
@@ -554,7 +554,7 @@ void main()
 法线贴图只能在明暗效果上作假（模拟凹凸），无法控制表面的凹凸程度。
 即使我们使用图像软件强制调出一个凹凸相对明显的法线贴图，但正如为什么要引入视差贴图？中的两个图，法线贴图下的凹凸效果明显真实感不高！
 
-相比法线贴图，多点相机位置。
+相比法线贴图，多了相机到片元的视线方向，用高度信息对纹理坐标做偏移。
 
 ```glsl
 uniform vec3 uEyePosition; // 相机坐标

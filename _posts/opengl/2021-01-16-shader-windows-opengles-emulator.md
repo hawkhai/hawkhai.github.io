@@ -34,7 +34,7 @@ PowerVR、Adreno、Mali 三大主流移动 GPU。[from](https://www.expreview.co
 
 厂商 | 名称
 ---- | ----
-AMD | ~~OpenGL ES 2.0 Emulator~~ 2008 年卖给了高通（Qualcomm）
+AMD | ~~OpenGL ES 2.0 Emulator~~ AMD 的手持图形/多媒体技术资产在 2009 年被高通（Qualcomm）收购，Adreno 的源流来自这条移动图形技术线；不是 emulator 产品本身被卖给高通。
 ARM | OpenGL ES 2.0 Emulator v1.2 [ARM Mali Emulator](https://developer.arm.com/tools-and-software/graphics-and-gaming/opengl-es-emulator/downloads)
 Qualcomm | Adreno SDK 2.2 [Adreno GPU SDK](https://developer.qualcomm.com/software/adreno-gpu-sdk/tools)
 NVIDIA | ~~Windows OpenGL ES 2.0 Emulator~~ Tegra 没有找到地方下载
@@ -46,7 +46,7 @@ A conformant OpenGL ES implementation for Windows, Mac, Linux, iOS and Android.
 
 费不尽力的老力，都下载下来，整理好了：<https://gitee.com/hawkhai/opengl-3rd.git>
 
-2020 年 9 月 13 日，英伟达 NVIDIA 宣布以 400 亿美元收购 ARM。
+2020 年 9 月 13 日，英伟达 NVIDIA 宣布计划以 400 亿美元收购 ARM；这笔交易后来因监管阻力在 2022 年 2 月 7 日终止。
 
 {% include image.html url="/assets/images/210116-shader-windows-opengles~28/640.png" %}
 {% include image.html url="/assets/images/210116-shader-windows-opengles~28/640_1.webp" %}

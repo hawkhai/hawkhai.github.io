@@ -69,10 +69,10 @@ archived: true
     * Jellyfish is a python library for doing approximate and phonetic matching of strings.
     * Levenshtein Distance 编辑距离算法
     * Damerau-Levenshtein Distance 从一个词转换为另一个词的最少操作数，与 Levenshtein Distance 不同的是，除了单个字符的插入、删除和变更之外，还包括两个相邻字符的转换。
-    * Jaro Distance 两个单词之间由一个转换为另一个所需的单字符转换的最小数量。
-    * Jaro-Winkler Distance 通过前缀因子 p 使 Jaro Distance 相同时共同前缀长度 l 越大的相似度越高。Jaro–Winkler Distance 越小，两个字符串越相似。
+    * Jaro Distance / Similarity 基于匹配字符数和换位次数衡量两个字符串相似度，不是普通编辑距离。
+    * Jaro-Winkler 在 Jaro 的基础上加入共同前缀加成；如果使用 similarity 表示，数值越大越相似，如果转换成 distance 则相反。
     * Match Rating Approach Comparison
-    * Hamming Distance 汉明距离度量了通过替换字符的方式将字符串 x 变成 y 所需要的最小的替换次数。
+    * Hamming Distance 汉明距离用于等长字符串，度量对应位置不同的字符个数。
     * use DBSCAN with Levenshtein distances: <https://scikit-learn.org/stable/faq.html#how-do-i-deal-with-string-data-or-trees-graphs>
 
 
@@ -208,7 +208,7 @@ class Trie(object):
             while single_char not in p.children and p is not self.root:
                 p = p.fail
             # 有一点瑕疵，原因在于匹配子串的时候，若字符串中部分字符由两个匹配词组成，此时后一个词的前缀下标不会更新
-            # 这是由于 KMP 算法本身导致的，目前与下文循环寻找所有匹配词存在冲突
+            # 这是这份 AC 自动机实现的状态记录方式导致的，目前与下文循环寻找所有匹配词存在冲突
             # 但是问题不大，因为其标记的位置均为匹配成功的字符
             if single_char in p.children and p is self.root:
                 start_index = i
@@ -281,7 +281,7 @@ public:
 * 十六进制特征码（shellcode）
 * YARA 和 PEiD 可识别加壳文件
 * Python 中可以使用 python-magic 程序包确定文件具体类型。
-* Python 中可以使用内置的 hashlib 模块或者 PyCrypto 模块生成哈希值。
+* Python 中可以使用内置的 hashlib 模块生成哈希值；如果需要密码学算法库，优先考虑 cryptography 或 PyCryptodome，别再使用已停止维护的 PyCrypto。
 * 模糊哈希用户确定文件之间的相似度。可使用 ssdeep 命令。
 
 

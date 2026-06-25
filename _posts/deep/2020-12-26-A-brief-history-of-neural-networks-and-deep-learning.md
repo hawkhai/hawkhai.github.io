@@ -106,19 +106,19 @@ Andrey Kurenkov
 玻尔兹曼机器就是类似神经网络的网络，并有着和感知器（Perceptrons）非常相似的单元，但该机器并不是根据输入和权重来计算输出，在给定相连单元值和权重的情况下，网络中的每个单元都能计算出自身概率，取得值为 1 或 0。
 因此，这些单元都是随机的 —— 它们依循的是概率分布而非一种已知的决定性方式。
 玻尔兹曼部分和概率分布有关，它需要考虑系统中粒子的状态，这些状态本身基于粒子的能量和系统本身的热力学温度。
-这一分布不仅决定了玻尔兹曼机器的数学方法，也决定了其推理方法 —— 网络中的单元本身拥有能量和状况，学习是由最小化系统能量和热力学直接刺激完成的。
+这一分布不仅决定了玻尔兹曼机器的数学方法，也决定了其推理方法 —— 网络中的单元本身拥有能量和状态，学习可以理解为调整权重，使训练数据对应的能量更低。
 虽然不太直观，但这种基于能量的推理演绎实际上恰是一种基于能量的模型实例，并能够适用于基于能量的学习理论框架，而很多学习算法都能用这样的框架进行表述。
 
 {% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-c8de5df311b235b7.webp" caption="一个简单的信念网络" %}
 
-一个简单的信念，或者说贝叶斯网络 —— 玻尔兹曼机器基本上就是如此，但有着非直接 / 对称联系和可训练式权重，能够学习特定模式下的概率。
+一个简单的信念，或者说贝叶斯网络，与玻尔兹曼机器都属于概率图模型家族；但玻尔兹曼机器使用无向、对称连接和可训练权重，能够学习特定模式下的概率。
 
 {% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-d987d7aca07b0579.webp" caption="玻尔兹曼机器实例" %}
 
 {% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-25de789aee57ee80.webp" caption="An explanation of belief nets" %}
 
 
-## 90 年代的兴衰 —— 强化学习与递归神经网络 (2000s-2010s)
+## 90 年代的兴衰 —— 强化学习与循环神经网络 (2000s-2010s)
 
 {% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-b5dd96d6bbcb1bd9.webp" caption="强化学习" %}
 
@@ -137,7 +137,7 @@ Andrey Kurenkov
 
 将神经元回路接回神经网络，赋予神经网络记忆就被优雅地解决了。
 
-{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-55be164812717615.webp" caption="递归神经网络图。还记得之前的玻尔兹曼机吗？大吃一惊吧！那些是递归性神经网络。" %}
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-55be164812717615.webp" caption="循环神经网络图。还记得之前的玻尔兹曼机吗？大吃一惊吧！那些网络里也存在回路结构。" %}
 
 {% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-beefa436cd189c44.webp" caption="通过时间概念反向传播的直观图解" %}
 
@@ -163,7 +163,7 @@ Andrey Kurenkov
 
 ### 蛮力的重要性
 
-大型训练数据集与快速腭化计算的蛮力方法是一个关键。
+大型训练数据集与快速并行计算的蛮力方法是一个关键。
 
 {% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-3b81b0bae7b4864c.webp" caption="谷歌最著名的神经网络学习猫。这是输入到一个神经元中最佳的一张" %}
 
@@ -181,7 +181,7 @@ Andrey Kurenkov
 
 ### 后记：现状
 
-{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/118309788_31_2017120708490293.jpg" caption="LTSM RNNs 的死灰复燃以及分布式表征的代表" %}
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/118309788_31_2017120708490293.jpg" caption="LSTM RNNs 的死灰复燃以及分布式表征的代表" %}
 
 
 ## 参考

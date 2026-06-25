@@ -46,9 +46,8 @@ imgaug
 ```python
 from selenium import webdriver
 chrome_options = webdriver.ChromeOptions()
-chrome_options.headless = True
-chrome = webdriver.Chrome(
-    chrome_options=chrome_options)
+chrome_options.add_argument("--headless=new")
+chrome = webdriver.Chrome(options=chrome_options)
 page = chrome.get(url)
 ```
 
@@ -70,11 +69,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from IPython import display
-display.set matplotlib formats('svg')
-#Alternative to set svg for newer versions
-#import matplotlib inline
-# matplotlib inline,backend inline.set matplotlib formats( 'svg')
+from matplotlib_inline import backend_inline
+backend_inline.set_matplotlib_formats('svg')
 ```
 
 

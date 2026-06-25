@@ -165,12 +165,12 @@ struct S4 {
 
 ## 栈的生长方向和内存存放方向
 
-**Heap** ：堆是往高地址增长的，是用来动态分配内存的区域，malloc 就是在这里面分配的；
-在这 4G 里面，其中 1G 是内核态内存，每个 Linux 进程共享这一块内存，在高地址；3G 是用户态内存，这部分内存进程间不共享，在低地址。
+**Heap** ：堆是用来动态分配内存的区域，malloc 通常就在这里面分配；它的实际地址布局由操作系统和运行库管理，不能简单理解成永远线性“往高地址增长”。
+在典型 32 位 Linux 3G/1G 配置里，4G 虚拟地址空间中高 1G 是内核空间，低 3G 是用户空间；这不是所有系统和所有配置的通用结论。
 [from {% include relref_jianshu.html %}](https://www.jianshu.com/p/58b602f8b7d5)
 {% include image.html url="/assets/images/210914-tiny-source-code/2718191-40b00426103734bc.webp" %}
 
-生长方向：栈的开口向下，堆的开口向上（小端模式）。
+生长方向：很多常见架构/ABI 中栈向低地址增长，堆分配区域常从较低地址向上扩展；这和大小端无关，大小端只描述多字节对象内部的字节排列。
 栈每压入一个内存块，即在栈的下端开辟出来，该内存块的首地址是在该内存块的最下面。
 内存块里的数据生长方向，是向上的（与栈本身的生长方向是相反的），
 这一点对堆来讲也适用（当然，堆的开口本来就朝上，很好理解）。
@@ -209,10 +209,10 @@ void test01() {
     printf("d = %d\n", &st.d); // d = 5240908
 }
 
-// 2. 内存生长方向（小端模式）
+// 2. 多字节整数在内存中的字节序（小端模式示例）
 void test02() {
 
-    // 高位字节 -> 地位字节
+    // 高位字节 -> 低位字节
     int num = 0xaabbccdd;
     unsigned char* p = (unsigned char*)&num;
 
@@ -1296,11 +1296,11 @@ int main(int argc, char *argv[])
 }
 ```
 
-内存地址是否高位为 1，int64 的情况？可以当成 long long 来处理。
-64 位操作系统内存值的最高位可能是 1 吗？不可能，所有系统的寻址能力，最高 0xffff 都是用不到的。
+内存地址是否高位为 1，int64 的情况？如果只是保存地址值，应该使用 `uintptr_t` / `intptr_t` 这类指针宽度整数，而不是直接假定 `long long` 的语义。
+64 位虚拟地址不能简单说“最高位不可能为 1”。x86-64 规范地址会做高位符号扩展，用户态地址在常见系统上通常位于低半区，但内核地址或未来更宽虚拟地址模式下可能出现高位为 1 的地址值。
 [简述 AMD64 架构的各类处理器分页模式，以及什么是物理地址扩展](https://www.0xaa55.com/thread-16949-1-1.html) AMD64 架构核心 —— 长模式分页。
 长模式是 AMD64 架构的核心，它使用 48 位长的二进制数表示线性地址。而长模式的分页则是以 PAE 的分页模式作为跳板，将 32 位的线性地址扩展至 48 位，并转换成 52 位长的物理地址。
-**最高位只有运算的时候，可能用到。一般就是 48 位，启用 PAE 可以到 52 位。**
+**常见 x86-64 长模式曾长期使用 48 位规范虚拟地址，物理地址宽度则由具体 CPU 决定，不能把 PAE、虚拟地址位数和 52 位物理地址混成同一个概念。**
 危险的 `(unsigned int)(float)` 强转：
 ```cpp
 if (outx == 0) {
@@ -1382,7 +1382,7 @@ matArray[2].size.p = &matArray[2].rows;
 ```cpp
 for (int i = 0; i < 10; i++) {
     int a = i * 5;
-    int b = a * 3435973837;
+    unsigned int b = (unsigned int)a * 3435973837u;
     printf("%u %u \n", a, b);
     assert(a / 5 == b);
 }
@@ -1390,7 +1390,7 @@ for (int i = 0; i < 10; i++) {
 
 为了效率，已经丧心病狂了。
 一个 32-bit 的 unsigned integer x，那么 `x/10` 会被转换成 `(x*3435973837)>>35` 。
-除以 5 等价于 乘以 3435973837（运算溢出后是等价的）。
+乘以 3435973837 是无符号 32 位模运算下乘以 5 的逆元；它只能在输入本来就是 5 的倍数时用于还原除以 5 的商，普通 `x/5` 仍需要乘法、取高位和移位等组合。
 [Shift to divide by 10 {% include relref_github.html %}](https://rgplantz.github.io/2021/11/04/Shift-to-divide-by-10.html)
 
 
@@ -1425,9 +1425,7 @@ if (!guard.first_byte) {
 }
 ```
 [delete 与 delete\[\] 的区别 {% include relref_csdn.html %}](https://blog.csdn.net/flyingscv/article/details/2029509)
-1. 如果对象无析构函数（包括不需要合成析构函数，比如注释掉 ~A 和 string s 两行代码）
-    delete 会直接调用 operator delete 并直接调用 free 释放内存，
-    这个时候的 `new` = `new []` （仅在数量上有差异）， `delete` = `delete[]` 。
+1. 即使对象没有非平凡析构函数，也不能把 `new` / `delete` 和 `new[]` / `delete[]` 混用；标准层面这是未定义行为。某些编译器实现上看起来“刚好能跑”，也不能当成规则。
 2. 如果对象存在析构函数（包括合成析构函数），则 **这个才是重点** ：
     `new []` 返回的地址会后移 4 个字节，并用那 4 个存放数组的大小！而 new 不用后移这四个字节。
     `delete []` 根据那个 4 个字节的值，调用指定次数的析构函数，同样 delete 也不需要那四个字节。
@@ -1444,7 +1442,7 @@ delete objects;   // 错误的用法
 严格应该这样说：后者相当于仅调用了 `objects[0]` 的析构函数，
 漏掉了调用另外 99 个对象的析构函数，
 并且在调用之后释放内存时导致异常（如果存在析构函数的话），
-如果对象无析构函数该语句与 `delete []objects` 相同。
+即使对象无非平凡析构函数，`new[]` 后使用 `delete` 仍是未定义行为，不能写成与 `delete []objects` 相同。
 
 `new []` ：
 ```
@@ -1954,6 +1952,8 @@ uint64 crc64(const uchar* data, size_t size, uint64 crcx)
 }
 ```
 
+如果这段代码可能被多线程同时首次调用，`initialized` 和 `table` 的初始化需要用 `std::call_once` 或等价机制保护，否则会有数据竞争。
+
 
 ## bsearch & qsort
 
@@ -1962,10 +1962,14 @@ uint64 crc64(const uchar* data, size_t size, uint64 crcx)
 
 ```c
 int compare(const void* a, const void* b) {
-    return (*(int*)a - *(int*)b);
+    int lhs = *(const int*)a;
+    int rhs = *(const int*)b;
+    return (lhs > rhs) - (lhs < rhs);
 }
 int cmpfunc(const void * a, const void * b) {
-   return ( *(int*)a - *(int*)b );
+   int lhs = *(const int*)a;
+   int rhs = *(const int*)b;
+   return (lhs > rhs) - (lhs < rhs);
 }
 qsort(ali, size, sizeof(int), compare);
 qsort(values, 5, sizeof(int), cmpfunc);
@@ -1976,7 +1980,9 @@ qsort(values, 5, sizeof(int), cmpfunc);
 #include <stdlib.h>
 
 int cmpfunc(const void * a, const void * b) {
-   return ( *(int*)a - *(int*)b );
+   int lhs = *(const int*)a;
+   int rhs = *(const int*)b;
+   return (lhs > rhs) - (lhs < rhs);
 }
 
 int values[] = { 5, 20, 29, 32, 63 };

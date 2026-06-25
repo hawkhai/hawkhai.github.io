@@ -68,7 +68,7 @@ int wmain(int argc, wchar_t** argv) {
 
 lsan_suppressions.txt
 
-LeakSanitizer 是一个运行时期的内存泄漏检测器。可以跟 AddressSanitizer 结合起来，用于检测内存错误及内存泄漏，也可以单独使用。LSan 几乎不会带来性能上的影响，直到程序终止。即一旦检测到内存问题，程序即会终止，这一点与 ASan 一致。
+LeakSanitizer 是一个运行时期的内存泄漏检测器。可以跟 AddressSanitizer 结合起来用于检测泄漏，也可以单独使用。LSan 平时几乎没有额外开销，通常在进程结束阶段执行一次额外的泄漏检测；这和 ASan 对越界、UAF 等内存错误的即时检测并不完全一样。
 
 
 ## drmemory

@@ -273,10 +273,10 @@ function changeImagePositionk() {
     lrelocate.each(function() {
         var imgnode = $(this);
         var target = imgnode;
-        var tname = target[0].tagName.toUpperCase();
-        while (tname != "OL" && tname != "UL" && target.length) {
+        var tname = target.length ? target[0].tagName.toUpperCase() : "";
+        while (target.length && tname != "OL" && tname != "UL") {
             target = target.prev();
-            tname = target[0].tagName.toUpperCase();
+            tname = target.length ? target[0].tagName.toUpperCase() : "";
         }
         var relocate = imgnode.attr("relocate");
         if (target.length && relocate) {
