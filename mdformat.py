@@ -63,8 +63,8 @@ MAINW_IGNORE_LIST = [
 ]
 
 def _extend_from_config(lst):
-    """Append extra dirs from mdrstrip_dir_ignore.txt."""
-    igdirs = _read_iglist("config/mdrstrip_dir_ignore.txt")
+    """Append extra dirs from ignored-dirs.txt."""
+    igdirs = _read_iglist("config/ignored-dirs.txt")
     for d in igdirs:
         if d not in lst:
             lst.append(d)

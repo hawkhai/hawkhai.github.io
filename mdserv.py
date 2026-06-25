@@ -73,7 +73,7 @@ def parseRootReq(path, result, action):
     kjson["categories"] = [] if not kjson["categories"] else json.loads(kjson["categories"])
     kjson["tags"] = [] if not kjson["tags"] else json.loads(kjson["tags"])
 
-    headnote = readfileJson("config/headnote.txt", "utf8")
+    headnote = readfileJson("config/frontmatter-values.json", "utf8")
     if action == "/":
         return parseReqAction(localjs, localmd, kjson, query, headnote, href)
     if action == "/chgcat":
@@ -182,7 +182,7 @@ class Resquest(BaseHTTPRequestHandler):
         print(self.path)
         pinfo = getPostInfo(self.path)
 
-        headnote = readfileJson("config/headnote.txt", "utf8")
+        headnote = readfileJson("config/frontmatter-values.json", "utf8")
         self.wfile.write(json.dumps({
             "headnote": headnote,
             "pinfo": pinfo,

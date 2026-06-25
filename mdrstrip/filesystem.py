@@ -31,7 +31,7 @@ def checkFileSize(fpath, fname, ftype):
         return
 
     invdir = isInvisibleDir(fpath)
-    mdrstripBigfile = os.path.join("invisible" if invdir else ".", "config/mdrstrip_bigfiles.txt")
+    mdrstripBigfile = os.path.join("invisible" if invdir else ".", "config/large-files.txt")
     fmd5 = getFileSrcMd5z(fpath, mycache=MYCACHE, assertx=False) # checkFileSize
 
     igbigfiles = readFileIgnoreList(mdrstripBigfile)

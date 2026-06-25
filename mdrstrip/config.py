@@ -82,10 +82,10 @@ def checkpage(fdata):
     return None
 
 def loadRougifyList():
-    ROUGIFY_LIST_FILE = "config/rougify_list_json.txt"
+    ROUGIFY_LIST_FILE = "config/syntax-lexers.json"
     ROUGIFY_LIST = readfileJson(ROUGIFY_LIST_FILE)
     if not ROUGIFY_LIST:
-        ROUGIFY_LIST_SRC = readfile("config/rougify_list.txt", True)
+        ROUGIFY_LIST_SRC = readfile("config/syntax-lexers.txt", True)
         ROUGIFY_LIST = refindall("\n([^\\s:]+):", ROUGIFY_LIST_SRC, re.MULTILINE)
         ROUGIFY_LIST2 = refindall("\\[\\s*aliases\\s*:(.*?)\\]", ROUGIFY_LIST_SRC)
         for temp in ROUGIFY_LIST2:

@@ -300,7 +300,7 @@ def mainxkey():
         print(key, value, "..." if len(gkvmap[key]) > ctrln else "")
         headnote[key] = value
     # (path, data, encoding="ISO8859-1", ascii=True):
-    writefileJson("config/headnote.txt", headnote, "utf8", False)
+    writefileJson("config/frontmatter-values.json", headnote, "utf8", False)
 
 if __name__ == "__main__":
     def maink():

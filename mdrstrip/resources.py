@@ -4,7 +4,7 @@ from .runtime import *
 from .config import checkpage, getLinkTagSrc, isHostIgnoreStat, readFileIgnoreList
 
 def backupUrlContent(fpath, md5src, url):
-    for urlz in readFileIgnoreList("config/mdrstrip_url_ignore_ends.txt"):
+    for urlz in readFileIgnoreList("config/ignored-url-suffixes.txt"):
         if url.endswith(urlz):
             return
 
@@ -15,8 +15,8 @@ def backupUrlContent(fpath, md5src, url):
     # 有可能挂掉的网站，都稍微做一下备份。
     fname = os.path.split(fpath)[-1]
 
-    urligstarts = readFileIgnoreList("config/mdrstrip_url_ignore_starts.txt")
-    urligstarts.extend(readFileIgnoreList("invisible/config/mdrstrip_url_ignore_starts.txt"))
+    urligstarts = readFileIgnoreList("config/ignored-url-prefixes.txt")
+    urligstarts.extend(readFileIgnoreList("invisible/config/ignored-url-prefixes.txt"))
     for urlz in urligstarts:
         if url.startswith(urlz):
             return
@@ -26,7 +26,7 @@ def backupUrlContent(fpath, md5src, url):
     print(fpath, url)
     chrome = True # 可能有 js 代码，所以必须都用 Chrome 进行缓存
     chromeDialog = False
-    for urlz in readFileIgnoreList("config/mdrstrip_url_chrome_dialog.txt"):
+    for urlz in readFileIgnoreList("config/chrome-dialog-urls.txt"):
         if url.startswith(urlz):
             chromeDialog = True
     mdname = os.path.split(fpath)[-1]
@@ -56,7 +56,7 @@ def backupUrlContent(fpath, md5src, url):
 
     mdxfile = False
     flocal = buildlocal(ttype)
-    if chrome and urlhostsrc in readFileIgnoreList("config/mdrstrip_host_jekyll.txt"):
+    if chrome and urlhostsrc in readFileIgnoreList("config/jekyll-hosts.txt"):
         mdxfile = True
         ttype = ".md" # 借用 Jekyll 格式化
         newlocal = buildlocal(ttype)
@@ -82,7 +82,7 @@ def backupUrlContent(fpath, md5src, url):
         fdatalocal = False
 
     idata = bytesToString(fdata)
-    if not url in readFileIgnoreList("config/mdrstrip_url_ignore.txt"):
+    if not url in readFileIgnoreList("config/ignored-urls.txt"):
         result = checkpage(idata)
         if result:
             print("无法访问此网站", fpath, url, result)
@@ -141,7 +141,7 @@ title : %(title)s
 
     fmd5 = getFileSrcMd5z(flocal, mycache=MYCACHE, assertx=False) # 大文件，错误已经铸成，改不了了。
     invdir2 = isInvisibleDir(flocal) # invdir = isInvisibleDir(fpath)
-    mdrstripBigfile = os.path.join("invisible" if invdir2 else ".", "config/mdrstrip_bigfiles.txt")
+    mdrstripBigfile = os.path.join("invisible" if invdir2 else ".", "config/large-files.txt")
     igbigfiles = readFileIgnoreList(mdrstripBigfile)
     if not fmd5 in igbigfiles and not flocal in igbigfiles:
         if len(fdata) >= 1024*1000*1 and not IGNOREERR:
@@ -153,7 +153,7 @@ title : %(title)s
 
     # protocol :// hostname[:port] / path / [:parameters][?query]#fragment
     remotename = url.split("?")[0].split("#")[0].split("/")[-1]
-    ignorenamefile = "config/mdrstrip_url_ignore_nametype.txt"
+    ignorenamefile = "config/ignored-url-name-types.txt"
     if remotename in readFileIgnoreList(ignorenamefile):
         return remote
 
@@ -208,7 +208,7 @@ def isInMarkdownCodeSpan(index, spans):
 
 def tidyupImg(imglocal, fpath, line, imgthumb=True):
 
-    fakeimgfiles = readFileIgnoreList("config/mdrstrip_fake_image_files.txt")
+    fakeimgfiles = readFileIgnoreList("config/fake-images.txt")
 
     if imglocal in fakeimgfiles:
         return line
@@ -252,7 +252,7 @@ def tidyupImg(imglocal, fpath, line, imgthumb=True):
         if count >= 3:
             assert False, "重试次数过多..."
         os.system(PAUSE_CMD)
-        fakeimgfiles = readFileIgnoreList("config/mdrstrip_fake_image_files.txt")
+        fakeimgfiles = readFileIgnoreList("config/fake-images.txt")
         if imglocal in fakeimgfiles:
             return line
 
@@ -384,8 +384,8 @@ def collectHost(fpath, md5src, line, imgthumb):
     li = list(re.finditer(regex, line, re.IGNORECASE))
     if not li: return reflist, line
 
-    iglist = readFileIgnoreList("config/mdrstrip_url_quote.txt")
-    iglist.extend(readFileIgnoreList("invisible/config/mdrstrip_url_quote.txt"))
+    iglist = readFileIgnoreList("config/quoted-urls.txt")
+    iglist.extend(readFileIgnoreList("invisible/config/quoted-urls.txt"))
 
     codeSpans = getMarkdownCodeSpanList(line)
 

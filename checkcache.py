@@ -111,5 +111,5 @@ if __name__ == "__main__":
         searchdir(".", mainmd5file, ignorelist=("_site",))
         writefileJson(md5hubfile, md5hub)
     #print(md5hub)
-    formatbigfiles(r"config\\mdrstrip_bigfiles.txt", md5hub)
-    formatbigfiles(r"invisible\\config\\mdrstrip_bigfiles.txt", md5hub)
+    formatbigfiles(r"config\\large-files.txt", md5hub)
+    formatbigfiles(r"invisible\\config\\large-files.txt", md5hub)

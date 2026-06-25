@@ -44,7 +44,7 @@ def main():
         tidyupImgCollect("assets"+os.sep+"images")
         tidyupImgCollect("invisible"+os.sep+"images")
 
-    igdirs = readFileIgnoreList("config/mdrstrip_dir_ignore.txt")
+    igdirs = readFileIgnoreList("config/ignored-dirs.txt")
 
     CHECK_IGNORE_LIST = [
         "backup", "tempdir", "_site",

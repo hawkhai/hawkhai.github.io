@@ -14,7 +14,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
         writefileJson(fpath, fjson, ascii=False, encoding="utf8")
         return
 
-    iglist = readFileIgnoreList("config/mdrstrip_file_ignore.txt")
+    iglist = readFileIgnoreList("config/ignored-files.txt")
     if fname in iglist:
         return
 
