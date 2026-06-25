@@ -9,7 +9,7 @@ ROUGIFY_LIST = loadRougifyList()
 
 def mainfile(fpath, fname, ftype, fdepth=0):
 
-    if fpath.endswith(SPACEBACKFILE_TAIL):
+    if fpath.endswith(SPACEFIXFILE_TAIL):
         fjson = readfileJson(fpath, "utf8")
         writefileJson(fpath, fjson, ascii=False, encoding="utf8")
         return
@@ -127,15 +127,15 @@ def mainfile(fpath, fname, ftype, fdepth=0):
             os.system(PAUSE_CMD)
             return mainfile(fpathsrc, fnamesrc, ftypesrc, fdepth+1)
 
-    # .spaceback.json
-    spacebackfile = (os.path.splitext(fpath)[0] + SPACEBACKFILE_TAIL)
-    spacebackjson = {}
-    if not os.path.exists(spacebackfile):
-        spacebackfile = os.path.join(os.path.split(fpath)[0], "k"+os.path.splitext(fname)[0]+SPACEBACKFILE_TAIL)
-    if os.path.exists(spacebackfile):
-        spacebackjson = readfileJson(spacebackfile, "utf8")
+    # .spacefix.json
+    spacefixfile = (os.path.splitext(fpath)[0] + SPACEFIXFILE_TAIL)
+    spacefixjson = {}
+    if not os.path.exists(spacefixfile):
+        spacefixfile = os.path.join(os.path.split(fpath)[0], "k"+os.path.splitext(fname)[0]+SPACEFIXFILE_TAIL)
+    if os.path.exists(spacefixfile):
+        spacefixjson = readfileJson(spacefixfile, "utf8")
 
-    spacebackjson["粤 ICP 备 17134686 号"] = "粤ICP备17134686号"
+    spacefixjson["粤 ICP 备 17134686 号"] = "粤ICP备17134686号"
 
     codestate = False
     chartstate = False
@@ -432,14 +432,14 @@ def mainfile(fpath, fname, ftype, fdepth=0):
                 ix = ix.replace(ik, regmap[ik])
             page = page.replace(i, ix)
         return page
-    for spacebackkey in spacebackjson.keys():
-        spacebackvalue = spacebackjson[spacebackkey]
-        if spacebackkey == "regex":
-            for regkey in spacebackvalue.keys():
-                regmap = spacebackvalue[regkey] # 字典
+    for spacefixkey in spacefixjson.keys():
+        spacefixvalue = spacefixjson[spacefixkey]
+        if spacefixkey == "regex":
+            for regkey in spacefixvalue.keys():
+                regmap = spacefixvalue[regkey] # 字典
                 page = spaceBackReg(regkey, regmap, page)
             continue
-        page = page.replace(spacebackkey, spacebackvalue)
+        page = page.replace(spacefixkey, spacefixvalue)
 
     # 时间过长，如果被手工改了，这里会形成覆盖。
     md5src2 = getLuckFileMd5(fpath, md5src)

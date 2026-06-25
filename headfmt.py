@@ -8,7 +8,7 @@ import json
 OPENFILE = "openfile" in sys.argv
 #IGNORE_CONFIG = readfileJson(os.path.join("config", "ignore_config.txt"))
 
-SPACEBACKFILE_TAIL = ".spaceback.json"
+SPACEFIXFILE_TAIL = ".spacefix.json"
 DEBUG = "debug" in sys.argv
 
 def regularTitle(fpath):
@@ -43,7 +43,7 @@ def mainxtitle():
     def mainfile(fpath, fname, ftype):
         if ftype in ("py",): return
         if ftype in ("mdtag",): return
-        if fpath.endswith(SPACEBACKFILE_TAIL):
+        if fpath.endswith(SPACEFIXFILE_TAIL):
             return
         regularTitle(fpath)
         # print(fname[11:])
@@ -245,7 +245,7 @@ gkvconfig = gkvconfig if gkvconfig else {}
 def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv=None):
     if None == setkv: setkv = {}
     if ftype in ("mdtag",): return
-    if fpath.endswith(SPACEBACKFILE_TAIL):
+    if fpath.endswith(SPACEFIXFILE_TAIL):
         return
 
     #colorPrint("MAINXKEYFILE", fpath)

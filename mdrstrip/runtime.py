@@ -52,7 +52,7 @@ LINKTAGARRAY = (("bili",     "bilibili.com"),
                 ("gluon",    "gluon.ai"),
                )
 
-SPACEBACKFILE_TAIL = ".spaceback.json"
+SPACEFIXFILE_TAIL = ".spacefix.json"
 NEWLINE_CHAR = "\r\n" if IS_WINDOWS else "\n"
 PAUSE_CMD = "pause" if IS_WINDOWS else "read -p 'Press [Enter] key to continue...'"
 
