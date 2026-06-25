@@ -18,7 +18,7 @@ import re, os, sys, time, datetime
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-from codestrip import (
+from mdrstrip.codestrip import (
     THUMBNAIL, SELENIUM, isDiacritic,
     calcType, calcHost, isInvisibleDir,
     querySnapCache, removeSnapCache, touchSnapCache, clearSnapCache,

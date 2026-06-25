@@ -20,7 +20,7 @@ import re, os, sys, traceback
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from codestrip import (
+from mdrstrip.codestrip import (
     getLeftSpaceCount,
     checklog, savelog, removelog,
 )
@@ -80,7 +80,7 @@ class CharStats:
         self.typeset = set()
 
     def collect(self, line):
-        from codestrip import isDiacritic
+        from mdrstrip.codestrip import isDiacritic
         for ch in line:
             ordch = ord(ch)
             if ordch <= 0x7F or isDiacritic(ch):
@@ -116,7 +116,7 @@ class CharStats:
                 page += tchar
                 if (index + 1) % 50 == 0:
                     page += NEWLINE_CHAR
-                from codestrip import isDiacritic
+                from mdrstrip.codestrip import isDiacritic
                 if isDiacritic(tchar):
                     continue
                 minv = min(minv, ord(tchar))
@@ -538,7 +538,7 @@ class MdFormatter:
 
     def _check_cn_en_space(self, line, index, lines, ctx, keep_file_types):
         """Return number of Chinese/English spacing errors found."""
-        from codestrip import isDiacritic
+        from mdrstrip.codestrip import isDiacritic
 
         cnsign  = "''"""
         cnregex = "\u4e00-\u9fa5"

@@ -40,7 +40,7 @@ ARGS = {
 }
 
 # ── imports ───────────────────────────────────────────────────────────────
-from codestrip import buildSnapCache
+from mdrstrip.codestrip import buildSnapCache
 from pythonx.funclib import parsePythonCmdx, CWD_DIR_RUN, getPythonExe
 
 from mdformat.core import MdFormatter
