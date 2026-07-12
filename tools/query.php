@@ -62,18 +62,24 @@ function getInputValue() {
     return null;
 }
 
+function embedIdInMd5($hash, $id) {
+    // Keep the final two hash characters. The ID ends at the third position
+    // from the end, making the complete ID visible without changing length.
+    return substr($hash, 0, 30 - strlen($id)) . $id . substr($hash, -2);
+}
+
 $input = getInputValue();
 
 if ($input === null) {
-    $message = 'Missing input. Use URL: md5plus1.php?s=123';
+    $message = 'Missing input. Use URL: query.php?s=123';
     http_response_code(400);
     header('Content-Type: text/plain; charset=utf-8');
     echo $message;
     exit;
 }
 
-if (!preg_match('/^[+-]?\d+$/', $input)) {
-    $message = 'Input must be an integer string.';
+if (!preg_match('/^\d{1,30}$/', $input)) {
+    $message = 'ID must contain 1 to 30 decimal digits.';
     http_response_code(400);
     header('Content-Type: text/plain; charset=utf-8');
     echo $message;
@@ -81,13 +87,14 @@ if (!preg_match('/^[+-]?\d+$/', $input)) {
 }
 
 $plusOne = addOneToIntegerString($input);
-$hash = md5($plusOne);
+$hash = embedIdInMd5(md5($plusOne), $input);
 
 if (isset($_GET['json'])) {
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode(array(
         'input' => $input,
         'plus_one' => $plusOne,
+        'embedded_id' => $input,
         'md5' => $hash,
     ), JSON_UNESCAPED_SLASHES);
     exit;

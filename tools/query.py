@@ -77,6 +77,12 @@ def get_input_value(params):
     return None
 
 
+def embed_id_in_md5(md5_value, input_value):
+    # Keep the final two hash characters. The ID ends at the third position
+    # from the end, making the complete ID visible without changing length.
+    return md5_value[:30 - len(input_value)] + input_value + md5_value[-2:]
+
+
 def respond(body, status=None, content_type='text/plain; charset=utf-8'):
     if status is not None:
         print('Status: {}'.format(status))
@@ -93,18 +99,22 @@ def main():
         respond('Missing input. Use URL: query.py?s=123', '400 Bad Request')
         return 1
 
-    if re.fullmatch(r'[+-]?\d+', input_value) is None:
-        respond('Input must be an integer string.', '400 Bad Request')
+    if re.fullmatch(r'\d{1,30}', input_value) is None:
+        respond('ID must contain 1 to 30 decimal digits.', '400 Bad Request')
         return 1
 
     plus_one = add_one_to_integer_string(input_value)
-    md5_value = hashlib.md5(plus_one.encode('utf-8')).hexdigest()
+    md5_value = embed_id_in_md5(
+        hashlib.md5(plus_one.encode('utf-8')).hexdigest(),
+        input_value,
+    )
 
     if 'json' in params:
         respond(
             json.dumps({
                 'input': input_value,
                 'plus_one': plus_one,
+                'embedded_id': input_value,
                 'md5': md5_value,
             }, separators=(',', ':')),
             content_type='application/json; charset=utf-8',
