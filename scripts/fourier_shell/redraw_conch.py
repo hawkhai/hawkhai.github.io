@@ -14,6 +14,27 @@ import matplotlib
 import numpy as np
 
 
+# Canonical conch settings. The companion renderers import these defaults so
+# the same frequency/time grid and camera are used throughout the examples.
+DEFAULT_WIDTH = 2.0
+DEFAULT_AMPLITUDE = 0.05
+DEFAULT_FMAX = 8.0
+DEFAULT_TMAX = 5.0
+DEFAULT_NF = 1201
+DEFAULT_NT = 101
+DEFAULT_ELEV = 8.0
+DEFAULT_AZIM = -135.0
+DEFAULT_DPI = 200
+SHELL_BOX_ASPECT = (1, 1, .78)
+
+
+def clean_svg(path):
+    """Remove Matplotlib's SVG path-line trailing spaces for clean diffs."""
+    svg = path.read_text(encoding="utf-8")
+    path.write_text("\n".join(line.rstrip() for line in svg.splitlines()) + "\n",
+                    encoding="utf-8")
+
+
 def positive_float(value):
     number = float(value)
     if not np.isfinite(number) or number <= 0:
@@ -77,7 +98,7 @@ def draw(args):
     )
     ax.set(xlim=(-args.amplitude, args.amplitude),
            ylim=(-args.amplitude, args.amplitude), zlim=(0, args.tmax))
-    ax.set_box_aspect((1, 1, .78))
+    ax.set_box_aspect(SHELL_BOX_ASPECT)
     ax.set_proj_type("ortho")
     ax.view_init(elev=args.elev, azim=args.azim)
 
@@ -103,6 +124,7 @@ def draw(args):
     output.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(output, dpi=args.dpi, facecolor="white")
     fig.savefig(output.with_suffix(".svg"), dpi=args.dpi, facecolor="white")
+    clean_svg(output.with_suffix(".svg"))
     print(f"PNG: {output}")
     print(f"SVG: {output.with_suffix('.svg')}")
     print(f"Surface: {args.nt} time samples x {args.nf} frequency samples")
@@ -116,23 +138,23 @@ def main():
     parser.add_argument("--output", type=Path,
                         default=Path(__file__).parent / "output" / "conch.png",
                         help="PNG path; an SVG with the same stem is also saved")
-    parser.add_argument("--width", type=positive_float, default=2.0,
+    parser.add_argument("--width", type=positive_float, default=DEFAULT_WIDTH,
                         help="Rectangle width; controls how tightly the shell curls")
-    parser.add_argument("--amplitude", type=positive_float, default=.05,
+    parser.add_argument("--amplitude", type=positive_float, default=DEFAULT_AMPLITUDE,
                         help="Maximum helix radius A(0)")
-    parser.add_argument("--fmax", type=positive_float, default=8.0,
+    parser.add_argument("--fmax", type=positive_float, default=DEFAULT_FMAX,
                         help="Largest displayed positive frequency in Hz")
-    parser.add_argument("--tmax", type=positive_float, default=5.0,
+    parser.add_argument("--tmax", type=positive_float, default=DEFAULT_TMAX,
                         help="Height/time extent")
-    parser.add_argument("--nf", type=sample_count, default=1201,
+    parser.add_argument("--nf", type=sample_count, default=DEFAULT_NF,
                         help="Frequency samples (mesh columns)")
-    parser.add_argument("--nt", type=sample_count, default=101,
+    parser.add_argument("--nt", type=sample_count, default=DEFAULT_NT,
                         help="Time samples (mesh rows)")
-    parser.add_argument("--elev", type=finite_float, default=8.0,
+    parser.add_argument("--elev", type=finite_float, default=DEFAULT_ELEV,
                         help="Camera elevation in degrees")
-    parser.add_argument("--azim", type=finite_float, default=-135.0,
+    parser.add_argument("--azim", type=finite_float, default=DEFAULT_AZIM,
                         help="Camera azimuth in degrees")
-    parser.add_argument("--dpi", type=sample_count, default=200)
+    parser.add_argument("--dpi", type=sample_count, default=DEFAULT_DPI)
     parser.add_argument("--labels", action="store_true", help="Label the three axes")
     parser.add_argument("--show", action="store_true",
                         help="Open an interactive Matplotlib window after saving")

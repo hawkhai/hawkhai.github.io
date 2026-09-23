@@ -13,105 +13,101 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.ticker import FuncFormatter, MultipleLocator
+from matplotlib.ticker import FuncFormatter
 import numpy as np
 
+from redraw_conch import (
+    DEFAULT_AMPLITUDE, DEFAULT_AZIM, DEFAULT_DPI, DEFAULT_ELEV,
+    DEFAULT_FMAX, DEFAULT_NF, DEFAULT_NT, DEFAULT_TMAX, DEFAULT_WIDTH,
+    SHELL_BOX_ASPECT, clean_svg, conch_surface, finite_float, positive_float, sample_count,
+)
 
-def shell_coordinates(width=2.0, scale=0.025, duration=5.0, fmax=6.0,
-                      nt=361, nf=601):
-    """Return Im(C), Re(C), time, for C = scale*T*sinc(T*f)*exp(2j*pi*f*t).
+
+def shell_coordinates(width=DEFAULT_WIDTH, amplitude=DEFAULT_AMPLITUDE,
+                      tmax=DEFAULT_TMAX, fmax=DEFAULT_FMAX,
+                      nt=DEFAULT_NT, nf=DEFAULT_NF):
+    """Return (-Re C, Im C, time), identical to redraw_conch.
 
     Here sinc(u) = sin(pi*u)/(pi*u); NumPy handles u=0 analytically.
     Keep the SIGN of sinc: negative lobes represent a phase shift of pi.
     Rows are times, columns are nonnegative frequencies (including DC).
     """
-    frequency, time = np.meshgrid(np.linspace(0, fmax, nf),
-                                  np.linspace(0, duration, nt))
-    amplitude = scale * width * np.sinc(width * frequency)
-    component = amplitude * np.exp(2j * np.pi * frequency * time)
-    # The reference orientation is reproduced by putting Im on the first axis.
-    return component.imag, component.real, time
+    return conch_surface(width, amplitude, fmax, tmax, nf, nt)
 
 
-def draw_shell(ax, x, y, time, *, width=2.0, scale=0.025, elev=7, azim=135,
+def draw_shell(ax, x, y, time, *, amplitude=DEFAULT_AMPLITUDE,
+               elev=DEFAULT_ELEV, azim=DEFAULT_AZIM,
                labels=False):
     """Join adjacent frequencies/times into a colored quadrilateral mesh."""
-    ax.plot_surface(x, y, time, rstride=max(1, (time.shape[0] - 1) // 120),
-                    cstride=1,
+    ax.plot_surface(x, y, time, rstride=1, cstride=1,
                     cmap="jet", vmin=0, vmax=float(time.max()),
-                    edgecolor=(0, 0, 0, 0.38), linewidth=0.22,
+                    edgecolor=(0, 0, 0, 0.50), linewidth=0.25,
                     antialiased=True, shade=False, rasterized=True)
-    radius = scale * width
-    limit = 1.05 * radius
-    ax.set(xlim=(-limit, limit), ylim=(-limit, limit),
+    ax.set(xlim=(-amplitude, amplitude), ylim=(-amplitude, amplitude),
            zlim=(0, float(time.max())))
-    # Display aspect is intentionally independent of the data units.
-    ax.set_box_aspect((1.33, 1.33, 1.1), zoom=1.30)
+    ax.set_box_aspect(SHELL_BOX_ASPECT)
     ax.set_proj_type("ortho")
     ax.view_init(elev=elev, azim=azim)
     for axis in (ax.xaxis, ax.yaxis, ax.zaxis):
-        axis.pane.set_facecolor((1, 1, 1, 1))
-        axis.pane.set_edgecolor("#dddddd")
+        axis.pane.fill = False
+        axis.pane.set_edgecolor("#eeeeee")
         axis.line.set_color("#aaaaaa")
-        axis._axinfo["grid"].update(color="#dddddd", linewidth=0.55)
-        axis._axinfo["tick"].update(inward_factor=0, outward_factor=0.12)
+        axis._axinfo["grid"].update(color="#dddddd", linewidth=0.6)
         axis.set_major_formatter(FuncFormatter(
-            lambda value, _: "0" if abs(value) < 1e-12 else f"{value:g}"))
-    ax.xaxis.set_major_locator(MultipleLocator(radius / 5))
-    ax.yaxis.set_major_locator(MultipleLocator(radius / 5))
-    ax.zaxis.set_major_locator(MultipleLocator(float(time.max()) / 10))
-    ax.zaxis.set_ticks_position("upper")
-    ax.zaxis.set_label_position("upper")
-    ax.tick_params(labelsize=7, colors="#777777", pad=0)
+            lambda value, _: "0" if abs(value) < 1e-12 else f"{value:.3g}"))
+    ax.set_xticks(np.linspace(-amplitude, amplitude, 11))
+    ax.set_yticks(np.linspace(-amplitude, amplitude, 11))
+    ax.set_zticks(np.linspace(0, float(time.max()), 11))
+    ax.tick_params(labelsize=7, colors="#888888", pad=0)
     if labels:
-        ax.set(xlabel=r"Im $C(f,t)$", ylabel=r"Re $C(f,t)$", zlabel=r"Time $t$")
-
-
-def positive_float(value):
-    result = float(value)
-    if not np.isfinite(result) or result <= 0:
-        raise argparse.ArgumentTypeError("must be finite and positive")
-    return result
+        ax.set(xlabel=r"$-\mathrm{Re}\,C(f,t)$", ylabel=r"$\mathrm{Im}\,C(f,t)$", zlabel=r"$t$")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path,
                         default=Path(__file__).parent / "output" / "single")
-    parser.add_argument("--width", type=positive_float, default=2.0,
+    parser.add_argument("--width", type=positive_float, default=DEFAULT_WIDTH,
                         help="Rectangular pulse width T (seconds)")
-    parser.add_argument("--scale", type=positive_float, default=0.025,
-                        help="Display scale of the complex plane")
-    parser.add_argument("--duration", type=positive_float, default=5.0)
-    parser.add_argument("--fmax", type=positive_float, default=6.0,
+    amplitude_group = parser.add_mutually_exclusive_group()
+    amplitude_group.add_argument("--amplitude", type=positive_float, default=None,
+                                 help="Maximum helix radius A(0), like redraw_conch.py")
+    amplitude_group.add_argument("--scale", type=positive_float, default=None,
+                                 help="Legacy alias: amplitude = scale * width")
+    parser.add_argument("--tmax", "--duration", type=positive_float,
+                        default=DEFAULT_TMAX, help="Height/time extent")
+    parser.add_argument("--fmax", type=positive_float, default=DEFAULT_FMAX,
                         help="Highest displayed frequency (Hz)")
-    parser.add_argument("--elev", type=float, default=7)
-    parser.add_argument("--azim", type=float, default=135)
-    parser.add_argument("--dpi", type=int, default=200)
+    parser.add_argument("--nf", type=sample_count, default=DEFAULT_NF)
+    parser.add_argument("--nt", type=sample_count, default=DEFAULT_NT)
+    parser.add_argument("--elev", type=finite_float, default=DEFAULT_ELEV)
+    parser.add_argument("--azim", type=finite_float, default=DEFAULT_AZIM)
+    parser.add_argument("--dpi", type=sample_count, default=DEFAULT_DPI)
     parser.add_argument("--labels", action="store_true", help="Add axis names")
     args = parser.parse_args()
-    if args.dpi <= 0 or not np.isfinite([args.elev, args.azim]).all():
-        parser.error("dpi must be positive and camera angles must be finite")
-    # Resolve even the fastest rotation with at least 12 samples per cycle.
-    nt = max(151, int(np.ceil(12 * args.fmax * args.duration)) + 1)
-    nf = max(601, int(np.ceil(20 * args.fmax * max(args.duration, args.width))) + 1)
-    x, y, time = shell_coordinates(args.width, args.scale, args.duration,
-                                   args.fmax, nt, nf)
+    if args.amplitude is None:
+        args.amplitude = (args.scale * args.width if args.scale is not None
+                          else DEFAULT_AMPLITUDE)
+    if not np.isfinite(args.amplitude) or args.amplitude <= 0:
+        parser.error("amplitude must be finite and positive")
+    x, y, time = shell_coordinates(args.width, args.amplitude, args.tmax,
+                                   args.fmax, args.nt, args.nf)
     plt.rcParams.update({"font.family": "DejaVu Sans", "axes.unicode_minus": True,
                          "savefig.facecolor": "white", "svg.fonttype": "path"})
-    fig = plt.figure(figsize=(8, 6.2), facecolor="white")
-    ax = fig.add_axes([-0.01, 0.025, 0.97, 0.96], projection="3d")
-    draw_shell(ax, x, y, time, width=args.width, scale=args.scale,
+    fig = plt.figure(figsize=(8, 5.65), facecolor="white")
+    ax = fig.add_axes([-.10, -.13, 1.20, 1.30], projection="3d")
+    draw_shell(ax, x, y, time, amplitude=args.amplitude,
                elev=args.elev, azim=args.azim, labels=args.labels)
     args.output.mkdir(parents=True, exist_ok=True)
     fig.savefig(args.output / "fourier_shell_single.png", dpi=args.dpi)
     fig.savefig(args.output / "fourier_shell_single.svg", dpi=args.dpi)
+    clean_svg(args.output / "fourier_shell_single.svg")
     plt.close(fig)
     parameters = vars(args).copy()
     parameters["output"] = str(args.output.resolve())
-    parameters.update(nt=nt, nf=nf,
-                      coordinates=["Im(C)", "Re(C)", "t"],
-                      formula="C(f,t) = scale * width * sinc(width*f) * exp(2*pi*i*f*t)",
+    parameters.update(scale=args.amplitude / args.width,
+                      coordinates=["-Re(C)", "Im(C)", "t"],
+                      formula="C(f,t) = amplitude * sinc(width*f) * exp(2*pi*i*f*t)",
                       sinc="sinc(u) = sin(pi*u)/(pi*u), sinc(0) = 1",
                       provenance="Reconstructed parameters; not the original source code.")
     (args.output / "parameters.json").write_text(

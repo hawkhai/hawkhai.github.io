@@ -22,6 +22,12 @@ from matplotlib.ticker import FuncFormatter, MultipleLocator
 from matplotlib.transforms import Affine2D
 import numpy as np
 
+from redraw_conch import (
+    DEFAULT_AMPLITUDE, DEFAULT_AZIM, DEFAULT_DPI, DEFAULT_ELEV,
+    DEFAULT_FMAX, DEFAULT_NF, DEFAULT_NT, DEFAULT_TMAX, DEFAULT_WIDTH,
+    SHELL_BOX_ASPECT, clean_svg, conch_surface, finite_float, positive_float, sample_count,
+)
+
 
 BLUE = "#1004bf"
 SOURCE = "https://cloud.tencent.com/developer/article/1187502"
@@ -73,16 +79,14 @@ def style_3d(ax):
     ax.tick_params(colors="#999999", labelsize=3.1, pad=-2)
 
 
-def components(width, duration, fmax, scale):
-    """C(f,t) = scale * T*sinc(T*f) * exp(2*pi*i*f*t).
+def components(width, tmax, fmax, amplitude, nt=DEFAULT_NT, nf=DEFAULT_NF):
+    """C(f,t) = amplitude*sinc(T*f) * exp(2*pi*i*f*t).
 
     Rows are times, columns are frequencies. Keep signed sinc side lobes.
     Upper and middle panels use the SAME samples; only coordinates differ.
     """
-    nt = max(181, int(np.ceil(12 * fmax * duration)) + 1)
-    nf = max(601, int(np.ceil(20 * fmax * max(duration, width))) + 1)
-    f, t = np.meshgrid(np.linspace(0, fmax, nf), np.linspace(0, duration, nt))
-    c = scale * width * np.sinc(width * f) * np.exp(2j * np.pi * f * t)
+    f, t = np.meshgrid(np.linspace(0, fmax, nf), np.linspace(0, tmax, nt))
+    c = amplitude * np.sinc(width * f) * np.exp(2j * np.pi * f * t)
     return f, t, c
 
 
@@ -105,35 +109,38 @@ def draw(args):
     font = chinese_font()
     plt.rcParams.update({"axes.unicode_minus": False, "svg.fonttype": "path",
                          "savefig.facecolor": "white", "font.family": font.get_name()})
-    f, t, c = components(args.width, args.duration, args.fmax, args.scale)
-    radius = args.scale * args.width
+    f, t, c = components(args.width, args.tmax, args.fmax,
+                         args.amplitude, args.nt, args.nf)
+    shell_x, shell_y, _ = conch_surface(
+        args.width, args.amplitude, args.fmax, args.tmax, args.nf, args.nt)
+    radius = args.amplitude
     fig = plt.figure(figsize=(6, 9.8), facecolor="white")
 
     shell = fig.add_axes([-.008, .711, .610, .266], projection="3d")
-    # Swapping Re/Im axes reproduces the visible opening without changing C.
-    shell.plot_surface(c.imag, c.real, t, rstride=2, cstride=2,
-                       cmap="jet", vmin=0, vmax=args.duration, shade=False,
-                       edgecolor=(0, 0, 0, .30), linewidth=.12,
+    # Use the same (-Re, Im, t) orientation and camera as redraw_conch.py.
+    shell.plot_surface(shell_x, shell_y, t, rstride=1, cstride=1,
+                       cmap="jet", vmin=0, vmax=args.tmax, shade=False,
+                       edgecolor=(0, 0, 0, .50), linewidth=.25,
                        antialiased=True, rasterized=True, clip_on=False)
-    shell.set(xlim=(-1.2*radius, 1.2*radius), ylim=(-1.2*radius, 1.2*radius),
-              zlim=(0, args.duration))
-    shell.set_box_aspect((1.18, 1.18, 1.12), zoom=1.10)
-    shell.view_init(elev=10, azim=150)
+    shell.set(xlim=(-radius, radius), ylim=(-radius, radius),
+              zlim=(0, args.tmax))
+    shell.set_box_aspect(SHELL_BOX_ASPECT)
+    shell.view_init(elev=args.elev, azim=args.azim)
     style_3d(shell)
     shell.xaxis.set_major_locator(MultipleLocator(radius / 5))
     shell.yaxis.set_major_locator(MultipleLocator(radius / 5))
-    shell.zaxis.set_major_locator(MultipleLocator(args.duration / 10))
+    shell.zaxis.set_major_locator(MultipleLocator(args.tmax / 10))
     fit_text(fig, "复频域", (.724, .786, .123, .048), font, "#aaaaaa")
 
     down_arrow(fig, .696)
     fit_text(fig, "投影到实数空间", (.365, .647, .282, .045), font)
 
     waves = fig.add_axes([-.009, .393, .661, .218], projection="3d")
-    waves.plot_surface(f, t, c.real, rstride=2, cstride=2,
+    waves.plot_surface(f, t, c.real, rstride=1, cstride=1,
                        cmap="jet", vmin=-radius, vmax=radius,
                        linewidth=0, antialiased=True, shade=False,
                        rasterized=True, clip_on=False)
-    waves.set(xlim=(0, args.fmax), ylim=(0, args.duration), zlim=(-radius, radius))
+    waves.set(xlim=(0, args.fmax), ylim=(0, args.tmax), zlim=(-radius, radius))
     waves.set_box_aspect((2.0, 1.6, .65), zoom=1.42)
     waves.view_init(elev=24, azim=-45)
     style_3d(waves)
@@ -166,6 +173,8 @@ def draw(args):
     for suffix in ("png", "svg"):
         path = args.output / f"fourier_reference.{suffix}"
         fig.savefig(path, dpi=args.dpi)
+        if suffix == "svg":
+            clean_svg(path)
         print(f"Saved: {path.resolve()}")
     plt.close(fig)
 
@@ -173,11 +182,15 @@ def draw(args):
     metrics = {
         "reference": SOURCE,
         "provenance": "Equation-based reconstruction; fitted camera and ranges.",
-        "formula": "C(f,t) = scale*T*sinc(T*f)*exp(2*pi*i*f*t)",
-        "shell_axes": ["Im C", "Re C", "t"],
+        "formula": "C(f,t) = amplitude*sinc(T*f)*exp(2*pi*i*f*t)",
+        "shell_axes": ["-Re C", "Im C", "t"],
         "middle_axes": ["f", "t", "Re C"],
-        "width": w, "scale": args.scale, "duration": args.duration,
-        "fmax": args.fmax, "cutoff": args.cutoff,
+        "width": w, "amplitude": args.amplitude,
+        "scale": args.amplitude / args.width,
+        "tmax": args.tmax, "fmax": args.fmax,
+        "nf": args.nf, "nt": args.nt,
+        "elev": args.elev, "azim": args.azim,
+        "cutoff": args.cutoff,
         "sample_shape": list(c.shape),
         "probe_times": probes.tolist(),
         "reconstructed_values": reconstruct(probes, w, args.cutoff).tolist(),
@@ -187,27 +200,31 @@ def draw(args):
         json.dumps(metrics, indent=2), encoding="utf-8")
 
 
-def positive_float(value):
-    result = float(value)
-    if not np.isfinite(result) or result <= 0:
-        raise argparse.ArgumentTypeError("must be finite and positive")
-    return result
-
-
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=Path(__file__).parent / "output" / "reference")
-    parser.add_argument("--dpi", type=int, default=300)
-    parser.add_argument("--width", type=positive_float, default=1.0)
-    parser.add_argument("--duration", type=positive_float, default=5.0)
-    parser.add_argument("--fmax", type=positive_float, default=6.0)
-    parser.add_argument("--scale", type=positive_float, default=.05)
+    parser.add_argument("--dpi", type=sample_count, default=DEFAULT_DPI)
+    parser.add_argument("--width", type=positive_float, default=DEFAULT_WIDTH)
+    parser.add_argument("--tmax", "--duration", type=positive_float, default=DEFAULT_TMAX)
+    parser.add_argument("--fmax", type=positive_float, default=DEFAULT_FMAX)
+    amplitude_group = parser.add_mutually_exclusive_group()
+    amplitude_group.add_argument("--amplitude", type=positive_float, default=None,
+                                 help="Maximum helix radius A(0)")
+    amplitude_group.add_argument("--scale", type=positive_float, default=None,
+                                 help="Legacy alias: amplitude = scale * width")
+    parser.add_argument("--nf", type=sample_count, default=DEFAULT_NF)
+    parser.add_argument("--nt", type=sample_count, default=DEFAULT_NT)
+    parser.add_argument("--elev", type=finite_float, default=DEFAULT_ELEV)
+    parser.add_argument("--azim", type=finite_float, default=DEFAULT_AZIM)
     parser.add_argument("--cutoff", type=positive_float, default=40.0)
     parser.add_argument("--show-reconstruction", action="store_true",
                         help="Overlay the finite-bandwidth integral in orange")
     args = parser.parse_args()
-    if args.dpi <= 0:
-        parser.error("dpi must be positive")
+    if args.amplitude is None:
+        args.amplitude = (args.scale * args.width if args.scale is not None
+                          else DEFAULT_AMPLITUDE)
+    if not np.isfinite(args.amplitude) or args.amplitude <= 0:
+        parser.error("amplitude must be finite and positive")
     draw(args)
 
 

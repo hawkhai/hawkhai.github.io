@@ -18,8 +18,13 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
-from matplotlib.colors import Normalize
 from matplotlib.patches import FancyArrowPatch
+
+from redraw_conch import (
+    DEFAULT_AMPLITUDE, DEFAULT_AZIM, DEFAULT_DPI, DEFAULT_ELEV,
+    DEFAULT_FMAX, DEFAULT_NF, DEFAULT_NT, DEFAULT_TMAX, DEFAULT_WIDTH,
+    SHELL_BOX_ASPECT, clean_svg, conch_surface, finite_float, positive_float, sample_count,
+)
 
 
 BLUE = "#1616e8"
@@ -74,43 +79,45 @@ def arrow(fig, y, label, formula):
     fig.text(0.36, y - 0.022, formula, fontsize=11, color="#525274")
 
 
-def draw_reproduction(output, width, cutoff, dpi):
+def draw_reproduction(output, width, amplitude, fmax, tmax, nf, nt,
+                      elev, azim, cutoff, dpi):
     # Both upper panels use exactly the same complex-valued data. The shell
     # discards an explicit frequency axis; color encodes time, not amplitude.
-    times = np.linspace(0, 5 * width, 181)
-    f = np.linspace(0, 8 / width, 1201)
+    times = np.linspace(0, tmax, nt)
+    f = np.linspace(0, fmax, nf)
     ff, tt = np.meshgrid(f, times)
-    c = spectrum(ff, width) * np.exp(2j * np.pi * ff * tt)
+    shell_x, shell_y, _ = conch_surface(width, amplitude, fmax, tmax, nf, nt)
+    component_real = -shell_x
 
     fig = plt.figure(figsize=(8, 13), facecolor="white")
     fig.text(0.085, 0.967, "从复指数曲面到矩形脉冲", fontsize=22, weight="bold")
     fig.text(0.085, 0.939, "傅里叶逆变换 · 依据参考图重建的数学示意", fontsize=10, color="#777777")
 
     shell = fig.add_axes([0.025, 0.686, 0.73, 0.257], projection="3d")
-    shell.plot_surface(c.real, c.imag, tt, rstride=2, cstride=2,
-                       facecolors=plt.cm.jet(Normalize(0, 5 * width)(tt)),
-                       shade=False, linewidth=0.17, edgecolor=(0, 0, 0, 0.33),
+    shell.plot_surface(shell_x, shell_y, tt, rstride=1, cstride=1,
+                       cmap="jet", vmin=0, vmax=tmax,
+                       shade=False, linewidth=0.25, edgecolor=(0, 0, 0, 0.50),
                        antialiased=True, rasterized=True)
-    shell.set(xlabel=r"Re $C(f,t)$", ylabel=r"Im $C(f,t)$", zlabel=r"$t$",
-              xlim=(-width, width), ylim=(-width, width), zlim=(0, 5 * width))
-    shell.set_box_aspect((1, 1, 1.1))
-    shell.view_init(elev=16, azim=-64)
+    shell.set(xlabel=r"-Re $C(f,t)$", ylabel=r"Im $C(f,t)$", zlabel=r"$t$",
+              xlim=(-amplitude, amplitude), ylim=(-amplitude, amplitude), zlim=(0, tmax))
+    shell.set_box_aspect(SHELL_BOX_ASPECT)
+    shell.view_init(elev=elev, azim=azim)
     style_3d(shell)
     fig.text(0.79, 0.792, "复数域", fontsize=21, color="#999999")
-    fig.text(0.12, 0.665, r"$C(f,t)=X(f)e^{i2\pi ft},\quad X(f)=T\,\mathrm{sinc}(Tf)$", fontsize=12)
-    arrow(fig, 0.614, "取实部", r"$\mathrm{Re}\, C(f,t)=X(f)\cos(2\pi ft)$")
+    fig.text(0.12, 0.665, r"$C(f,t)=a\,\mathrm{sinc}(Tf)e^{i2\pi ft},\quad X(f)=T\,\mathrm{sinc}(Tf)$", fontsize=11)
+    arrow(fig, 0.614, "取实部", r"$\mathrm{Re}\, C(f,t)=a\,\mathrm{sinc}(Tf)\cos(2\pi ft)$")
 
     waves = fig.add_axes([0.015, 0.354, 0.75, 0.236], projection="3d")
-    waves.plot_surface(ff, tt, c.real, rstride=2, cstride=3, cmap="jet",
-                       vmin=-width, vmax=width, linewidth=0,
+    waves.plot_surface(ff, tt, component_real, rstride=1, cstride=1, cmap="jet",
+                       vmin=-amplitude, vmax=amplitude, linewidth=0,
                        antialiased=True, rasterized=True)
     waves.set(xlabel=r"$f$", ylabel=r"$t$", zlabel=r"Re $C$",
-              xlim=(0, 8 / width), ylim=(0, 5 * width), zlim=(-width, width))
+              xlim=(0, fmax), ylim=(0, tmax), zlim=(-amplitude, amplitude))
     waves.set_box_aspect((2.0, 1.2, 0.65))
     waves.view_init(elev=24, azim=-59)
     style_3d(waves)
     fig.text(0.79, 0.466, "频率分量", fontsize=18, color="#999999")
-    fig.text(0.12, 0.355, "横轴展开频率；每条时间曲线是一种频率的余弦分量", fontsize=10, color="#666666")
+    fig.text(0.12, 0.355, "横轴展开频率；曲面振幅已缩放，积分按原频谱归一化", fontsize=10, color="#666666")
     arrow(fig, 0.300, "沿频率积分叠加", r"$x(t)=2\int_0^\infty X(f)\cos(2\pi ft)\,df$")
 
     ax = fig.add_axes([0.10, 0.080, 0.64, 0.155])
@@ -135,20 +142,21 @@ def draw_reproduction(output, width, cutoff, dpi):
              fontsize=9, color="#777777")
     fig.savefig(output / "fourier_shell.png", dpi=dpi)
     fig.savefig(output / "fourier_shell.svg", dpi=dpi)
+    clean_svg(output / "fourier_shell.svg")
     plt.close(fig)
 
 
-def draw_validation(output, width, cutoff, dpi):
+def draw_validation(output, width, fmax, cutoff, dpi):
     fig, axes = plt.subplots(1, 2, figsize=(12, 4.2), layout="constrained")
-    f = np.linspace(-8 / width, 8 / width, 1601)
+    f = np.linspace(-fmax, fmax, 1601)
     axes[0].plot(f, spectrum(f, width), color=BLUE, lw=1.7)
     axes[0].set(title="矩形脉冲的频谱（有正负号）", xlabel="频率 f", ylabel="X(f)")
     t = np.linspace(-1.5 * width, 1.5 * width, 1601)
     ideal = (np.abs(t) < width / 2).astype(float)
     axes[1].plot(t, ideal, "--", color="#333333", lw=1.2, label="理想矩形")
-    for fmax in sorted({2 / width, 8 / width, cutoff}):
-        axes[1].plot(t, inverse_integral(t, fmax, width), lw=1.1,
-                     label=f"截止频率 {fmax:g}")
+    for frequency_cutoff in sorted({min(fmax / 4, cutoff), min(fmax, cutoff), cutoff}):
+        axes[1].plot(t, inverse_integral(t, frequency_cutoff, width), lw=1.1,
+                     label=f"截止频率 {frequency_cutoff:g}")
     axes[1].set(title="增加频率分量，积分逼近矩形脉冲", xlabel="时间 t", ylabel="x(t)")
     axes[1].legend(fontsize=9)
     for ax in axes:
@@ -162,18 +170,31 @@ def draw_validation(output, width, cutoff, dpi):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=Path(__file__).parent / "output")
-    parser.add_argument("--width", type=float, default=1.0, help="Pulse width T")
-    parser.add_argument("--cutoff", type=float, default=40.0, help="Integration cutoff in Hz")
-    parser.add_argument("--dpi", type=int, default=180)
+    parser.add_argument("--width", type=positive_float, default=DEFAULT_WIDTH, help="Pulse width T")
+    parser.add_argument("--amplitude", type=positive_float, default=DEFAULT_AMPLITUDE,
+                        help="Maximum displayed helix radius A(0)")
+    parser.add_argument("--fmax", type=positive_float, default=DEFAULT_FMAX)
+    parser.add_argument("--tmax", type=positive_float, default=DEFAULT_TMAX)
+    parser.add_argument("--nf", type=sample_count, default=DEFAULT_NF)
+    parser.add_argument("--nt", type=sample_count, default=DEFAULT_NT)
+    parser.add_argument("--elev", type=finite_float, default=DEFAULT_ELEV)
+    parser.add_argument("--azim", type=finite_float, default=DEFAULT_AZIM)
+    parser.add_argument("--cutoff", type=positive_float, default=40.0,
+                        help="Integration cutoff in Hz")
+    parser.add_argument("--dpi", type=sample_count, default=DEFAULT_DPI)
     args = parser.parse_args()
-    if not np.isfinite(args.width) or not np.isfinite(args.cutoff) or min(args.width, args.cutoff, args.dpi) <= 0:
-        parser.error("width, cutoff, and dpi must be finite and positive")
     configure_fonts()
     args.output.mkdir(parents=True, exist_ok=True)
-    draw_reproduction(args.output, args.width, args.cutoff, args.dpi)
-    draw_validation(args.output, args.width, args.cutoff, args.dpi)
+    draw_reproduction(args.output, args.width, args.amplitude, args.fmax,
+                      args.tmax, args.nf, args.nt, args.elev, args.azim,
+                      args.cutoff, args.dpi)
+    draw_validation(args.output, args.width, args.fmax, args.cutoff, args.dpi)
     probes = args.width * np.array([0, .25, .5, .75, 1.0])
-    metrics = {"width": args.width, "cutoff": args.cutoff,
+    metrics = {"width": args.width, "amplitude": args.amplitude,
+               "fmax": args.fmax, "tmax": args.tmax,
+               "nf": args.nf, "nt": args.nt,
+               "elev": args.elev, "azim": args.azim,
+               "cutoff": args.cutoff,
                "probe_times": probes.tolist(),
                "reconstructed_values": inverse_integral(probes, args.cutoff, args.width).tolist(),
                "infinite_bandwidth_limits": [1, 1, .5, 0, 0]}
