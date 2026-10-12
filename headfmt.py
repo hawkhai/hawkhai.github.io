@@ -103,12 +103,8 @@ layout title author location
 categories tags toc toclistyle
 comments visibility
 mathjax mermaid glslcanvas
-codeprint
+codeprint permalink
 """.split()
-    if not _posts or True:
-        mdkeylist.extend("""
-permalink
-""".split())
     igkeylist = """
 l2dwidget cluster
 sortrefs archived date
@@ -217,6 +213,8 @@ excerpt
         value = kvmap[key] if key in kvmap else ""
         if key in setkv.keys():
             value = setkv[key]
+        if _posts and key == "permalink" and not value.strip():
+            continue
         line = key + ": " + value.strip()
         newli.append(line.strip())
         newmap[key] = value.strip()
