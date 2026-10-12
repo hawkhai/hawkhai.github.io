@@ -35,7 +35,8 @@ layoutclear:
 打开 WordTap，在“输入或粘贴文章”区域放入这两句。如果编辑区收起，先点击该入口。
 
 ```text
-The cache stores recent responses. Clear it before you retry the request.
+The cache stores recent responses.
+Clear it before you retry the request.
 ```
 
 这是教程原创示例，不是某个框架的操作指令。只复制英文，先不要看译文。
@@ -50,7 +51,9 @@ The cache stores recent responses. Clear it before you retry the request.
 
 点击第一句的 `cache`。原词附近和侧栏会显示词典释义；这次 ECDICT 词条包含“高速缓冲存储器”等解释。在这段话里，可以理解为“缓存”。
 
-![点击 cache 后，单词高亮，原词附近与左侧显示音标和中文释义]({{ site.baseurl }}/assets/wordtap/2026-10-10/02-lookup.jpg)
+查到释义后，可以点击工作区空白处收起浮层。下图保留左侧词典卡片和高亮单词，让两句原文完整可见。
+
+![cache 在原句中高亮，左侧显示音标和中文释义，两句原文完整可见]({{ site.baseurl }}/assets/wordtap/2026-10-10/02-lookup.jpg)
 
 *图 2｜查词时保留上下文。点击 `cache`，在原句旁看释义，再继续理解它保存了什么；词典中的多个意思仍需结合句子选择。*
 
@@ -112,7 +115,7 @@ Clear it before you retry the request.
 
 学习记录保存在当前浏览器，不会自动跨设备同步。更换设备或清理浏览器数据前，在“考试学习”页使用“导出学习数据”，再到另一设备导入；“我的单词”中的单词导出只包含单词。
 
-**版本提示：** 当前公开仓库的完整备份包含文章与跟打进度；这组截图来源的 2026-10-10 官网本地构建，备份尚未包含保存的文章，换设备时需另存原文。使用该构建或其他旧版本时，请先核对导出范围；导入后确认文章和进度，再清理旧设备数据。
+**版本提示：** 当前公开仓库的完整备份包含文章与跟打进度。旧版存在未包含文章的备份格式；使用旧版时，换设备前请另存原文。导入后确认文章和进度，再清理旧设备数据。
 
 本地保存不等于全部离线。首次加载未缓存资源、在线查词和部分语音服务仍需要网络，相应单词或文本可能发给所选服务。详见 [仓库中的数据、离线与朗读说明 {% include relref_github.html %}](https://github.com/hawkhai/wordtap.cn#数据离线与朗读)。
 
@@ -126,7 +129,7 @@ Clear it before you retry the request.
 
 仓库里有一份随项目更新的 [独立图文教程 {% include relref_github.html %}](https://github.com/hawkhai/wordtap.cn/blob/main/docs/technical-english-reading.md)。
 
-本文五张截图采自 2026-10-10 官网本地构建，入口可能随版本更新。另有一段 [20 秒步骤动图]({{ site.baseurl }}/assets/wordtap/2026-10-10/wordtap-20s.gif)，由同组五张截图组成，无音轨；展示操作顺序，不代表实际打字速度或学习效果。
+本文五张截图于 2026-10-12 拍摄自 [WordTap 官网](https://wordtap.cn/)，静态图统一为 912px 宽，入口可能随版本更新。另有一段 [20 秒步骤动图]({{ site.baseurl }}/assets/wordtap/2026-10-10/wordtap-20s.gif)，由同组五张截图组成，画面为 1000 × 650，增加画面外的步骤标题和图注，无音轨；展示操作顺序，不代表实际打字速度或学习效果。
 
 
 <hr class='reviewline'/>
