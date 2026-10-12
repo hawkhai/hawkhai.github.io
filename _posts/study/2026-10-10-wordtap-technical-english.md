@@ -120,7 +120,7 @@ Clear it before you retry the request.
 
 选一段安装说明、API 参数说明或报错解释，先取 **2–5 句连贯的英文正文**，保留主语、条件和前后关系。先说出大意，再查影响理解的词，最后跟打其中一两句。项目专有术语仍以原文定义为准。
 
-**[现在粘贴一段自己的英文](https://wordtap.cn/)**。如果这种“原文查词 → 同文跟打”的方式对你有用，欢迎给 [WordTap 一个 Star {% include relref_github.html %}](https://github.com/hawkhai/wordtap.cn)，方便下次找到这个工具。也欢迎把这篇教程分享给正在读英文文档的朋友。
+**[现在粘贴一段自己的英文](https://wordtap.cn/)**。如果这种“原文查词 → 逐句跟打”的方式对你有用，欢迎给 [WordTap 一个 Star {% include relref_github.html %}](https://github.com/hawkhai/wordtap.cn)，方便下次找到这个工具。也欢迎把这篇教程分享给正在读英文文档的朋友。
 
 遇到问题，请到 [Issues {% include relref_github.html %}](https://github.com/hawkhai/wordtap.cn/issues) 附上浏览器版本、最短示例、操作步骤和预期结果。
 
