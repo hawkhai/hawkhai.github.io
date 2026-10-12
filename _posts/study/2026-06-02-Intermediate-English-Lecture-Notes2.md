@@ -212,3 +212,6 @@ is a coffee-based drink prepared with espresso, steamed milk, and milk foam.
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-06-02-Intermediate-English-Lecture-Notes2.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://wordtap.cn/]({% include relrefx.html url="/backup/2026-06-02-Intermediate-English-Lecture-Notes2.md/wordtap.cn/b6eeb1f3.html" %})

@@ -50,7 +50,7 @@ def main():
         "backup", "tempdir", "_site",
         "Debug", "Release", ".vs", "opengl-3rd", "opengles3-book", "opengles-book-samples",
         "UserDataSpider", "docs.gl", "ml-notes", "ksample", "dataset", "pdfdata", "imgclassify", "ksample",
-        "node_modules", "pdftools", "cc-switch",
+        "node_modules", "pdftools", "cc-switch", "local-agent",
         ]
     CHECK_IGNORE_LIST.extend(igdirs)
     searchdir(".", checkFileSize, ignorelist=CHECK_IGNORE_LIST, onDirectory=onCheckDirectory)
@@ -62,7 +62,7 @@ def main():
         "Debug", "Release", ".vs", "opengl-3rd", "opengles3-book", "opengles-book-samples",
         "UserDataSpider", "docs.gl", "ml-notes", "ksample", "dataset", "pdfdata", "imgclassify", "ksample",
         "openglcpp", "d2l-zh", "mathjax", "msgboard",
-        "node_modules", "pdftools", "cc-switch",
+        "node_modules", "pdftools", "cc-switch", "local-agent",
         ]
     MAINW_IGNORE_LIST.extend(igdirs)
     searchdir(".", mainfilew, ignorelist=MAINW_IGNORE_LIST, reverse=True)

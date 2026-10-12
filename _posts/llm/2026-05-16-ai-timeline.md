@@ -17,6 +17,20 @@ archived:
 layoutclear: false
 ---
 
+
+## 为什么世界模型需要分层规划？
+
+[H-JEPA！LeCun 世界模型创业交卷，代码权重全部开源 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/U8r0Nn9fT7eC7BAXx1ZUPQ)
+让模型在不同抽象层级和时间尺度上预测，再通过分层规划，把复杂目标落实为动作。
+
+**假设你正坐在纽约大学的办公室里，准备去巴黎。规划整趟行程时，你关注的是目的地、航班和时间安排。确定行程后，你开始进一步安排如何离开办公室、下楼、打车去机场。等到了真正走出办公室时，你关注的信息又变成了眼前的地面、楼梯，以及下一步该落在哪里，先迈哪只脚。**
+
+这些规划层级既覆盖不同的时间跨度，也需要不同的信息。规划航程时，脚下某一级台阶的高度并不重要；走下楼梯时，这个细节却直接决定你该怎样迈步。
+而这，也并不是人类规划独有的特性。对于机器人来说，高层需要理解任务目标、环境关系和未来方向，低层则需要掌握具体动作和身体控制细节。
+比如，四足机器人已经走到了目标位置，但腿部姿态与目标画面不同，模型仍可能因为这些差异，认为自己离目标很远。
+
+----
+
 01:30 探索的缘起
 
 07:25 怎么读论文？（用 AI 学 AI）
@@ -138,4 +152,5 @@ DiT: 人们期待一个融合的未来（2022.12）
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-05-16-ai-timeline.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://mp.weixin.qq.com/s/U8r0Nn9fT7eC7BAXx1ZUPQ]({% include relrefx.html url="/backup/2026-05-16-ai-timeline.md/mp.weixin.qq.com/6123f7d9.html" %})
 - [https://www.bilibili.com/video/BV1pkyqBxEdB/]({% include relrefx.html url="/backup/2026-05-16-ai-timeline.md/www.bilibili.com/60922afc.html" %})

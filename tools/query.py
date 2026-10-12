@@ -7,7 +7,6 @@ import re
 import sys
 from urllib.parse import parse_qs
 
-
 def add_one_to_integer_string(value):
     sign = ''
     if value and value[0] in ('+', '-'):
@@ -59,7 +58,6 @@ def add_one_to_integer_string(value):
 
     return value
 
-
 def get_params():
     if 'QUERY_STRING' in os.environ:
         return parse_qs(os.environ.get('QUERY_STRING', ''), keep_blank_values=True)
@@ -69,19 +67,16 @@ def get_params():
 
     return {}
 
-
 def get_input_value(params):
     for key in ('s', 'str', 'input', 'value'):
         if key in params:
             return params[key][0]
     return None
 
-
 def embed_id_in_md5(md5_value, input_value):
     # Keep the final two hash characters. The ID ends at the third position
     # from the end, making the complete ID visible without changing length.
     return md5_value[:30 - len(input_value)] + input_value + md5_value[-2:]
-
 
 def respond(body, status=None, content_type='text/plain; charset=utf-8'):
     if status is not None:
@@ -89,7 +84,6 @@ def respond(body, status=None, content_type='text/plain; charset=utf-8'):
     print('Content-Type: {}'.format(content_type))
     print()
     print(body)
-
 
 def main():
     params = get_params()
@@ -123,7 +117,6 @@ def main():
 
     respond(md5_value)
     return 0
-
 
 if __name__ == '__main__':
     raise SystemExit(main())

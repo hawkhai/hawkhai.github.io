@@ -1,10 +1,12 @@
 # 傅里叶“海螺图”：从复指数曲面到矩形脉冲
 
-这份文档整理傅里叶“海螺图”的绘制原理与脚本复现，包括两个独立海螺曲面版本，以及“海螺曲面 → 各频率的余弦分量 → 矩形脉冲”的三层示意图。单图分别参考用户提供的[知乎文章](https://zhuanlan.zhihu.com/p/19763358)和 [CSDN 文章](https://blog.csdn.net/Ciellee/article/details/108304531)及截图；三层图参考[腾讯云文章](https://cloud.tencent.com/developer/article/1187502)及对应截图。原图署名 Heinrich（韩昊）。
+这份文档整理傅里叶“海螺图”的绘制原理与脚本复现，包括两个独立海螺曲面版本，以及“海螺曲面 → 各频率的余弦分量 → 矩形脉冲”的三层示意图。单图分别参考用户提供的 [知乎文章 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/19763358) 和 [CSDN 文章 {% include relref_csdn.html %}](https://blog.csdn.net/Ciellee/article/details/108304531) 及截图；三层图参考 [腾讯云文章 tencent](https://cloud.tencent.com/developer/article/1187502) 及对应截图。原图署名 Heinrich（韩昊）。
 
 复现使用 Python、NumPy 和 Matplotlib，曲面、箭头、文字和坐标均由代码绘制，运行时不读取截图，也不需要联网。视角、采样范围和布局按截图调整，属于数学与视觉重建，并非原作者代码或精确参数的恢复。
 
+
 ## 1. 复现结果
+
 
 ### 1.1 单张海螺截图
 
@@ -29,6 +31,7 @@ $$
 其中 $f\in[0,8]$、$t\in[0,5]$，且 $\operatorname{sinc}(u)=\sin(\pi u)/(\pi u)$。固定频率得到一条螺旋线，把不同频率的螺旋线连成曲面，就形成海螺；颜色随时间从蓝变红。默认振幅 $a=0.05=sT$，对应脉冲宽度 $T=2$、显示缩放 $s=0.025$，推导见第 3、4 节。
 
 脉冲宽度、视角和网格参数依据截图轮廓选取。知乎原页在复现时未能成功读取，因此这是一份可运行的数学与视觉重建，不声称恢复了原作者的精确参数。输出图未重绘原作者水印。
+
 
 ### 1.2 CSDN 海螺图重绘
 
@@ -56,9 +59,10 @@ $$
 
 默认 $a=0.05$、$T=2$、$f\in[0,8]$、$t\in[0,5]$。其他三个脚本的海螺曲面现在使用同一组默认值、坐标顺序和相机角度。显示坐标取负实部是为了匹配截图朝向，并没有改用负频率。
 
-`--amplitude` 表示频谱在零频处的值 $A(0)=a$，也是最大的螺旋半径。若把 $A(f)$ 当作信号的实际频谱，它对应宽度为 $T$、高度为 $a/T$ 的中心矩形脉冲；默认高度为 $0.025$。与其余脚本的显示缩放约定对照时，有 $a=sT$，所以不能直接把 `--amplitude` 当成 `--scale`。
+`--amplitude` 表示频谱在零频处的值 $A(0)=a$，也是最大的螺旋半径。若把 $A(f)$ 当作信号的实际频谱，它对应宽度为 $T$、高度为 $a/T$ 的中心矩形脉冲；默认高度为 $0.025$。与其余脚本的显示缩放约定对照时，有 $a=sT$，所以不能直接把 `--amplitude` 当成 `--scale` 。
 
 本次已读取 CSDN 原文，文中没有提供绘图源码、采样范围或相机参数。当前参数由截图调校得到，属于数学与视觉上的近似复现；脚本绘制的是各频率分量构成的曲面，没有在这里执行逆变换积分。
+
 
 ### 1.3 三层示意图
 
@@ -71,7 +75,8 @@ $$
 | [fourier_reference.svg](output/reference/fourier_reference.svg) | 矢量文字、箭头与脉冲，三维曲面为嵌入位图 |
 | [reference_parameters.json](output/reference/reference_parameters.json) | 公式、参数、采样规模和数值积分结果 |
 
-默认底图保留参考图的理想矩形形状。要查看实际有限带宽积分的结果，可以添加 `--show-reconstruction`，在底图叠加橙色重建曲线。
+默认底图保留参考图的理想矩形形状。要查看实际有限带宽积分的结果，可以添加 `--show-reconstruction` ，在底图叠加橙色重建曲线。
+
 
 ### 1.4 本次实际运行的带公式版本
 
@@ -85,9 +90,11 @@ $$
 
 这版使用 $T=2$、最大显示半径 $a=0.05$，曲面展示频率 $f\in[0,8]$、时间 $t\in[0,5]$；底图积分截止频率为 $F=40$。曲面和底图所需的频率范围不同，不能把中间曲面最右端的 8 当作底部积分上限。与第 1.3 节更接近原截图的排版版本相比，这版增加了公式和实际积分曲线，便于检查计算是否正确。
 
+
 ## 2. 运行方法
 
 以下命令均在项目根目录 `D:\kSource\blog` 执行。
+
 
 ### 2.1 单张海螺图
 
@@ -104,13 +111,14 @@ python scripts/fourier_shell/reproduce_single.py
 .\tempdir\fourier-shell-venv\Scripts\python.exe scripts/fourier_shell/reproduce_single.py
 ```
 
-输出默认保存在 `scripts/fourier_shell/output/single/`。单图脚本只使用英文坐标文字，无需中文字体。默认省略坐标名称以接近截图，可用 `--labels` 显示虚部、实部和时间轴名称。
+输出默认保存在 `scripts/fourier_shell/output/single/` 。单图脚本只使用英文坐标文字，无需中文字体。默认省略坐标名称以接近截图，可用 `--labels` 显示虚部、实部和时间轴名称。
 
 修改观察角度，并将结果另存到其他目录：
 
 ```powershell
 .\tempdir\fourier-shell-venv\Scripts\python.exe scripts/fourier_shell/reproduce_single.py --elev 20 --azim 150 --labels --output tempdir/shell-other-view
 ```
+
 
 ### 2.2 CSDN 海螺图
 
@@ -127,7 +135,7 @@ python scripts/fourier_shell/redraw_conch.py
 .\tempdir\fourier-shell-venv\Scripts\python.exe scripts/fourier_shell/redraw_conch.py
 ```
 
-默认生成 `output/conch.png` 与 `output/conch.svg`。运行时不读取参考图片，不联网，也不需要中文字体。参数示例：
+默认生成 `output/conch.png` 与 `output/conch.svg` 。运行时不读取参考图片，不联网，也不需要中文字体。参数示例：
 
 ```powershell
 # 改变卷曲外形、观察角度及导出分辨率
@@ -143,7 +151,8 @@ python scripts/fourier_shell/redraw_conch.py --output tempdir/my_conch.png
 python scripts/fourier_shell/redraw_conch.py --help
 ```
 
-这里的 `--output` 接受以 `.png` 结尾的**文件路径**；其他几个脚本接受的是输出目录。默认运行仅保存文件，`--show` 需要本机具有可用的 Matplotlib 图形后端。
+这里的 `--output` 接受以 `.png` 结尾的 **文件路径** ；其他几个脚本接受的是输出目录。默认运行仅保存文件， `--show` 需要本机具有可用的 Matplotlib 图形后端。
+
 
 ### 2.3 三层示意图
 
@@ -160,7 +169,7 @@ python scripts/fourier_shell/reproduce_reference.py
 .\tempdir\fourier-shell-venv\Scripts\python.exe scripts/fourier_shell/reproduce_reference.py
 ```
 
-依赖为 `numpy>=2.0`、`matplotlib>=3.9`，另需本机安装中文字体。脚本依次查找微软雅黑、黑体、Noto Sans CJK SC、宋体及 Arial Unicode MS；没有可用中文字体时会给出错误提示。
+依赖为 `numpy>=2.0` 、 `matplotlib>=3.9` ，另需本机安装中文字体。脚本依次查找微软雅黑、黑体、Noto Sans CJK SC、宋体及 Arial Unicode MS；没有可用中文字体时会给出错误提示。
 
 显示有限带宽重建曲线，并保存到另一个目录：
 
@@ -173,6 +182,7 @@ python scripts/fourier_shell/reproduce_reference.py
 ```powershell
 python scripts/fourier_shell/reproduce_reference.py --help
 ```
+
 
 ### 2.4 运行带公式与数值验证的版本
 
@@ -189,7 +199,8 @@ python scripts/fourier_shell/reproduce.py
 .\tempdir\fourier-shell-venv\Scripts\python.exe scripts/fourier_shell/reproduce.py
 ```
 
-默认生成 [三层图 PNG](output/fourier_shell.png)、[三层图 SVG](output/fourier_shell.svg)、[频谱与重建对照图](output/fourier_validation.png)和[数值核对结果](output/numerical_check.json)。可用 `--width` 调整脉冲宽度，`--cutoff` 调整积分截止频率，`--dpi` 调整图片分辨率，`--output` 指定输出目录。图中的中文需要系统安装中文字体。
+默认生成 [三层图 PNG](output/fourier_shell.png)、[三层图 SVG](output/fourier_shell.svg)、[频谱与重建对照图](output/fourier_validation.png) 和 [数值核对结果](output/numerical_check.json)。可用 `--width` 调整脉冲宽度， `--cutoff` 调整积分截止频率， `--dpi` 调整图片分辨率， `--output` 指定输出目录。图中的中文需要系统安装中文字体。
+
 
 ## 3. 数学起点：矩形脉冲与 sinc 频谱
 
@@ -226,6 +237,7 @@ $$
 
 因此代码中的 `np.sinc(width * f)` 已经包含分子中的 $\pi$，不需要再把输入乘以 $\pi$。频谱的负旁瓣必须保留符号；取绝对值会改变信号，无法按原关系恢复矩形脉冲。
 
+
 ## 4. 上层：海螺曲面是怎样形成的
 
 把逆变换中的每个频率分量写为：
@@ -234,7 +246,7 @@ $$
 C(f,t)=sX(f)e^{i2\pi ft},
 $$
 
-其中 $s=a/T$ 是绘图缩放系数，$a$ 是命令行参数 `--amplitude`，表示零频处的最大螺旋半径。`reproduce_single.py` 和 `reproduce_reference.py` 仍支持旧参数 `--scale`，传入时换算为 $a=sT$。展开实部和虚部：
+其中 $s=a/T$ 是绘图缩放系数，$a$ 是命令行参数 `--amplitude` ，表示零频处的最大螺旋半径。 `reproduce_single.py` 和 `reproduce_reference.py` 仍支持旧参数 `--scale` ，传入时换算为 $a=sT$。展开实部和虚部：
 
 $$
 \operatorname{Re}C=sT\operatorname{sinc}(Tf)\cos(2\pi ft),
@@ -255,9 +267,10 @@ $$
 
 负实部与虚部的坐标顺序决定显示朝向。上图颜色按时间（高度）映射到 `jet` 色图：底部蓝、顶部红；颜色并不表示频率或幅值。
 
-四个脚本的海螺曲面现在都采用 `redraw_conch.py` 的默认组合：$T=2$、$a=0.05$、$f\in[0,8]$、$t\in[0,5]$，采样网格为 101 个时间点乘 1201 个频率点，绘图步长均为 1。坐标均为 $(-\operatorname{Re}C,\operatorname{Im}C,t)$，三维框比例为 `(1, 1, 0.78)`，正交投影，仰角 $8^\circ$、方位角 $-135^\circ$。`reproduce_single.py` 与 `redraw_conch.py` 的独立单图使用相同画布和曲面样式；两个三层图因布局较窄，曲面占整张图的面积不同，但几何外形一致。中层曲面以 $(f,t,\operatorname{Re}C)$ 为坐标，仍使用适合其横向几何的视角。
+四个脚本的海螺曲面现在都采用 `redraw_conch.py` 的默认组合：$T=2$、$a=0.05$、$f\in[0,8]$、$t\in[0,5]$，采样网格为 101 个时间点乘 1201 个频率点，绘图步长均为 1。坐标均为 $(-\operatorname{Re}C,\operatorname{Im}C,t)$，三维框比例为 `(1, 1, 0.78)` ，正交投影，仰角 $8^\circ$、方位角 $-135^\circ$。 `reproduce_single.py` 与 `redraw_conch.py` 的独立单图使用相同画布和曲面样式；两个三层图因布局较窄，曲面占整张图的面积不同，但几何外形一致。中层曲面以 $(f,t,\operatorname{Re}C)$ 为坐标，仍使用适合其横向几何的视角。
 
-主瓣形成外壳，衰减的旁瓣形成内部卷曲。必须保留 sinc 的负值，因为负号代表额外的 $\pi$ 相位；不能用 `abs(sinc(...))` 代替。$f=0$ 处也不能直接做除零运算，`np.sinc` 已正确处理其极限。
+主瓣形成外壳，衰减的旁瓣形成内部卷曲。必须保留 sinc 的负值，因为负号代表额外的 $\pi$ 相位；不能用 `abs(sinc(...))` 代替。$f=0$ 处也不能直接做除零运算， `np.sinc` 已正确处理其极限。
+
 
 ## 5. 中层：取实部并展开频率坐标
 
@@ -279,6 +292,7 @@ $$
 原图的“投影到实数空间”可以帮助理解取实部，但画出中图还需要把原先隐藏在曲面参数中的频率 $f$ 展开为坐标轴。因此，这一步不仅是把上图在原坐标系内压到某个平面。
 
 为贴近截图，复现图沿用了“复频域 / 频域 / 时域”的文字。严格地说，上图是复指数频率分量的参数曲面，中图是各频率的时间波形集合；它们都不是通常意义上只依赖频率的频谱 $X(f)$，上图也不涉及拉普拉斯变换的复频率变量。
+
 
 ## 6. 下层：沿频率积分，恢复矩形脉冲
 
@@ -306,7 +320,9 @@ $$
 
 有限带宽会在矩形边缘产生 Gibbs 振铃。增大 $F$ 会使振铃区域变窄，但跳变附近的超调比例不会趋于零；在 $t=\pm T/2$ 处，逆变换的无限带宽极限为左右极限的平均值 $1/2$。因此默认底图中的笔直矩形边缘是理想示意，并非有限数值积分的实际结果。
 
+
 ## 7. 核心绘图代码
+
 
 ### 7.1 单张海螺图
 
@@ -342,7 +358,8 @@ fig.savefig("fourier_shell_minimal.png", dpi=200)
 plt.close(fig)
 ```
 
-`plot_surface` 将相邻频率与时间的采样点连接成网格。因为传入的第三个坐标是时间 `t`，`cmap="jet"` 按时间着色；`shade=False` 保留色图本身的颜色。
+`plot_surface` 将相邻频率与时间的采样点连接成网格。因为传入的第三个坐标是时间 `t` ， `cmap="jet"` 按时间着色； `shade=False` 保留色图本身的颜色。
+
 
 ### 7.2 三层图中的两层曲面
 
@@ -367,11 +384,13 @@ waves.plot_surface(f, t, c.real, cmap="jet")
 
 海螺的形状来自 sinc 包络与复指数相位共同作用，不需要额外指定一个海螺几何模型。
 
+
 ## 8. 参数说明
+
 
 ### 8.1 四个脚本共用的曲面参数
 
-共同默认值由 [redraw_conch.py](redraw_conch.py) 定义，其他脚本直接导入。它们的**上层海螺**使用相同的公式、数据网格、坐标方向、曲面比例和视角；三层图的中图因为坐标轴不同，单独选取横向视角。
+共同默认值由 [redraw_conch.py](redraw_conch.py) 定义，其他脚本直接导入。它们的 **上层海螺** 使用相同的公式、数据网格、坐标方向、曲面比例和视角；三层图的中图因为坐标轴不同，单独选取横向视角。
 
 | 参数 | 共同默认值 | 作用 |
 | --- | --- | --- |
@@ -385,20 +404,21 @@ waves.plot_surface(f, t, c.real, cmap="jet")
 | `--azim` | `-135.0` | 海螺曲面相机方位角，单位度 |
 | `--dpi` | `200` | 图片导出分辨率 |
 
-绘图框比例统一为 `(1, 1, 0.78)`，采用正交投影。`reproduce_single.py` 与 `reproduce_reference.py` 保留旧参数 `--duration`（等价于 `--tmax`），也保留 `--scale`（换算为 `--amplitude = --scale × --width`）；新命令建议直接使用与 `redraw_conch.py` 一致的名称。`--scale` 与 `--amplitude` 不能同时传入。
+绘图框比例统一为 `(1, 1, 0.78)` ，采用正交投影。 `reproduce_single.py` 与 `reproduce_reference.py` 保留旧参数 `--duration` （等价于 `--tmax` ），也保留 `--scale` （换算为 `--amplitude = --scale × --width` ）；新命令建议直接使用与 `redraw_conch.py` 一致的名称。 `--scale` 与 `--amplitude` 不能同时传入。
 
 `--amplitude` 只控制展示的复平面坐标，三层图的积分使用未缩放的 $X(f)=T\operatorname{sinc}(Tf)$，因此单位高度的时域脉冲不变。如果直接积分展示数据 $C$，则应乘 $2/s=2T/a$ 才能还原单位高度。单图只绘制正频率分量，不执行积分。
 
-增大最高频率或展示时长时，应相应提高 `--nf` 或 `--nt`，避免曲面网格欠采样。提高 DPI 只能增加导出像素，不能补充频率或时间采样。SVG 的密集曲面嵌入位图，坐标与文字保留矢量。
+增大最高频率或展示时长时，应相应提高 `--nf` 或 `--nt` ，避免曲面网格欠采样。提高 DPI 只能增加导出像素，不能补充频率或时间采样。SVG 的密集曲面嵌入位图，坐标与文字保留矢量。
+
 
 ### 8.2 各脚本专有的参数和输出
 
 | 脚本 | 其他参数及默认值 | 默认输出 |
 | --- | --- | --- |
-| [redraw_conch.py](redraw_conch.py) | `--labels`、`--show` 默认关闭；`--output` 接受 PNG 文件路径 | `output/conch.png` 和 `.svg` |
-| [reproduce_single.py](reproduce_single.py) | `--labels` 默认关闭；`--output` 接受目录 | `output/single/` 中的 PNG、SVG、参数 JSON |
-| [reproduce_reference.py](reproduce_reference.py) | `--cutoff 40`；`--show-reconstruction` 默认关闭；`--output` 接受目录 | `output/reference/` 中的 PNG、SVG、参数 JSON |
-| [reproduce.py](reproduce.py) | `--cutoff 40`；`--output` 接受目录 | `output/` 中的 PNG、SVG、验证图、数值 JSON |
+| [redraw_conch.py](redraw_conch.py) | `--labels` 、 `--show` 默认关闭； `--output` 接受 PNG 文件路径 | `output/conch.png` 和 `.svg` |
+| [reproduce_single.py](reproduce_single.py) | `--labels` 默认关闭； `--output` 接受目录 | `output/single/` 中的 PNG、SVG、参数 JSON |
+| [reproduce_reference.py](reproduce_reference.py) | `--cutoff 40` ； `--show-reconstruction` 默认关闭； `--output` 接受目录 | `output/reference/` 中的 PNG、SVG、参数 JSON |
+| [reproduce.py](reproduce.py) | `--cutoff 40` ； `--output` 接受目录 | `output/` 中的 PNG、SVG、验证图、数值 JSON |
 
 单图画布为 8 × 5.65 英寸；参考布局三层图为 6 × 9.8 英寸；带公式的三层图为 8 × 13 英寸。只有 `redraw_conch.py` 提供 `--show` 交互窗口。要把脉冲宽度从默认的 2 增加到 4，同时保持曲面的无量纲形状，可以把时间范围增加到 10、最高频率和积分截止频率各减半：
 
@@ -406,7 +426,9 @@ waves.plot_surface(f, t, c.real, cmap="jet")
 python scripts/fourier_shell/reproduce_reference.py --width 4 --tmax 10 --fmax 4 --cutoff 20 --show-reconstruction --output scripts/fourier_shell/output/reference_width4
 ```
 
+
 ## 9. 数值检查
+
 
 ### 9.1 单图公式与导出
 
@@ -414,19 +436,21 @@ python scripts/fourier_shell/reproduce_reference.py --width 4 --tmax 10 --fmax 4
 
 为独立核对公式，对宽度为 2 的矩形脉冲在 $\tau\in[-1,1]$ 上使用 20001 个点做数值傅里叶积分，再与单图公式生成的复数分量比较。在 $f=0,0.13,0.25,0.5,0.75,1.25$ 及默认时间采样点上的最大绝对误差约为 $3.27\times10^{-10}$。这个检查验证数学计算，不代表与参考截图之间的像素误差。
 
-现在还可以直接使用同一组参数名称调整四个脚本，例如 `--width 3 --amplitude 0.05 --fmax 6 --tmax 4 --nf 1201 --nt 101 --elev 8 --azim -135`。
+现在还可以直接使用同一组参数名称调整四个脚本，例如 `--width 3 --amplitude 0.05 --fmax 6 --tmax 4 --nf 1201 --nt 101 --elev 8 --azim -135` 。
+
 
 ### 9.2 CSDN 重绘版本
 
-`redraw_conch.py` 已实际运行，生成了 1600 × 1130 的 PNG 和同名 SVG。默认曲面数组形状为 `101 × 1201`，检查内容包括：
+`redraw_conch.py` 已实际运行，生成了 1600 × 1130 的 PNG 和同名 SVG。默认曲面数组形状为 `101 × 1201` ，检查内容包括：
 
-- 所有坐标均为有限值，`np.sinc` 正确处理零频极限。
+- 所有坐标均为有限值， `np.sinc` 正确处理零频极限。
 - $f=0$ 时，显示边界满足 $x_{\mathrm{plot}}=-0.05$、$y_{\mathrm{plot}}=0$。
 - $t=0$ 时，所有分量的虚部均为零。
 - 各频率分量满足 $x_{\mathrm{plot}}^2+y_{\mathrm{plot}}^2=A(f)^2$，即每条螺旋的半径不随时间变化。
 - sinc 的负旁瓣保留符号。
 
 这些检查验证公式和导出结果；与参考截图的接近程度通过观察轮廓、朝向、配色和网格判断，没有给出像素级误差指标。
+
 
 ### 9.3 三层图的有限带宽积分
 
@@ -444,7 +468,8 @@ python scripts/fourier_shell/reproduce_reference.py --width 4 --tmax 10 --fmax 4
 
 四个脚本的默认模式均已重新运行，参考布局图的 PNG 尺寸为 1200 × 1960。
 
-带公式版本 `reproduce.py` 也已在本机实际运行。它独立输出的[数值核对文件](output/numerical_check.json)给出近乎相同的五个采样值；两个脚本的积分步长略有差异，因此最后几位小数不完全相同。已用时域矩形脉冲的数值正变换核对 sinc 公式，并检查逆变换的归一化、跳变点约为 $1/2$ 以及时域偶对称性。上述检查验证数学计算，图像外观仍是对参考图的近似重建。
+带公式版本 `reproduce.py` 也已在本机实际运行。它独立输出的 [数值核对文件](output/numerical_check.json) 给出近乎相同的五个采样值；两个脚本的积分步长略有差异，因此最后几位小数不完全相同。已用时域矩形脉冲的数值正变换核对 sinc 公式，并检查逆变换的归一化、跳变点约为 $1/2$ 以及时域偶对称性。上述检查验证数学计算，图像外观仍是对参考图的近似重建。
+
 
 ## 10. 文件索引
 
@@ -456,11 +481,20 @@ python scripts/fourier_shell/reproduce_reference.py --width 4 --tmax 10 --fmax 4
 
 四个脚本共用海螺曲面的默认参数；两种三层图对中层和底层使用不同的布局与标注。可用对应脚本的 `--help` 查看全部参数。
 
+
 ## 参考资料
 
-- [Ciellee：傅里叶变换解析（CSDN）](https://blog.csdn.net/Ciellee/article/details/108304531)：本次海螺截图的来源，文中说明了不同频率螺旋构成曲面的思路，未提供绘图源码和具体参数。
-- [用户提供的腾讯云文章](https://cloud.tencent.com/developer/article/1187502)：图示参考；本次网页读取未成功，以用户附图为主要视觉依据。
-- [Heinrich：傅里叶分析之掐死教程](https://zhuanlan.zhihu.com/p/19763358)：原图相关教程来源链接。
+- [Ciellee：傅里叶变换解析（CSDN） {% include relref_csdn.html %}](https://blog.csdn.net/Ciellee/article/details/108304531)：本次海螺截图的来源，文中说明了不同频率螺旋构成曲面的思路，未提供绘图源码和具体参数。
+- [用户提供的腾讯云文章 tencent](https://cloud.tencent.com/developer/article/1187502)：图示参考；本次网页读取未成功，以用户附图为主要视觉依据。
+- [Heinrich：傅里叶分析之掐死教程 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/19763358)：原图相关教程来源链接。
 - [MathWorks：Fourier Transform](https://www.mathworks.com/help/symbolic/sym.fourier.html)：矩形脉冲傅里叶变换示例。该文档默认使用角频率 $\omega$，与本文的关系为 $\omega=2\pi f$。
 - [Matplotlib：3D surface](https://matplotlib.org/stable/gallery/mplot3d/surface3d.html)：三维曲面与色图绘制接口。
 - [仓库中的傅里叶变换笔记](../../_posts/dip/2020-09-26-dip-fourier-transform.md)。
+
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://zhuanlan.zhihu.com/p/19763358](https://zhuanlan.zhihu.com/p/19763358)
+- [https://blog.csdn.net/Ciellee/article/details/108304531](https://blog.csdn.net/Ciellee/article/details/108304531)
+- [https://cloud.tencent.com/developer/article/1187502](https://cloud.tencent.com/developer/article/1187502)
+- [https://www.mathworks.com/help/symbolic/sym.fourier.html](https://www.mathworks.com/help/symbolic/sym.fourier.html)
+- [https://matplotlib.org/stable/gallery/mplot3d/surface3d.html](https://matplotlib.org/stable/gallery/mplot3d/surface3d.html)

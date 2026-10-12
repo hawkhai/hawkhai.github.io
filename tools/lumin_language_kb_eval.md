@@ -4,14 +4,17 @@
 
 题目与答案采用交错排版：每道题后面紧跟“答案要点”和“依据章节”。使用时可以只复制“题面”给 agent，再用后面的答案核对。若 agent 只凭常识猜测，通常会在专名、词义、构词、语序、港口告示事实或证据来源上出错。
 
+
 ## 使用方式
 
-1. 要求 agent 读取或检索 `E:\kSource\blog\tools\lumin_language_kb.md`。
+1. 要求 agent 读取或检索 `E:\kSource\blog\tools\lumin_language_kb.md` 。
 2. 复制任意题面的内容给 agent。
 3. 用对应答案要点检查回答是否符合 wiki。
 4. 证据型题目必须能指出来自哪个章节；只给结论不给来源可酌情扣分。
 
+
 ## A. 基本设定与发音
+
 
 ### 1. 语言身份
 
@@ -21,13 +24,15 @@
 
 依据章节：`lumin_language_kb.md` 开头说明
 
+
 ### 2. 自称与使用地区
 
 题面：路明语的自称是什么？主要使用在哪些地区？
 
-答案要点：自称是 `Lumin`。主要使用于黎湾诸城、盐塔港、北星岛。
+答案要点：自称是 `Lumin` 。主要使用于黎湾诸城、盐塔港、北星岛。
 
 依据章节：`lumin_language_kb.md` 的“基本设定 / 发音规则”
+
 
 ### 3. 书写与语言风格
 
@@ -37,39 +42,45 @@
 
 依据章节：`lumin_language_kb.md` 的“基本设定 / 发音规则”
 
+
 ### 4. 发音陷阱
 
-题面：`th`、`zh`、`r` 在路明语中分别如何近似发音？
+题面：`th` 、 `zh` 、 `r` 在路明语中分别如何近似发音？
 
-答案要点：`th` 是清擦音，可近似读作“思”；`zh` 是浊擦音，可近似读作“日”；`r` 是轻颤音，可近似读作轻微卷舌 r。
+答案要点：`th` 是清擦音，可近似读作“思”； `zh` 是浊擦音，可近似读作“日”； `r` 是轻颤音，可近似读作轻微卷舌 r。
 
 依据章节：`lumin_language_kb.md` 的“基本设定 / 发音规则”
+
 
 ### 5. 重音位置
 
 题面：路明语的重音通常落在哪里？请举出 wiki 中的两个例子。
 
-答案要点：重音通常落在倒数第二个音节上。例子是 `lu-MIN`、`sa-VE-la`。
+答案要点：重音通常落在倒数第二个音节上。例子是 `lu-MIN` 、 `sa-VE-la` 。
 
 依据章节：`lumin_language_kb.md` 的“基本设定 / 发音规则”
 
+
 ## B. 句法、时态与代词
+
 
 ### 6. 默认词序
 
 题面：路明语默认词序是什么？请用 wiki 中的例句说明。
 
-答案要点：默认词序是主语 + 动词 + 宾语。例句：`Mi lan sola.`，意思是“我看见太阳。”
+答案要点：默认词序是主语 + 动词 + 宾语。例句：`Mi lan sola.` ，意思是“我看见太阳。”
 
 依据章节：`lumin_language_kb.md` 的“句法速查”
+
 
 ### 7. 形容词位置
 
 题面：路明语形容词放在名词前还是名词后？请举例。
 
-答案要点：形容词放在名词后。例：`nava bren`，字面为“船 大”，意思是“大船”。
+答案要点：形容词放在名词后。例：`nava bren` ，字面为“船 大”，意思是“大船”。
 
 依据章节：`lumin_language_kb.md` 的“句法速查”
+
 
 ### 8. 否定位置
 
@@ -79,97 +90,111 @@
 
 依据章节：`lumin_language_kb.md` 的“句法速查”
 
+
 ### 9. 一般疑问句
 
 题面：路明语一般疑问句如何构成？“你要水吗？”怎么说？
 
-答案要点：一般疑问句在句首加 `ka`。“你要水吗？”是 `Ka tu vel mir?`
+答案要点：一般疑问句在句首加 `ka` 。“你要水吗？”是 `Ka tu vel mir?`
 
 依据章节：`lumin_language_kb.md` 的“句法速查”
 
+
 ### 10. 时态与语气小词
 
-题面：`pa`、`nu`、`fa`、`si`、`da` 分别表达什么？
+题面：`pa` 、 `nu` 、 `fa` 、 `si` 、 `da` 分别表达什么？
 
-答案要点：`pa` 表过去，`nu` 表现在，`fa` 表将来，`si` 表可能，`da` 表必须。它们是小词，不改变动词本身。
+答案要点：`pa` 表过去， `nu` 表现在， `fa` 表将来， `si` 表可能， `da` 表必须。它们是小词，不改变动词本身。
 
 依据章节：`lumin_language_kb.md` 的“时态与语气”
 
+
 ### 11. 代词
 
-题面：`mi`、`tu`、`he`、`na`、`yu`、`en` 分别是什么意思？
+题面：`mi` 、 `tu` 、 `he` 、 `na` 、 `yu` 、 `en` 分别是什么意思？
 
-答案要点：`mi` 我；`tu` 你；`he` 他、她、它；`na` 我们；`yu` 你们；`en` 他们、她们、它们。
+答案要点：`mi` 我； `tu` 你； `he` 他、她、它； `na` 我们； `yu` 你们； `en` 他们、她们、它们。
 
 依据章节：`lumin_language_kb.md` 的“代词 / 语法扩展：名词复数”
+
 
 ### 12. 明确复数
 
-题面：路明语如何构成明确复数？请把 `nava`、`zhen`、`kira`、`pelen` 变成明确复数。
+题面：路明语如何构成明确复数？请把 `nava` 、 `zhen` 、 `kira` 、 `pelen` 变成明确复数。
 
-答案要点：需要明确复数时，在名词后加 `-i`。`nava` -> `navai`，`zhen` -> `zheni`，`kira` -> `kirai`，`pelen` -> `peleni`。
+答案要点：需要明确复数时，在名词后加 `-i` 。 `nava` -> `navai` ， `zhen` -> `zheni` ， `kira` -> `kirai` ， `pelen` -> `peleni` 。
 
 依据章节：`lumin_language_kb.md` 的“代词 / 语法扩展：名词复数”
 
+
 ## C. 常用词汇与构词
+
 
 ### 13. 基础名词
 
-题面：`lumin`、`sola`、`mir`、`nava`、`thal`、`pelen` 分别是什么意思？
+题面：`lumin` 、 `sola` 、 `mir` 、 `nava` 、 `thal` 、 `pelen` 分别是什么意思？
 
-答案要点：`lumin` 是光、路明语，也可指“明亮的道路”；`sola` 是太阳；`mir` 是水；`nava` 是船；`thal` 是盐；`pelen` 是纸、文书。
+答案要点：`lumin` 是光、路明语，也可指“明亮的道路”； `sola` 是太阳； `mir` 是水； `nava` 是船； `thal` 是盐； `pelen` 是纸、文书。
 
 依据章节：`lumin_language_kb.md` 的“常用词汇表”
+
 
 ### 14. 基础动词
 
-题面：`dom`、`lan`、`vel`、`rin`、`kor`、`sen` 分别是什么意思？
+题面：`dom` 、 `lan` 、 `vel` 、 `rin` 、 `kor` 、 `sen` 分别是什么意思？
 
-答案要点：`dom` 知道、认识；`lan` 看见；`vel` 想要、需要；`rin` 出发、离开；`kor` 工作、制作；`sen` 听见，也指听从。
+答案要点：`dom` 知道、认识； `lan` 看见； `vel` 想要、需要； `rin` 出发、离开； `kor` 工作、制作； `sen` 听见，也指听从。
 
 依据章节：`lumin_language_kb.md` 的“常用词汇表”
+
 
 ### 15. 易混形容词
 
-题面：`bren`、`liti`、`navin`、`mori` 分别是什么意思？`navin` 是否表示船员？
+题面：`bren` 、 `liti` 、 `navin` 、 `mori` 分别是什么意思？ `navin` 是否表示船员？
 
-答案要点：`bren` 大的；`liti` 小的；`navin` 新的，与“船”无关；`mori` 安静的。`navin` 不表示船员。
+答案要点：`bren` 大的； `liti` 小的； `navin` 新的，与“船”无关； `mori` 安静的。 `navin` 不表示船员。
 
 依据章节：`lumin_language_kb.md` 的“常用词汇表”
+
 
 ### 16. 功能词
 
-题面：`hal`、`eso`、`ren` 分别是什么词性和含义？
+题面：`hal` 、 `eso` 、 `ren` 分别是什么词性和含义？
 
-答案要点：`hal` 是副词，表示很、非常，放在形容词前；`eso` 是连词，表示和，连接名词或短句；`ren` 是介词，表示在、位于，用于地点。
+答案要点：`hal` 是副词，表示很、非常，放在形容词前； `eso` 是连词，表示和，连接名词或短句； `ren` 是介词，表示在、位于，用于地点。
 
 依据章节：`lumin_language_kb.md` 的“常用词汇表”
 
+
 ### 17. 构词后缀
 
-题面：`-el`、`-in`、`-um`、`-ra` 四个后缀分别表示什么？各举一个 wiki 例子。
+题面：`-el` 、 `-in` 、 `-um` 、 `-ra` 四个后缀分别表示什么？各举一个 wiki 例子。
 
-答案要点：`-el` 表工具或器物，如 `korael` 手工工具；`-in` 表与某物相关的人，如 `navain` 船员；`-um` 表地点，如 `valeum` 市集区；`-ra` 表抽象性质，如 `morira` 宁静。
+答案要点：`-el` 表工具或器物，如 `korael` 手工工具； `-in` 表与某物相关的人，如 `navain` 船员； `-um` 表地点，如 `valeum` 市集区； `-ra` 表抽象性质，如 `morira` 宁静。
 
 依据章节：`lumin_language_kb.md` 的“构词规则”
 
+
 ## D. 数字、颜色、例句与对话
+
 
 ### 18. 数字
 
-题面：`un`、`du`、`sen`、`dek` 分别是哪些数字？`du-dek-tri` 是多少？
+题面：`un` 、 `du` 、 `sen` 、 `dek` 分别是哪些数字？ `du-dek-tri` 是多少？
 
-答案要点：`un` 是 1，`du` 是 2，`sen` 是 5，`dek` 是 10。组合数字直接相连，`du-dek-tri` 是 23。
+答案要点：`un` 是 1， `du` 是 2， `sen` 是 5， `dek` 是 10。组合数字直接相连， `du-dek-tri` 是 23。
 
 依据章节：`lumin_language_kb.md` 的“数字 / 颜色”
+
 
 ### 19. 颜色词
 
-题面：`alba`、`ruda`、`blua`、`oria` 分别是什么颜色？颜色词通常放在哪里？
+题面：`alba` 、 `ruda` 、 `blua` 、 `oria` 分别是什么颜色？颜色词通常放在哪里？
 
-答案要点：`alba` 白色；`ruda` 红色；`blua` 蓝色；`oria` 金色。颜色词放在名词后，也可以放在形容词前作为修饰。
+答案要点：`alba` 白色； `ruda` 红色； `blua` 蓝色； `oria` 金色。颜色词放在名词后，也可以放在形容词前作为修饰。
 
 依据章节：`lumin_language_kb.md` 的“数字 / 颜色”
+
 
 ### 20. 蓝布在市集
 
@@ -179,89 +204,102 @@
 
 依据章节：`lumin_language_kb.md` 的“数字 / 颜色”
 
+
 ### 21. 日常例句
 
 题面：`Na fa kor ren valeum.` 和 `He pa sen vey eso lan kira.` 分别是什么意思？
 
-答案要点：`Na fa kor ren valeum.` 是“我们将在市集区工作。”；`He pa sen vey eso lan kira.` 是“他听见了风，也看见了星星。”
+答案要点：`Na fa kor ren valeum.` 是“我们将在市集区工作。”； `He pa sen vey eso lan kira.` 是“他听见了风，也看见了星星。”
 
 依据章节：`lumin_language_kb.md` 的“日常例句 / 小型对话”
+
 
 ### 22. 小型对话
 
-题面：在小型对话中，`A: Pelen ren oro.` 和 `B: Thala. Mi rin.` 分别是什么意思？
+题面：在小型对话中， `A: Pelen ren oro.` 和 `B: Thala. Mi rin.` 分别是什么意思？
 
-答案要点：`Pelen ren oro.` 是“文书在门口。”；`Thala. Mi rin.` 是“谢谢。我出发了。”
+答案要点：`Pelen ren oro.` 是“文书在门口。”； `Thala. Mi rin.` 是“谢谢。我出发了。”
 
 依据章节：`lumin_language_kb.md` 的“日常例句 / 小型对话”
 
+
 ## E. 语法扩展与疑问方位
+
 
 ### 23. 所有格
 
 题面：路明语所有格结构如何表达？“我的船”和“你的朋友已经出发了”分别怎么说？
 
-答案要点：所有格结构是“被拥有物 + de + 拥有者”。“我的船”是 `nava de mi`；“你的朋友已经出发了”是 `zhen de tu pa rin.`
+答案要点：所有格结构是“被拥有物 + de + 拥有者”。“我的船”是 `nava de mi` ；“你的朋友已经出发了”是 `zhen de tu pa rin.`
 
 依据章节：`lumin_language_kb.md` 的“语法扩展”
+
 
 ### 24. 比较级与最高级
 
 题面：路明语比较级和最高级如何表达？“我的船比你的船大”和“北星是最明亮的”分别怎么说？
 
-答案要点：比较结构用 `mor`，格式为“甲 + 形容词 + mor + 乙”；最高级用 `mor-hal`。例句：`Nava mi bren mor nava tu.`；`Kira nor mor-hal.`
+答案要点：比较结构用 `mor` ，格式为“甲 + 形容词 + mor + 乙”；最高级用 `mor-hal` 。例句：`Nava mi bren mor nava tu.` ； `Kira nor mor-hal.`
 
 依据章节：`lumin_language_kb.md` 的“语法扩展”
+
 
 ### 25. 使役表达
 
 题面：路明语使役小词是什么，放在哪里？“风让船出发”怎么说？
 
-答案要点：使役小词是 `ma`，放在动词前，表示“使、让、令”。“风让船出发”是 `Vey ma nava rin.`
+答案要点：使役小词是 `ma` ，放在动词前，表示“使、让、令”。“风让船出发”是 `Vey ma nava rin.`
 
 依据章节：`lumin_language_kb.md` 的“语法扩展”
 
+
 ### 26. 疑问词区分
 
-题面：`ka`、`wen`、`tan`、`ren-ka`、`sol-ka`、`man`、`kem` 分别问什么？
+题面：`ka` 、 `wen` 、 `tan` 、 `ren-ka` 、 `sol-ka` 、 `man` 、 `kem` 分别问什么？
 
-答案要点：`ka` 是否；`wen` 谁；`tan` 什么；`ren-ka` 哪里；`sol-ka` 何时；`man` 为什么；`kem` 怎样、如何。
+答案要点：`ka` 是否； `wen` 谁； `tan` 什么； `ren-ka` 哪里； `sol-ka` 何时； `man` 为什么； `kem` 怎样、如何。
 
 依据章节：`lumin_language_kb.md` 的“疑问词 / 方位与地点”
+
 
 ### 27. 方位与地点
 
-题面：`nor`、`sud`、`est`、`wes`、`in`、`ad`、`lon` 分别是什么意思？
+题面：`nor` 、 `sud` 、 `est` 、 `wes` 、 `in` 、 `ad` 、 `lon` 分别是什么意思？
 
-答案要点：`nor` 北、北方；`sud` 南、南方；`est` 东、东方；`wes` 西、西方；`in` 内部、在里面；`ad` 靠近；`lon` 远离。
+答案要点：`nor` 北、北方； `sud` 南、南方； `est` 东、东方； `wes` 西、西方； `in` 内部、在里面； `ad` 靠近； `lon` 远离。
 
 依据章节：`lumin_language_kb.md` 的“疑问词 / 方位与地点”
+
 
 ### 28. 地点翻译
 
 题面：请把“文书在家里”和“船向北方靠近”翻译成路明语。
 
-答案要点：`Pelen ren in soma.`；`Nava rin ad nor.`
+答案要点：`Pelen ren in soma.` ； `Nava rin ad nor.`
 
 依据章节：`lumin_language_kb.md` 的“疑问词 / 方位与地点”
 
+
 ## F. 时间、语用、文化与文书
+
 
 ### 29. 时间词
 
-题面：`prai`、`vesra`、`talun`、`palun`、`falun`、`anor` 分别是什么意思？
+题面：`prai` 、 `vesra` 、 `talun` 、 `palun` 、 `falun` 、 `anor` 分别是什么意思？
 
-答案要点：`prai` 早晨；`vesra` 傍晚；`talun` 今天；`palun` 昨天；`falun` 明天；`anor` 年。
+答案要点：`prai` 早晨； `vesra` 傍晚； `talun` 今天； `palun` 昨天； `falun` 明天； `anor` 年。
 
 依据章节：`lumin_language_kb.md` 的“时间表达 / 语用规则”
+
 
 ### 30. 时间词位置
 
 题面：路明语时间词通常放在哪里？请翻译“今天我们在市集区工作”和“我明天出发”。
 
-答案要点：时间词通常放在句首，也可以放在句尾强调。“今天我们在市集区工作”是 `Talun na kor ren valeum.`；“我明天出发”是 `Mi fa rin falun.`
+答案要点：时间词通常放在句首，也可以放在句尾强调。“今天我们在市集区工作”是 `Talun na kor ren valeum.` ；“我明天出发”是 `Mi fa rin falun.`
 
 依据章节：`lumin_language_kb.md` 的“时间表达 / 语用规则”
+
 
 ### 31. 语用规则
 
@@ -271,13 +309,15 @@
 
 依据章节：`lumin_language_kb.md` 的“时间表达 / 语用规则”
 
+
 ### 32. 交易语序
 
-题面：交易场景中的语序是什么？`Thal sen du-dek mira.` 是什么意思？
+题面：交易场景中的语序是什么？ `Thal sen du-dek mira.` 是什么意思？
 
-答案要点：交易场景中先说物品，再说数量，再说价格。`Thal sen du-dek mira.` 是“盐五份，二十枚银币。”
+答案要点：交易场景中先说物品，再说数量，再说价格。 `Thal sen du-dek mira.` 是“盐五份，二十枚银币。”
 
 依据章节：`lumin_language_kb.md` 的“时间表达 / 语用规则”
+
 
 ### 33. lumin 的文化含义
 
@@ -287,6 +327,7 @@
 
 依据章节：`lumin_language_kb.md` 的“文化注记 / 文书格式”
 
+
 ### 34. 正式问候
 
 题面：`Lumin ren tu` 的字面意思和实际含义分别是什么？
@@ -295,73 +336,84 @@
 
 依据章节：`lumin_language_kb.md` 的“文化注记 / 常用短语”
 
+
 ### 35. 港务文书格式
 
 题面：黎湾港务文书常用什么固定开头？货运登记通常按什么顺序记录？
 
-答案要点：固定开头是 `Pelen de Valeum Lumin.`，意思是“黎湾市集区文书。”货运登记常按“日期、船名、货物、数量、负责人”的顺序记录。
+答案要点：固定开头是 `Pelen de Valeum Lumin.` ，意思是“黎湾市集区文书。”货运登记常按“日期、船名、货物、数量、负责人”的顺序记录。
 
 依据章节：`lumin_language_kb.md` 的“文化注记 / 文书格式”
 
+
 ## G. 扩展词汇、短语与反义词
+
 
 ### 36. 自然天气词
 
-题面：`oran`、`garu`、`brava`、`fen`、`nor-kira`、`lumar`、`kran` 分别是什么意思？
+题面：`oran` 、 `garu` 、 `brava` 、 `fen` 、 `nor-kira` 、 `lumar` 、 `kran` 分别是什么意思？
 
-答案要点：`oran` 雨；`garu` 云；`brava` 浪；`fen` 雾；`nor-kira` 北星；`lumar` 灯塔；`kran` 下雨。
+答案要点：`oran` 雨； `garu` 云； `brava` 浪； `fen` 雾； `nor-kira` 北星； `lumar` 灯塔； `kran` 下雨。
 
 依据章节：`lumin_language_kb.md` 的“扩展词汇”
+
 
 ### 37. 人物职业词
 
-题面：`navain`、`thalin`、`pelin`、`lumarin`、`korin`、`mirin`、`elder` 分别是什么意思？
+题面：`navain` 、 `thalin` 、 `pelin` 、 `lumarin` 、 `korin` 、 `mirin` 、 `elder` 分别是什么意思？
 
-答案要点：`navain` 船员；`thalin` 盐商；`pelin` 文书员；`lumarin` 灯塔守望者；`korin` 工匠；`mirin` 取水人；`elder` 长者，是借词，正式场合使用。
+答案要点：`navain` 船员； `thalin` 盐商； `pelin` 文书员； `lumarin` 灯塔守望者； `korin` 工匠； `mirin` 取水人； `elder` 长者，是借词，正式场合使用。
 
 依据章节：`lumin_language_kb.md` 的“扩展词汇”
+
 
 ### 38. 物品贸易词
 
-题面：`mira`、`orum`、`vela`、`barem`、`dul`、`tama`、`pelen-tama` 分别是什么意思？
+题面：`mira` 、 `orum` 、 `vela` 、 `barem` 、 `dul` 、 `tama` 、 `pelen-tama` 分别是什么意思？
 
-答案要点：`mira` 银币；`orum` 金币；`vela` 帆；`barem` 木桶；`dul` 布；`tama` 印章；`pelen-tama` 盖章文书。
+答案要点：`mira` 银币； `orum` 金币； `vela` 帆； `barem` 木桶； `dul` 布； `tama` 印章； `pelen-tama` 盖章文书。
 
 依据章节：`lumin_language_kb.md` 的“扩展词汇”
 
+
 ### 39. 常用短语
 
-题面：`No thala.`、`Mi no dom.`、`Rin mori.`、`Lumar lan na.` 分别是什么意思和使用场景？
+题面：`No thala.` 、 `Mi no dom.` 、 `Rin mori.` 、 `Lumar lan na.` 分别是什么意思和使用场景？
 
-答案要点：`No thala.` 不必谢，回应感谢；`Mi no dom.` 我不知道，回答未知信息；`Rin mori.` 平静出发，送别；`Lumar lan na.` 灯塔看见我们，是航海暗语，表示已接近港口。
+答案要点：`No thala.` 不必谢，回应感谢； `Mi no dom.` 我不知道，回答未知信息； `Rin mori.` 平静出发，送别； `Lumar lan na.` 灯塔看见我们，是航海暗语，表示已接近港口。
 
 依据章节：`lumin_language_kb.md` 的“常用短语 / 否定与反义词”
+
 
 ### 40. 货运检查短语
 
-题面：`Pelen tama?`、`Mira sen?`、`Ka nava drai?` 分别是什么意思？
+题面：`Pelen tama?` 、 `Mira sen?` 、 `Ka nava drai?` 分别是什么意思？
 
-答案要点：`Pelen tama?` 文书盖章了吗？`Mira sen?` 五枚银币吗？`Ka nava drai?` 船货干燥吗？
+答案要点：`Pelen tama?` 文书盖章了吗？ `Mira sen?` 五枚银币吗？ `Ka nava drai?` 船货干燥吗？
 
 依据章节：`lumin_language_kb.md` 的“常用短语 / 否定与反义词”
+
 
 ### 41. 反义词
 
-题面：`bren`、`navin`、`mori`、`drai`、`suven`、`dom`、`tama` 的反向词分别是什么？
+题面：`bren` 、 `navin` 、 `mori` 、 `drai` 、 `suven` 、 `dom` 、 `tama` 的反向词分别是什么？
 
-答案要点：`bren` 的反向词是 `liti`；`navin` -> `olda`；`mori` -> `varka`；`drai` -> `hume`；`suven` -> `thorin`；`dom` -> `undom`；`tama` -> `untama`。
+答案要点：`bren` 的反向词是 `liti` ； `navin` -> `olda` ； `mori` -> `varka` ； `drai` -> `hume` ； `suven` -> `thorin` ； `dom` -> `undom` ； `tama` -> `untama` 。
 
 依据章节：`lumin_language_kb.md` 的“常用短语 / 否定与反义词”
 
+
 ## H. 专名与港口告示
+
 
 ### 42. 专名表
 
-题面：`Libay`、`Tora Thal`、`Nor-Kira`、`Sola-Mir`、`Lumar Ves`、`Valeum Ruda` 分别是什么？
+题面：`Libay` 、 `Tora Thal` 、 `Nor-Kira` 、 `Sola-Mir` 、 `Lumar Ves` 、 `Valeum Ruda` 分别是什么？
 
-答案要点：`Libay` 是黎湾城邦，路明语主要使用地；`Tora Thal` 是盐塔港；`Nor-Kira` 是北星；`Sola-Mir` 是“太阳水号”商船；`Lumar Ves` 是西灯塔；`Valeum Ruda` 是红市集，布匹和印章交易区。
+答案要点：`Libay` 是黎湾城邦，路明语主要使用地； `Tora Thal` 是盐塔港； `Nor-Kira` 是北星； `Sola-Mir` 是“太阳水号”商船； `Lumar Ves` 是西灯塔； `Valeum Ruda` 是红市集，布匹和印章交易区。
 
 依据章节：`lumin_language_kb.md` 的“专名表 / 迷你语料：港口告示”
+
 
 ### 43. 港口告示开头
 
@@ -371,29 +423,33 @@
 
 依据章节：`lumin_language_kb.md` 的“专名表 / 迷你语料：港口告示”
 
+
 ### 44. Sola-Mir 的行动
 
-题面：根据港口告示，`Sola-Mir` 是什么？它的目的地是哪里？
+题面：根据港口告示， `Sola-Mir` 是什么？它的目的地是哪里？
 
-答案要点：`Sola-Mir` 是一艘船，目的地是 `Tora Thal`，即盐塔港。对应句子是 `Talun prai, nava Sola-Mir rin ad Tora Thal.`
+答案要点：`Sola-Mir` 是一艘船，目的地是 `Tora Thal` ，即盐塔港。对应句子是 `Talun prai, nava Sola-Mir rin ad Tora Thal.`
 
 依据章节：`lumin_language_kb.md` 的“专名表 / 迷你语料：港口告示”
+
 
 ### 45. Ravo 的需求
 
-题面：根据港口告示，`Ravo` 的职业是什么？他需要哪些东西？
+题面：根据港口告示， `Ravo` 的职业是什么？他需要哪些东西？
 
-答案要点：`Ravo` 是 `navain`，即船员。他需要 `pelen-tama` 和 `mir du barem`，即盖章文书和两桶水。
+答案要点：`Ravo` 是 `navain` ，即船员。他需要 `pelen-tama` 和 `mir du barem` ，即盖章文书和两桶水。
 
 依据章节：`lumin_language_kb.md` 的“专名表 / 迷你语料：港口告示”
+
 
 ### 46. Ema 的身份与地点
 
-题面：根据港口告示，`Ema` 是谁？她在哪里工作？
+题面：根据港口告示， `Ema` 是谁？她在哪里工作？
 
-答案要点：`Ema` 是 `thalin`，即盐商。她在 `Valeum Ruda`，即红市集工作。
+答案要点：`Ema` 是 `thalin` ，即盐商。她在 `Valeum Ruda` ，即红市集工作。
 
 依据章节：`lumin_language_kb.md` 的“专名表 / 迷你语料：港口告示”
+
 
 ### 47. 天气与船只要求
 
@@ -403,23 +459,27 @@
 
 依据章节：`lumin_language_kb.md` 的“专名表 / 迷你语料：港口告示”
 
+
 ## I. 综合生成与反猜测
+
 
 ### 48. 明天我们将向北出发
 
 题面：如果要表达“明天我们将向北出发”，应该怎么说？
 
-答案要点：可答 `Na fa rin ad nor falun.` 或 `Falun na fa rin ad nor.`。需要体现 `falun` 明天、`na` 我们、`fa` 将来、`rin` 出发、`ad nor` 向北方靠近。若严格沿用时间词常见位置，更推荐 `Falun na fa rin ad nor.`
+答案要点：可答 `Na fa rin ad nor falun.` 或 `Falun na fa rin ad nor.` 。需要体现 `falun` 明天、 `na` 我们、 `fa` 将来、 `rin` 出发、 `ad nor` 向北方靠近。若严格沿用时间词常见位置，更推荐 `Falun na fa rin ad nor.`
 
 依据章节：`lumin_language_kb.md` 的“时态与语气 / 方位与地点 / 时间表达 / 知识库测试问题”
+
 
 ### 49. pelen-tama 构词
 
 题面：`pelen-tama` 是什么意思？它由哪些词构成？请说明证据来源。
 
-答案要点：`pelen-tama` 是盖章文书，由 `pelen`（纸、文书）和 `tama`（印章；在短语中也作盖章）构成。证据来自常用词汇表、扩展词汇的物品与贸易、常用短语。
+答案要点：`pelen-tama` 是盖章文书，由 `pelen` （纸、文书）和 `tama` （印章；在短语中也作盖章）构成。证据来自常用词汇表、扩展词汇的物品与贸易、常用短语。
 
 依据章节：`lumin_language_kb.md` 的“常用词汇表 / 扩展词汇 / 常用短语”
+
 
 ### 50. sen 的陷阱
 
@@ -429,29 +489,33 @@
 
 依据章节：`lumin_language_kb.md` 的“常用词汇表 / 数字 / 语用规则 / 常用短语”
 
+
 ### 51. vela 与 vel
 
 题面：`vela` 和 `vel` 是否同源？它们分别是什么意思？
 
-答案要点：不是同源。`vela` 是帆，与 `vel` 无词源关系；`vel` 是想要、需要。
+答案要点：不是同源。 `vela` 是帆，与 `vel` 无词源关系； `vel` 是想要、需要。
 
 依据章节：`lumin_language_kb.md` 的“常用词汇表 / 扩展词汇”
+
 
 ### 52. navin 与 navain
 
 题面：`navin` 是否表示“船员”？如果不是，它是什么意思？真正表示“船员”的词是什么？
 
-答案要点：`navin` 不表示船员，而是“新的”，与“船”无关。真正表示船员的是 `navain`，来自 `nava` + `-in`。
+答案要点：`navin` 不表示船员，而是“新的”，与“船”无关。真正表示船员的是 `navain` ，来自 `nava` + `-in` 。
 
 依据章节：`lumin_language_kb.md` 的“常用词汇表 / 构词规则 / 扩展词汇”
+
 
 ### 53. thalin 的证据链
 
 题面：请根据 wiki 解释为什么 `thalin` 是盐商，而不是随意猜出的词。
 
-答案要点：常用词汇表中 `thal` 是盐；构词规则中 `-in` 表示与某物相关的人；扩展词汇的人物与职业表中明确列出 `thalin` 是盐商，备注为 `thal` + `-in`。
+答案要点：常用词汇表中 `thal` 是盐；构词规则中 `-in` 表示与某物相关的人；扩展词汇的人物与职业表中明确列出 `thalin` 是盐商，备注为 `thal` + `-in` 。
 
 依据章节：`lumin_language_kb.md` 的“常用词汇表 / 构词规则 / 扩展词汇”
+
 
 ### 54. 正式文书与熟人对话
 
@@ -460,6 +524,7 @@
 答案要点：熟人之间可省略主语，但正式文书中不省略。
 
 依据章节：`lumin_language_kb.md` 的“时间表达 / 语用规则”
+
 
 ## 判分建议
 
@@ -470,4 +535,4 @@
 - 证据型题：每题 2 分，必须指出来自哪个章节或文件。
 - 陷阱题：每题 2 分，必须区分相似词、多义词和专名，不能凭字面猜测。
 
-如果 agent 能正确回答 80% 以上，并且没有引入明显的外部设定，可以认为它有效使用了 `E:\kSource\blog\tools\lumin_language_kb.md`。如果在综合生成、专名事实或证据型题目上大量出错，即使基础词汇题答对，也应判定为没有充分使用该知识库。
+如果 agent 能正确回答 80% 以上，并且没有引入明显的外部设定，可以认为它有效使用了 `E:\kSource\blog\tools\lumin_language_kb.md` 。如果在综合生成、专名事实或证据型题目上大量出错，即使基础词汇题答对，也应判定为没有充分使用该知识库。

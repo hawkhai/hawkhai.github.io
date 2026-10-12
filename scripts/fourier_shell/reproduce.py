@@ -26,9 +26,7 @@ from redraw_conch import (
     SHELL_BOX_ASPECT, clean_svg, conch_surface, finite_float, positive_float, sample_count,
 )
 
-
 BLUE = "#1616e8"
-
 
 def configure_fonts():
     for name in ("Microsoft YaHei", "SimHei", "Noto Sans CJK SC", "Arial Unicode MS"):
@@ -38,11 +36,9 @@ def configure_fonts():
     plt.rcParams.update({"axes.unicode_minus": False, "font.size": 10,
                          "savefig.facecolor": "white", "svg.fonttype": "path"})
 
-
 def spectrum(frequency, width=1.0):
     """np.sinc(u) = sin(pi*u)/(pi*u), including its limit at zero."""
     return width * np.sinc(width * frequency)
-
 
 def inverse_integral(times, cutoff, width=1.0):
     """Trapezoid quadrature of BOTH frequency halves using even symmetry.
@@ -59,7 +55,6 @@ def inverse_integral(times, cutoff, width=1.0):
         result[start:start + len(t)] = 2 * np.trapezoid(waves, f, axis=1)
     return result
 
-
 def style_3d(ax):
     for axis in (ax.xaxis, ax.yaxis, ax.zaxis):
         axis.pane.fill = False
@@ -69,7 +64,6 @@ def style_3d(ax):
     ax.tick_params(colors="#777777", labelsize=6, pad=0)
     ax.set_proj_type("ortho")
 
-
 def arrow(fig, y, label, formula):
     fig.add_artist(FancyArrowPatch(
         (0.27, y + 0.035), (0.27, y - 0.027), transform=fig.transFigure,
@@ -77,7 +71,6 @@ def arrow(fig, y, label, formula):
         color=BLUE, linewidth=0))
     fig.text(0.36, y + 0.005, label, fontsize=21, weight="bold", color=BLUE)
     fig.text(0.36, y - 0.022, formula, fontsize=11, color="#525274")
-
 
 def draw_reproduction(output, width, amplitude, fmax, tmax, nf, nt,
                       elev, azim, cutoff, dpi):
@@ -145,7 +138,6 @@ def draw_reproduction(output, width, amplitude, fmax, tmax, nf, nt,
     clean_svg(output / "fourier_shell.svg")
     plt.close(fig)
 
-
 def draw_validation(output, width, fmax, cutoff, dpi):
     fig, axes = plt.subplots(1, 2, figsize=(12, 4.2), layout="constrained")
     f = np.linspace(-fmax, fmax, 1601)
@@ -165,7 +157,6 @@ def draw_validation(output, width, fmax, cutoff, dpi):
         ax.spines[["right", "top"]].set_visible(False)
     fig.savefig(output / "fourier_validation.png", dpi=dpi)
     plt.close(fig)
-
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -201,7 +192,6 @@ def main():
     (args.output / "numerical_check.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
     print(json.dumps(metrics, indent=2))
     print(f"Images saved to: {args.output.resolve()}")
-
 
 if __name__ == "__main__":
     main()

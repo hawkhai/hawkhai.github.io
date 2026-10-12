@@ -22,7 +22,6 @@ from redraw_conch import (
     SHELL_BOX_ASPECT, clean_svg, conch_surface, finite_float, positive_float, sample_count,
 )
 
-
 def shell_coordinates(width=DEFAULT_WIDTH, amplitude=DEFAULT_AMPLITUDE,
                       tmax=DEFAULT_TMAX, fmax=DEFAULT_FMAX,
                       nt=DEFAULT_NT, nf=DEFAULT_NF):
@@ -33,7 +32,6 @@ def shell_coordinates(width=DEFAULT_WIDTH, amplitude=DEFAULT_AMPLITUDE,
     Rows are times, columns are nonnegative frequencies (including DC).
     """
     return conch_surface(width, amplitude, fmax, tmax, nf, nt)
-
 
 def draw_shell(ax, x, y, time, *, amplitude=DEFAULT_AMPLITUDE,
                elev=DEFAULT_ELEV, azim=DEFAULT_AZIM,
@@ -61,7 +59,6 @@ def draw_shell(ax, x, y, time, *, amplitude=DEFAULT_AMPLITUDE,
     ax.tick_params(labelsize=7, colors="#888888", pad=0)
     if labels:
         ax.set(xlabel=r"$-\mathrm{Re}\,C(f,t)$", ylabel=r"$\mathrm{Im}\,C(f,t)$", zlabel=r"$t$")
-
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -113,7 +110,6 @@ def main():
     (args.output / "parameters.json").write_text(
         json.dumps(parameters, indent=2), encoding="utf-8")
     print(f"Saved: {(args.output / 'fourier_shell_single.png').resolve()}")
-
 
 if __name__ == "__main__":
     main()

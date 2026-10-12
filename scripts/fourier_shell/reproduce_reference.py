@@ -28,10 +28,8 @@ from redraw_conch import (
     SHELL_BOX_ASPECT, clean_svg, conch_surface, finite_float, positive_float, sample_count,
 )
 
-
 BLUE = "#1004bf"
 SOURCE = "https://cloud.tencent.com/developer/article/1187502"
-
 
 def chinese_font():
     available = {font.name for font in font_manager.fontManager.ttflist}
@@ -41,7 +39,6 @@ def chinese_font():
             weight = "normal" if name in ("SimHei", "SimSun") else "bold"
             return font_manager.FontProperties(family=name, weight=weight)
     raise RuntimeError("Please install a Chinese font: Noto Sans CJK SC / SimHei / Microsoft YaHei")
-
 
 def fit_text(fig, text, box, font, color=BLUE):
     """Fit outlined glyphs into a figure-relative box, as in the tall source type."""
@@ -54,7 +51,6 @@ def fit_text(fig, text, box, font, color=BLUE):
     fig.add_artist(PathPatch(path, transform=transform + fig.transFigure,
                             facecolor=color, edgecolor="none"))
 
-
 def down_arrow(fig, y_top):
     # Figure coordinates keep the arrow proportions independent of render DPI.
     x = 0.285
@@ -64,7 +60,6 @@ def down_arrow(fig, y_top):
               (x-.011, y_top-.061)]
     fig.add_artist(Polygon(points, closed=True, transform=fig.transFigure,
                            facecolor=BLUE, edgecolor="none"))
-
 
 def style_3d(ax):
     ax.set_proj_type("ortho")
@@ -78,7 +73,6 @@ def style_3d(ax):
             lambda value, _: "0" if abs(value) < 1e-10 else f"{value:g}"))
     ax.tick_params(colors="#999999", labelsize=3.1, pad=-2)
 
-
 def components(width, tmax, fmax, amplitude, nt=DEFAULT_NT, nf=DEFAULT_NF):
     """C(f,t) = amplitude*sinc(T*f) * exp(2*pi*i*f*t).
 
@@ -88,7 +82,6 @@ def components(width, tmax, fmax, amplitude, nt=DEFAULT_NT, nf=DEFAULT_NF):
     f, t = np.meshgrid(np.linspace(0, fmax, nf), np.linspace(0, tmax, nt))
     c = amplitude * np.sinc(width * f) * np.exp(2j * np.pi * f * t)
     return f, t, c
-
 
 def reconstruct(times, width, cutoff):
     """Integrate both frequency halves using the even, real pulse spectrum.
@@ -103,7 +96,6 @@ def reconstruct(times, width, cutoff):
         waves = width * np.sinc(width * f) * np.cos(2 * np.pi * f * t)
         result[start:start+len(t)] = 2 * np.trapezoid(waves, f, axis=1)
     return result
-
 
 def draw(args):
     font = chinese_font()
@@ -199,7 +191,6 @@ def draw(args):
     (args.output / "reference_parameters.json").write_text(
         json.dumps(metrics, indent=2), encoding="utf-8")
 
-
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=Path(__file__).parent / "output" / "reference")
@@ -226,7 +217,6 @@ def main():
     if not np.isfinite(args.amplitude) or args.amplitude <= 0:
         parser.error("amplitude must be finite and positive")
     draw(args)
-
 
 if __name__ == "__main__":
     main()

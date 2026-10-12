@@ -13,7 +13,6 @@ from pathlib import Path
 import matplotlib
 import numpy as np
 
-
 # Canonical conch settings. The companion renderers import these defaults so
 # the same frequency/time grid and camera are used throughout the examples.
 DEFAULT_WIDTH = 2.0
@@ -27,13 +26,11 @@ DEFAULT_AZIM = -135.0
 DEFAULT_DPI = 200
 SHELL_BOX_ASPECT = (1, 1, .78)
 
-
 def clean_svg(path):
     """Remove Matplotlib's SVG path-line trailing spaces for clean diffs."""
     svg = path.read_text(encoding="utf-8")
     path.write_text("\n".join(line.rstrip() for line in svg.splitlines()) + "\n",
                     encoding="utf-8")
-
 
 def positive_float(value):
     number = float(value)
@@ -41,20 +38,17 @@ def positive_float(value):
         raise argparse.ArgumentTypeError("must be finite and positive")
     return number
 
-
 def sample_count(value):
     number = int(value)
     if number < 2:
         raise argparse.ArgumentTypeError("must be at least 2")
     return number
 
-
 def finite_float(value):
     number = float(value)
     if not np.isfinite(number):
         raise argparse.ArgumentTypeError("must be finite")
     return number
-
 
 def conch_surface(width, amplitude, fmax, tmax, nf, nt):
     """Return (-Re C, Im C, t), with positive frequency as the other parameter.
@@ -74,7 +68,6 @@ def conch_surface(width, amplitude, fmax, tmax, nf, nt):
     radius = amplitude * np.sinc(width * ff)
     phase = 2 * np.pi * ff * tt
     return -radius * np.cos(phase), radius * np.sin(phase), tt
-
 
 def draw(args):
     # Select the backend before importing pyplot; --show enables a GUI window.
@@ -132,7 +125,6 @@ def draw(args):
         plt.show()
     plt.close(fig)
 
-
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path,
@@ -162,7 +154,6 @@ def main():
     if args.output.suffix.lower() != ".png":
         parser.error("--output must end in .png")
     draw(args)
-
 
 if __name__ == "__main__":
     main()

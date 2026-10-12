@@ -1,7 +1,6 @@
 ---
 layout: post
-title: "Windows -- CompatTelRunner：微软如何用几百 KB/s 把机械硬盘干到 100%"
-date: 2026-08-31 23:30:00 +0800
+title: "开发环境 -- CompatTelRunner：微软如何用几百 KB/s 把机械硬盘干到 100%"
 author:
 location: "珠海"
 categories: ["开发环境"]
@@ -14,6 +13,7 @@ mathjax:
 mermaid:
 glslcanvas:
 codeprint:
+date: 2026-08-31 23:30:00 +0800
 l2dwidget: true
 ---
 
@@ -26,7 +26,7 @@ l2dwidget: true
 
 ## 现场：几百 KB/s，硬盘却被打成 100%
 
-问题盘是希捷 `ST2000DM008-2FR102`，一块 7200 RPM 的机械硬盘。故障发作时的表现非常典型：
+问题盘是希捷 `ST2000DM008-2FR102` ，一块 7200 RPM 的机械硬盘。故障发作时的表现非常典型：
 
 * 磁盘活动时间持续 100%；
 * 请求队列长期约 5～22；
@@ -102,7 +102,7 @@ l2dwidget: true
 
 兼容性清单不是生成一次就永久有效。软件、驱动、文件版本、Windows 目标版本和兼容性规则都会变化，Appraiser 会认为旧结果需要刷新。
 
-本机任务使用的也不是简单、直观的“每天运行一次”触发器，而是 Windows 内部状态触发。它运行的是 `DoScheduledTelemetryRun express`，Windows Update 或系统维护状态变化后可能再次评估。
+本机任务使用的也不是简单、直观的“每天运行一次”触发器，而是 Windows 内部状态触发。它运行的是 `DoScheduledTelemetryRun express` ，Windows Update 或系统维护状态变化后可能再次评估。
 
 所以仅仅在任务管理器里结束一次 `CompatTelRunner.exe` 没什么用。今天杀掉，下一次更新或维护周期又能回来。更恶心的是，每次回来都可以重新走一遍那些几乎没变化的大型源码树。
 
@@ -117,7 +117,7 @@ D:\kSource\pythonx\disable-compattelrunner.ps1
 
 它会：
 
-* 终止当前 `CompatTelRunner.exe`；
+* 终止当前 `CompatTelRunner.exe` ；
 * 禁用两个常见的 Compatibility Appraiser 任务名；
 * 在 `C:\ProgramData\CodexMaintenance` 部署 SYSTEM 守护脚本；
 * 注册开机、登录和每 5 分钟复核触发器；
@@ -145,7 +145,7 @@ powershell.exe -ExecutionPolicy Bypass `
 
 这次问题后来再次出现，但复查发现 `CompatTelRunner.exe` 并没有运行，Appraiser 任务也仍然处于 Disabled。新的元凶是两组同样愚蠢的递归扫描：
 
-* 一个 Codex 任务从错误的上级目录执行递归 `Get-ChildItem` 和 `git status`；
+* 一个 Codex 任务从错误的上级目录执行递归 `Get-ChildItem` 和 `git status` ；
 * `TGitCache.exe` 在 4.8 秒内对 D 盘制造了 63,301 个文件事件，递归扫描巨大的 Git 工作区。
 
 结束 `TGitCache.exe` 后，D 盘立即从接近 100% 变成：
@@ -157,7 +157,7 @@ powershell.exe -ExecutionPolicy Bypass `
 写入速度：0
 ```
 
-这说明诊断不能靠背答案。上次是 `CompatTelRunner`，这次可能是 TortoiseGit，下次也可能是杀毒软件、索引器、IDE、Agent 或某条写得像屎一样的递归脚本。正确做法是抓取“进程 + 操作 + 文件路径”，而不是把所有 Windows 服务轮流关闭一遍然后祈祷。
+这说明诊断不能靠背答案。上次是 `CompatTelRunner` ，这次可能是 TortoiseGit，下次也可能是杀毒软件、索引器、IDE、Agent 或某条写得像屎一样的递归脚本。正确做法是抓取“进程 + 操作 + 文件路径”，而不是把所有 Windows 服务轮流关闭一遍然后祈祷。
 
 
 ## 最终教训
@@ -174,4 +174,11 @@ powershell.exe -ExecutionPolicy Bypass `
 `CompatTelRunner` 最令人火大的地方，不是它完全没用，而是它把微软自己的升级便利建立在用户看不见、说不清、停不稳的后台扫描上。一个负责兼容性的组件，最后把正常使用电脑这件事搞得如此不兼容，确实非常 Windows。
 
 
+
 <hr class='reviewline'/>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2026-08-31-compattelrunner.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://learn.microsoft.com/en-us/windows/privacy/required-windows-diagnostic-data-events-and-fields-2004]({% include relrefx.html url="/backup/2026-08-31-compattelrunner.md/learn.microsoft.com/f04c874a.html" %})
+- [https://learn.microsoft.com/en-us/troubleshoot/windows-client/setup-upgrade-and-drivers/use-windows-setup-compatibility-scan-logs-to-identify-blocking-issues]({% include relrefx.html url="/backup/2026-08-31-compattelrunner.md/learn.microsoft.com/f14f508e.html" %})
+- [https://learn.microsoft.com/en-us/windows/privacy/optional-diagnostic-data]({% include relrefx.html url="/backup/2026-08-31-compattelrunner.md/learn.microsoft.com/b1b326d2.html" %})
