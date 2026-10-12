@@ -28,6 +28,8 @@ layoutclear:
 
 **[打开 WordTap，粘贴自己的英文](https://wordtap.cn/)** · [GitHub 源码 {% include relref_github.html %}](https://github.com/hawkhai/wordtap.cn)
 
+点击截图可查看原图；图片按原始宽度显示，正文区域较窄时等比例缩小。
+
 五张图依次展示：**粘贴原文 → 点词查释义 → 跟打纠错 → 确认下一句 → 完成练习。**
 
 ## 1. 把手头的英文变成可点读正文
@@ -43,7 +45,7 @@ Clear it before you retry the request.
 
 输入后，点击下方“点词阅读”区域，让编辑区失去焦点，就会看到可点击的正文。先试着回答：什么保存了最近的响应？重试请求之前要先做什么？
 
-![WordTap 中的两句缓存说明已显示为可点读正文，右上方可切换到文章跟打]({{ site.baseurl }}/assets/wordtap/2026-10-10/01-read.jpg)
+<a href="{{ site.baseurl }}/assets/wordtap/2026-10-10/01-read.jpg"><img src="{{ site.baseurl }}/assets/wordtap/2026-10-10/01-read.jpg" alt="WordTap 中的两句缓存说明已显示为可点读正文，右上方可切换到文章跟打" width="912" style="width: 912px; max-width: 100%; height: auto;"></a>
 
 *图 1｜用自己的材料开始。上方粘贴原文，下方点词阅读；读完后，可从同一工作区进入“文章跟打”。*
 
@@ -53,7 +55,7 @@ Clear it before you retry the request.
 
 查到释义后，可以点击工作区空白处收起浮层。下图保留左侧词典卡片和高亮单词，让两句原文完整可见。
 
-![cache 在原句中高亮，左侧显示音标和中文释义，两句原文完整可见]({{ site.baseurl }}/assets/wordtap/2026-10-10/02-lookup.jpg)
+<a href="{{ site.baseurl }}/assets/wordtap/2026-10-10/02-lookup.jpg"><img src="{{ site.baseurl }}/assets/wordtap/2026-10-10/02-lookup.jpg" alt="cache 在原句中高亮，左侧显示音标和中文释义，两句原文完整可见" width="912" style="width: 912px; max-width: 100%; height: auto;"></a>
 
 *图 2｜查词时保留上下文。点击 `cache`，在原句旁看释义，再继续理解它保存了什么；词典中的多个意思仍需结合句子选择。*
 
@@ -79,7 +81,7 @@ The cache stores recent responses.
 
 可以故意把最后的 `responses` 写成 `responsex`，看看反馈：原句对应字母标红，输入框下方提示应输入 `s`，当前却是 `x`。把最后一个字母改回 `s`，再继续。
 
-![第一句末词输入为 responsex，原句末字母标红，下方提示应输入 s 而当前是 x]({{ site.baseurl }}/assets/wordtap/2026-10-10/03-typing-error.jpg)
+<a href="{{ site.baseurl }}/assets/wordtap/2026-10-10/03-typing-error.jpg"><img src="{{ site.baseurl }}/assets/wordtap/2026-10-10/03-typing-error.jpg" alt="第一句末词输入为 responsex，原句末字母标红，下方提示应输入 s 而当前是 x" width="912" style="width: 912px; max-width: 100%; height: auto;"></a>
 
 *图 3｜知道错在哪里，才能直接修改。这里故意错了一个字母，原句标记和输入提示一起指出需要把 `x` 改成 `s`。*
 
@@ -93,7 +95,7 @@ The cache stores recent responses.
 Clear it before you retry the request.
 ```
 
-![第二句输入正确，界面显示第 2 / 2 句、已完成 1 / 2 句，以及完成练习按钮]({{ site.baseurl }}/assets/wordtap/2026-10-10/04-typing.jpg)
+<a href="{{ site.baseurl }}/assets/wordtap/2026-10-10/04-typing.jpg"><img src="{{ site.baseurl }}/assets/wordtap/2026-10-10/04-typing.jpg" alt="第二句输入正确，界面显示第 2 / 2 句、已完成 1 / 2 句，以及完成练习按钮" width="912" style="width: 912px; max-width: 100%; height: auto;"></a>
 
 *图 4｜输对与完成是两个状态。第二句已输入正确，等待你按 Enter 或点击“完成练习”确认；此时进度仍是“已完成 1 / 2 句”。*
 
@@ -103,7 +105,7 @@ Clear it before you retry the request.
 
 确认第二句后，会看到“已完成 2 / 2 句”和重练入口。
 
-![两句均已确认完成，文章跟打显示已完成 2 / 2 句和重新练习入口]({{ site.baseurl }}/assets/wordtap/2026-10-10/05-completed.jpg)
+<a href="{{ site.baseurl }}/assets/wordtap/2026-10-10/05-completed.jpg"><img src="{{ site.baseurl }}/assets/wordtap/2026-10-10/05-completed.jpg" alt="两句均已确认完成，文章跟打显示已完成 2 / 2 句和重新练习入口" width="912" style="width: 912px; max-width: 100%; height: auto;"></a>
 
 *图 5｜一小段练习有明确终点。“已完成 2 / 2 句”记录本次输入进度；可以重新练习，也可以退出跟打回到阅读。*
 
