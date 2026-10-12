@@ -105,7 +105,7 @@ comments visibility
 mathjax mermaid glslcanvas
 codeprint
 """.split()
-    if not _posts:
+    if not _posts or True:
         mdkeylist.extend("""
 permalink
 """.split())
@@ -114,6 +114,7 @@ l2dwidget cluster
 sortrefs archived date
 layoutclear titlecheck
 ktitle kaliyun imgthumb zhconv codeformat
+excerpt
 """.split()
 
     # 避免格式化的文件。
