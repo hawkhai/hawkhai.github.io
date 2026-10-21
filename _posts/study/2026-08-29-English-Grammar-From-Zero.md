@@ -1,5 +1,6 @@
 ---
 layout: post
+wordtap: true
 title: "学习笔记 -- 英语语法零基础速查：从句子骨架到复杂句"
 author: qhai
 location: "珠海"
@@ -17,6 +18,8 @@ date: 2026-08-29 00:00:00 +0800
 archived:
 layoutclear:
 ---
+
+{% include wordtap-learning.html compact=true %}
 
 英语语法研究的核心只有一件事： **单词怎样组合，才能把“谁、做什么、怎么样、在何时何地”说清楚。**
 

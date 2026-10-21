@@ -14,7 +14,10 @@ mermaid:
 glslcanvas:
 codeprint:
 permalink: /
+wordtap: true
 ---
+
+{% include wordtap-learning.html %}
 
 <ul class="listing">
 {% for post in site.posts %}
