@@ -1,6 +1,7 @@
 """Read-only format audit of every Markdown file in _posts (stdlib only).
 
-Optionally consumes render_post_formats.rb output to check real Jekyll HTML.
+Optionally consumes render_post_formats.rb output to check real Jekyll HTML,
+plus check_pages_documentation.rb output for ordinary-page heading numbering.
 Does not run legacy format/copyres scripts, fetch external URLs, or rewrite posts.
 """
 from __future__ import annotations
@@ -22,15 +23,27 @@ KNOWN_TAGS = set(('a abbr address article aside audio b bdi bdo blockquote body 
 class ContentHTML(HTMLParser):
     def __init__(self, value):
         super().__init__(convert_charrefs=True)
-        self.restrict = 'id="blog_content"' in value
+        self.restrict = bool(re.search(r'''\bid\s*=\s*["']blog_content["']''', value))
         self.stack = []
         self.resources, self.ids, self.tables = [], [], 0
+        self.headings = []
+        self.post = False
+        self.manual_numbering = False
+        self.has_toc = False
+        self.heading = None
         self.feed(value)
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
+        if attrs.get('id') == 'postdiv' and 'post' in attrs.get('class', '').split():
+            self.post = True
+            self.manual_numbering = 'toc-listyle-none' in attrs.get('class', '').split()
+        if attrs.get('id') == 'tocdiv': self.has_toc = True
         active = not self.restrict or any(a.get('id') == 'blog_content' for _, a in self.stack) or attrs.get('id') == 'blog_content'
         if active:
+            if re.fullmatch(r'h[1-6]', tag) and not any(t in ('pre', 'code', 'script', 'style') for t, _ in self.stack):
+                self.heading = {'level': int(tag[1]), 'id': attrs.get('id', ''), 'text': ''}
+                self.headings.append(self.heading)
             if attrs.get('id'): self.ids.append(attrs['id'])
             if tag == 'table': self.tables += 1
             if tag == 'img':
@@ -45,10 +58,37 @@ class ContentHTML(HTMLParser):
         if tag not in VOID: self.handle_endtag(tag)
 
     def handle_endtag(self, tag):
+        if self.heading and tag == 'h' + str(self.heading['level']): self.heading = None
         for i in range(len(self.stack)-1, -1, -1):
             if self.stack[i][0] == tag:
                 del self.stack[i:]
                 break
+
+    def handle_data(self, data):
+        if self.heading: self.heading['text'] += data
+
+
+def manual_heading_number(text):
+    """Recognize explicit section labels, not dates, quantities or version names."""
+    text = text.strip()
+    # Dates and decimal quantities are content, not section labels.
+    if re.match(r'^(?:19|20)\d{2}(?:[-./年]\d{1,2}(?:[-./月]\d{1,2}日?)?|\d{4})(?:\s|$)', text):
+        return False
+    if re.match(r'^\d+(?:\.\d+)+\s*(?:倍|个|位|秒|分钟|小时|版本|%|％|[KMGT]i?B\b|[GM]Hz\b|ms\b)', text):
+        return False
+    numerals = '零〇一二三四五六七八九十百千两'
+    return bool(re.match(
+        rf'^(?:[{numerals}]+[、．.]|[（(](?:\d+|[{numerals}]+)[)）]|'
+        r'\d+[、．)）]|\d+\.(?!\d)|\d+(?:\.\d+)+(?=\s|[、:：])|'
+        r'0\d+\s|\d+\s+(?=\d+\.\d+)|[A-Za-z][.)]\s|[IVXLCDM]+[.)]\s)', text))
+
+
+def heading_number_conflicts(dom):
+    """Use the actual layout classes; toc:false does not disable body counters."""
+    if not dom.post or dom.manual_numbering:
+        return []
+    return [h for h in dom.headings if manual_heading_number(h['text']) and
+            (h['level'] in (2, 3, 4) or (dom.has_toc and h['id']))]
 
 def code_mask(body):
     """Keep line numbers stable while masking examples, raw Liquid and comments."""
@@ -131,6 +171,14 @@ def main():
     def add(path,line,severity,rule,message):
         item={'path':path,'line':max(1,line),'severity':severity,'rule':rule,'message':message}
         if item not in issues: issues.append(item)
+
+    def check_heading_numbers(path, text, dom):
+        for heading in heading_number_conflicts(dom):
+            title=heading['text'].strip()
+            # Includes, Setext and raw HTML may not have an ATX source line.
+            source_n=next((n+1 for n,line in enumerate(text.splitlines()) if title in line),1)
+            add(path,source_n,'error','HEADING_NUMBER_CONFLICT',
+                '手写标题编号会叠加正文/目录自动编号；移除手写编号，或设置 toclistyle: none：'+title)
 
     def local_resource(url):
         if not url or url.startswith(('#','data:','mailto:','javascript:','//')): return ('skip',None)
@@ -246,12 +294,14 @@ def main():
             if not (root/'_includes'/template).is_file(): add(rel,n,'error','INCLUDE_MISSING','include 模板不存在：'+template)
             if template=='image.html' and re.search(r'\burl\d*\s*=\s*["\']https?://',item[2]):
                 add(rel,n,'error','IMAGE_INCLUDE_EXTERNAL','image.html 会 prepend baseurl，不能直接传入远程绝对 URL')
-        resources=[];tables=0
+        resources=[];tables=0;numbered_headings=0
         if record and record.get('rendered'):
             html_path=render_path.parent/'rendered'/record['rendered']
             if html_path.exists():
                 dom=ContentHTML(html_path.read_text(encoding='utf-8'))
                 resources=dom.resources;tables=dom.tables
+                numbered_headings=sum(manual_heading_number(h['text']) for h in dom.headings)
+                check_heading_numbers(rel, text, dom)
                 for identifier,count in Counter(dom.ids).items():
                     if count>1: add(rel,1,'warning','DUPLICATE_ID','生成 HTML 包含重复 id：'+identifier)
         remote=0; images=0; local_checked=0
@@ -280,8 +330,34 @@ def main():
                     add(rel,source_n,'warning','THUMBNAIL_MISSING','占位缩略图不存在，懒加载原图仍可能成功：'+path)
         rows.append({'path':rel,'sha256':hashlib.sha256(raw).hexdigest(),'flags':flags,
                      'rendered':bool(record and record['status']=='ok'),
-                     'features':{'images':images,'tables':tables,'math_blocks':block_count,'inline_math_candidates':inline_count,'mermaid':mermaid_count,'includes':len(includes),'code_blocks':len(re.findall(r'^\s*```\w+',body,re.M))},
+                     'features':{'images':images,'tables':tables,'numbered_headings':numbered_headings,'math_blocks':block_count,'inline_math_candidates':inline_count,'mermaid':mermaid_count,'includes':len(includes),'code_blocks':len(re.findall(r'^\s*```\w+',body,re.M))},
                      'local_resources_checked':local_checked,'external_resources_unchecked':remote})
+
+    # Ordinary pages can also use layout: post. Consume the existing page renderer
+    # so the same numbering assertion applies outside _posts, without reimplementing Markdown.
+    pages_path=render_path.parent/'pages-check.json'
+    page_records=json.loads(pages_path.read_text(encoding='utf-8')).get('records',[]) if pages_path.exists() else []
+    pages_numbering_checked=0
+    external_page_heading_candidates=[]
+    for page in page_records:
+        html_path=pages_path.parent/page['rendered']
+        if not html_path.is_file(): continue
+        source=root/page['path']
+        raw=source.read_bytes() if source.is_file() else b''
+        if page.get('source_sha256') and hashlib.sha256(raw).hexdigest()!=page['source_sha256']:
+            add(page['path'],1,'warning','STALE_PAGE_RENDER','页面源文件已变化，应重新运行普通页面检查')
+        dom=ContentHTML(html_path.read_text(encoding='utf-8'))
+        external_repo=next((parent for parent in source.parents if parent!=root and
+                           root in parent.parents and (parent/'.git').exists()),None)
+        if external_repo:
+            # A local ignored checkout is not owned by this repository. Report
+            # candidates, but do not make fixing/committing another repo mandatory.
+            external_page_heading_candidates.extend(
+                {'path':page['path'],'repository':external_repo.relative_to(root).as_posix(),
+                 'heading':h['text'].strip()} for h in heading_number_conflicts(dom))
+        else:
+            check_heading_numbers(page['path'],raw.decode('utf-8-sig',errors='replace'),dom)
+        pages_numbering_checked+=1
 
     sidecars=sorted(p.relative_to(root).as_posix() for p in (root/'_posts').rglob('*') if p.is_file() and p not in post_paths)
     for path in sorted(set(render_map)-{p.relative_to(root).as_posix() for p in post_paths}):
@@ -290,13 +366,15 @@ def main():
         own=[i for i in issues if i['path']==row['path']]
         row['issues']=dict(Counter(i['severity'] for i in own))
     summary={'markdown_files':len(post_paths),'rendered_markdown':sum(r['rendered'] for r in rows),
+             'pages_numbering_checked':pages_numbering_checked,
+             'external_page_heading_candidates':len(external_page_heading_candidates),
              'jekyll_documents':len(render_map),'sidecar_files':sidecars,
              'findings':{level:sum(i['severity']==level for i in issues) for level in ('error','warning','info')},
              'rules':dict(Counter(i['rule'] for i in issues)),
              'affected_posts':sum(bool(r['issues']) for r in rows),
              'external_resources_unchecked':sum(r['external_resources_unchecked'] for r in rows)}
     engine={k:v for k,v in rendered.get('engine',{}).items() if k!='source'}
-    result={'generated_at':datetime.now().astimezone().isoformat(),'scope':'_posts 所有 Markdown，代码示例/注释尽量排除；实际渲染可选','engine':engine,'summary':summary,'posts':rows,'findings':issues}
+    result={'generated_at':datetime.now().astimezone().isoformat(),'scope':'_posts 所有 Markdown；普通页面额外检查标题编号；独立嵌套仓库单列候选；代码示例/注释尽量排除；实际渲染可选','engine':engine,'summary':summary,'posts':rows,'findings':issues,'external_page_heading_candidates':external_page_heading_candidates}
     (output/'audit.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
     with (output/'findings.csv').open('w',encoding='utf-8-sig',newline='') as f:
         writer=csv.DictWriter(f,fieldnames=['path','line','severity','rule','message']);writer.writeheader();writer.writerows(issues)

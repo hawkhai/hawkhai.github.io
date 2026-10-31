@@ -6,7 +6,7 @@ location: "珠海"
 categories: ["数学"]
 tags: ["数学", "高等数学", "微积分"]
 toc: true
-toclistyle:
+toclistyle: none
 comments:
 visibility:
 mathjax: true

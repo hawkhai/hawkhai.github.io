@@ -6,7 +6,7 @@ location: "珠海"
 categories: ["数学"]
 tags: ["数学", "概率论", "统计学"]
 toc: true
-toclistyle:
+toclistyle: none
 comments:
 visibility:
 mathjax: true

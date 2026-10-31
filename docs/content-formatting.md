@@ -326,6 +326,8 @@ layout 会载入 Raphael / flowchart.js，再处理 `.language-flow`。Mermaid �
 
 ## 9. 文章结构与可读性
 
+- **手写章节号与主题编号只能选一套。** 默认 CSS 为 h2/h3/h4 添加“一、”“1.1”“a.”，目录也有自动列表序号。新标题优先写 `## 选择课程`；保留 `## 1. 选择课程`、`## 一、先明确任务`、`### 2.1 输入与标签` 等手写编号时，在 front matter 设置 `toclistyle: none`，关闭正文与目录各层级的自动编号。`toc: false` 只控制目录，不能关闭正文计数器。
+- 旧文的课程号、书籍章节号和标题锚点有引用价值，修复重复编号时优先使用该开关，避免重写标题。日期、“64 位”“8 个寄存器”等语义数字不作为章节号。`HEADING_NUMBER_CONFLICT` 根据实际 Jekyll HTML 的正文标题、布局 class 和目录开关报 error，也覆盖 Setext、原生 HTML 和 include 生成的标题；排除代码示例和布局标题。
 - 标题按层级递进；本模板已显示文章标题，正文从合适的二级标题开始，避免重复堆砌一级标题。
 - 标题后、段落与列表之间留空行，嵌套列表缩进一致；序号列表中的代码块归属正确。
 - 引用用 `>`，注明来源和链接；脚注可用 kramdown 的 `[^id]` / `[^id]: 内容`，id 不重复，并实际检查跳转。
@@ -343,8 +345,8 @@ layout 会载入 Raphael / flowchart.js，再处理 `.language-flow`。Mermaid �
 ```powershell
 & 'C:\Ruby25-x64\bin\ruby.exe' -EUTF-8 tools/render_post_formats.rb
 & 'C:\Ruby25-x64\bin\ruby.exe' -EUTF-8 tools/check_pages_documentation.rb
-python tools/audit_post_formats.py
-python tools/test_audit_post_formats.py
+& 'F:\pythonx\decode\pyenv\Python312\python.exe' tools/audit_post_formats.py --fail-on-error
+& 'F:\pythonx\decode\pyenv\Python312\python.exe' tools/test_audit_post_formats.py
 ```
 
 解释器不在 PATH 时使用实际完整路径；不为格式检查重装依赖或升级 Gem。Ruby 工具使用当前安装的 Jekyll，对所有文章运行实际 Liquid、Markdown、layout 渲染，同时纳入 future / unpublished 文章，**不执行整站 write、静态资源复制或发布**。结果默认在 `tempdir/format-audit/`。
@@ -357,11 +359,14 @@ Python 工具读取源码和上述 HTML，核对源文件哈希，输出：
 | `rendered/` | 每篇文章的实际 HTML，临时产物 |
 | `fixtures.html` | 可供浏览器验证的正反例，使用本站版本与本地脚本 |
 | `pages-check.json` | 开启 optional-front-matter 后的普通页面渲染与仓库文档排除检查 |
+| `rendered-pages/` | 普通页面实际 HTML，供相同标题编号规则检查，临时产物 |
 | `audit.json` | 汇总、逐篇清单、全部发现 |
 | `inventory.csv` | 每篇文章的覆盖情况、特征计数与 SHA-256 |
 | `findings.csv` | 路径、行号、级别、规则与说明 |
 
-`python tools/audit_post_formats.py --fail-on-error` 发现 error 时返回非零；默认命令只报告结果。未先渲染时会提示 `NOT_RENDERED`；修改源文后必须重新渲染，否则有 `STALE_RENDER` 风险。
+审计工具需要 Python 3.9+，本机 `python`/`python3` 包装脚本可能指向旧版本，使用上面的明确路径。`--fail-on-error` 发现 error 时返回非零；不带参数时只报告结果。未先渲染时会提示 `NOT_RENDERED`；修改源文后必须重新渲染，否则有 `STALE_RENDER` 风险。普通页面结果同样交给编号规则检查，`pages_numbering_checked` 应与页面渲染记录数一致，源文件变化会提示 `STALE_PAGE_RENDER`。
+
+本地 `invisible/` 是被忽略的独立 Git 仓库，其编号候选单列于 `audit.json` 的 `external_page_heading_candidates`，不作为本仓库提交的强制修复项。它们仍需在汇报中明确说明；本仓库 error 为 0 不代表这些外部候选已经修复。
 
 检测范围与边界：
 

@@ -6,6 +6,18 @@
 
 格式规则及可直接参考的写法见 [完整手册](content-formatting.md)，后续约束见 [AGENTS.md](../AGENTS.md)。
 
+## 同日补充：标题重复编号
+
+- 对全部 285 篇 Markdown 的实际 Jekyll HTML 新增 `HEADING_NUMBER_CONFLICT` 检查，定位到 21 篇文章的 685 个明确编号冲突，包括 WordTap 与从零手写 Transformer。21 篇文章只修改 `toclistyle: none`，保留正文、手写章节号及标题锚点。
+- 修复 `_sass/_page.scss` 中 `toclistyle: none` 只关闭部分编号的问题：正文 h2/h3/h4 和目录各嵌套层级统一关闭自动前缀。既有使用该开关的文章也受益，默认自动编号样式保留。
+- 新规则使用正文渲染结果与布局 class，覆盖 Markdown、Setext、原生 HTML 和 include 最终生成的标题；`toc: false` 仍检查正文计数器。日期、数量、位数、版本名称及代码/注释示例有回归反例；不对任意开头数字做机械替换。
+- 重新执行文章渲染（286 个 Jekyll 文档，含 285 篇 Markdown）、普通页面检查（945 页）、Python 审计及 8 项回归测试。945 页也已进入同一编号规则；本仓库范围的渲染异常、重复编号冲突和审计 error 均为 0，仍有原来的 58 条 warning 与 691 条 info。新冲突已验证能令 `--fail-on-error` 返回 1，手写模式返回 0。
+- 普通页面扫描另发现 `invisible/` 独立 Git 仓库中 27 页的 157 个编号候选（按原错误去重规则为 153 条）。该目录被本仓库忽略，未跨仓库修改；候选完整保存在 `audit.json` 的 `external_page_heading_candidates`，不把这些未修复内容算成本仓库已解决的问题。
+- 浏览器使用实际 Jekyll 生成的文章 HTML、本站 Sass 编译结果及原 JS，通过 loopback HTTP 服务抽查：Transformer 的 36 个 h2/h3 自动前缀均为 none，目录 36 项无附加 marker，2.1 子章节跳转正常；WordTap 五个步骤仅保留手写编号，390px 窄屏正常；《The Craft of Research》的 h2/h3/h4 无重复；扩展语法文章的默认中文/数字自动编号仍有效。临时预览仅替换 CSS 地址，不改生产模板或现有服务进程。
+- 已阅读指定扩展语法文章及根目录 14 个 Python、10 个 bat 脚本，将代码折叠、列表图片迁移、表宽控制、旧脚本副作用、解释器版本与仓库归属约束补入本仓库 `AGENTS.md`。全局 `AGENTS.md` 中未发现误放的博客规范。
+
+以下逐篇 CSV/JSON 是此前审计的历史快照，本次 front matter 改动后的最新哈希和渲染结果位于被忽略的 `tempdir/format-audit/`，不能把旧快照当作新源文件的哈希证明。本次只做本地修改与提交，未 push，尚无本次线上 build/deploy 验证。
+
 ## 1. 证据、环境与检查边界
 
 | 项目 | 本次记录 |

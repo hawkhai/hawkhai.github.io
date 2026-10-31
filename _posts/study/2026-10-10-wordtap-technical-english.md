@@ -6,7 +6,7 @@ location: "珠海"
 categories: ["学习笔记"]
 tags: ["WordTap", "英语学习", "英语点读", "词汇学习", "文章跟打", "开源工具"]
 toc: true
-toclistyle:
+toclistyle: none
 comments:
 visibility:
 mathjax:

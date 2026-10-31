@@ -6,7 +6,7 @@ location: "twiki"
 categories: ["工作笔记"]
 tags: ["编程", "工作笔记"]
 toc: true
-toclistyle:
+toclistyle: none
 comments:
 visibility:
 mathjax:

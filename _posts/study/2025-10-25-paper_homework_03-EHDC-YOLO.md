@@ -6,7 +6,7 @@ location: "珠海"
 categories: ["论文写作"]
 tags: ["论文写作", "YOLO", "实验设计"]
 toc: true
-toclistyle:
+toclistyle: none
 comments:
 visibility: hidden
 mathjax:

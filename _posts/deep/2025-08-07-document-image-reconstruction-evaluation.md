@@ -6,7 +6,7 @@ location: "珠海"
 categories: ["机器学习"]
 tags: ["机器学习", "文档处理", "评估"]
 toc: true
-toclistyle:
+toclistyle: none
 comments:
 visibility: hide
 mathjax:

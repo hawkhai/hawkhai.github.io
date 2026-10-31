@@ -6,7 +6,7 @@ location: "珠海"
 categories: ["开发环境"]
 tags: ["开发环境", "ftp"]
 toc: true
-toclistyle:
+toclistyle: none
 comments:
 visibility:
 mathjax:

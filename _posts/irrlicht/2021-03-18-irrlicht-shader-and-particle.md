@@ -6,7 +6,7 @@ location: "珠海"
 categories: ["3D 引擎"]
 tags: ["Irrlicht", "图形学"]
 toc: true
-toclistyle:
+toclistyle: none
 comments:
 visibility: hidden
 mathjax:

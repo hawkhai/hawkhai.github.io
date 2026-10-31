@@ -6,7 +6,7 @@ location: "珠海"
 categories: ["数学"]
 tags: ["数学", "线性代数"]
 toc: true
-toclistyle:
+toclistyle: none
 comments:
 visibility:
 mathjax: true

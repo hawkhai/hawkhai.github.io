@@ -7,7 +7,7 @@ location: "珠海"
 categories: ["学习笔记"]
 tags: ["英语", "语法", "零基础", "学习笔记"]
 toc: true
-toclistyle:
+toclistyle: none
 comments:
 visibility:
 mathjax:

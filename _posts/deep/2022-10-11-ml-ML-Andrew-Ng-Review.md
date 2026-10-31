@@ -6,7 +6,7 @@ location: "珠海"
 categories: ["机器学习"]
 tags: ["机器学习", "课程", "吴恩达"]
 toc: true
-toclistyle:
+toclistyle: none
 comments:
 visibility:
 mathjax: true

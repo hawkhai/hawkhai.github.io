@@ -28,7 +28,7 @@ site.posts.docs.sort_by(&:path).each do |doc|
   path = Pathname.new(doc.path).relative_path_from(Pathname.new(root)).to_s.tr('\\', '/')
   record = { 'path' => path, 'url' => doc.url,
     'source_sha256' => Digest::SHA256.file(doc.path).hexdigest,
-    'flags' => doc.data.select { |key, _| %w[layout mathjax mermaid flowchart glslcanvas visibility published].include?(key) } }
+    'flags' => doc.data.select { |key, _| %w[layout toc toclistyle mathjax mermaid flowchart glslcanvas visibility published].include?(key) } }
   begin
     rendered = Jekyll::Renderer.new(site, doc, payload).run
     relative = path.sub(/\.(md|markdown)$/i, '.html')

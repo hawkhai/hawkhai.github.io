@@ -10,6 +10,7 @@ comments: false
 mathjax: true
 mermaid: true
 layoutclear: false
+toclistyle: none
 ---
 
 读 Transformer 时，最容易出现一种情况：公式认识，代码也能运行，但一问“这个位置到底在预测哪个 token”，就开始犹豫。

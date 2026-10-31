@@ -6,7 +6,7 @@ location: "珠海"
 categories: ["读书"]
 tags: ["读书笔记"]
 toc: true
-toclistyle:
+toclistyle: none
 comments: true
 visibility:
 mathjax:
