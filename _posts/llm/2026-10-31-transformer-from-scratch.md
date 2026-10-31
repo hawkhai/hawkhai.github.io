@@ -32,10 +32,10 @@ layoutclear: false
 
 位置编号统一从 **0** 开始。方括号里的维度按实际顺序排列，例如 `[B,H,T,Dh]`。`@` 做矩阵乘法，使用最后两个维度参与计算；前面的 batch 和 head 维按广播规则配对。`reshape` 中的 `-1` 让 PyTorch 推算这一维大小，`dim=-1` 则表示最后一维，两处含义不同。
 
-- [下载完整实跑 notebook](/assets/downloads/transformer-from-scratch/experiment1-reverse-transformer.ipynb)
-- [下载消融结果 CSV](/assets/downloads/transformer-from-scratch/ablation_results.csv)
-- [下载注意力原始矩阵 NPZ](/assets/downloads/transformer-from-scratch/attention_sample0.npz)
-- [下载逐头注意力统计 CSV](/assets/downloads/transformer-from-scratch/attention_statistics.csv)
+- [下载完整实跑 notebook]({% include relref.html url="/assets/downloads/transformer-from-scratch/experiment1-reverse-transformer.ipynb" %})
+- [下载消融结果 CSV]({% include relref.html url="/assets/downloads/transformer-from-scratch/ablation_results.csv" %})
+- [下载注意力原始矩阵 NPZ]({% include relref.html url="/assets/downloads/transformer-from-scratch/attention_sample0.npz" %})
+- [下载逐头注意力统计 CSV]({% include relref.html url="/assets/downloads/transformer-from-scratch/attention_statistics.csv" %})
 
 ## 一、先明确我们究竟要让模型做什么
 
@@ -655,7 +655,7 @@ def generate_answers(current_model, prompts):
 | 3 | `4 8 4 0 4 5` | `5 4 0 4 8 4 <EOS>` |
 | 4 | `9 8 8 7 8 0` | `0 8 7 8 8 9 <EOS>` |
 
-这份测试集没有错误样例。[完整预测 CSV](/assets/downloads/transformer-from-scratch/baseline_predictions.csv) 保留了全部 512 条记录。100% 指的是这份定长、同分布测试集，不能外推为所有长度都能反转。
+这份测试集没有错误样例。[完整预测 CSV]({% include relref.html url="/assets/downloads/transformer-from-scratch/baseline_predictions.csv" %}) 保留了全部 512 条记录。100% 指的是这份定长、同分布测试集，不能外推为所有长度都能反转。
 
 ## 十、读注意力热图：先看坐标，再解释颜色
 
@@ -672,7 +672,7 @@ def generate_answers(current_model, prompts):
 
 {% include image.html url="/assets/images/261031-transformer-from-scratch/attention_all_heads.png" caption="图 2：同一条样本的两层、四头注意力。纵轴为 query，横轴为 key；位置与 token 同时标注，颜色范围统一为 0–1。" nolazyload=true style="max-width:100%;height:auto;" %}
 
-[打开原尺寸热图，放大查看各头与坐标](/assets/images/261031-transformer-from-scratch/attention_all_heads.png)。
+[打开原尺寸热图，放大查看各头与坐标]({% include relref.html url="/assets/images/261031-transformer-from-scratch/attention_all_heads.png" %})。
 
 图 2 中，两条白色分界线也有不同含义：横线位于 query 6 和 7 之间，下面开始是接受答案监督的 query；竖线位于 key 7 和 8 之间，右侧开始是答案 token 作为输入的位置。两条线差一个位置，正是输入与预测标签错位一格的结果。
 
@@ -701,7 +701,7 @@ def generate_answers(current_model, prompts):
 
 {% include image.html url="/assets/images/261031-transformer-from-scratch/attention_reverse_alignment.png" caption="图 3：只截取答案 query 到六个原题 key 的局部区域。方框标出反转任务预期读取的位置，局部权重没有重新归一化。" nolazyload=true style="max-width:100%;height:auto;" %}
 
-[打开原尺寸反转对齐图](/assets/images/261031-transformer-from-scratch/attention_reverse_alignment.png)。
+[打开原尺寸反转对齐图]({% include relref.html url="/assets/images/261031-transformer-from-scratch/attention_reverse_alignment.png" %})。
 
 局部图只是从原矩阵中取出这六行、六列，未对截取结果再做 softmax 或除以行和。因此局部图一行的总权重可以小于 1，剩余权重分配给了未展示的其他 key。
 
@@ -726,7 +726,7 @@ $$
 
 {% include image.html url="/assets/images/261031-transformer-from-scratch/attention_mask_comparison.png" caption="图 4：相同模型权重、相同教师强制输入下的 mask 开关对比。比较时固定每层第一个头，避免事后挑选最好看的头。" nolazyload=true style="max-width:100%;height:auto;" %}
 
-[打开原尺寸 mask 对比图](/assets/images/261031-transformer-from-scratch/attention_mask_comparison.png)。
+[打开原尺寸 mask 对比图]({% include relref.html url="/assets/images/261031-transformer-from-scratch/attention_mask_comparison.png" %})。
 
 图 4 每行是一层的第一个头；左列开启 mask，中列关闭 mask，右列是“关闭减开启”。前两列的色标为 0–1，右列为 -1 到 1：红色表示权重增加，蓝色表示减少。这里的差值是注意力权重变化，不是 loss 变化；虚线标出 query/key 的同位置对角线。
 
@@ -829,8 +829,8 @@ $$
 
 还有两个辅助文件可供对照：
 
-- [训练配置 JSON](/assets/downloads/transformer-from-scratch/training_config.json)
-- [完整模型 loss 数值 CSV](/assets/downloads/transformer-from-scratch/baseline_history.csv)
+- [训练配置 JSON]({% include relref.html url="/assets/downloads/transformer-from-scratch/training_config.json" %})
+- [完整模型 loss 数值 CSV]({% include relref.html url="/assets/downloads/transformer-from-scratch/baseline_history.csv" %})
 
 它们记录的是本文这次 T4、600 步运行。CPU 改用较少步数后，结果可能不同，不应把文中的最终数值当作每次运行都必须逐位相同的标准答案。
 

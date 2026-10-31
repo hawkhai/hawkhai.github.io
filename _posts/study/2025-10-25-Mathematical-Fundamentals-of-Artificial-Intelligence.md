@@ -63,11 +63,11 @@ $$
 
 不同的范数定义不同，常见的几种是：
 
-| 名称          | 记号                                    | 定义                  | 含义   |   |          |
-| ----------- | ------------------------------------- | ------------------- | ---- | - | -------- |
-| 二范数（欧几里得范数） | $\lVert \boldsymbol{x} \rVert_2$      | $\sqrt{\sum x_i^2}$ | 向量长度 |   |          |
-| 一范数         | $\lVert \boldsymbol{x} \rVert_1$      | $\sum               \| x_i  \| $ | 各分量绝对值之和 |
-| 无穷范数        | $\lVert \boldsymbol{x} \rVert_\infty$ | $\max               \| x_i  \| $ | 最大绝对值    |
+| 名称 | 记号 | 定义 | 含义 |
+| --- | --- | --- | --- |
+| 二范数（欧几里得范数） | $$\lVert \boldsymbol{x} \rVert_2$$ | $$\sqrt{\sum x_i^2}$$ | 向量长度 |
+| 一范数 | $$\lVert \boldsymbol{x} \rVert_1$$ | $$\sum \lvert x_i\rvert$$ | 各分量绝对值之和 |
+| 无穷范数 | $$\lVert \boldsymbol{x} \rVert_\infty$$ | $$\max \lvert x_i\rvert$$ | 最大绝对值 |
 
 ---
 

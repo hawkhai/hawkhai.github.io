@@ -42,8 +42,8 @@ cluster: "机器学习的数学基础"
 * 第六章 二次型
 
 先用考试逼着大家把该学的东西都学了，尽管自己也不知道自己学的是啥；等将来的某一天达到一定高度时，回头看看过去学的东西，突然恍然大悟，明白了当初学的究竟是什么。
-{% include image.html url="/assets/images/220823-linear-algebraic/3c786468a3f90297c02bddcebd58806a1532683863.jpg@!web-comment-note.avif" %}
-{% include image.html url="/assets/images/220823-linear-algebraic/33bae09d9ccbd2ca24f092becee67e3a1532683863.jpg@!web-comment-note.avif" %}
+{% include image.html url="/assets/images/220823-linear-algebraic/3c786468a3f90297c02bddcebd58806a1532683863.jpg@!web-comment-note.avif" nolazyload=true %}
+{% include image.html url="/assets/images/220823-linear-algebraic/33bae09d9ccbd2ca24f092becee67e3a1532683863.jpg@!web-comment-note.avif" nolazyload=true %}
 
 这 4 部分数学知识的作用分别是：
 * 概率统计是利用数据发现规律、推测未知的思想方法。
