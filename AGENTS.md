@@ -5,7 +5,15 @@
 ## 仓库归属
 
 - 博客文章、模板、工具和本文件的改动都属于 `E:\kSource\blog`，Git 操作必须在该仓库执行；先用 `git rev-parse --show-toplevel` 确认。博客约束只写入本仓库 `AGENTS.md`，不要写入全局 `C:\Users\CF\.codex\AGENTS.md` 或 EasyClaw 技能仓库。其他项目的双仓库提交约定不适用于博客；本地 commit 不自动授权 push 或发布。
-- 本地被忽略的 `invisible/` 是独立 Git 仓库，其页面可能参与本地渲染。普通页面编号检查也扫描它，但将问题单列到 `audit.json` 的 `external_page_heading_candidates`，不混成本仓库必须修改/提交的文件。汇报必须说明这些未修复候选，不能由本仓库 error 为 0 宣称该独立仓库也没有问题。
+- `blog` 是公开仓库，`invisible` 是独立私有仓库。二者分别修改、提交；没有明确指令时，不从公开工具批量处理或暂存私有仓库文件。
+
+## 公开与私有资料边界
+
+- **保持既有构建方式：本地允许构建全部内容，包括本地存在的私有仓库；GitHub 构建环境没有该子仓库，因此不会构建其内容。** 不因公开资料隐私要求新增整目录排除、改变 `exclude` / `keep_files`、移除现有本地入口或调整审计范围。
+- 公开文章、AGENTS、docs、JSON/CSV 快照、维护清单、测试样例、图片和截图不得带出真实私有文件名、子路径、标题、正文、资源地址、文件级哈希或远端地址。需要演示时用独立编写的虚构样例；`docs` 被站点排除仍然在公开 Git 中，代码围栏也不提供保密性。
+- 本地联合渲染与审计可继续读取私有资料，文件级结果只保存在被忽略的本地目录或私有仓库。整理公开报告时单独筛选、脱敏，禁止把整份本地审计 JSON/HTML、文件清单或截图直接复制进公开仓库。
+- 用户明确要求关联记录时，公开报告仅保留必要的汇总数量、修复状态、授权公开的提交 SHA 及远端一致性结论；不附私有提交链接、文件清单或修复片段。
+- 提交前人工核对公开 diff、文档、快照和媒体。已有运行时接口和历史维护流程保持原行为，不把其中的具体私有路径再抄进公开说明或示例。隐私整理限于用户授权范围，不擅自改写 Git 历史、force push 或改造构建机制。
 
 ## 以本站渲染链为准
 
@@ -46,11 +54,11 @@
 | 脚本 | 使用约束 |
 | --- | --- |
 | `checkall.py`、`checkall.bat` | 串行调用重缩进、头部重写、图片/URL 转换和资源整理；bat 默认加 `netfake ignoreerr`，`quick` 只跳过头部步骤。成功标志不能代替只读审计，禁用网络/忽略错误也不代表已验证资源。 |
-| `headfmt.py` | 会重写 front matter、生成 `config/frontmatter-values.json`，可能打开编辑器并调用 `invisible/tempd.py encrypt`。历史标题偏好是“分类 -- 标题”，由 `titlecheck` 例外；不能为了通过它批量改已有标题。新增 front matter 字段须核对其字段白名单；`codeformat: false` 也不保证所有入口都不写文件。 |
+| `headfmt.py` | 会重写 front matter、生成 `config/frontmatter-values.json`，可能打开编辑器并调用私有仓库的维护入口。历史标题偏好是“分类 -- 标题”，由 `titlecheck` 例外；不能为了通过它批量改已有标题。新增 front matter 字段须核对其字段白名单；`codeformat: false` 也不保证所有入口都不写文件。 |
 | `mdformat.py`、`mdrstrip.py` | 均为资源/正文处理入口，分别依赖 `mdformat/` 与 `mdrstrip/`。`format`、`copyres`、`clearimg`、`rebuild` 会影响写回、复制、清理及缓存；先读实际调用链和 `only` 的匹配范围。`ignoreerr` 不作为验收方式，不能凭入口名或没有 `format` 推断完全只读。 |
 | `mdimage.py`、`mdurl.py` | 可递归转换临时图片语法、全角字符、URL 和旧公式图片。`mdurl.py` 即使不带 `format` 也可能下载资源，`mdimage.py` 也有图片重存分支；不能当只读检查使用。新公开内容不依赖旧内网图片下载入口。 |
 | `checkcache.py` | 默认也会更新两份 `config/large-files.txt` 与 MD5 缓存，`remove` 还会删除命中特征的网页快照。坏页关键词只是候选，核实原文后才可删除；不能把登录页或超时快照当参考正文。 |
-| `checkpunct.py` | 主入口固定检查 `invisible/study_notes` 文件；`replace` 会写回，但当前引号函数实际只去除引号内侧空格，没有实现其文案声称的中文引号替换。标点检查未完整排除代码/公式，结果仅供复核，不全站自动替换。 |
+| `checkpunct.py` | 旧主入口固定检查本地预设文件，使用前核对范围；`replace` 会写回，但当前引号函数实际只去除引号内侧空格，没有实现其文案声称的中文引号替换。标点检查未完整排除代码/公式，结果仅供复核，不全站自动替换。 |
 | `fmtline.py`、`reindent.py` | 前者按换行参数递归改写多种源码；后者会重缩进 Python，且本版本默认不留备份，混合换行需显式 `--newline=LF/CRLF`。即使 `--dryrun` 也先调用外部 `pythonxcheck`，使用前检查其实现。不要为了文章排版运行全仓库重缩进。 |
 | `mddedup.py` | 写死了另一台机器的一篇课程笔记路径，只适用于特定标题去重，不能直接用于全站。 |
 | `jekyllserv.py`、`startblog.bat`、`work.bat` | 服务启动会复制平台 Gemfile/lock、修改域名/baseurl、更新备份索引和本地 IP 脚本；`startblog.bat` 还启动 `pythonx/mygit.py all`，不能当普通预览使用。只检查 Ruby/Bundler 可用 `startblog.bat check`。保留 `bundle exec ruby -EUTF-8 -S jekyll` 的 UTF-8 启动方式，避免 Windows GBK 导致 Sass 编译失败；`work.bat` 有固定盘符和旧目录跳转，使用前核对。 |
