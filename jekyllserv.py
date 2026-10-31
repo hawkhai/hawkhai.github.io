@@ -10,7 +10,8 @@ GIT_BASEURL = 'baseurl: ""'
 SUN_URL = 'url: "https://sunocean.life"'
 SUN_URLx = 'urlx: "https://sunocean.life"'
 SUN_BASEURL = 'baseurl: "/blog"'
-JEKYLL = "bundle exec jekyll serve --watch --host 0.0.0.0"
+# Sass imports must use UTF-8 even when Windows defaults to GBK.
+JEKYLL = "bundle exec ruby -EUTF-8 -S jekyll serve --watch --host 0.0.0.0"
 
 def readFile(fpath):
     fin = open(fpath, "rb")
