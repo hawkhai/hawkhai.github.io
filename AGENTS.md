@@ -42,4 +42,13 @@
   产物默认写入被忽略的 `tempdir/format-audit/`。只有确认检查结果适合阻断时才添加 `--fail-on-error`；该参数发现 error 会返回 1，不会自动修复。
 - 不为检查格式而运行 `checkall.py`、`headfmt.py`、`mdformat.py`、`mdrstrip.py`、`jekyllserv.py` 等旧流程：它们包含改写文章、切换配置、复制/清理资源等副作用。需要使用时先读具体分支与参数，限定范围并复核 diff。
 - 不提交 `_site`、临时预览 HTML、审计临时目录或本机环境文件。审计快照可保存到 `docs/`；不能把“0 渲染异常”表述成“全站无格式错误”。
-- 只渲染 `_posts` 不能证明 GitHub Pages 整站构建通过。推送涉及新 Markdown 文档、插件或配置的改动后，必须核对该提交的线上 Pages build/deploy 状态；依赖 warning 与真正的构建异常分开诊断。
+- **提交前不得只检查 `_posts`。** 检查范围必须同时包含普通页面、没有 YAML 头的 Markdown、Liquid/includes、模板、配置和引用资源；至少执行上面的文章渲染与 `check_pages_documentation.rb`，涉及部署配置时使用实际将提交的配置核实。只读渲染检查不等于完整构建，本机依赖版本也不一定等于 GitHub Pages。
+- **push 成功不等于任务完成。** 每次 push 后，必须找到与本次提交完整 SHA 对应的 GitHub Pages workflow，等待其结束，并逐项确认 `build`、`deploy` 都为 `completed / success`。不能拿旧提交的绿灯、仅 build 成功、任务已入队、skipped 或 cancelled 代替。
+- 线上任一步失败时读取日志、定位并修复，再推送并重新验收；依赖 warning 与真正的构建异常分开诊断。因权限、网络或服务故障无法确认结果时，明确报告“线上尚未验证”，不得宣称已发布成功。最终汇报提供提交号和可核验的 workflow 链接。
+
+## 2026-10-31 构建故障记录
+
+- 新增 `docs/content-formatting.md` 后，文档里的字面双左花括号被 Liquid 当作变量起点，触发 `Liquid::SyntaxError`。GitHub Pages 的 optional-front-matter 插件会处理没有 YAML 头的 Markdown，代码围栏也不能阻止 Liquid 执行。
+- 当时仅验证了 285 篇文章，没有检查新增普通页面，导致本机文章检查通过而线上 [#1899](https://github.com/hawkhai/hawkhai.github.io/actions/runs/41193577814)、[#1900](https://github.com/hawkhai/hawkhai.github.io/actions/runs/41194086428) 失败。不能再把文章审计的 `error: 0` 当作整站构建或部署成功。
+- 修复提交 `52d4fddf` 将 `AGENTS.md`、`docs/` 加入构建排除项，并新增普通页面检查；本机 945 个普通页面通过，随后确认线上 [#1901](https://github.com/hawkhai/hawkhai.github.io/actions/runs/41194663810) 的 build、deploy 均成功。
+- 后续必须保留文档排除规则，按“提交前覆盖文章与页面 → push 后核对本次 SHA → 等待 build、deploy 双成功”完成验收。
