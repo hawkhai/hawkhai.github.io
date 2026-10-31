@@ -291,7 +291,7 @@ def main():
         row['issues']=dict(Counter(i['severity'] for i in own))
     summary={'markdown_files':len(post_paths),'rendered_markdown':sum(r['rendered'] for r in rows),
              'jekyll_documents':len(render_map),'sidecar_files':sidecars,
-             'findings':dict(Counter(i['severity'] for i in issues)),
+             'findings':{level:sum(i['severity']==level for i in issues) for level in ('error','warning','info')},
              'rules':dict(Counter(i['rule'] for i in issues)),
              'affected_posts':sum(bool(r['issues']) for r in rows),
              'external_resources_unchecked':sum(r['external_resources_unchecked'] for r in rows)}

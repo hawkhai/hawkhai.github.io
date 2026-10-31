@@ -53,7 +53,7 @@ Irrlicht GLES 分析。
 * glDisable
     * cap=3042;
 * glColorMask
-    * red=; green=; blue=; alpha=;
+    * `red=GL_TRUE; green=GL_TRUE; blue=GL_TRUE; alpha=GL_TRUE;`
 * glCullFace
     * mode=1029;
 * glFrontFace
@@ -70,7 +70,7 @@ Irrlicht GLES 分析。
     * glDisable(GL_DEPTH_TEST);
     * 指通过目标像素与当前像素在 z 方向上值大小的比较是否满足参数指定的条件，来决定在深度（Z 方向）上是否绘制目标像素，该函数只有启用“深度测试”时才有效。
 * glDepthMask
-    * flag=;
+    * `flag=GL_TRUE;`
     * 1) 开启深度写入，glDepthMask( GL_TRUE )
     * 2) 渲染所有的不透明物体，以任何顺序
     * 3) 关闭深度写入，glDepthMask( GL_FALSE )

@@ -2,7 +2,7 @@
 
 本次核实覆盖 `_posts` 下全部 **285 篇 Markdown**，逐篇执行当前安装的 Jekyll 的 Liquid、Markdown 与 layout 渲染，并检查源码和生成 HTML。另有 3 个 JSON 辅助文件，其中 1 个被 Jekyll 识别为文章，故实际文章集合为 286 个文档。
 
-修正了 **8 篇文章**中能够确定的格式问题。复查后 285 篇均成功渲染，**没有渲染引擎异常**；仍有 **5 条确定的源码/资源问题**，以及 **58 条需结合上下文确认的 warning**。不能据此宣称全站没有问题。
+第一轮修正了 **8 篇文章**中的明确格式问题；本轮进一步查清并修复了另外 4 篇文章涉及的 **5 条确定问题**。最终 285 篇均成功渲染，**渲染引擎异常为 0，审计 error 为 0**；仍有 **58 条需结合上下文确认的 warning**。这不等于全站所有内容和外链均已人工验证无误。
 
 格式规则及可直接参考的写法见 [完整手册](content-formatting.md)，后续约束见 [AGENTS.md](../AGENTS.md)。
 
@@ -16,8 +16,8 @@
 | 纳入状态 | 包含 future / unpublished；不是只检查当前首页展示的文章 |
 | 检测对象 | 源文、部分 front matter、实际生成 HTML、正文引用资源、格式对照样例 |
 | 校验 | 每篇保存 SHA-256，最终渲染记录与源文一致，无 STALE_RENDER |
-| 浏览器 | 本地 HTTP 服务，实际 MathJax 2.7.5、本站 Mermaid bundle 与配置；抽查正反例及 Transformer 全文 |
-| 未执行 | Colab 操作、训练、整站 write/资源复制、批量旧格式化脚本、发布 |
+| 浏览器 | 本地 HTTP 服务；抽查公式/图表正反例、Transformer 全文，以及本轮四篇文章的实际渲染片段和三份页脚脚本 |
+| 未执行 | Colab 操作、训练、整站 write/资源复制、批量旧格式化脚本、生产部署命令 |
 
 这是一份**格式与渲染审计**。没有逐篇执行历史代码、验证全部数学推导、打开全部浏览器页面或爬取所有外链。普通相对资源、动态地址、页面 permalink、运行后生成的内容和所有锚点也不都能由存在性扫描判定。文章的学术正确性、外站可用性和移动端布局仍需按修改范围人工复查。
 
@@ -26,7 +26,7 @@
 - [逐篇清单 CSV](format-audit-2026-10-31-inventory.csv)：285 行，含状态、特征计数和源码 SHA-256。
 - [全部发现 CSV](format-audit-2026-10-31-findings.csv)：路径、行号、级别、规则和解释，可按规则或文件过滤。
 - [完整 JSON](format-audit-2026-10-31.json)：版本、汇总、逐篇特征、所有发现。
-- [浏览器检查记录](format-audit-2026-10-31-browser-checks.json)：正反例与 Transformer 全文的 DOM 检查。
+- [浏览器检查记录](format-audit-2026-10-31-browser-checks.json)：正反例、Transformer 全文和本轮五项修复的 DOM 检查，以及页脚脚本来源信息。
 
 CSV 使用 UTF-8 BOM 便于 Windows 查看。行号对应本次最终源文件；后续修改可能使行号变化。临时渲染 HTML 留在被忽略的 `tempdir/format-audit/`，不作为正式资源发布。
 
@@ -45,17 +45,34 @@ CSV 使用 UTF-8 BOM 便于 Windows 查看。行号对应本次最终源文件�
 
 没有修改实验 notebook、训练数据、结果表或图片文件，也没有批量替换历史单美元公式。`jekyllserv.py` 中原有的未提交改动保留原样，不属于本次修改。
 
-## 3. 仍需处理的确定问题：5 条，涉及 4 篇文章
+## 3. 五条确定问题已全部修复：来源与依据
 
-| 源文件与行号 | 问题 | 后续处理建议 |
+| 原问题位置 | 查清的原因 | 已完成的修复 |
 | --- | --- | --- |
-| [_posts/irrlicht/2021-03-16-shader-OpenGL-research.md:56](../_posts/irrlicht/2021-03-16-shader-OpenGL-research.md) | `glColorMask` 示例参数含 U+0001 控制字符 | 对照原始代码/资料确认布尔值，不能猜测替换 |
-| [同文件:73](../_posts/irrlicht/2021-03-16-shader-OpenGL-research.md) | `flag` 参数含 U+0001 控制字符 | 确认原意后修复并运行/核对相关示例 |
-| [_posts/note/other/2026-08-31-compattelrunner.md:179](../_posts/note/other/2026-08-31-compattelrunner.md) | 缺少 `/assets/reviewjs/blogs/2026-08-31-compattelrunner.md.js` | 核对 reviewjs 的真实生成流程及该功能是否仍需保留 |
-| [_posts/study/2026-08-29-English-Grammar-From-Zero.md:590](../_posts/study/2026-08-29-English-Grammar-From-Zero.md) | 缺少 `/assets/reviewjs/blogs/2026-08-29-English-Grammar-From-Zero.md.js` | 找回/正确生成资源，或确认设计后移除无用引用 |
-| [_posts/study/2026-10-10-wordtap-technical-english.md:124](../_posts/study/2026-10-10-wordtap-technical-english.md) | 缺少 `/assets/reviewjs/blogs/2026-10-10-wordtap-technical-english.md.js` | 同上，不用空文件掩盖资源缺失 |
+| [_posts/irrlicht/2021-03-16-shader-OpenGL-research.md:56](../_posts/irrlicht/2021-03-16-shader-OpenGL-research.md) | 四个颜色写掩码参数是不可见的 `0x01`，不是未知空值 | 按原字节值恢复为四个 `GL_TRUE`，用行内代码显示 |
+| [同文件:73](../_posts/irrlicht/2021-03-16-shader-OpenGL-research.md) | 深度写掩码参数也是 `0x01`，且紧随其后的说明明确写着 `glDepthMask(GL_TRUE)` | 恢复为 `flag=GL_TRUE`，用行内代码显示 |
+| [_posts/note/other/2026-08-31-compattelrunner.md:179](../_posts/note/other/2026-08-31-compattelrunner.md) | 文章已引用旧格式化工具的日期脚本，但脚本未入库 | 补齐 [真实日期脚本](../assets/reviewjs/blogs/2026-08-31-compattelrunner.md.js)，显示 `2026-10-12: review` |
+| [_posts/study/2026-08-29-English-Grammar-From-Zero.md:590](../_posts/study/2026-08-29-English-Grammar-From-Zero.md) | 同上；它不是英语学习功能的实现文件 | 补齐 [真实日期脚本](../assets/reviewjs/blogs/2026-08-29-English-Grammar-From-Zero.md.js)，显示 `2026-10-21: review` |
+| [_posts/study/2026-10-10-wordtap-technical-english.md:124](../_posts/study/2026-10-10-wordtap-technical-english.md) | 同上；它不是 WordTap 的点读、语音或跟打代码 | 补齐 [真实日期脚本](../assets/reviewjs/blogs/2026-10-10-wordtap-technical-english.md.js)，显示 `2026-10-21: review` |
 
-三处脚本缺失不等于整篇文章无法显示，但相应功能可能不可用。控制字符问题也不等于 Jekyll 必然报错：引擎可以成功输出有问题的内容。
+### OpenGL 控制字符的恢复依据
+
+原文两行共含五个 U+0001，UTF-8 中对应原始字节 `0x01`。原文开头注明是 Irrlicht GLES 分析；[Khronos 官方 GLES 头文件](https://github.com/KhronosGroup/OpenGL-Registry/blob/main/api/GLES/gl.h) 明确定义 `GLboolean` 为 `unsigned char`，`GL_FALSE` 为 0、`GL_TRUE` 为 1。因此按值把这些字符恢复为可读的 `GL_TRUE`，而不是凭函数默认值猜测参数。字符样貌与字节布尔值被直接作为字符输出的情况一致，但现存文章不能证明当年具体使用了哪个日志工具。
+
+[glColorMask 官方说明](https://wikis.khronos.org/opengl/GLAPI/glColorMask)确认这些参数控制各颜色通道是否允许写入；[glDepthMask 官方说明](https://wikis.khronos.org/opengl/GLAPI/glDepthMask)确认非零写掩码允许深度写入。后者并不单独保证深度缓冲实际更新，还受深度测试等状态约束。本轮只恢复记录的参数文本，没有运行 OpenGL 场景或新增性能、渲染结论。
+
+### 三个脚本的生成规则与日期来源
+
+查阅 [BlogPlugin._append_refs](../mdformat/plugins/blog.py) 和 [MdFormatter 的源文件哈希计算](../mdformat/core.py) 后确认：
+
+1. 工具把 `_posts/.../文件.md` 映射为 `assets/reviewjs/blogs/文件.md.js`。
+2. 脚本实际内容只有 `document.write("日期: review")`，并在注释记录源文的 `md5src`；它不包含文章的交互功能。
+3. 日期来自该源文件 `git log -n 1 --pretty=format:"%ad" --date=short`，不是文件名日期，也不是本次修复日期。
+4. 修复前检查三个目标路径的 `git log --all -- 路径`，均未找到历史提交；本轮补齐它们时仅使用原格式，不运行有改写和清理副作用的旧格式化流程。
+
+恢复的日期分别由源文件提交 `ba8f36bd`、`6e6b71fb`、`ea8d4914` 的 Git 日期得到。`md5src` 使用当前工作树源文原始字节的 MD5，与旧工具一致；它只是缓存标记，不是安全签名，也不表示这些文章在本次修复时重新通过了全文人工审稿。
+
+新增脚本都包含实际输出，并非空占位文件；三篇原文与原有引用保持不变。浏览器使用带 `/blog` 前缀的真实资源路径加载并执行了它们。
 
 ## 4. warning 与 info 怎么读
 
@@ -119,7 +136,13 @@ python tools/test_audit_post_formats.py
 
 本次 4 组针对误报边界的回归检查通过：表格代码竖线、文字括号与公式分隔符区分、raw/嵌套围栏、正文资源与 layout 资源分离。全站渲染复核没有异常，源文哈希与快照匹配。
 
-建议后续按“找回三份脚本来源 → 核对控制字符原意 → 人工处理裸 token 和 Liquid 展示候选 → 整理 JSON 缓存位置”的顺序处理。单美元历史公式只在确实显示异常或编辑相关段落时逐步规范化。
+本轮重新渲染全部 285 篇 Markdown 后，`python tools/audit_post_formats.py --fail-on-error` 返回 0，汇总明确输出 `error: 0`、`warning: 58`、`info: 691`。与前一版记录逐条比较，消失的恰好是上述 2 条控制字符与 3 条缺失脚本记录，没有过滤规则或级别的降级；其余发现保持一致。
+
+对四篇实际 Jekyll 输出提取的片段补做浏览器验证：两组参数可读，文本无控制字符；三份页脚脚本分别显示真实的 Git 日期。截图如下：
+
+![两行 OpenGL 参数与三个页脚脚本的修复验证](images/format-audit-repaired-issues.png)
+
+后续仍需人工处理裸 token 和 Liquid 展示候选，并确认 JSON 缓存位置及 `visibility` 意图。单美元历史公式只在确实显示异常或编辑相关段落时逐步规范化。
 
 本次记录 **2726 次外部资源引用**，不是 2726 个去重 URL，也没有逐一请求这些地址。第三方图片、链接、视频、iframe 是否仍可用不包含在“渲染通过”中。
 
@@ -213,7 +236,7 @@ python tools/test_audit_post_formats.py
 | 80 | [_posts/irrlicht/2021-01-06-irrlicht-notes.md](../_posts/irrlicht/2021-01-06-irrlicht-notes.md) | 通过 | 0 | 0 | 0 |
 | 81 | [_posts/irrlicht/2021-01-22-shader-OpenGL-ex-irrlicht.md](../_posts/irrlicht/2021-01-22-shader-OpenGL-ex-irrlicht.md) | 通过 | 0 | 1 | 0 |
 | 82 | [_posts/irrlicht/2021-01-31-shader-OpenGL-ex-irrlicht-code.md](../_posts/irrlicht/2021-01-31-shader-OpenGL-ex-irrlicht-code.md) | 通过 | 0 | 0 | 0 |
-| 83 | [_posts/irrlicht/2021-03-16-shader-OpenGL-research.md](../_posts/irrlicht/2021-03-16-shader-OpenGL-research.md) | 通过 | 2 | 0 | 0 |
+| 83 | [_posts/irrlicht/2021-03-16-shader-OpenGL-research.md](../_posts/irrlicht/2021-03-16-shader-OpenGL-research.md) | 通过 | 0 | 0 | 0 |
 | 84 | [_posts/irrlicht/2021-03-18-irrlicht-shader-and-particle.md](../_posts/irrlicht/2021-03-18-irrlicht-shader-and-particle.md) | 通过 | 0 | 0 | 0 |
 | 85 | [_posts/irrlicht/2023-07-31-3dengine-notes.md](../_posts/irrlicht/2023-07-31-3dengine-notes.md) | 通过 | 0 | 0 | 0 |
 | 86 | [_posts/life/2020-08-21-welcome-to-my-blog.md](../_posts/life/2020-08-21-welcome-to-my-blog.md) | 通过 | 0 | 0 | 34 |
@@ -286,7 +309,7 @@ python tools/test_audit_post_formats.py
 | 153 | [_posts/note/other/2024-08-03-manifest.md](../_posts/note/other/2024-08-03-manifest.md) | 通过 | 0 | 0 | 0 |
 | 154 | [_posts/note/other/2024-08-21-vmware-macos.md](../_posts/note/other/2024-08-21-vmware-macos.md) | 通过 | 0 | 0 | 0 |
 | 155 | [_posts/note/other/2024-12-19-complexity-of-software.md](../_posts/note/other/2024-12-19-complexity-of-software.md) | 通过 | 0 | 0 | 0 |
-| 156 | [_posts/note/other/2026-08-31-compattelrunner.md](../_posts/note/other/2026-08-31-compattelrunner.md) | 通过 | 1 | 0 | 0 |
+| 156 | [_posts/note/other/2026-08-31-compattelrunner.md](../_posts/note/other/2026-08-31-compattelrunner.md) | 通过 | 0 | 0 | 0 |
 | 157 | [_posts/note/prog/2020-08-23-enum-win-device.md](../_posts/note/prog/2020-08-23-enum-win-device.md) | 通过 | 0 | 0 | 0 |
 | 158 | [_posts/note/prog/2020-08-30-qt-memory-leak.md](../_posts/note/prog/2020-08-30-qt-memory-leak.md) | 通过 | 0 | 0 | 0 |
 | 159 | [_posts/note/prog/2020-10-10-smart-handle.md](../_posts/note/prog/2020-10-10-smart-handle.md) | 通过 | 0 | 0 | 0 |
@@ -414,5 +437,5 @@ python tools/test_audit_post_formats.py
 | 281 | [_posts/study/2026-06-02-Intermediate-English-Lecture-Notes3.md](../_posts/study/2026-06-02-Intermediate-English-Lecture-Notes3.md) | 通过 | 0 | 0 | 0 |
 | 282 | [_posts/study/2026-06-02-Intermediate-English-Lecture-Notes4.md](../_posts/study/2026-06-02-Intermediate-English-Lecture-Notes4.md) | 通过 | 0 | 0 | 0 |
 | 283 | [_posts/study/2026-06-02-Intermediate-English-Lecture-Notes5.md](../_posts/study/2026-06-02-Intermediate-English-Lecture-Notes5.md) | 通过 | 0 | 0 | 0 |
-| 284 | [_posts/study/2026-08-29-English-Grammar-From-Zero.md](../_posts/study/2026-08-29-English-Grammar-From-Zero.md) | 通过 | 1 | 0 | 0 |
-| 285 | [_posts/study/2026-10-10-wordtap-technical-english.md](../_posts/study/2026-10-10-wordtap-technical-english.md) | 通过 | 1 | 0 | 0 |
+| 284 | [_posts/study/2026-08-29-English-Grammar-From-Zero.md](../_posts/study/2026-08-29-English-Grammar-From-Zero.md) | 通过 | 0 | 0 | 0 |
+| 285 | [_posts/study/2026-10-10-wordtap-technical-english.md](../_posts/study/2026-10-10-wordtap-technical-english.md) | 通过 | 0 | 0 | 0 |
