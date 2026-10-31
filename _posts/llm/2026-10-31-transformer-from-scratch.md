@@ -18,7 +18,19 @@ layoutclear: false
 
 阅读只需要基本 Python、矩阵乘法和一点导数概念。PyTorch 不熟悉也没关系，下面会把关键张量的形状写出来。建议分三遍读：第一遍追踪一条样本，第二遍对照代码看形状，第三遍再看消融结果。
 
-**正文代码用于讲解，完整运行顺序和实际输出保留在随文 notebook 中。训练曲线、热图、表格都来自同一次最终实验记录。**
+**正文中的数据小例子和注意力类可以用来动手观察；Block、完整模型和训练循环的片段会标明其所在位置。完整实验按随文 notebook 的顺序运行，避免把多个类里的 `forward` 当成独立函数依次粘贴。训练曲线、热图、表格都来自同一次最终实验记录。**
+
+先约定几个符号，后面遇到形状时可以回来看：
+
+| 符号 | 含义 | 本实验的例子 |
+| --- | --- | --- |
+| B | 一批样本的数量，batch size | 正式训练 64，演示可用 1 或 2 |
+| T | 本次前向实际输入的 token 数 | 训练 14；生成从 8 逐步增加到 14 |
+| D | 每个 token 的隐藏向量维度 | 64 |
+| H | 注意力头数 | 完整模型 4，单头消融 1 |
+| Dh 或 $d_h$ | 每个头的维度，D/H | 四头时 16，单头时 64 |
+
+位置编号统一从 **0** 开始。方括号里的维度按实际顺序排列，例如 `[B,H,T,Dh]`。`@` 做矩阵乘法，使用最后两个维度参与计算；前面的 batch 和 head 维按广播规则配对。`reshape` 中的 `-1` 让 PyTorch 推算这一维大小，`dim=-1` 则表示最后一维，两处含义不同。
 
 - [下载完整实跑 notebook](/assets/downloads/transformer-from-scratch/experiment1-reverse-transformer.ipynb)
 - [下载消融结果 CSV](/assets/downloads/transformer-from-scratch/ablation_results.csv)
@@ -73,12 +85,37 @@ layoutclear: false
 
 模型不是一次接收题目后直接返回一个六位数组。训练时，它在每个位置输出一个包含 13 个分数的向量，用来预测下一个 token。
 
+下面先只构造一条样本。这个小例子不训练模型，目的是把输入和标签打印清楚：
+
 ```python
+import math
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+SEQ_LEN = 6
+BOS, SEP, EOS = 10, 11, 12
+PROMPT_LEN = SEQ_LEN + 2
+
+def encode_sequence(sequence):
+    digits = list(sequence)
+    return [BOS] + digits + [SEP] + digits[::-1] + [EOS]
+
+sequences = [(3, 1, 4, 2, 0, 5)]  # 这里只演示一条，B=1
 full = torch.tensor([encode_sequence(s) for s in sequences],
                     dtype=torch.long)
-inputs = full[:, :-1]
+inputs = full[:, :-1].contiguous()
 labels = full[:, 1:].clone()
 labels[:, :PROMPT_LEN - 1] = -100
+print(inputs.tolist())
+print(labels.tolist())
+```
+
+对应输出应当是：
+
+```text
+[[10, 3, 1, 4, 2, 0, 5, 11, 5, 0, 2, 4, 1, 3]]
+[[-100, -100, -100, -100, -100, -100, -100, 5, 0, 2, 4, 1, 3, 12]]
 ```
 
 `PROMPT_LEN=8`，即一个 BOS、六个数字和一个 SEP。`inputs` 和 `labels` 都是 `[B,14]`。
@@ -106,9 +143,15 @@ labels[:, :PROMPT_LEN - 1] = -100
 
 如果误把位置 8 的输入数字当成“负责预测第一个答案的位置”，后面的热图解释就会整体错一格。
 
+训练时，预测第二个答案所用的前一个答案是真实数字，这叫**教师强制（teacher forcing）**。测试时则要使用模型自己上一步生成的数字。两者的区别就在这里。
+
+虽然训练时把整条输入一起送进模型，因果 mask 会限制每一行只能读取当前及以前的位置。因此，各行的“预测下一个 token”可以并行计算，并不等于每行都能看到完整答案。
+
 ### 2.2 为什么题目部分的标签设为 -100
 
 我们关心的是反转题目，没有要求模型学习随机题目本身如何接续。因此，只监督六个答案数字和 EOS，共七个目标。
+
+下面先看损失函数的调用接口：`logits` 是完整模型稍后产生的输出，现在还没有计算出来。这段先读懂形状，等模型定义后再对照 notebook 中的 `answer_loss` 调用。
 
 ```python
 loss = F.cross_entropy(
@@ -120,7 +163,20 @@ loss = F.cross_entropy(
 
 `logits` 的形状是 `[B,14,13]`，展平后变成 `[B*14,13]`；标签展平为 `[B*14]`。被标为 `-100` 的位置不参与这个平均值，也不产生对应的直接分类损失梯度。
 
-对于这份定长数据，loss 的分母相当于 `B*7`，不是 `B*14`。`CrossEntropyLoss` 接收未归一化的分类分数，直接输入 logits 即可；不需要先手动 softmax。[PyTorch 官方说明](https://docs.pytorch.org/docs/2.11/generated/torch.nn.CrossEntropyLoss.html)
+对这份定长数据，先把 logits 转成概率，记作 $p_{b,i,c}$：它表示样本 b、输入位置 i 预测下一个 token 为类别 c 的概率。平均交叉熵可写成：
+
+$$
+\mathcal{L}=-\frac{1}{7B}\sum_{b=0}^{B-1}\sum_{r=0}^{6}
+\log p_{b,\,7+r,\,\mathrm{labels}_{b,7+r}}.
+$$
+
+这里转概率是沿 13 个输出类别归一化；后面的注意力 softmax 则沿 T 个 key 位置归一化。它们作用于不同张量，不能混为一谈。
+
+内层正好取 query 位置 7–13 的七个正确标签：六个数字和 EOS。给正确 token 的概率越低，这一项的损失越大。这里只是在解释公式，实际代码仍直接把 logits 交给交叉熵函数。
+
+例如，假设一条样本的七个正确标签都得到 0.5 的预测概率，那么每项损失都是 `-log(0.5)≈0.693`，平均 loss 仍是约 0.693，不是把七项相加后的 4.852。这里的 log 是自然对数。
+
+因此，在没有类别加权、每条样本恰好七个有效标签的本实验中，loss 的分母相当于 `B*7`，不是 `B*14`。`CrossEntropyLoss` 接收未归一化的分类分数，直接输入 logits 即可；不需要先手动 softmax。[PyTorch 官方说明](https://docs.pytorch.org/docs/2.11/generated/torch.nn.CrossEntropyLoss.html)
 
 这里还有一个容易混淆的地方：**题目位置不计算分类 loss，不代表题目 embedding 不会训练。** 答案位置的注意力会读取题目位置的 K、V，答案损失仍然可以沿这条路径更新相关参数。
 
@@ -135,7 +191,7 @@ loss = F.cross_entropy(
 
 ## 三、从 token ID 到隐藏向量
 
-数字 ID 只是一个离散编号，不能直接拿 ID 大小表示语义距离。模型先通过 embedding 查表，得到 64 维向量：
+数字 ID 只是一个离散编号，不能直接拿 ID 大小表示语义距离。模型先通过 embedding 查表，得到 64 维向量。以下是模型方法中的节选，`self.token_embedding` 等对象会在完整模型的构造函数里创建；先对照后面的形状表阅读即可：
 
 ```python
 positions = torch.arange(seq_len, device=token_ids.device)
@@ -157,17 +213,19 @@ x = (
 
 这对反转任务非常直接：模型需要知道第一个答案应当读取原题的第六个位置，而不能只根据数字内容猜测。
 
-本实验使用的是可学习的绝对位置向量，没有采用正弦位置编码、RoPE 或相对位置编码。最大位置表长为 15；不能据此声称模型支持任意长度。
+本实验使用的是可学习的绝对位置向量，没有采用正弦位置编码、RoPE 或相对位置编码。位置表预留了 15 个位置，但训练输入实际为 14 个 token，生成最后的 EOS 后也不再进行下一次前向。预留的位置表大小不代表模型学会了任意长度的反转。
 
 ## 四、单头注意力：Q、K、V 分别做什么
 
 ### 4.1 三组投影来自同一份输入
 
-自注意力中，Q、K、V 都由同一组隐藏表示 X 产生，但它们使用不同参数：
+先固定一条样本、只看一个头。设输入 X 为 `[T,D]`，这个头把它投影成 `[T,Dh]` 的 Q、K、V。三者由同一组隐藏表示产生，但使用不同参数；单头投影矩阵的数学形状为 `[D,Dh]`：
 
 $$
 Q=XW_Q+b_Q,\qquad K=XW_K+b_K,\qquad V=XW_V+b_V.
 $$
+
+数学公式按 `XW` 书写；PyTorch 的 `nn.Linear` 把 `weight` 存成 `[输出维度,输入维度]`，内部相当于 `X @ weight.T + bias`。这只是存储约定的差别。[Linear 官方说明](https://docs.pytorch.org/docs/2.11/generated/torch.nn.Linear.html)
 
 可以先这样理解它们的分工：
 
@@ -198,7 +256,7 @@ $$
 
 每个 query 对所有 key 的权重之和为 1。最后的输出是 V 的加权和。
 
-因此，softmax 应当沿最后一个维度，即 key 维度计算：
+因此，在注意力核心函数内部，softmax 应当沿最后一个维度，即 key 维度计算：
 
 ```python
 weights = torch.softmax(scores, dim=-1)
@@ -209,7 +267,7 @@ output = weights @ v
 
 ## 五、因果 mask：把“不能看到未来”落实到矩阵里
 
-训练输入里包含答案的前六个数字。如果允许位置 7 的 SEP 读取位置 8，它就能直接看到自己要预测的第一个答案。
+训练输入里包含六个正确答案数字，但不包含末尾 EOS。如果允许位置 7 的 SEP 读取位置 8，它就能直接看到自己要预测的第一个答案。
 
 我们要求位置 i 只能读取 `j<=i` 的位置：
 
@@ -262,6 +320,21 @@ def scaled_dot_product_attention_manual(q, k, v, causal=True):
 
 也不要把所有分数都填成负无穷，否则这一行无法得到正常的归一化结果。当前实现保留对角线，每行至少有一个可读位置。
 
+### 一个可以手算的小例子
+
+先把序列长度和每头维度都设为 2，取 `Q=K=单位矩阵`，V 的两行为 `[10,0]` 和 `[0,20]`。这是便于计算的示意，不是训练后的真实热图。
+
+```text
+位置 0：原始分数 [1/√2, 0]
+        因果 mask 后 [1/√2, -∞] → 权重 [1, 0] → 输出 [10, 0]
+
+位置 1：原始分数 [0, 1/√2]，两个位置都已可见
+        softmax 后约为 [0.330, 0.670]
+        输出 ≈ 0.330×[10,0] + 0.670×[0,20] ≈ [3.302,13.395]
+```
+
+注意力输出仍然是连续向量。它没有直接输出一个数字 token，后续还需要完整模型的其他子层及分类层产生词表分数。
+
 ## 六、多头注意力：64 维怎样变成四个 16 维头
 
 ### 6.1 先投影，再拆头
@@ -281,6 +354,8 @@ transpose + 拼接           [B,T,64]
 
 这里不是把原始输入的 64 维直接分配成四份、让每个头只看四分之一输入。前面已经做过全维线性投影，每个头都可以利用输入的全部 64 维特征，只是最终用 16 维子空间计算匹配。
 
+先单独看拆头方法；下一小节会把它放回完整类中：
+
 ```python
 def _split_heads(self, tensor):
     batch_size, seq_len, _ = tensor.shape
@@ -289,27 +364,47 @@ def _split_heads(self, tensor):
     ).transpose(1, 2)
 ```
 
-先把头维放进来，再把头维移到序列维之前，才能让后面的矩阵乘法分别处理各个头。
+先把头维放进来，再把头维移到序列维之前，才能让后面的矩阵乘法分别处理各个头。这里的 64 维总投影，可以看作把四组 `[64,16]` 的单头投影并排存放；拆头后，每个头对应上一节公式里的一组 Q、K、V。
 
 ### 6.2 拼接不能写成求平均
 
+把初始化、拆头和拼接放回同一个类里，完整注意力模块如下。它沿用实跑 notebook 的实现，可以接在第五节的注意力核心函数之后：
+
 ```python
-def forward(self, x, causal=None):
-    batch_size, seq_len, _ = x.shape
-    use_causal = self.causal if causal is None else causal
+class ManualMultiHeadSelfAttention(nn.Module):
+    def __init__(self, d_model=64, num_heads=4, causal=True):
+        super().__init__()
+        if d_model <= 0 or num_heads <= 0 or d_model % num_heads != 0:
+            raise ValueError("d_model must be positive and divisible by num_heads")
+        self.d_model = d_model
+        self.num_heads = num_heads
+        self.head_dim = d_model // num_heads
+        self.causal = causal
+        self.q_proj = nn.Linear(d_model, d_model)
+        self.k_proj = nn.Linear(d_model, d_model)
+        self.v_proj = nn.Linear(d_model, d_model)
+        self.out_proj = nn.Linear(d_model, d_model)
 
-    q = self._split_heads(self.q_proj(x))
-    k = self._split_heads(self.k_proj(x))
-    v = self._split_heads(self.v_proj(x))
+    def _split_heads(self, tensor):
+        batch_size, seq_len, _ = tensor.shape
+        # [B,T,D] -> [B,T,H,Dh] -> [B,H,T,Dh]
+        return tensor.reshape(batch_size, seq_len, self.num_heads,
+                              self.head_dim).transpose(1, 2)
 
-    head_outputs, weights = scaled_dot_product_attention_manual(
-        q, k, v, causal=use_causal
-    )
-    merged = head_outputs.transpose(1, 2).contiguous().view(
-        batch_size, seq_len, self.d_model
-    )
-    output = self.out_proj(merged)
-    return output, weights
+    def forward(self, x, causal=None):
+        batch_size, seq_len, _ = x.shape
+        use_causal = self.causal if causal is None else causal
+        q = self._split_heads(self.q_proj(x))
+        k = self._split_heads(self.k_proj(x))
+        v = self._split_heads(self.v_proj(x))
+        head_outputs, weights = scaled_dot_product_attention_manual(
+            q, k, v, causal=use_causal)
+        # 先交换维度，再拼接各个头；contiguous 使内存布局适合 view
+        merged = head_outputs.transpose(1, 2).contiguous().view(
+            batch_size, seq_len, self.d_model)
+        output = self.out_proj(merged)
+        # 返回每个头的权重 [B,H,T,T]，保留层/头可视化所需的信息
+        return output, weights
 ```
 
 `transpose` 调整维度顺序，`contiguous()` 让内存布局适合后续 `view`。也可以采用与布局兼容的 `reshape` 写法，但需要清楚元素排列是否正确。
@@ -323,13 +418,16 @@ $$
 
 求平均会提前丢失头之间的区分，不能代替这里的拼接。
 
-为了后面画图，我们保留完整权重 `[B,H,T,T]`，不在模块返回时把头平均掉。完整类的四组投影均为 `nn.Linear(64,64)`，构造代码和初始化方式见 notebook 第 3B 步。
+为了后面画图，我们保留完整权重 `[B,H,T,T]`，不在模块返回时把头平均掉。上面类中的四组投影均为 `nn.Linear(64,64)`。这四组分别是 Q、K、V 和输出投影，不是“四个注意力头各有一个投影”。每组总投影里都包含各头自己的参数分块。
 
 ### 6.3 在训练之前就能检查的东西
 
-至少应当检查：
+运行上面的完整注意力类后，先用一批随机向量做小测试。这里的向量只用于检查实现，不是数字题目本身：
 
 ```python
+torch.manual_seed(42)
+attention_demo = ManualMultiHeadSelfAttention(64, 4, causal=True)
+embedding_demo = torch.randn(2, 14, 64)
 with torch.no_grad():
     output, weights = attention_demo(embedding_demo)
 assert output.shape == (2, 14, 64)
@@ -350,7 +448,7 @@ assert torch.count_nonzero(weights[:, :, future]) == 0
 
 ## 七、注意力之外，Transformer Block 还做了什么
 
-模型整体的数据流如下。图里的每条残差路径都保留 `[B,T,64]` 的形状。
+模型整体的数据流如下。图中展开的是第一个 Block，第二个 Block 重复相同结构，但使用另一组独立参数。每条残差路径都保留 `[B,T,64]` 的形状。
 
 <div class="mermaid">
 graph TD
@@ -364,12 +462,12 @@ graph TD
     L2 --> F["FFN: 64 to 128 to 64"]
     F --> R2["Add residual"]
     R1 --> R2
-    R2 --> N["Repeat block: 2 layers total"]
+    R2 --> N["Block 2: same structure, independent parameters"]
     N --> LN["Final LayerNorm"]
     LN --> O["Linear: 64 to 13 logits"]
 </div>
 
-本实验 Block 的核心是：
+下面是 `TransformerBlock.forward` 的方法节选，需要放在对应类中。`self.norm1`、`self.norm2`、`self.attention` 和 `self.ffn` 由类的构造函数创建；完整定义见 notebook 第 4A 步：
 
 ```python
 def forward(self, x, causal=None):
@@ -386,10 +484,10 @@ def forward(self, x, causal=None):
 $$
 u=x+\operatorname{Attention}(\operatorname{LN}_1(x)),
 \qquad
-y=u+\operatorname{FFN}(\operatorname{LN}_2(u)).
+x_{\mathrm{out}}=u+\operatorname{FFN}(\operatorname{LN}_2(u)).
 $$
 
-各个部件的作用不要混在一起：
+这里的 u 和 $x_{\mathrm{out}}$ 都是 `[B,T,64]` 的隐藏表示。本实验 dropout 为 0，因此公式省略了代码中的 dropout 调用。各个部件分别负责：
 
 | 部件 | 在这里负责什么 |
 | --- | --- |
@@ -406,7 +504,9 @@ $$
 
 Pre-LN 表示归一化放在子层之前。它与把 LN 放在残差相加之后的 Post-LN 有区别；本实验没有把两种写法混用。关于归一化位置与优化稳定性的分析，可以进一步阅读 [On Layer Normalization in the Transformer Architecture](https://proceedings.mlr.press/v119/xiong20b.html)。这篇论文讨论的是一般结构性质，不是本次实验的额外消融结果。
 
-完整模型的前向传播保留各层独立参数：
+完整模型构造后，还会统一把 Linear 和 Embedding 权重初始化为均值 0、标准差 0.02 的正态分布，并将 Linear 偏置置零。第六节随机向量小测试使用的是独立的注意力模块；正式训练由 `make_model` 按固定种子重新构造整个模型，所以小测试不会算进训练预算。
+
+下面是 `ToyTransformer.forward` 的方法节选。构造函数中的 embedding、两个独立 Block、末尾 LayerNorm 和输出层都在 notebook 第 4A 步定义；这里展示它们如何连接：
 
 ```python
 def forward(self, token_ids, return_attention=False, causal=None):
@@ -444,6 +544,8 @@ def forward(self, token_ids, return_attention=False, causal=None):
 
 ### 8.1 一个更新步骤包含什么
 
+以下片段位于 notebook 第 5B 步的 `train_model` 函数内部。`current_model` 是当前待训练模型，`indices` 来自预先保存的共享批次索引；完整函数会先创建 Adam 和训练数据张量：
+
 ```python
 optimizer.zero_grad(set_to_none=True)
 logits, _ = current_model(train_inputs[indices])
@@ -457,7 +559,7 @@ optimizer.step()
 
 先清掉上一步梯度，再前向计算、求损失、反向传播，最后由 Adam 更新参数。`backward()` 计算梯度，`step()` 才真正修改参数。
 
-梯度裁剪按整体梯度范数缩放梯度，将范数控制在阈值内。它不会截断 loss；按整体范数缩放与逐元素截断梯度也是两种不同的操作。
+这里采用默认的 L2 梯度范数，超过 1 时才整体缩小梯度，较小的梯度不会被放大到 1。它不会截断 loss；按整体范数缩放与逐元素截断梯度也是两种不同的操作。[梯度范数裁剪官方说明](https://docs.pytorch.org/docs/2.11/generated/torch.nn.utils.clip_grad_norm_.html)
 
 正式训练前，我们用独立的小模型预热并测速，再从种子 42 重新初始化正式模型，避免把测速的 20 步偷偷算进基准模型的训练。
 
@@ -572,6 +674,8 @@ def generate_answers(current_model, prompts):
 
 [打开原尺寸热图，放大查看各头与坐标](/assets/images/261031-transformer-from-scratch/attention_all_heads.png)。
 
+图 2 中，两条白色分界线也有不同含义：横线位于 query 6 和 7 之间，下面开始是接受答案监督的 query；竖线位于 key 7 和 8 之间，右侧开始是答案 token 作为输入的位置。两条线差一个位置，正是输入与预测标签错位一格的结果。
+
 读图时依次问三个问题：
 
 1. 当前是哪一层、哪一个头？
@@ -582,7 +686,7 @@ def generate_answers(current_model, prompts):
 
 ### 10.2 反转对齐应该在哪些格子上出现
 
-六个答案数字的 query 位置是 7、8、9、10、11、12。对应的正确原题 key 位置是 6、5、4、3、2、1。
+图 3 只截取六个答案数字的 query，不包含预测 EOS 的 query 13。这六个 query 位置是 7、8、9、10、11、12。对应的正确原题 key 位置是 6、5、4、3、2、1。
 
 | 答案序号 | query 位置 | 预测数字 | 应读取的原题 key 位置 |
 | ---: | ---: | ---: | ---: |
@@ -599,7 +703,9 @@ def generate_answers(current_model, prompts):
 
 [打开原尺寸反转对齐图](/assets/images/261031-transformer-from-scratch/attention_reverse_alignment.png)。
 
-我们把预期位置上的权重做平均：
+局部图只是从原矩阵中取出这六行、六列，未对截取结果再做 softmax 或除以行和。因此局部图一行的总权重可以小于 1，剩余权重分配给了未展示的其他 key。
+
+固定一层后，我们把四个头、六个预期位置上的权重做平均。下面 h 按 1 到 H 标记头，位置索引仍从 0 开始：
 
 $$
 \text{alignment}=\frac{1}{H\cdot6}
@@ -622,12 +728,16 @@ $$
 
 [打开原尺寸 mask 对比图](/assets/images/261031-transformer-from-scratch/attention_mask_comparison.png)。
 
+图 4 每行是一层的第一个头；左列开启 mask，中列关闭 mask，右列是“关闭减开启”。前两列的色标为 0–1，右列为 -1 到 1：红色表示权重增加，蓝色表示减少。这里的差值是注意力权重变化，不是 loss 变化；虚线标出 query/key 的同位置对角线。
+
 关闭后，未来位置可以获得非零权重。为了进一步检验信息流，我们把输入中未来答案数字改掉，再观察题目前缀的 logits 是否变化：
 
 | 同一权重的设置 | 未来扰动后的前缀最大变化 | 测试教师强制 loss | 整序列准确率 |
 | --- | ---: | ---: | ---: |
 | mask 开启 | 0.000000 | 0.00024506 | 100% |
 | mask 关闭 | 1.071323 | 0.00024725 | 100% |
+
+表里的“前缀最大变化”比较的是输入位置 0–7 的 13 类原始 logits，取所有对应分数差值绝对值的最大值。1.071323 是分数变化，不是概率变化，更不是准确率下降 107%。
 
 开启 mask 时前缀保持不变，关闭时发生变化，说明可见信息范围确实改变了。这个检查比“看起来像三角形”更能发现实现错误。
 
@@ -639,7 +749,7 @@ $$
 
 ### 12.1 控制住其他变量，再改变头数或 mask
 
-我们从头训练三组模型：
+我们从头训练三组模型。无 mask 组是刻意去掉因果约束的对照，不能把它的教师强制训练方式当作标准因果语言模型的训练方式：
 
 | 配置 | 头数 | 每头维度 | 训练与生成时的因果 mask |
 | --- | ---: | ---: | --- |
@@ -661,7 +771,7 @@ $$
 
 训练时间是本次单次墙钟测量，包含完整数据评估及检查点保存，受运行环境影响。不能把这三条数值直接解释为单头或无 mask “稳定快了几倍”。
 
-{% include image.html url="/assets/images/261031-transformer-from-scratch/ablation_comparison.png" caption="图 5：左侧为三组验证 loss；右侧为样本 0 第一层对原题目标位置及紧邻未来答案位置的平均注意力。右图是权重统计，不是准确率。" nolazyload=true style="max-width:100%;height:auto;" %}
+{% include image.html url="/assets/images/261031-transformer-from-scratch/ablation_comparison.png" caption="图 5：左侧为三组验证 loss；右侧为样本 0 第一层对原题目标位置及紧邻未来答案位置的平均注意力。右图在完整教师强制输入下提取，是权重统计，不是生成准确率。" nolazyload=true style="max-width:100%;height:auto;" %}
 
 当前任务出现了准确率饱和：三组都正确生成 512 条答案。我们不能根据这一次结果断言四头比单头更好，也没有观察到无 mask 必然生成失败。
 
