@@ -24,7 +24,7 @@ Jekyll layout（按文章开关加入脚本）
 - 图片原图存在，但初始缩略图不存在：可能先出现 404，滚动进入视口后又加载成功。
 - HTML 中已经有正确的公式或流程图源码，但客户端脚本还没执行或没加载：需要检查功能开关、网络和最终 DOM。
 
-编辑器、GitHub Markdown、其他网站的 Mermaid 示例都不能替代本站验证。
+编辑器、GitHub Markdown、其他网站的 Mermaid 示例都不能替代本站验证。尤其要注意：GitHub Pages 启用了 `jekyll-optional-front-matter`，**没有 YAML 头的 Markdown 也会被当作页面处理**。本站的 `AGENTS.md`、`docs/` 明确列入 `_config.yml` 的 `exclude`，作为仓库文档在 GitHub 中阅读，不进入网站构建；否则其中展示的 Liquid 字面源码也会执行。
 
 以下是使用本站转换器和同版本脚本生成的隔离对照页截图，不是编辑器预览；页面刻意保留反例，方便比较：
 
@@ -47,6 +47,8 @@ Jekyll layout（按文章开关加入脚本）
 | 自定义页面处理 | 表格宽度、图表隐藏等 | [assets/blog.js](../assets/blog.js) |
 
 当前本地配置 `baseurl: "/blog"`，根域部署也可能使用空前缀。因此应让模板计算站内路径，而不是把当前主机或前缀写死。
+
+上表记录本机环境，不等于托管构建环境。本次 GitHub Pages 日志实际使用 github-pages 232、Jekyll 3.10.0，并额外启用了托管插件。必须结合线上结果验证，不能由本机的文章渲染通过推断整站发布成功。
 
 ## 2. 文件与 front matter
 
@@ -340,6 +342,7 @@ layout 会载入 Raphael / flowchart.js，再处理 `.language-flow`。Mermaid �
 
 ```powershell
 & 'C:\Ruby25-x64\bin\ruby.exe' -EUTF-8 tools/render_post_formats.rb
+& 'C:\Ruby25-x64\bin\ruby.exe' -EUTF-8 tools/check_pages_documentation.rb
 python tools/audit_post_formats.py
 python tools/test_audit_post_formats.py
 ```
@@ -353,6 +356,7 @@ Python 工具读取源码和上述 HTML，核对源文件哈希，输出：
 | `render-results.json` | 每个 Jekyll 文档的渲染结果、版本、开关、源码哈希与格式对照样例 |
 | `rendered/` | 每篇文章的实际 HTML，临时产物 |
 | `fixtures.html` | 可供浏览器验证的正反例，使用本站版本与本地脚本 |
+| `pages-check.json` | 开启 optional-front-matter 后的普通页面渲染与仓库文档排除检查 |
 | `audit.json` | 汇总、逐篇清单、全部发现 |
 | `inventory.csv` | 每篇文章的覆盖情况、特征计数与 SHA-256 |
 | `findings.csv` | 路径、行号、级别、规则与说明 |
@@ -365,6 +369,7 @@ Python 工具读取源码和上述 HTML，核对源文件哈希，输出：
 - 代码、注释和 raw 示例尽量排除，但静态语法识别不是完整的 Markdown/Liquid 语义分析器。`warning` 必须结合上下文复核，`info` 只是兼容性提示。
 - 相对资源、动态 URL、页面 permalink、外部网址及脚本运行后才生成的内容不能仅靠文件存在性检查下结论。表格和公式数量也是规则提取结果，不是数学对象的语义计数。
 - 不验证所有链接锚点、所有浏览器布局、外链状态、TeX 推导、代码执行结果或图表统计结论；需要在修改范围内补充针对性检查。
+- `check_pages_documentation.rb` 会运行实际 optional-front-matter 页面生成，并渲染全部普通页面，检查 `AGENTS.md` / `docs/` 没有作为页面或静态资源泄漏。它不写出站点，且本机版本仍与 GitHub 托管环境存在差别。最终发布状态应以该提交的线上 Pages build/deploy 为准。
 
 ### 10.2 浏览器验证
 

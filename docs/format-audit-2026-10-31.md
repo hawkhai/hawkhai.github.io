@@ -2,7 +2,7 @@
 
 本次核实覆盖 `_posts` 下全部 **285 篇 Markdown**，逐篇执行当前安装的 Jekyll 的 Liquid、Markdown 与 layout 渲染，并检查源码和生成 HTML。另有 3 个 JSON 辅助文件，其中 1 个被 Jekyll 识别为文章，故实际文章集合为 286 个文档。
 
-第一轮修正了 **8 篇文章**中的明确格式问题；本轮进一步查清并修复了另外 4 篇文章涉及的 **5 条确定问题**。最终 285 篇均成功渲染，**渲染引擎异常为 0，审计 error 为 0**；仍有 **58 条需结合上下文确认的 warning**。这不等于全站所有内容和外链均已人工验证无误。
+第一轮修正了 **8 篇文章**中的明确格式问题；第二轮进一步查清并修复了另外 4 篇文章涉及的 **5 条确定问题**。285 篇文章渲染异常和文章审计 error 均为 0，仍有 **58 条需结合上下文确认的 warning**。这些文章检查没有覆盖 GitHub Pages 的普通页面生成，新增规范文档因此曾触发线上构建失败；第三轮已查清并修正这一遗漏，具体见下文“GitHub Pages 构建回归”。不能由文章 error 为 0 推断整站发布成功。
 
 格式规则及可直接参考的写法见 [完整手册](content-formatting.md)，后续约束见 [AGENTS.md](../AGENTS.md)。
 
@@ -12,6 +12,7 @@
 | --- | --- |
 | 文章范围 | `_posts` 全部 `.md` / `.markdown`，不按日期或文件名猜测性排除 |
 | 实际渲染 | Jekyll 3.9.0，kramdown 2.3.0 / GFM，Ruby 2.5.8 |
+| 托管环境 | GitHub Pages 日志为 github-pages 232、Jekyll 3.10.0；与本机环境不同 |
 | 本次路径前缀 | `/blog`；不改动原有部署配置 |
 | 纳入状态 | 包含 future / unpublished；不是只检查当前首页展示的文章 |
 | 检测对象 | 源文、部分 front matter、实际生成 HTML、正文引用资源、格式对照样例 |
@@ -27,6 +28,7 @@
 - [全部发现 CSV](format-audit-2026-10-31-findings.csv)：路径、行号、级别、规则和解释，可按规则或文件过滤。
 - [完整 JSON](format-audit-2026-10-31.json)：版本、汇总、逐篇特征、所有发现。
 - [浏览器检查记录](format-audit-2026-10-31-browser-checks.json)：正反例、Transformer 全文和本轮五项修复的 DOM 检查，以及页脚脚本来源信息。
+- [普通页面检查记录](format-audit-2026-10-31-pages-check.json)：启用 optional-front-matter 后的 945 个普通页面渲染，以及仓库文档排除检查；不替代线上构建状态。
 
 CSV 使用 UTF-8 BOM 便于 Windows 查看。行号对应本次最终源文件；后续修改可能使行号变化。临时渲染 HTML 留在被忽略的 `tempdir/format-audit/`，不作为正式资源发布。
 
@@ -130,6 +132,7 @@ MathJax 排版后仍会保留 `script[type="math/tex"]` 源码节点，不能把
 
 ```powershell
 & 'C:\Ruby25-x64\bin\ruby.exe' -EUTF-8 tools/render_post_formats.rb
+& 'C:\Ruby25-x64\bin\ruby.exe' -EUTF-8 tools/check_pages_documentation.rb
 python tools/audit_post_formats.py
 python tools/test_audit_post_formats.py
 ```
@@ -145,6 +148,16 @@ python tools/test_audit_post_formats.py
 后续仍需人工处理裸 token 和 Liquid 展示候选，并确认 JSON 缓存位置及 `visibility` 意图。单美元历史公式只在确实显示异常或编辑相关段落时逐步规范化。
 
 本次记录 **2726 次外部资源引用**，不是 2726 个去重 URL，也没有逐一请求这些地址。第三方图片、链接、视频、iframe 是否仍可用不包含在“渲染通过”中。
+
+### GitHub Pages 构建回归：文档也会执行 Liquid
+
+线上 [#1898](https://github.com/hawkhai/hawkhai.github.io/actions/runs/41190463080)（`c618490d`）成功；新增仓库规范与审计文档后的 [#1899](https://github.com/hawkhai/hawkhai.github.io/actions/runs/41193577814)（`cad346b0`）和 [#1900](https://github.com/hawkhai/hawkhai.github.io/actions/runs/41194086428)（`b9b2d4c7`）均失败。此前的验证只执行了文章渲染，没有执行托管环境中的普通页面生成，这是验证范围的遗漏。
+
+启用与线上相同用途的 `jekyll-optional-front-matter` 后，本机复现了 `docs/content-formatting.md` 第 121 行的 `Liquid::SyntaxError`：文档解释 Liquid 语法时写入的字面双左花括号被作为变量起点处理，找不到匹配结束符。插件会把没有 YAML 头的 Markdown 也转换成页面，代码围栏不能阻止 Liquid 执行。规范文档作为仓库资料编写，最初却没有从网站输入中排除。
+
+修复只是在 `_config.yml` 的 `exclude` 中加入 `AGENTS.md`、`docs`，保留它们作为仓库文档；没有更换 Gem、模板或数学渲染器。新增 `tools/check_pages_documentation.rb`，实际执行页面读取、optional-front-matter 生成和所有普通页面渲染。修复后本机 **945 个普通页面渲染成功，仓库文档泄漏为 0，普通页面异常为 0**，并重新核对全部文章。
+
+邮件中的 Gemfile 依赖提示在 #1898 的成功构建中也存在，级别为 warning；不能把这条长期提示直接当作本次 failure 的原因。托管版本与本机不同，故推送后还必须检查新提交的线上 Pages build/deploy，不能再次只凭本机输出宣布发布成功。
 
 ## 7. 全部 285 篇逐篇覆盖清单
 

@@ -7,6 +7,7 @@
 - 当前实测环境为 Jekyll 3.9.0、kramdown 2.3.0、GFM 输入、Rouge；公式为 MathJax 2.7.5，Mermaid 使用仓库中的 bundle。不要拿 GitHub、编辑器或通用 Markdown 预览的效果代替本站验收。
 - 内容依次经过 YAML → Liquid/includes → Markdown → layout → 浏览器脚本。代码围栏不阻止 Liquid；HTML 中出现 TeX 分隔符不等于最终公式失败。
 - 不把升级渲染器、替换 CDN 或批量重写历史文章当作普通格式修复。修改版本或模板时，重新验证规范中的正反例。
+- GitHub Pages 启用 `jekyll-optional-front-matter`：没有 YAML 头的 Markdown 也可能成为页面。`AGENTS.md` 和 `docs/` 是仓库文档，必须保持在 `_config.yml` 的 `exclude` 中；代码围栏或没有 YAML 头都不能保护其 Liquid 示例。
 
 ## 写作硬约束
 
@@ -26,12 +27,14 @@
 ## 修改与验收
 
 - 保留用户已有改动。格式修复只改能定位、能证明的问题；不猜测缺失资源的内容，不伪造图表、预测结果或训练数据，不为了统一风格改动已验证的实验 notebook。
+- 提交配置前检查 `git ls-files -v`。本机 `_config.yml`、Gemfile 等可能设有 assume-unchanged，工作树值不等于部署值；不能直接把本机域名、baseurl 或依赖覆盖到线上。配置修复只提交相对 HEAD 的必要补丁，并用部署配置核实。
 - 对全部文章的核实至少包含：实际 Jekyll 渲染、源文件与渲染结果的 SHA-256 对照、资源存在性及大小写、数学和图表开关、表格列数、围栏和特殊字符。自动扫描是候选发现工具，不能证明数学推导正确或所有外链健康。
 - 对修改过的公式、图片、流程图和复杂表格补做浏览器抽查；等待脚本完成、图片进入视口后检查。Mermaid 看 SVG，公式看实际排版与错误标记，图片看加载结果，不能只看源码存在。
 - 只读核实命令（在仓库根目录，按本机环境调整解释器路径）：
 
   ```powershell
   & 'C:\Ruby25-x64\bin\ruby.exe' -EUTF-8 tools/render_post_formats.rb
+  & 'C:\Ruby25-x64\bin\ruby.exe' -EUTF-8 tools/check_pages_documentation.rb
   python tools/audit_post_formats.py
   python tools/test_audit_post_formats.py
   ```
@@ -39,3 +42,4 @@
   产物默认写入被忽略的 `tempdir/format-audit/`。只有确认检查结果适合阻断时才添加 `--fail-on-error`；该参数发现 error 会返回 1，不会自动修复。
 - 不为检查格式而运行 `checkall.py`、`headfmt.py`、`mdformat.py`、`mdrstrip.py`、`jekyllserv.py` 等旧流程：它们包含改写文章、切换配置、复制/清理资源等副作用。需要使用时先读具体分支与参数，限定范围并复核 diff。
 - 不提交 `_site`、临时预览 HTML、审计临时目录或本机环境文件。审计快照可保存到 `docs/`；不能把“0 渲染异常”表述成“全站无格式错误”。
+- 只渲染 `_posts` 不能证明 GitHub Pages 整站构建通过。推送涉及新 Markdown 文档、插件或配置的改动后，必须核对该提交的线上 Pages build/deploy 状态；依赖 warning 与真正的构建异常分开诊断。
